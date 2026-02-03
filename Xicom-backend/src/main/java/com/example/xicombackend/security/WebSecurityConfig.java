@@ -34,6 +34,7 @@ public class WebSecurityConfig  {
             "/service/**",
             "/users/**",
             "/images/**",
+            "/partenaire/**",
     };
 
 

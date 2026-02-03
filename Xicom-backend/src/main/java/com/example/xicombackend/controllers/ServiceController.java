@@ -1,9 +1,7 @@
 package com.example.xicombackend.controllers;
 
-import com.example.xicombackend.entity.DetailObject;
-import com.example.xicombackend.entity.PriceSection;
-import com.example.xicombackend.entity.ServiceEntity;
-import com.example.xicombackend.entity.ServiceSection;
+import com.example.xicombackend.entity.*;
+import com.example.xicombackend.repository.PartenaireRepository;
 import com.example.xicombackend.repository.ServiceRepository;
 import com.example.xicombackend.service.CloudinaryService;
 import com.example.xicombackend.service.ServiceService;
@@ -29,6 +27,7 @@ public class ServiceController {
     private final ServiceService serviceService;
     private final CloudinaryService cloudinaryService;
     private final ServiceRepository serviceRepository ;
+    private final PartenaireRepository partenaireRepository;
 
 
     @PostMapping
@@ -39,6 +38,7 @@ public class ServiceController {
             @RequestParam("sections") String sectionsJson,
             @RequestParam("priceSections") String priceSectionsJson,
             @RequestParam(value = "icon", required = false) MultipartFile icon,
+            @RequestParam(value = "partenairesIds", required = false) List<Long> partenairesIds,
             @RequestParam(value = "detailIcons", required = false) MultipartFile[] detailIcons
     ) throws JsonProcessingException {
 
@@ -99,6 +99,12 @@ public class ServiceController {
                 System.out.println("✅ Icône uploadée: " + iconUrl);
             }
 
+            if (partenairesIds != null && !partenairesIds.isEmpty()) {
+                serviceEntity.setPartenaires(
+                        partenaireRepository.findAllById(partenairesIds)
+                );
+            }
+
             ServiceEntity saved = serviceRepository.save(serviceEntity);
             return ResponseEntity.ok(saved);
 
@@ -136,6 +142,7 @@ public class ServiceController {
             @RequestParam("sections") String sectionsJson,
             @RequestParam("priceSections") String priceSectionsJson,
             @RequestParam(value = "icon", required = false) MultipartFile icon,
+            @RequestParam(value = "partenairesIds", required = false) List<Long> partenairesIds,
             @RequestParam(value = "detailIcons", required = false) MultipartFile[] detailIcons
     ) {
 
@@ -232,6 +239,13 @@ public class ServiceController {
                 String iconUrl = cloudinaryService.uploadIcon(icon, "xicom/icon");
                 existing.setIcon(iconUrl);
                 System.out.println("✅ Icône principale uploadée: " + iconUrl);
+            }
+
+            // ✅ MAJ des partenaires
+            if (partenairesIds != null && !partenairesIds.isEmpty()) {
+                List<Partenaire> partenaires = partenaireRepository.findAllById(partenairesIds);
+                existing.setPartenaires(partenaires);
+                System.out.println("✅ Partenaires mis à jour: " + partenaires.size());
             }
 
             ServiceEntity saved = serviceService.updateService(id, existing);

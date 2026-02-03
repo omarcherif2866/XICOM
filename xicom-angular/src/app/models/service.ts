@@ -1,3 +1,5 @@
+import { Partenaire } from "./partenaire";
+
 export interface Details {
   title: string;
   description: string;
@@ -27,6 +29,7 @@ export class Service {
   private image: string | null;
   private icon: string | null;
   private sections: ServiceSection[];
+  private partenaires: Partenaire[] = [];
   private priceSections: PriceSection[];
 
 
@@ -37,6 +40,7 @@ export class Service {
     this.image = data.image ?? null;
     this.icon = data.icon ?? null;
     this.sections = Array.isArray(data.sections) ? data.sections : [];
+    this.partenaires = Array.isArray(data.partenaires) ? data.partenaires : [];
     this.priceSections = Array.isArray(data.priceSections) ? data.priceSections : [];
 
   }
@@ -90,6 +94,14 @@ export class Service {
     }
     public set Icon(value: string | null) {
       this.icon = value;
+    }
+
+    public get Partenaires(): Partenaire[] {
+      return this.partenaires;
+    }
+
+    public set Partenaires(partenaires: Partenaire[]) {
+      this.partenaires = partenaires;
     }
 
 }

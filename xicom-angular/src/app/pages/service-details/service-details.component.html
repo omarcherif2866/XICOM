@@ -221,6 +221,32 @@ et commencez dès aujourd’hui à optimiser votre temps</p>
   </div>
 </section>
 
+<section id="section-partners" class="partners-section">
+    <div class="container">
+        <h2 class="partners-title">Ils nous font confiance</h2>
+        <p class="partners-subtitle">
+            Il serait long et fastidieux de présenter la liste exhaustive de nos clients. Mais voici quelques exemples de collaborations qui illustrent une partie de notre savoir-faire. <strong>Alors pourquoi pas vous !</strong>
+        </p>
+<div class="carousel-container">
+
+  <button class="carousel-btn prev" (click)="scrollLeftPartners()">
+    ‹
+  </button>
+
+  <div class="carousel" #partnersCarousel>
+    <div *ngFor="let partenaire of visiblePartners" class="partner-logo-card shadow">
+      <img [src]="sanitizeImage(partenaire.image)" [alt]="partenaire.name + ' logo'">
+    </div>
+  </div>
+
+  <button class="carousel-btn next" (click)="scrollRightPartners()">
+    ›
+  </button>
+  
+</div>
+
+    </div>
+</section>
 
 <!-- rdv Section -->
 <section id="rdv" class="rdv">

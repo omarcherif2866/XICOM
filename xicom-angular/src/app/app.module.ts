@@ -67,6 +67,13 @@ const routes = [
         (m) => m.ServiceModule
       ),
   },
+    {
+    path: 'partenaires',
+    loadChildren: () =>
+      import('./dashboard/partenaires/partenaires.module').then(
+        (m) => m.PartenairesModule
+      ),
+  },
   {
     path: 'offers',
     loadChildren: () =>

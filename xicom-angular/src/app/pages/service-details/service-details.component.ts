@@ -7,6 +7,7 @@ import { Country } from '../home-page/home-page.component';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PartenaireService } from 'src/app/service/partenaire.service';
 
 @Component({
   selector: 'app-service-details',
@@ -26,7 +27,11 @@ export class ServiceDetailsComponent implements OnInit {
   services: Service[] = [];
   allCountriesCodes: Country[] = [];
   contactForm: FormGroup;
-    currentTheme: any = {};
+  currentTheme: any = {};
+  allPartners: any[] = [];
+  currentIndexPartners = 0;
+  visiblePartners: any[] = [];
+
   private serviceThemes: { [key: number]: any } = {
     1: {
     gradientStart: '#DD8484',
@@ -152,6 +157,7 @@ export class ServiceDetailsComponent implements OnInit {
   };
   constructor(
         private serviceService: ServiceService,
+        private partenaireService: PartenaireService,
         private route: ActivatedRoute,
         private http: HttpClient,
         private fb: FormBuilder,
@@ -179,6 +185,7 @@ export class ServiceDetailsComponent implements OnInit {
     // Charger le service spécifique
     this.fetchServiceDetails(this.serviceId);   
     this.setServiceTheme(this.serviceId);
+    this.loadPartners();
 
   }
 
@@ -240,6 +247,7 @@ fetchServiceDetails(id: number) {
       console.log('servicedetails:', this.services);
 
     },
+    
     error: (error) => {
       console.error('Erreur chargement Service:', error);
       this.loading = false;
@@ -253,6 +261,21 @@ fetchServiceDetails(id: number) {
     }
   });
 }
+
+  loadPartners(): void {
+    this.partenaireService.getPartenaireByService(this.serviceId).subscribe({
+      next: (partners) => {
+        this.allPartners = partners; // Stocker TOUS les partenaires
+        console.log('Partenaires chargés:', partners);
+        this.updateVisiblePartners(); // Initialiser les partenaires visibles
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des partenaires:', error);
+        this.allPartners = [];
+        this.visiblePartners = [];
+      }
+    });
+  }
 
 
     sanitizeImage(url: string | null): string {
@@ -319,6 +342,43 @@ getColorByIndex(index: number): string {
     getSelectedCountryContactForm(): Country | undefined {
     const selectedDialCode = this.contactForm.get('countryCode')?.value;
     return this.allCountriesCodes.find(c => c.dial_code === selectedDialCode);
+  }
+
+
+  updateVisiblePartners(): void {
+    const total = this.allPartners.length;
+    
+    if (total === 0) {
+      this.visiblePartners = [];
+      return;
+    }
+
+    this.visiblePartners = [];
+    
+    // Afficher 4 partenaires maximum
+    const itemsToShow = Math.min(4, total);
+    
+    for (let i = 0; i < itemsToShow; i++) {
+      const index = (this.currentIndexPartners + i) % total;
+      this.visiblePartners.push(this.allPartners[index]);
+    }
+    
+    console.log('Visible partners:', this.visiblePartners);
+  }
+
+  scrollRightPartners(): void {
+    if (this.allPartners.length === 0) return;
+    
+    this.currentIndexPartners = (this.currentIndexPartners + 1) % this.allPartners.length;
+    this.updateVisiblePartners();
+  }
+
+  scrollLeftPartners(): void {
+    if (this.allPartners.length === 0) return;
+    
+    this.currentIndexPartners = 
+      (this.currentIndexPartners - 1 + this.allPartners.length) % this.allPartners.length;
+    this.updateVisiblePartners();
   }
 
 }

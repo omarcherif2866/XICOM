@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Partenaire } from 'src/app/models/partenaire';
 import { Details, PriceSection, Service, ServiceSection } from 'src/app/models/service';
 import { AuthService } from 'src/app/service/auth.service';
 import { IconsService } from 'src/app/service/icons.service';
+import { PartenaireService } from 'src/app/service/partenaire.service';
 import { ServiceService } from 'src/app/service/service.service';
 import Swal from 'sweetalert2';
 
@@ -50,18 +52,53 @@ export class ServiceComponent implements OnInit {
   selectedImage: File | null = null;
   selectedIcon: File | null = null;
 
-
+  selectedPartenaires: Partenaire[] = [];
+allPartenaires: Partenaire[] = [];
   constructor(
     private serviceService: ServiceService,
     private iconsService: IconsService,
     private sanitizer: DomSanitizer,
     private authService: AuthService,
     private router: Router,
+    private partenaireService: PartenaireService
   ) {}
 
   ngOnInit(): void {
     this.loadServices();
     this.loadAvailableIcons();
+    this.fetchPartenaires();
+
+  }
+
+
+  fetchPartenaires() {
+    this.loading = true;
+    console.log('📡 Récupération des partenaires...');
+    
+    this.partenaireService.getPartenaire().subscribe(
+      (response: any[]) => {
+        console.log('✅ Réponse partenaires:', response);
+        
+        this.allPartenaires = response.map(p => new Partenaire(
+          p.id,
+          p.title,
+          p.description,
+          p.image
+        ));
+        
+        this.loading = false;
+      },
+      (error) => {
+        console.error('❌ Erreur lors du chargement des partenaires:', error);
+        this.loading = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur lors du chargement des partenaires',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    );
   }
 
   /**
@@ -161,6 +198,8 @@ export class ServiceComponent implements OnInit {
     this.selectedIcon = null;
     this.currentModalStep = 1;
     this.showModal = true;
+    this.selectedPartenaires = [];
+
   }
 
   /**
@@ -178,11 +217,12 @@ export class ServiceComponent implements OnInit {
       priceSections: JSON.parse(JSON.stringify(service.PriceSection || []))
     };
     
-    // S'assurer qu'il y a toujours 4 sections
-    while (this.formData.sections.length < 4) {
+    // S'assurer qu'il y a toujours 5 sections
+    while (this.formData.sections.length < 5) {
       this.formData.sections.push(this.getEmptySection());
     }
-    
+        this.selectedPartenaires = service.Partenaires ? [...service.Partenaires] : [];
+
     this.selectedImage = null;
     this.selectedIcon = null;
     this.currentModalStep = 1;
@@ -228,6 +268,8 @@ export class ServiceComponent implements OnInit {
       this.formData = this.getEmptyFormData();
       this.selectedImage = null;
       this.selectedIcon = null;
+      this.selectedPartenaires = [];
+
     }
   }
 
@@ -235,7 +277,7 @@ export class ServiceComponent implements OnInit {
    * Naviguer vers une étape spécifique
    */
   goToModalStep(step: number): void {
-    if (step >= 1 && step <= 4) {
+    if (step >= 1 && step <= 5) {
       this.currentModalStep = step;
     }
   }
@@ -319,9 +361,9 @@ export class ServiceComponent implements OnInit {
   onDetailIconSelected(event: any, sectionIndex: number, detailIndex: number): void {
     const file = event.target.files[0];
     if (file) {
-      // Validation de la taille (2MB au lieu de 200MB)
-      if (file.size > 2 * 1024 * 1024) {
-        alert('L\'icône ne doit pas dépasser 2MB');
+      // Validation de la taille (200MB au lieu de 200MB)
+      if (file.size > 200 * 1024 * 1024) {
+        alert('L\'icône ne doit pas dépasser 200MB');
         return;
       }
       
@@ -349,8 +391,8 @@ export class ServiceComponent implements OnInit {
   onPriceDetailIconSelected(event: any, priceIndex: number, detailIndex: number): void {
     const file = event.target.files[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        alert('L\'icône ne doit pas dépasser 2MB');
+      if (file.size > 200 * 1024 * 1024) {
+        alert('L\'icône ne doit pas dépasser 200MB');
         return;
       }
       this.formData.priceSections[priceIndex].details[detailIndex].icon = file;
@@ -583,6 +625,12 @@ async prepareFormData(): Promise<FormData> {
   
   formData.append('priceSections', JSON.stringify(priceSectionsToSend));
   
+
+  // Partenaires
+  (this.selectedPartenaires || []).forEach(p => {
+    if (p?.Id != null) formData.append('partenairesIds', p.Id.toString());
+  });
+
   this.formData.priceSections.forEach((ps) => {
     ps.details.forEach((detail) => {
       if (detail.icon instanceof File) {
@@ -681,5 +729,18 @@ async prepareFormData(): Promise<FormData> {
     }
   });
 }
+
+  togglePartenaireSelection(partenaire: Partenaire) {
+    const index = this.selectedPartenaires.findIndex(p => p.Id === partenaire.Id);
+    if (index > -1) {
+      this.selectedPartenaires.splice(index, 1);
+    } else {
+      this.selectedPartenaires.push(partenaire);
+    }
+  }
+
+  isPartenaireSelected(partenaire: Partenaire): boolean {
+    return this.selectedPartenaires.some(p => p.Id === partenaire.Id);
+  }
 
 }

@@ -1,6 +1,7 @@
 package com.example.xicombackend.entity;
 import com.example.xicombackend.converter.PriceConverter;
 import com.example.xicombackend.converter.ServiceConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,5 +29,14 @@ public class ServiceEntity {
     @Column(columnDefinition = "JSON")
     @Convert(converter = PriceConverter.class)
     private List<PriceSection> priceSections = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "service_partenaire",
+            joinColumns = @JoinColumn(name = "service_id"),
+            inverseJoinColumns = @JoinColumn(name = "partenaire_id")
+    )
+    @JsonIgnore    // 👉 Ajoutez ceci
+    private List<Partenaire> partenaires = new ArrayList<>();
 
 }
