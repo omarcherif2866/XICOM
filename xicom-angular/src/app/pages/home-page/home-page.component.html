@@ -1,0 +1,384 @@
+
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+  <div class="hero-background">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+  
+  <div class="container hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Transformez votre présence <br>
+        en ligne avec <span class="xicom-text">XICOM</span>
+      </h1>
+      <p class="hero-subtitle">
+Nous offrons des solutions digitales sur mesure pour <br><strong>TPE</strong> et <strong>PME</strong>, alliant créativité et stratégie.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-large btn-primary-large">
+          <img src="../../../assets/icons/flash.svg" alt="flash" class="btn-icon">
+          Commencer maintenant
+        </button>
+        <button class="btn-large btn-secondary-large">
+          <img src="../../../assets/icons/calendrier.svg" alt="flash" class="btn-icon">En savoir plus</button>
+      </div>
+    </div>
+    
+    <div class="hero-image">
+<div class="hero-card">
+        <form class="hero-form" id="projectForm" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+            <h3 class="form-title">Contacter-nous</h3>
+            
+            <div class="form-group">
+                <input type="text" id="nom" placeholder="Nom*" class="form-input" formControlName="nom" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="prenom" placeholder="Prénom*" class="form-input" formControlName="prenom" required>
+            </div>
+
+            <div class="form-group">
+                <input type="email" id="email" placeholder="E-mail*" class="form-input" formControlName="email" required>
+            </div>
+
+<div class="form-group alternative">
+    <label for="countryCode">Pays et indicatif</label>
+    <div class="phone-group">
+        <div class="country-select-wrapper">
+            <img *ngIf="projectForm.get('countryCode')?.value" 
+                 [src]="getSelectedCountryFlag()" 
+                 alt="flag"
+                 class="country-flag">
+            <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
+                <option value="" disabled>🌍 Sélectionner</option>
+                <option *ngFor="let country of allCountriesCodes" 
+                        [value]="country.dial_code"
+                        [attr.data-flag]="country.flags.png">
+                    {{ country.name }} {{ country.dial_code }}
+                </option>
+            </select>
+        </div>
+        <input type="tel" 
+               id="phone" 
+               placeholder="Numéro*" 
+               class="form-input phone-input" 
+               formControlName="phone" 
+               required>
+    </div>
+</div>
+            <div class="form-group">
+                <button type="submit" class="btn-large btn-primary-contact form-submit">Prendre RDV</button>
+            </div>
+        </form>
+    </div>
+    </div>
+  </div>
+  
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item" *ngFor="let stat of stats">
+          <div class="stat-icon-frame" [style.background]="stat.color">
+            <img [src]="stat.icon" alt="{{ stat.label }}" class="stat-icon-img">
+          </div>
+          <div class="stat-label">{{ stat.label }}</div>
+          <div class="stat-value" [style.color]="stat.valueColor">{{ stat.value }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="services">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Nos Services</h2>
+      <p class="section-subtitle">Votre partenaire pour un succès durable</p>
+    </div>
+    
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of services; let i = index" 
+           [style.animation-delay]="(i * 0.05) + 's'">
+          <div class="service-icon" [style.--random-color]="generateRandomColor()">
+            <img *ngIf="service.Icon" [src]="sanitizeImage(service.Icon)" alt="Icône service" class="ev-image" />
+          </div>
+        <h3 class="service-title">{{ service.title }}</h3>
+          <div *ngFor="let desc of service.sections[0].details; let i = index">
+              <p class="service-description">{{ desc.title }}</p>
+          </div>
+        <a class="service-link" [routerLink]="['/serviceDetails', service.id]" >En savoir plus →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2 class="cta-title">L'Art de Créer Ensemble</h2>
+      <p class="section-subtitle">Votre vision, notre expertise</p>
+      
+      <!-- Timeline -->
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Consultation Initiale</h3>
+            <p>Nous discutons de vos besoins et objectifs
+pour définir les prochaines étapes.</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Analyse Approfondie</h3>
+            <p>Nous analysons vos besoins pour développer
+une stratégie personnalisée.</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Conception Personnalisée</h3>
+            <p>Notre équipe crée une solution sur mesure
+avec les dernières technologies.</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Réalisation et Suivi</h3>
+            <p>Nous réalisons votre projet en vous tenant
+informé à chaque étape.</p>
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>
+</section>
+
+<!-- newsletter Section -->
+<section id="newsletter" class="newsletter">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Inscrivez-vous à la newsletter</h2>
+        <form class="newsletter-form">
+          <div class="newsletter-input-group">
+            <input type="text" placeholder="Votre nom" class="form-input">
+          </div>
+          <div class="newsletter-input-group">
+            <input type="email" placeholder="Votre email" class="form-input">
+          </div>
+          <button type="submit" class="btn-large btn-primary-large form-submit">abonnez-vous</button>
+        </form>
+        <div class="social-media-container">
+          <h2 class="social-media-title">Abonnez-vous au réseau sociaux</h2>
+          <div class="social-media-links">
+            <a href="https://www.facebook.com/"><img src="../../assets/icons/fb.svg" alt="fb"></a>
+            <a href=""><img src="../../assets/icons/instagram.svg" alt="instagram"></a>
+            <a href=""><img src="../../assets/icons/linkedin.svg" alt="linkedin"></a>
+            <a href=""><img src="../../assets/icons/x.svg" alt="x"></a>
+            <a href=""><img src="../../assets/icons/youtube.svg" alt="youtube"></a>
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Values Section -->
+<section id="values" class="values">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Nos Valeurs</h2>
+      <p class="section-subtitle">Ce qui nous guide au quotidien</p>
+    </div>
+    
+    <div class="values-grid">
+      <div class="value-card" *ngFor="let value of values; let i = index"
+           [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="value-image" [style.background-image]="'url(' + value.image + ')'">
+          <h3 class="value-title">{{ value.title }}</h3>
+        </div>
+        <div class="value-content">
+          <p class="value-description">{{ value.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section id="team" class="team">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Ce qu'ils disent de nous</h2>
+    </div>
+    
+    <div class="team-grid">
+      <div class="team-card" *ngFor="let member of team; let i = index"
+           [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="team-image" [style.background-image]="'url(../../../assets/images/temoignage.jpg)'" [style.background-color]="member.overlayColor">
+          <div class="team-info">
+            <h3 class="team-name">{{ member.name }}</h3>
+            <p class="team-role">{{ member.role }}</p>
+            <p class="team-message">{{ member.message }}</p>
+            <button type="submit" class="btn-large btn-primary-large form-submit service-link">Savoir plus →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- rdv Section -->
+<section id="rdv" class="rdv">
+  <div class="container">
+    <div class="section-header-rdv">
+      <h2 class="section-title-rdv">Avez-vous un projet en préparation ? <br>
+
+Contactez-nous pour un accompagnement personnalisé !</h2>
+        <button class="btn-large btn-secondary-large-rdv">
+          <img src="../../../assets/icons/calendrier blanc.svg" alt="flash" class="btn-icon-rdv">Prendre RDV</button>
+    </div>
+  </div>
+</section>
+
+<!-- News Section -->
+<section id="news" class="news">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Actualités</h2>
+      <p class="section-subtitle">Restez informé de nos dernières nouveautés</p>
+    </div>
+    
+    <!-- <div class="news-grid">
+      <div class="news-card" *ngFor="let article of news; let i = index"
+           [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="news-image" [style.background]="article.gradient"></div>
+        <div class="news-content">
+          <span class="news-category">{{ article.category }}</span>
+          <h3 class="news-title">{{ article.title }}</h3>
+          <p class="news-date">{{ article.date }}</p>
+          <a class="news-link">Lire la suite →</a>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="team-grid">
+      <div class="team-card" *ngFor="let member of team; let i = index"
+           [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="team-image" [style.background-image]="'url(../../../assets/images/temoignage.jpg)'" [style.background-color]="member.overlayColor">
+          <div class="team-info">
+            <h3 class="team-name">{{ member.name }}</h3>
+            <p class="team-role">{{ member.role }}</p>
+            <p class="team-message">{{ member.message }}</p>
+            <button type="submit" class="btn-large btn-primary-large form-submit service-link">Savoir plus →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="contact-wrapper">
+
+      <div class="contact-info">
+
+        <div class="contact-image-wrapper">
+          <img src="../../../assets/images/contactImage.jpg" alt="">
+          
+          <div class="contact-overlay-top">
+            <h2 class="contact-title">Contactez nous</h2>
+            <p class="contact-description">
+              Prenez contact pour un accompagnement personnalisé.
+            </p>
+          </div>
+          <div class="contact-overlay-bottom  ">
+          <div class="contact-details">
+            <div class="contact-item">
+              <img src="../../../assets/icons/phone.svg" alt="">
+              <div>
+                <div class="contact-value">+216 56 656 656</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <img src="../../../assets/icons/mail.svg" alt="">
+
+              <div>
+                <div class="contact-value">contact@xicom.fr</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <img src="../../../assets/icons/localisation.svg" alt="" >
+
+              <div>
+                <div class="contact-value">123 Avenue des Champs-Élysées, Paris</div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="contact-form">
+        <form class="hero-form" id="contactForm" [formGroup]="contactForm" >
+          <div class="form-group">
+            <input type="text" placeholder="Votre nom" class="form-input" formControlName="nom" required>
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="Votre email" class="form-input" formControlName="email" required>
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Sujet" class="form-input" formControlName="sujet" required>
+          </div>
+          <div class="form-group alternative">
+            <div class="phone-group">
+                <div class="country-select-wrapper">
+                    <img *ngIf="contactForm.get('countryCode')?.value" 
+                        [src]="getSelectedCountryFlagContactForm()" 
+                        alt="flag"
+                        class="country-flag">
+                    <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
+                        <option value="" disabled>🌍 Sélectionner</option>
+                        <option *ngFor="let country of allCountriesCodes" 
+                                [value]="country.dial_code"
+                                [attr.data-flag]="country.flags.png">
+                            {{ country.name }} {{ country.dial_code }}
+                        </option>
+                    </select>
+                </div>
+                <input type="tel" 
+                      id="phone" 
+                      placeholder="Numéro*" 
+                      class="form-input phone-input" 
+                      formControlName="phone" 
+                      required>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea placeholder="Votre message" class="form-textarea" rows="5" formControlName="message"></textarea>
+          </div>
+          <button type="submit" class="btn-large btn-primary-large form-submit">Envoyer le message</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+

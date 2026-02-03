@@ -1,0 +1,255 @@
+<div *ngFor="let service of services; let i = index"> 
+<section id="hero">
+    <div class="hero-container container">
+        <div class="hero-bg">
+            <img [src]="sanitizeImage(service.image)" [alt]="service.title + ' icon'" >
+        </div>
+        
+        <div class="hero-content">
+            <div class="breadcrumbs">Accueil / Services / {{service.title}}</div>
+            <h1>{{service.title}}</h1>
+            <p class="hero-subtitle">{{service.subtitle}}</p>
+            
+            <div class="hero-features" *ngFor="let detail of service.sections[0]?.details">
+                <div class="feature-item">
+                    <span style="color: blueviolet;">▶</span>
+
+                    <span>{{ detail.title }}</span>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn-large btn-primary-large">
+                <img src="../../../assets/icons/flash.svg" alt="flash" class="btn-icon">
+                Commencer maintenant
+                </button>
+                <button class="btn-large btn-secondary-large">
+                <img src="../../../assets/icons/calendrier.svg" alt="flash" class="btn-icon">En savoir plus</button>
+            </div>
+        </div>
+
+        <div class="hero-floating-card">
+            <div class="price-card">
+                <span class="price-label">A partir de</span>
+                <div class="price-value">{{service.priceSections[0].price}}€</div>
+                <span class="price-period">HT / mois</span>
+                <div class="price-rating">
+                    <span class="rating-score">4.91/5</span>
+                    <div class="stars">
+                        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+                    </div>
+                    <span class="rating-count">(13) avis clients !</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="methodology" >
+    <div class="container">
+        <div class="hero-text">
+            <h1>{{service.sections[1].headline}}</h1>
+            <p>{{service.sections[1].subtitle}}</p>
+        </div>
+        <div class="stats-grid"  >
+        <div class="step-item" *ngFor="let detail of service.sections[1]?.details; let i = index">
+            <div class="stat-icon-frame"  [style.background-color]="getColorByIndex(i)">
+                <div class="step-icon">
+                    <img [src]="sanitizeImage(detail.icon)" [alt]="detail.title + ' icon'">
+                </div>
+            </div>
+            <h3 >{{ detail.title }}</h3>
+        </div>
+        </div>
+    </div>
+</section>
+
+<section id="pricing">
+    <div class="container">
+        <div class="hero-text">
+            <h1>Nos Packs</h1>
+            <p>Des plans tarifaires flexibles pour chaque besoin</p>
+            <p style="margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;">choisissez le plan qui correspond le mieux à vos besoins
+et commencez dès aujourd’hui à optimiser votre temps</p>
+        </div>
+        
+<div class="pricing-grid">
+  <div class="pricing-card" 
+       *ngFor="let price of service.priceSections; let isLast = last"
+       [ngClass]="{'gradient-card': isLast}"
+       [ngStyle]="isLast ? getGradientCardStyle() : {}">
+    
+    <!-- Card normale -->
+    <ng-container *ngIf="!isLast">
+      <div class="card-header">
+        <div class="icon-box">
+          <img src="../../../assets/icons/5_2501.svg" alt="">
+        </div>
+        <h3>{{ price.title }}</h3>
+        <div class="price">
+          <span class="amount">{{ price.price }}€</span>
+          <span class="period">HT / mois</span>
+        </div>
+        <span class="amount">{{ price.subtitle }}</span>
+      </div>
+      
+      <ul class="features-list">
+        <li *ngFor="let details of price.details">
+          <p>✔️ {{ details.title }}</p>
+          <p style="color: blue;">{{ details.description }}</p>
+        </li>
+      </ul>
+      
+      <!-- ✅ Bouton avec style dynamique -->
+      <a href="#" 
+         class="btn btn-primary-dark full-width"
+         [ngStyle]="getButtonStyle()">
+        Commencer Maintenant
+      </a>
+    </ng-container>
+    
+    <!-- Dernière card (gradient) -->
+    <ng-container *ngIf="isLast">
+      <div class="card-header">
+        <div class="icon-box">
+          <img src="../../../assets/icons/5_2501.svg" alt="">
+        </div>
+        <h3>{{ price.title }}</h3>
+        <div class="price-custom">{{ price.subtitle }}</div>
+      </div>
+      
+      <div class="features-text" *ngFor="let details of price.details">
+        <p>✔️ {{ details.title }}</p>
+      </div>
+      
+      <a href="#" class="btn btn-white full-width">
+        Commencer Maintenant
+      </a>
+    </ng-container>
+  </div>
+</div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="contact-wrapper">
+
+      <div class="contact-info">
+
+        <div class="contact-image-wrapper">
+          <img src="../../../assets/images/contactImage.jpg" alt="">
+          
+          <div class="contact-overlay-top">
+            <h2 class="contact-title">Contactez nous</h2>
+            <p class="contact-description">
+              Prenez contact pour un accompagnement personnalisé.
+            </p>
+          </div>
+          <div class="contact-overlay-bottom  ">
+          <div class="contact-details">
+            <div class="contact-item">
+              <img src="../../../assets/icons/phone.svg" alt="">
+              <div>
+                <div class="contact-value">+216 56 656 656</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <img src="../../../assets/icons/mail.svg" alt="">
+
+              <div>
+                <div class="contact-value">contact@xicom.fr</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <img src="../../../assets/icons/localisation.svg" alt="" >
+
+              <div>
+                <div class="contact-value">123 Avenue des Champs-Élysées, Paris</div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="contact-form">
+        <form class="hero-form" id="contactForm" [formGroup]="contactForm" >
+          <div class="form-group">
+            <input type="text" placeholder="Votre nom" class="form-input" formControlName="nom" required>
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="Votre email" class="form-input" formControlName="email" required>
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Sujet" class="form-input" formControlName="sujet" required>
+          </div>
+          <div class="form-group alternative">
+            <div class="phone-group">
+                <div class="country-select-wrapper">
+                    <img *ngIf="contactForm.get('countryCode')?.value" 
+                        [src]="getSelectedCountryFlagContactForm()" 
+                        alt="flag"
+                        class="country-flag">
+                    <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
+                        <option value="" disabled>🌍 Sélectionner</option>
+                        <option *ngFor="let country of allCountriesCodes" 
+                                [value]="country.dial_code"
+                                [attr.data-flag]="country.flags.png">
+                            {{ country.name }} {{ country.dial_code }}
+                        </option>
+                    </select>
+                </div>
+                <input type="tel" 
+                      id="phone" 
+                      placeholder="Numéro*" 
+                      class="form-input phone-input" 
+                      formControlName="phone" 
+                      required>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea placeholder="Votre message" class="form-textarea" rows="5" formControlName="message"></textarea>
+          </div>
+          <button type="submit" class="btn-large btn-primary-large form-submit">Envoyer le message</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- rdv Section -->
+<section id="rdv" class="rdv">
+  <div class="container">
+    <div class="section-header-rdv">
+      <h2 class="section-title-rdv">Avez-vous un projet en préparation ? <br>
+
+Contactez-nous pour un accompagnement personnalisé !</h2>
+        <button class="btn-large btn-secondary-large-rdv">
+          <img src="../../../assets/icons/calendrier blanc.svg" alt="flash" class="btn-icon-rdv">Prendre RDV</button>
+    </div>
+  </div>
+</section>
+
+<section>
+      <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item" *ngFor="let stat of stats">
+          <div class="stat-icon-frame" [style.background]="stat.color">
+            <img [src]="stat.icon" alt="{{ stat.label }}" class="stat-icon-img">
+          </div>
+          <div class="stat-label">{{ stat.label }}</div>
+          <div class="stat-value" [style.color]="stat.valueColor">{{ stat.value }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</div>
