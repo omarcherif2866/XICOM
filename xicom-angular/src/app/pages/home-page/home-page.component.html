@@ -44,31 +44,32 @@ Nous offrons des solutions digitales sur mesure pour <br><strong>TPE</strong> et
                 <input type="email" id="email" placeholder="E-mail*" class="form-input" formControlName="email" required>
             </div>
 
-<div class="form-group alternative">
-    <label for="countryCode">Pays et indicatif</label>
-    <div class="phone-group">
-        <div class="country-select-wrapper">
-            <img *ngIf="projectForm.get('countryCode')?.value" 
-                 [src]="getSelectedCountryFlag()" 
-                 alt="flag"
-                 class="country-flag">
-            <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
-                <option value="" disabled>🌍 Sélectionner</option>
-                <option *ngFor="let country of allCountriesCodes" 
-                        [value]="country.dial_code"
-                        [attr.data-flag]="country.flags.png">
-                    {{ country.name }} {{ country.dial_code }}
-                </option>
-            </select>
-        </div>
-        <input type="tel" 
-               id="phone" 
-               placeholder="Numéro*" 
-               class="form-input phone-input" 
-               formControlName="phone" 
-               required>
-    </div>
-</div>
+            <div class="form-group alternative">
+                <label for="countryCode">Pays et indicatif</label>
+                <div class="phone-group">
+                    <div class="country-select-wrapper">
+                        <img *ngIf="projectForm.get('countryCode')?.value" 
+                            [src]="getSelectedCountryFlag()" 
+                            alt="flag"
+                            class="country-flag">
+                        <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
+                            <option value="" disabled>🌍 Sélectionner</option>
+                            <option *ngFor="let country of allCountriesCodes" 
+                                    [value]="country.dial_code"
+                                    [attr.data-flag]="country.flags.png">
+                                {{ country.name }} {{ country.dial_code }}
+                            </option>
+                        </select>
+                    </div>
+                    <input type="tel" 
+                          id="phone" 
+                          placeholder="Numéro*" 
+                          class="form-input phone-input" 
+                          formControlName="phone" 
+                          required>
+                </div>
+            </div>
+            
             <div class="form-group">
                 <button type="submit" class="btn-large btn-primary-contact form-submit">Prendre RDV</button>
             </div>

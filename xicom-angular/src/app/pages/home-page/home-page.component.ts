@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser'
 import { Router } from '@angular/router';
+import { RDV } from 'src/app/models/rdv';
 import { Service } from 'src/app/models/service';
+import { RDVService } from 'src/app/service/rdv.service';
 import { ServiceService } from 'src/app/service/service.service';
 
 import Swal from 'sweetalert2';
@@ -47,6 +49,7 @@ export class HomePage implements OnInit {
 
   allCountriesCodes: Country[] = [];
   loading: boolean = false;
+  isSubmitting = false;
 
   // services = [
   //   {
@@ -196,6 +199,8 @@ export class HomePage implements OnInit {
     private http: HttpClient,
     private serviceService: ServiceService,
     private sanitizer: DomSanitizer,
+    private rdvService: RDVService,
+
   ) {
     this.projectForm = this.fb.group({
       nom: ['', Validators.required],
@@ -203,8 +208,6 @@ export class HomePage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       countryCode: ['+216', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
       phone: ['', Validators.required],
-      service: ['', Validators.required],
-      description: ['']
     });
 
       this.contactForm = this.fb.group({
@@ -256,29 +259,29 @@ export class HomePage implements OnInit {
     }
   }
 
-  onSubmit(): void {
-    if (this.projectForm.valid) {
-      const formData = {
-        ...this.projectForm.value,
-        phoneComplet: this.projectForm.value.countryCode + this.projectForm.value.phone
-      };
+  // onSubmit(): void {
+  //   if (this.projectForm.valid) {
+  //     const formData = {
+  //       ...this.projectForm.value,
+  //       phoneComplet: this.projectForm.value.countryCode + this.projectForm.value.phone
+  //     };
       
-      console.log('Données du formulaire:', formData);
-      alert('Formulaire soumis avec succès! Vérifiez la console pour voir les données.');
+  //     console.log('Données du formulaire:', formData);
+  //     alert('Formulaire soumis avec succès! Vérifiez la console pour voir les données.');
       
-      // Ici, vous pouvez envoyer les données à votre API
-      // this.http.post('votre-api-url', formData).subscribe(...);
-    } else {
-      this.markFormGroupTouched(this.projectForm);
-    }
-  }
+  //     // Ici, vous pouvez envoyer les données à votre API
+  //     // this.http.post('votre-api-url', formData).subscribe(...);
+  //   } else {
+  //     this.markFormGroupTouched(this.projectForm);
+  //   }
+  // }
 
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      control?.markAsTouched();
-    });
-  }
+  // private markFormGroupTouched(formGroup: FormGroup): void {
+  //   Object.keys(formGroup.controls).forEach(key => {
+  //     const control = formGroup.get(key);
+  //     control?.markAsTouched();
+  //   });
+  // }
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.projectForm.get(fieldName);
@@ -367,5 +370,52 @@ generateRandomColor(): string {
   ];
   return colors[Math.floor(Math.random() * colors.length)];
 }
+
+
+onSubmit(): void {
+  if (this.projectForm.invalid) {
+    this.markFormGroupTouched(this.projectForm);
+    alert('Veuillez remplir tous les champs obligatoires');
+    return;
+  }
+
+  if (this.isSubmitting) return;
+
+  this.isSubmitting = true;
+
+  // Créer un objet JSON (pas FormData)
+  const rdvData = {
+    name: this.projectForm.get('nom')?.value,
+    surname: this.projectForm.get('prenom')?.value,
+    email: this.projectForm.get('email')?.value,
+    countryCode: this.projectForm.get('countryCode')?.value,
+    num: this.projectForm.get('phone')?.value
+  };
+
+  // Utiliser le service
+  this.rdvService.addRDV(rdvData).subscribe({
+    next: (response) => {
+      console.log('✅ RDV créé avec succès:', response);
+      alert('Votre demande de rendez-vous a été envoyée avec succès ! Vous recevrez un email de confirmation.');
+      this.projectForm.reset();
+      this.isSubmitting = false;
+    },
+    error: (error) => {
+      console.error('❌ Erreur lors de la création du RDV:', error);
+      alert(error || 'Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer.');
+      this.isSubmitting = false;
+    }
+  });
+}
+
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
 
 }

@@ -3,9 +3,12 @@ package com.example.xicombackend.service;
 import com.example.xicombackend.entity.User;
 import com.example.xicombackend.repository.UserRepository;
 import com.example.xicombackend.security.jwt.JwtProvider;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -232,18 +235,117 @@ public class UserServiceImpl implements UserService {
     // Méthode pour envoyer l'email
     private void sendVerificationEmail(String toEmail, String code) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(toEmail);
-            message.setSubject("Code de vérification - Réinitialisation du mot de passe");
-            message.setText("Bonjour,\n\n" +
-                    "Votre code de vérification est : " + code + "\n\n" +
-                    "Ce code expirera dans 15 minutes.\n\n" +
-                    "Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet email.\n\n" +
-                    "Cordialement,\n" +
-                    "L'équipe KeeJobStore");
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-            mailSender.send(message);
-        } catch (Exception e) {
+            helper.setTo(toEmail);
+            helper.setSubject("🔐 Code de vérification - Réinitialisation du mot de passe");
+
+            String htmlContent = String.format("""
+            <!DOCTYPE html>
+            <html lang="fr">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            </head>
+            <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7fa;">
+                <table width="100%%" cellpadding="0" cellspacing="0" style="background-color: #f4f7fa; padding: 40px 20px;">
+                    <tr>
+                        <td align="center">
+                            <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                                
+                                <!-- Header -->
+                                <tr>
+                                    <td style="background: linear-gradient(135deg, #667eea 0%%, #764ba2 100%%); padding: 40px 30px; text-align: center;">
+                                        <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600;">
+                                            🔐 Réinitialisation du mot de passe
+                                        </h1>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Body -->
+                                <tr>
+                                    <td style="padding: 40px 30px;">
+                                        <p style="margin: 0 0 20px; color: #333333; font-size: 16px; line-height: 1.6;">
+                                            Bonjour,
+                                        </p>
+                                        
+                                        <p style="margin: 0 0 30px; color: #555555; font-size: 15px; line-height: 1.6;">
+                                            Vous avez demandé à réinitialiser votre mot de passe. Utilisez le code de vérification ci-dessous pour continuer :
+                                        </p>
+                                        
+                                        <!-- Code Box -->
+                                        <table width="100%%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td align="center" style="padding: 20px 0;">
+                                                    <div style="background: linear-gradient(135deg, #667eea 0%%, #764ba2 100%%); border-radius: 10px; padding: 25px 40px; display: inline-block;">
+                                                        <p style="margin: 0; color: #ffffff; font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">
+                                                            Votre code de vérification
+                                                        </p>
+                                                        <p style="margin: 0; color: #ffffff; font-size: 36px; font-weight: bold; letter-spacing: 8px; font-family: 'Courier New', monospace;">
+                                                            %s
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+                                        <!-- Warning Box -->
+                                        <table width="100%%" cellpadding="0" cellspacing="0" style="margin-top: 30px;">
+                                            <tr>
+                                                <td style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px 20px; border-radius: 5px;">
+                                                    <p style="margin: 0; color: #856404; font-size: 14px; line-height: 1.5;">
+                                                        ⏱️ <strong>Ce code expirera dans 15 minutes.</strong>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+                                        <p style="margin: 30px 0 0; color: #666666; font-size: 14px; line-height: 1.6;">
+                                            Si vous n'avez pas demandé cette réinitialisation, vous pouvez ignorer cet email en toute sécurité. Votre mot de passe restera inchangé.
+                                        </p>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Footer -->
+                                <tr>
+                                    <td style="background-color: #f8f9fa; padding: 30px; text-align: center; border-top: 1px solid #e9ecef;">
+                                        <p style="margin: 0 0 10px; color: #6c757d; font-size: 13px;">
+                                            Cet email a été envoyé par <strong>KeeJobStore</strong>
+                                        </p>
+                                        <p style="margin: 0; color: #adb5bd; font-size: 12px;">
+                                            © 2026 KeeJobStore. Tous droits réservés.
+                                        </p>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                            
+                            <!-- Security Note -->
+                            <table width="600" cellpadding="0" cellspacing="0" style="margin-top: 20px;">
+                                <tr>
+                                    <td style="text-align: center; padding: 0 20px;">
+                                        <p style="margin: 0; color: #adb5bd; font-size: 12px; line-height: 1.5;">
+                                            🔒 Pour votre sécurité, ne partagez jamais ce code avec qui que ce soit.<br>
+                                            KeeJobStore ne vous demandera jamais votre mot de passe par email.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                        </td>
+                    </tr>
+                </table>
+            </body>
+            </html>
+            """, code);
+
+            helper.setText(htmlContent, true);
+            mailSender.send(mimeMessage);
+
+            System.out.println("✅ Email de vérification envoyé à : " + toEmail);
+        } catch (MessagingException e) {
+            System.err.println("❌ Erreur lors de l'envoi de l'email : " + e.getMessage());
             throw new RuntimeException("Erreur lors de l'envoi de l'email : " + e.getMessage());
         }
     }
