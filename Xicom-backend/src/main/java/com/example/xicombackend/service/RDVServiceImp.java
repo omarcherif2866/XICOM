@@ -112,7 +112,6 @@ public class RDVServiceImp implements RDVService {
                                     <li style="padding: 8px 0;"><strong>Nom complet :</strong> %s %s</li>
                                     <li style="padding: 8px 0;"><strong>Email :</strong> <a href="mailto:%s">%s</a></li>
                                     <li style="padding: 8px 0;"><strong>Téléphone :</strong> <a href="tel:%s%s">%s %s</a></li>
-                                    <li style="padding: 8px 0;"><strong>ID RDV :</strong> #%s</li>
                                 </ul>
                             </div>
                             
