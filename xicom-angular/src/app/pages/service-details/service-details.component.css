@@ -988,3 +988,202 @@ font-size: 40px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   color: #2196f3;
 }
+
+/* ============================================================
+   RESPONSIVE MOBILE (max 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* ===== HERO ===== */
+  #hero {
+    padding: 100px 0 60px;
+    min-height: auto;
+  }
+
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-primary-large,
+  .btn-secondary-large {
+    width: 100%;
+    max-width: 340px;
+    justify-content: center;
+  }
+
+  .hero-features {
+    align-items: center;
+  }
+
+  .hero-floating-card {
+    margin: 0 auto;
+  }
+
+  /* ===== STATS ===== */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
+
+  .stat-label {
+    font-size: 15px;
+  }
+
+  /* ===== METHODOLOGY ===== */
+  .steps-grid {
+    gap: 32px;
+  }
+
+  .step-item {
+    width: 160px;
+  }
+
+  /* ===== PRICING ===== */
+  .pricing-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pricing-card {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  /* ===== CONTACT ===== */
+  .contact {
+    padding: 60px 0;
+  }
+
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact-image-wrapper {
+    min-height: 300px;
+  }
+
+  .contact-title {
+    font-size: 28px;
+  }
+
+  .contact-form {
+    padding: 24px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ===== RDV ===== */
+  .rdv {
+    padding: 60px 0;
+    background-size: cover;
+  }
+
+  .section-title-rdv {
+    font-size: 28px;
+  }
+
+  .btn-secondary-large-rdv {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+
+  /* ===== PARTNERS ===== */
+  .partners-section .container {
+    padding: 30px 20px;
+    width: 100%;
+  }
+
+  .partners-title {
+    font-size: 28px;
+  }
+
+  .partners-subtitle {
+    font-size: 15px;
+  }
+
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+.partner-logo-card {
+  height: 180px;      /* ✅ carte plus haute */
+  min-width: 200px;   /* ✅ carte plus large */
+  padding: 30px;
+}
+
+.partner-logo-card img {
+  width: 160px;       /* ✅ image plus grande */
+  height: 120px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+  /* ===== TITRES GLOBAUX ===== */
+  h1 { font-size: 26px; }
+  h3 { font-size: 22px; }
+  p  { font-size: 14px; }
+}
+
+/* ============================================================
+   TRÈS PETIT MOBILE (max 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .stat-icon-frame {
+    width: 60px;
+    height: 60px;
+  }
+
+  .stat-value { font-size: 22px; }
+  .stat-label { font-size: 13px; }
+
+  .hero-content h1 { font-size: 26px; }
+
+  .contact-title { font-size: 22px; }
+
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricing-card {
+    padding: 24px 16px;
+  }
+
+  .amount { font-size: 36px; }
+}

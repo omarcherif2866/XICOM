@@ -8,14 +8,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./top-bar.component.css']
 })
 export class TopBarComponent {
+  menuOpen = false;
 
-  
-  constructor(private router: Router) {
+  constructor(private router: Router) {}
 
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
-  
-signup() {
-  this.router.navigate(['/signup']);
 
-}
+  signup() {
+    this.router.navigate(['/signup']);
+    this.menuOpen = false;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
+  }
 }

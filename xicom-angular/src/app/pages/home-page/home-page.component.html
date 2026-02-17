@@ -111,7 +111,7 @@ Nous offrons des solutions digitales sur mesure pour <br><strong>TPE</strong> et
           </div>
         <h3 class="service-title">{{ service.title }}</h3>
           <div *ngFor="let desc of service.sections[0].details; let i = index">
-              <p class="service-description">{{ desc.title }}</p>
+              <p class="service-description">✔️ {{ desc.title }}</p>
           </div>
         <a class="service-link" [routerLink]="['/serviceDetails', service.id]" >En savoir plus →</a>
       </div>

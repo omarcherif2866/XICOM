@@ -302,7 +302,74 @@ background: #EFF0F4;
   z-index: 1;
 }
 
+@media (max-width: 768px) {
 
+  /* ✅ Les deux champs Nom/Prénom passent en colonne */
+  .form-row-split {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ✅ Chaque input prend toute la largeur */
+  .input-group {
+    width: 100%;
+  }
+
+  .input-wrapper {
+    width: 100%;
+  }
+
+  .form-input {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  /* ✅ Bouton submit pleine largeur */
+  .form-submit {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  /* ✅ Social login centré */
+  .social-login {
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  /* ✅ Terms lisible */
+  .terms-group {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .terms-group p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* ✅ Lien login centré */
+  .login-link {
+    text-align: center;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .form-input {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .form-submit {
+    height: 48px;
+    font-size: 14px;
+  }
+
+
+}
 
 @media (max-width: 1024px) {
   .main-content {

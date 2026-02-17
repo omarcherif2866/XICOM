@@ -6,17 +6,17 @@
   --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  
+
   --text-dark: #1a1a2e;
   --text-light: #6b7280;
   --text-white: #ffffff;
   --bg-light: #f8f9fa;
   --bg-white: #ffffff;
-  
+
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
-  
+
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --border-radius: 16px;
 }
@@ -40,6 +40,8 @@ body {
   margin: 0 auto;
   padding: 0 24px;
 }
+
+/* ===== NAVBAR ===== */
 .navbar {
   position: fixed;
   top: 0;
@@ -70,6 +72,7 @@ body {
   cursor: pointer;
 }
 
+/* ===== MENU DESKTOP ===== */
 .nav-menu {
   display: flex;
   list-style: none;
@@ -106,27 +109,35 @@ body {
   width: 100%;
 }
 
-.btn-primary {
+/* ===== BOUTONS NAVBAR ===== */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-box-sizing: border-box;
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 18px 35px;
-gap: 10px;
-width: 157px;
-height: 57px;
-background: #EFF0F4;
-border: 1px solid #6863BF;
-border-radius: 12px;
-flex: none;
-order: 0;
-flex-grow: 0;
-color:  #6863BF;
-font-family: 'Montserrat';
-font-weight: 700;
-font-size: 16px;
+.btn-primary {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 35px;
+  gap: 10px;
+  width: 157px;
+  height: 57px;
+  background: #EFF0F4;
+  border: 1px solid #6863BF;
+  border-radius: 12px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  color: #6863BF;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .btn-primary:hover {
@@ -135,27 +146,28 @@ font-size: 16px;
 }
 
 .btn-secondary {
-
-box-sizing: border-box;
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 18px 35px;
-gap: 10px;
-width: 157px;
-height: 57px;
-background: #6863BF;
-border: 1px solid #6863BF;
-border-radius: 12px;
-flex: none;
-order: 0;
-flex-grow: 0;
-color:  #ffffff;
-font-family: 'Montserrat';
-font-weight: 700;
-font-size: 16px;
-margin-left: -190px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 35px;
+  gap: 10px;
+  width: 157px;
+  height: 57px;
+  background: #6863BF;
+  border: 1px solid #6863BF;
+  border-radius: 12px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  color: #ffffff;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  /* margin-left supprimé — géré par gap sur .nav-actions */
 }
 
 .btn-secondary:hover {
@@ -163,11 +175,169 @@ margin-left: -190px;
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
 }
 
+/* ===== HAMBURGER ===== */
+.nav-toggle {
+  display: none;         /* caché sur desktop */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 1100;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--text-dark);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+/* Animation hamburger → croix */
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+.nav-menu-logo { display: none; }
+
+.nav-btn-mobile {
+  display: none;
+}
+/* ============================================================
+   RESPONSIVE — TABLETTE  (max 1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+  .nav-menu { gap: 20px; }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 130px;
+    height: 48px;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE  (max 768px)
+   ============================================================ */
 @media (max-width: 768px) {
-  .nav-menu {
+
+  .navbar { 
+    padding: 14px 0; 
+    z-index: 9999; /* ✅ navbar tout en haut */
+    position: relative;
+  }
+
+  .nav-actions {
     display: none;
   }
-  
-  
 
+  .nav-toggle {
+    display: flex;
+    position: relative;
+    z-index: 9999; /* ✅ hamburger cliquable */
+  }
+
+  .nav-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    z-index: 9998; /* ✅ juste sous navbar/hamburger */
+    padding-top: 70px;
+    overflow-y: auto;
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-menu li {
+    list-style: none;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-menu li a {
+    font-size: 22px;
+    font-weight: 600;
+    display: block;
+    padding: 8px 0;
+    color: var(--text-dark);
+    text-decoration: none;
+  }
+
+  .nav-menu .nav-btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .nav-menu .btn-primary,
+  .nav-menu .btn-secondary {
+    width: 220px;
+    height: 52px;
+    font-size: 15px;
+  }
+
+
+  .nav-menu-logo {
+    display: none;
+  }
+
+  /* Visible uniquement quand le menu est ouvert */
+  .nav-menu.open .nav-menu-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .nav-menu.open .nav-menu-logo img {
+    height: 98px;
+    width: auto;
+  }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE — TRÈS PETIT MOBILE  (max 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+
+  .navbar .container { padding: 0 16px; }
+
+  .nav-brand .logo { font-size: 20px; }
+
+  .nav-menu li a { font-size: 19px; }
+
+  .nav-menu .btn-primary,
+  .nav-menu .btn-secondary {
+    width: 190px;
+    height: 48px;
+    font-size: 14px;
+  }
 }

@@ -1,17 +1,43 @@
 <nav class="navbar">
   <div class="container">
+
     <div class="nav-brand">
-          <a href="">
-            <img src="../../../assets/logo/logo.svg" alt="" class="logoK">
-          </a>
+      <a href="">
+        <img src="../../../assets/logo/logo.svg" alt="" class="logoK">
+      </a>
     </div>
-    <ul class="nav-menu">
-      <li><a  href="/">Accueil</a></li>
-      <li><a >Services</a></li>
-      <li><a href="offers">Offers</a></li>
-      <li><a href="contact">Contact</a></li>
+
+    <!-- Menu links -->
+    <ul class="nav-menu" [class.open]="menuOpen">
+
+      <!-- ✅ Logo affiché en haut du menu mobile -->
+      <li class="nav-menu-logo">
+        <img src="../../../assets/logo/logo.svg" alt="Logo" class="logoK">
+      </li>
+
+      <li><a href="/" (click)="closeMenu()">Accueil</a></li>
+      <li><a (click)="closeMenu()">Services</a></li>
+      <li><a href="offers" (click)="closeMenu()">Offers</a></li>
+      <li><a href="contact" (click)="closeMenu()">Contact</a></li>
+
+      <li class="nav-btn-group nav-btn-mobile">
+        <button class="btn-primary" (click)="signup()">Connecter</button>
+        <button class="btn-secondary" (click)="closeMenu()">Commencer</button>
+      </li>
     </ul>
-    <button class="btn-primary" (click)="signup()">Connecter</button>
-    <button class="btn-secondary">Commencer</button>
+
+    <!-- Boutons desktop -->
+    <div class="nav-actions">
+      <button class="btn-primary" (click)="signup()">Connecter</button>
+      <button class="btn-secondary">Commencer</button>
+    </div>
+
+    <!-- Hamburger -->
+    <button class="nav-toggle" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
   </div>
 </nav>
