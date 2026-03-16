@@ -51,80 +51,6 @@ export class HomePage implements OnInit {
   loading: boolean = false;
   isSubmitting = false;
 
-  // services = [
-  //   {
-  //     icon: '🌐',
-  //     title: 'Développement Web',
-  //     description: 'Création de sites web modernes et performants avec les dernières technologies',
-  //     color: '#4FC3F7'
-  //   },
-  //   {
-  //     icon: '📱',
-  //     title: 'Applications Mobiles',
-  //     description: 'Développement d\'apps natives et hybrides pour iOS et Android',
-  //     color: '#FF7043'
-  //   },
-  //   {
-  //     icon: '☁️',
-  //     title: 'Solutions Cloud',
-  //     description: 'Infrastructure cloud scalable et sécurisée pour vos applications',
-  //     color: '#66BB6A'
-  //   },
-  //   {
-  //     icon: '🎨',
-  //     title: 'Design UX/UI',
-  //     description: 'Interfaces utilisateur intuitives et expériences mémorables',
-  //     color: '#FFA726'
-  //   },
-  //   {
-  //     icon: '⚡',
-  //     title: 'Performance',
-  //     description: 'Optimisation et accélération de vos plateformes digitales',
-  //     color: '#AB47BC'
-  //   },
-  //   {
-  //     icon: '🔒',
-  //     title: 'Sécurité',
-  //     description: 'Protection avancée de vos données et infrastructures',
-  //     color: '#EF5350'
-  //   },
-  //   {
-  //     icon: '🤖',
-  //     title: 'Intelligence Artificielle',
-  //     description: 'Solutions IA pour automatiser et optimiser vos processus',
-  //     color: '#5C6BC0'
-  //   },
-  //   {
-  //     icon: '📊',
-  //     title: 'Analytics & Data',
-  //     description: 'Analyse de données et insights pour vos décisions business',
-  //     color: '#26C6DA'
-  //   },
-  //   {
-  //     icon: '🛠️',
-  //     title: 'Maintenance',
-  //     description: 'Support continu et évolution de vos solutions digitales',
-  //     color: '#78909C'
-  //   },
-  //   {
-  //     icon: '💼',
-  //     title: 'Consulting',
-  //     description: 'Conseil stratégique pour votre transformation digitale',
-  //     color: '#FDD835'
-  //   },
-  //   {
-  //     icon: '🚀',
-  //     title: 'Innovation',
-  //     description: 'R&D et technologies émergentes pour rester en avance',
-  //     color: '#EC407A'
-  //   },
-  //   {
-  //     icon: '🌍',
-  //     title: 'Solutions Globales',
-  //     description: 'Déploiement international et support multilingue',
-  //     color: '#29B6F6'
-  //   }
-  // ];
 
   values = [
     {
@@ -227,61 +153,45 @@ export class HomePage implements OnInit {
     
   }
 
-  async loadCountriesCodes(): Promise<void> {
-    try {
-      // Utiliser un proxy CORS pour le développement
-      // En production, vous devrez faire l'appel depuis votre backend
-      const proxyUrl = 'https://corsproxy.io/?';
-      const apiUrl = 'https://apicountries.com/countries';
-      
-      const response: any = await this.http.get(proxyUrl + encodeURIComponent(apiUrl)).toPromise();
-      
-      if (response && response.length > 0) {
-        // Extraire uniquement les données nécessaires : name, alpha3Code, callingCodes, flags
-        this.allCountriesCodes = response
-          .filter((country: any) => country.callingCodes && country.callingCodes.length > 0)
-          .map((country: any) => ({
-            name: country.name,
-            alpha3Code: country.alpha3Code,
-            dial_code: '+' + country.callingCodes[0],
-            callingCodes: country.callingCodes,
-            flags: country.flags
-          }))
-          .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-        
-        console.log('✅ Pays chargés avec succès:', this.allCountriesCodes.length);
-        console.log('📍 Exemple - Premier pays:', this.allCountriesCodes[0]);
-        console.log('📍 Exemple - Tunisie:', this.allCountriesCodes.find(c => c.alpha3Code === 'TUN'));
-      }
-    } catch (error) {
-      console.error('⚠️ Erreur lors du chargement des pays:', error);
-      this.allCountriesCodes = [];
+async loadCountriesCodes(): Promise<void> {
+  try {
+    const apiUrl = 'https://restcountries.com/v3.1/all?fields=name,cca3,idd,flags';
+
+    const response: any = await this.http.get(apiUrl).toPromise();
+
+    if (response && response.length > 0) {
+      this.allCountriesCodes = response
+        .filter((country: any) => 
+          country.idd?.root && 
+          country.idd?.suffixes?.length > 0
+        )
+        .map((country: any) => {
+          // Build dial codes: root + each suffix (e.g. "+2" + "16" = "+216")
+          const callingCodes = country.idd.suffixes.map(
+            (suffix: string) => country.idd.root + suffix
+          );
+
+          return {
+            name: country.name.common,
+            alpha3Code: country.cca3,
+            dial_code: callingCodes.length === 1
+              ? callingCodes[0]                    // "+216"
+              : country.idd.root,                  // "+1" for US/CA shared root
+            callingCodes: callingCodes,
+            flags: country.flags                   // { png, svg, alt }
+          };
+        })
+        .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
+
+      console.log('✅ Pays chargés avec succès:', this.allCountriesCodes.length);
+      console.log('📍 Exemple - Premier pays:', this.allCountriesCodes[0]);
+      console.log('📍 Exemple - Tunisie:', this.allCountriesCodes.find(c => c.alpha3Code === 'TUN'));
     }
+  } catch (error) {
+    console.error('⚠️ Erreur lors du chargement des pays:', error);
+    this.allCountriesCodes = [];
   }
-
-  // onSubmit(): void {
-  //   if (this.projectForm.valid) {
-  //     const formData = {
-  //       ...this.projectForm.value,
-  //       phoneComplet: this.projectForm.value.countryCode + this.projectForm.value.phone
-  //     };
-      
-  //     console.log('Données du formulaire:', formData);
-  //     alert('Formulaire soumis avec succès! Vérifiez la console pour voir les données.');
-      
-  //     // Ici, vous pouvez envoyer les données à votre API
-  //     // this.http.post('votre-api-url', formData).subscribe(...);
-  //   } else {
-  //     this.markFormGroupTouched(this.projectForm);
-  //   }
-  // }
-
-  // private markFormGroupTouched(formGroup: FormGroup): void {
-  //   Object.keys(formGroup.controls).forEach(key => {
-  //     const control = formGroup.get(key);
-  //     control?.markAsTouched();
-  //   });
-  // }
+}
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.projectForm.get(fieldName);
