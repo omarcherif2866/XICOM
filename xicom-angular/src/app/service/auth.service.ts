@@ -11,7 +11,7 @@ import { catchError, tap } from 'rxjs/operators';
 export class AuthService {
 
 
-  private apiUrl = "/api/auth";
+  private apiUrl = "/auth";
   private apiUrlUser = "/api/users";
 
   private localStorageKey = "userAuth";   // stockage principal
