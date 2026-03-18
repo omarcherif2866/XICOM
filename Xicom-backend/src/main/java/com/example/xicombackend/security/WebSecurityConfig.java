@@ -26,7 +26,7 @@ public class WebSecurityConfig {
             "/api/auth/**",
             "/api/auth/login",
             "/service/**",
-            "/users/**",
+            "/api/users/**",
             "/images/**",
             "/partenaire/**",
             "/rdv/**",
