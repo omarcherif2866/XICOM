@@ -1,8 +1,6 @@
 package com.example.xicombackend.security;
-
 import com.example.xicombackend.security.jwt.JwtAuthEntryPoint;
 import com.example.xicombackend.security.jwt.JwtTokenFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,20 +12,16 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-
 import java.util.Arrays;
-import java.util.List;
-
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig  {
-
+public class WebSecurityConfig {
     private final JwtAuthEntryPoint unauthorizedHandler;
     private final AuthenticationProvider authenticationProvider;
     private final JwtTokenFilter jwtTokenFilter;
+
     private static final String[] WHITE_LIST_URL = {
             "/api/auth/**",
             "/api/auth/login",
@@ -37,7 +31,6 @@ public class WebSecurityConfig  {
             "/partenaire/**",
             "/rdv/**",
     };
-
 
     public WebSecurityConfig(JwtAuthEntryPoint unauthorizedHandler, AuthenticationProvider authenticationProvider, JwtTokenFilter jwtTokenFilter) {
         this.unauthorizedHandler = unauthorizedHandler;
@@ -49,7 +42,7 @@ public class WebSecurityConfig  {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> corsConfigurationSource()) // Ajoutez cette ligne
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL).permitAll()
                         .anyRequest().authenticated()
@@ -62,9 +55,8 @@ public class WebSecurityConfig  {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        configuration.setAllowedOrigins(Arrays.asList("https://xicom.fr")); // Remplacez par l'URL de votre application cliente
-
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("https://xicom.fr"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
@@ -72,5 +64,4 @@ public class WebSecurityConfig  {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 }
