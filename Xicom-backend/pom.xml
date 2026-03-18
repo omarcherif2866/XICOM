@@ -91,7 +91,8 @@
             <groupId>com.cloudinary</groupId>
             <artifactId>cloudinary-http44</artifactId>
             <version>1.36.0</version>
-        <!-- ✅ For Hibernate 6.x (Spring Boot 3.x) -->
+        </dependency>
+        <!-- For Hibernate 6.x (Spring Boot 3.x) -->
         <dependency>
             <groupId>io.hypersistence</groupId>
             <artifactId>hypersistence-utils-hibernate-63</artifactId>
