@@ -1,0 +1,88 @@
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="contact-wrapper">
+
+      <div class="contact-info">
+
+        <div class="contact-image-wrapper">
+          <img src="../../../assets/images/contactImage.jpg" alt="">
+          
+          <div class="contact-overlay-top">
+            <h2 class="contact-title">Contactez nous</h2>
+            <p class="contact-description">
+              Prenez contact pour un accompagnement personnalisé.
+            </p>
+          </div>
+          <div class="contact-overlay-bottom  ">
+          <div class="contact-details">
+            <div class="contact-item">
+              <img src="../../../assets/icons/phone.svg" alt="">
+              <div>
+                <div class="contact-value">+216 56 656 656</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <img src="../../../assets/icons/mail.svg" alt="">
+
+              <div>
+                <div class="contact-value">contact@xicom.fr</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <img src="../../../assets/icons/localisation.svg" alt="" >
+
+              <div>
+                <div class="contact-value">123 Avenue des Champs-Élysées, Paris</div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="contact-form">
+        <form class="hero-form" id="contactForm" [formGroup]="contactForm" >
+          <div class="form-group">
+            <input type="text" placeholder="Votre nom" class="form-input" formControlName="nom" required>
+          </div>
+          <div class="form-group">
+            <input type="email" placeholder="Votre email" class="form-input" formControlName="email" required>
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Sujet" class="form-input" formControlName="sujet" required>
+          </div>
+          <div class="form-group alternative">
+            <div class="phone-group">
+                <div class="country-select-wrapper">
+                    <img *ngIf="contactForm.get('countryCode')?.value" 
+                        [src]="getSelectedCountryFlagContactForm()" 
+                        alt="flag"
+                        class="country-flag">
+                    <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
+                        <option value="" disabled>🌍 Sélectionner</option>
+                        <option *ngFor="let country of allCountriesCodes" 
+                                [value]="country.dial_code"
+                                [attr.data-flag]="country.flags.png">
+                            {{ country.name }} {{ country.dial_code }}
+                        </option>
+                    </select>
+                </div>
+                <input type="tel" 
+                      id="phone" 
+                      placeholder="Numéro*" 
+                      class="form-input phone-input" 
+                      formControlName="phone" 
+                      required>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea placeholder="Votre message" class="form-textarea" rows="5" formControlName="message"></textarea>
+          </div>
+          <button type="submit" class="btn-large btn-primary-large form-submit">Envoyer le message</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,55 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-xicom_db}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_USER: ${MYSQL_USER:-xicom_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-xicom_password}
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 5
+    # ports:
+    #   - "3306:3306" # Internal only for security
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./Xicom-backend
+      dockerfile: Dockerfile
+    container_name: xicom-backend
+    restart: always
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE:-xicom_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-xicom_user}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-xicom_password}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      JWT_SECRET: ${JWT_SECRET:-your_default_jwt_secret_change_me}
+      CLOUDINARY_URL: ${CLOUDINARY_URL:-}
+    # ports:
+    #   - "8080:8080" # Internal only
+
+  frontend:
+    build:
+      context: ./xicom-angular
+      dockerfile: Dockerfile
+    container_name: xicom-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"    # Autorise le trafic HTTPS envoyé par Nginx
+    volumes:
+      # Permet de lire les certificats générés par Certbot qui se trouvent sur le VPS
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+
+volumes:
+  mysql_data:

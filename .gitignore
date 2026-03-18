@@ -1,0 +1,10 @@
+.env
+*.tar.gz
+node_modules/
+.idea/
+.vscode/
+tmp/
+project.tar.gz
+xicom_deploy.tar.gz
+target/
+dist/
