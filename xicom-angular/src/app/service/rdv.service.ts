@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class RDVService {
 
- private apiUrl = "http://localhost:9090/rdv";
+  private apiUrl = "/api/rdv";
 
 
   constructor(private http: HttpClient, private router: Router) { }

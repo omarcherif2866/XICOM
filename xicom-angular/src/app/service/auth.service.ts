@@ -10,8 +10,9 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class AuthService {
 
-  private apiUrl = "http://localhost:9090/api/auth";
-  private apiUrlUser = "http://localhost:9090/users";
+
+  private apiUrl = "/api/auth";
+  private apiUrlUser = "/api/users";
 
   private localStorageKey = "userAuth";   // stockage principal
   private loggedIn = new BehaviorSubject<boolean>(false);

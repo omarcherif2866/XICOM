@@ -8,15 +8,15 @@ import { Observable } from 'rxjs';
 })
 export class IconsService {
 
- private apiUrl = "http://localhost:9090/images";
+  private apiUrl = "/api/images";
 
 
   constructor(private http: HttpClient, private router: Router) { }
 
 
-getAvailableIcons(): Observable<string[]> {
-  console.log('📡 Calling API: /images/icons');
-  return this.http.get<string[]>(`${this.apiUrl}/icons`);
-}
+  getAvailableIcons(): Observable<string[]> {
+    console.log('📡 Calling API: /images/icons');
+    return this.http.get<string[]>(`${this.apiUrl}/icons`);
+  }
 
 }
