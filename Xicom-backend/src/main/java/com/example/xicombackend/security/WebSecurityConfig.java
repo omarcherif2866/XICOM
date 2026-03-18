@@ -23,7 +23,7 @@ public class WebSecurityConfig {
     private final JwtTokenFilter jwtTokenFilter;
 
     private static final String[] WHITE_LIST_URL = {
-            "/api/auth/**",
+            "/auth/**",
             "/api/auth/login",
             "/service/**",
             "/api/users/**",
