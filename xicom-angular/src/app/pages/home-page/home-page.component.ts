@@ -252,7 +252,11 @@ generateRandomColor(): string {
 onSubmit(): void {
   if (this.projectForm.invalid) {
     this.markFormGroupTouched(this.projectForm);
-    alert('Veuillez remplir tous les champs obligatoires');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Veuillez remplir tous les champs obligatoires'
+        });    
     return;
   }
 
@@ -272,12 +276,21 @@ onSubmit(): void {
   // Utiliser le service
   this.rdvService.addRDV(rdvData).subscribe({
     next: (response) => {
-      alert('Votre demande de rendez-vous a été envoyée avec succès ! Vous recevrez un email de confirmation.');
+        Swal.fire({
+          icon: 'success',
+          title: 'Votre demande de rendez-vous a été envoyée avec succès ! Vous recevrez un email de confirmation.',
+          showConfirmButton: false,
+          timer: 1500 // Auto hide after 1.5 seconds
+        });
       this.projectForm.reset();
       this.isSubmitting = false;
     },
     error: (error) => {
-      alert(error || 'Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer.'
+        });    
       this.isSubmitting = false;
     }
   });

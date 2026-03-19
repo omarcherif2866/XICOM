@@ -39,7 +39,6 @@ export class AuthService {
         this.loggedIn.next(true);
       }),
       catchError(error => {
-        console.error("Erreur de connexion:", error);
         return throwError(() => error);
       })
     );
@@ -60,7 +59,6 @@ logout(): void {
 
   // -------------------- REGISTER --------------------
   addUser(user: any): Observable<User> {
-      console.log('Sending to backend:', user);
     return this.httpClient.post<User>(`${this.apiUrl}/register`, user);
   }
 

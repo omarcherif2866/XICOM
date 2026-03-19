@@ -50,7 +50,6 @@ export class PartenaireComponent implements OnInit {
         ));
         this.partenaires = this.partenaires; // si pagination ou filtrage
         this.loading = false;
-        console.log('Données reçues: ', this.partenaires);
       },
       (error) => {
         console.error('Erreur lors du chargement des partenaires:', error);
@@ -145,7 +144,11 @@ handleSubmit() {
   // Vérification des champs obligatoires
   if (
     !this.formData.description || !this.formData.name   ) {
-    alert('Veuillez remplir tous les champs obligatoires');
+    Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Veuillez remplir tous les champs obligatoires'
+    });
     return;
   }
 

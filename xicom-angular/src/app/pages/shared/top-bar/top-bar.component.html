@@ -25,18 +25,7 @@
         <button class="btn-secondary" (click)="closeMenu()">Commencer</button>
       </li>
 
-      <li *ngIf="isAdminOrSuperAdmin">
-        <a routerLink="/services" (click)="closeMenu()" title="Dashboard">
-          <i class="fas fa-tachometer-alt"></i>
-        </a>
-      </li>
 
-      <!-- ✅ Icône Déconnexion (si connecté) -->
-      <li *ngIf="isLoggedIn">
-        <a (click)="logout(); closeMenu()" title="Déconnexion" style="cursor:pointer">
-          <i class="fas fa-sign-out-alt"></i>
-        </a>
-      </li>
     </ul>
 
     <!-- Boutons desktop -->
@@ -44,6 +33,20 @@
       <button class="btn-primary" (click)="signup()">Connecter</button>
       <button class="btn-secondary">Commencer</button>
     </div>
+
+<li *ngIf="isAdminOrSuperAdmin">
+  <a routerLink="/services" (click)="closeMenu()" class="nav-icon-link" title="Dashboard">
+    <i class="fas fa-tachometer-alt" style="font-size: 22px; color: #6863BF;"></i>
+    <span class="nav-icon-tooltip">Dashboard</span>
+  </a>
+</li>
+
+<li *ngIf="isLoggedIn">
+  <a (click)="logout(); closeMenu()" class="nav-icon-link" style="cursor:pointer">
+    <i class="fas fa-sign-out-alt" style="font-size: 22px; color: #6863BF;"></i>
+    <span class="nav-icon-tooltip">Se déconnecter</span>
+  </a>
+</li>
 
     <!-- Hamburger -->
     <button class="nav-toggle" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Toggle menu">

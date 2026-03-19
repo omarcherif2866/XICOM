@@ -15,7 +15,6 @@ export class IconsService {
 
 
   getAvailableIcons(): Observable<string[]> {
-    console.log('📡 Calling API: /images/icons');
     return this.http.get<string[]>(`${this.apiUrl}/icons`);
   }
 

@@ -16,7 +16,6 @@ export class PartenaireService {
 
   getPartenaireById(id: any): Observable<Partenaire> {
     return this.http.get<Partenaire>(`${this.apiUrl}/${id}`).pipe(
-      tap(data => console.log('Partenaire reçu:', data)), // debug
       catchError((error: any) => {
         console.error('Erreur lors de la récupération du Partenaire:', error);
         return throwError(error);
@@ -28,7 +27,6 @@ export class PartenaireService {
   // Partenaire.service.ts
   getPartenaire(): Observable<Partenaire[]> {
     return this.http.get<any[]>(`${this.apiUrl}/allPartenaires`).pipe(
-      tap(data => console.log('Données reçues:', data)), // ✅ Debug
       catchError((error: any) => {
         console.error('Erreur:', error);
         return throwError(error);

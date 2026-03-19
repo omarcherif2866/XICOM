@@ -140,6 +140,34 @@ body {
   transition: var(--transition);
 }
 
+.nav-icon-link {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-icon-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  background-color: #6863BF;
+  color: #fff;
+  text-align: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+  z-index: 999;
+}
+
+.nav-icon-link:hover .nav-icon-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);

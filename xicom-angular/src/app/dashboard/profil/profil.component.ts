@@ -31,7 +31,6 @@ loadUser() {
   this.userService.getUserById(this.userId).subscribe({
     next: (data) => {
       this.user = data;                // ⭐ charge l'utilisateur dans le form
-      console.log("Utilisateur chargé :", this.user);
     },
     error: () => {
         Swal.fire({
@@ -48,7 +47,6 @@ loadUser() {
 update() {
   this.userService.updateUser(this.userId, this.user).subscribe({
     next: (updatedUser) => {
-      console.log("Profil mis à jour :", updatedUser);
           Swal.fire({
             title: 'Success!',
             text: 'Votre profil à été modifié avec succès !',

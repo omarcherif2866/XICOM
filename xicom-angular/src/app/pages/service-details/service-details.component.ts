@@ -195,7 +195,6 @@ setServiceTheme(serviceId: number): void {
   const themeIndex = ((serviceId - 1) % themeCount) + 1;
   this.currentTheme = this.serviceThemes[themeIndex];
   
-  console.log(`Service ${serviceId} -> Thème ${themeIndex}:`, this.currentTheme);
 }
 
 /**
@@ -244,7 +243,6 @@ fetchServiceDetails(id: number) {
       // ⬇️ AJOUTE CETTE LIGNE POUR LE CARROUSEL
 
       this.loading = false;
-      console.log('servicedetails:', this.services);
 
     },
     
@@ -266,7 +264,6 @@ fetchServiceDetails(id: number) {
     this.partenaireService.getPartenaireByService(this.serviceId).subscribe({
       next: (partners) => {
         this.allPartners = partners; // Stocker TOUS les partenaires
-        console.log('Partenaires chargés:', partners);
         this.updateVisiblePartners(); // Initialiser les partenaires visibles
       },
       error: (error) => {
@@ -304,7 +301,6 @@ getColorByIndex(index: number): string {
     try {
       const response: any = await this.http.get('assets/countries.json').toPromise();
       this.allCountriesCodes = response.sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-      console.log('✅ Pays chargés avec succès:', this.allCountriesCodes.length);
     } catch (error) {
       console.error('⚠️ Erreur lors du chargement des pays:', error);
       this.allCountriesCodes = [];
@@ -342,7 +338,6 @@ getColorByIndex(index: number): string {
       this.visiblePartners.push(this.allPartners[index]);
     }
     
-    console.log('Visible partners:', this.visiblePartners);
   }
 
   scrollRightPartners(): void {

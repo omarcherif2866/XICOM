@@ -31,7 +31,6 @@ export class ContactComponent implements OnInit {
     try {
       const response: any = await this.http.get('assets/countries.json').toPromise();
       this.allCountriesCodes = response.sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-      console.log('✅ Pays chargés avec succès:', this.allCountriesCodes.length);
     } catch (error) {
       console.error('⚠️ Erreur lors du chargement des pays:', error);
       this.allCountriesCodes = [];
