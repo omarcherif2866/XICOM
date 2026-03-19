@@ -35,7 +35,7 @@ export class Service {
 
   constructor(data: any = {}) {
     this.id = data.id ?? null;
-    this.title = data.Title ;
+    this.title = data.title;
     this.subtitle = data.subTitle ;
     this.image = data.image ?? null;
     this.icon = data.icon ?? null;
