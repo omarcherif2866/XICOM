@@ -51,81 +51,6 @@ export class HomePage implements OnInit {
   loading: boolean = false;
   isSubmitting = false;
 
-  // services = [
-  //   {
-  //     icon: '🌐',
-  //     title: 'Développement Web',
-  //     description: 'Création de sites web modernes et performants avec les dernières technologies',
-  //     color: '#4FC3F7'
-  //   },
-  //   {
-  //     icon: '📱',
-  //     title: 'Applications Mobiles',
-  //     description: 'Développement d\'apps natives et hybrides pour iOS et Android',
-  //     color: '#FF7043'
-  //   },
-  //   {
-  //     icon: '☁️',
-  //     title: 'Solutions Cloud',
-  //     description: 'Infrastructure cloud scalable et sécurisée pour vos applications',
-  //     color: '#66BB6A'
-  //   },
-  //   {
-  //     icon: '🎨',
-  //     title: 'Design UX/UI',
-  //     description: 'Interfaces utilisateur intuitives et expériences mémorables',
-  //     color: '#FFA726'
-  //   },
-  //   {
-  //     icon: '⚡',
-  //     title: 'Performance',
-  //     description: 'Optimisation et accélération de vos plateformes digitales',
-  //     color: '#AB47BC'
-  //   },
-  //   {
-  //     icon: '🔒',
-  //     title: 'Sécurité',
-  //     description: 'Protection avancée de vos données et infrastructures',
-  //     color: '#EF5350'
-  //   },
-  //   {
-  //     icon: '🤖',
-  //     title: 'Intelligence Artificielle',
-  //     description: 'Solutions IA pour automatiser et optimiser vos processus',
-  //     color: '#5C6BC0'
-  //   },
-  //   {
-  //     icon: '📊',
-  //     title: 'Analytics & Data',
-  //     description: 'Analyse de données et insights pour vos décisions business',
-  //     color: '#26C6DA'
-  //   },
-  //   {
-  //     icon: '🛠️',
-  //     title: 'Maintenance',
-  //     description: 'Support continu et évolution de vos solutions digitales',
-  //     color: '#78909C'
-  //   },
-  //   {
-  //     icon: '💼',
-  //     title: 'Consulting',
-  //     description: 'Conseil stratégique pour votre transformation digitale',
-  //     color: '#FDD835'
-  //   },
-  //   {
-  //     icon: '🚀',
-  //     title: 'Innovation',
-  //     description: 'R&D et technologies émergentes pour rester en avance',
-  //     color: '#EC407A'
-  //   },
-  //   {
-  //     icon: '🌍',
-  //     title: 'Solutions Globales',
-  //     description: 'Déploiement international et support multilingue',
-  //     color: '#29B6F6'
-  //   }
-  // ];
-
   values = [
     {
       title: 'Innovation',
@@ -231,36 +156,11 @@ export class HomePage implements OnInit {
     try {
       const response: any = await this.http.get('assets/countries.json').toPromise();
       this.allCountriesCodes = response.sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-      console.log('✅ Pays chargés avec succès:', this.allCountriesCodes.length);
     } catch (error) {
-      console.error('⚠️ Erreur lors du chargement des pays:', error);
       this.allCountriesCodes = [];
     }
   }
 
-  // onSubmit(): void {
-  //   if (this.projectForm.valid) {
-  //     const formData = {
-  //       ...this.projectForm.value,
-  //       phoneComplet: this.projectForm.value.countryCode + this.projectForm.value.phone
-  //     };
-      
-  //     console.log('Données du formulaire:', formData);
-  //     alert('Formulaire soumis avec succès! Vérifiez la console pour voir les données.');
-      
-  //     // Ici, vous pouvez envoyer les données à votre API
-  //     // this.http.post('votre-api-url', formData).subscribe(...);
-  //   } else {
-  //     this.markFormGroupTouched(this.projectForm);
-  //   }
-  // }
-
-  // private markFormGroupTouched(formGroup: FormGroup): void {
-  //   Object.keys(formGroup.controls).forEach(key => {
-  //     const control = formGroup.get(key);
-  //     control?.markAsTouched();
-  //   });
-  // }
 
   isFieldInvalid(fieldName: string): boolean {
     const field = this.projectForm.get(fieldName);
@@ -305,10 +205,8 @@ export class HomePage implements OnInit {
           this.services = data.map(item => new Service(item));
           
           this.loading = false;
-          console.log('Services chargés:', this.services);
         },
         error: (error) => {
-          console.error('Erreur lors du chargement des services:', error);
           this.loading = false;
         }
       });
@@ -374,13 +272,11 @@ onSubmit(): void {
   // Utiliser le service
   this.rdvService.addRDV(rdvData).subscribe({
     next: (response) => {
-      console.log('✅ RDV créé avec succès:', response);
       alert('Votre demande de rendez-vous a été envoyée avec succès ! Vous recevrez un email de confirmation.');
       this.projectForm.reset();
       this.isSubmitting = false;
     },
     error: (error) => {
-      console.error('❌ Erreur lors de la création du RDV:', error);
       alert(error || 'Une erreur est survenue lors de l\'envoi de votre demande. Veuillez réessayer.');
       this.isSubmitting = false;
     }

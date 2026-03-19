@@ -24,7 +24,6 @@ login() {
     const loginData = { email: this.user.Email, password: this.user.Password };
   this.authService.login(loginData).subscribe(
     (response: any) => {
-      console.log('Response received:', response);
 
       if (response && response.role && response.accessToken) {
         // Store user role and access token in localStorage
@@ -50,10 +49,8 @@ login() {
           timer: 1500 // Auto hide after 1.5 seconds
         });
 
-        console.log("Connected");
       } else {
         // Handle errors if role or necessary data is missing in the response
-        console.error("Role or essential data missing in login response", response);
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -83,7 +80,6 @@ login() {
           text: 'An error occurred during login'
         });
       }
-      console.error("Login error", error);
     }
   );
 }
