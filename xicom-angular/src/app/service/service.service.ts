@@ -15,29 +15,24 @@ export class ServiceService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getServiceById(id: any): Observable<Service> {
-    return this.http.get<Service>(`${this.apiUrl}/${id}`).pipe(
-      tap(data => console.log('Service reçu:', data)),
-      catchError((error: any) => {
-        console.error('Erreur lors de la récupération du Service:', error);
-        return throwError(error);
-      })
-    );
-  }
+      return this.http.get<Service>(`${this.apiUrl}/${id}`).pipe(
+        catchError((error: any) => {
+          return throwError(error);
+        })
+      );
+    }
 
-  getService(): Observable<Service[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/all`).pipe(
-      tap(data => console.log('Données reçues:', data)),
-      catchError((error: any) => {
-        console.error('Erreur:', error);
-        return throwError(error);
-      })
-    );
-  }
+    getService(): Observable<Service[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/all`).pipe(
+        catchError((error: any) => {
+          return throwError(error);
+        })
+      );
+    }
 
   addService(data: FormData): Observable<Service> {
     return this.http.post<Service>(`${this.apiUrl}`, data).pipe(
       catchError((error: any) => {
-        console.error('Erreur lors de l\'ajout du Service:', error);
         return throwError('Une erreur s\'est produite lors de l\'ajout du Service. Veuillez réessayer.');
       })
     );
@@ -53,7 +48,6 @@ export class ServiceService {
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        console.error('Erreur lors de la mise à jour du Service:', error);
         return throwError('Une erreur s\'est produite lors de la mise à jour du Service. Veuillez réessayer.');
       })
     );

@@ -8,6 +8,7 @@ import { SharedModule } from './pages/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'
+import { AdminGuard } from './guards/admin.guard'
 
 
 const routes = [
@@ -66,6 +67,7 @@ const routes = [
       import('./dashboard/service/service.module').then(
         (m) => m.ServiceModule
       ),
+    canActivate: [AdminGuard]  // ✅ Ajouter
   },
     {
     path: 'partenaires',
@@ -73,6 +75,7 @@ const routes = [
       import('./dashboard/partenaires/partenaires.module').then(
         (m) => m.PartenairesModule
       ),
+      canActivate: [AdminGuard] 
   },
   {
     path: 'offers',

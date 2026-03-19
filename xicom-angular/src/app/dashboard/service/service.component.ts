@@ -73,11 +73,9 @@ allPartenaires: Partenaire[] = [];
 
   fetchPartenaires() {
     this.loading = true;
-    console.log('📡 Récupération des partenaires...');
     
     this.partenaireService.getPartenaire().subscribe(
       (response: any[]) => {
-        console.log('✅ Réponse partenaires:', response);
         
         this.allPartenaires = response.map(p => new Partenaire(
           p.id,
@@ -89,7 +87,6 @@ allPartenaires: Partenaire[] = [];
         this.loading = false;
       },
       (error) => {
-        console.error('❌ Erreur lors du chargement des partenaires:', error);
         this.loading = false;
         Swal.fire({
           icon: 'error',
@@ -113,10 +110,8 @@ allPartenaires: Partenaire[] = [];
         this.calculatePagination();
         this.updateCurrentItems();
         this.loading = false;
-        console.log('Services chargés:', this.services);
       },
       error: (error) => {
-        console.error('Erreur lors du chargement des services:', error);
         this.loading = false;
       }
     });
@@ -238,13 +233,21 @@ allPartenaires: Partenaire[] = [];
       
       this.serviceService.deleteService(serviceId).subscribe({
         next: () => {
-          alert('Service supprimé avec succès');
+        Swal.fire({
+          icon: 'success',
+          title: 'Service supprimé avec succès',
+          showConfirmButton: false,
+          timer: 1500 // Auto hide after 1.5 seconds
+        });
           this.loadServices();
         },
         error: (error) => {
-          console.error('Erreur lors de la suppression du service:', error);
           this.loading = false;
-          alert('Erreur lors de la suppression du service');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Erreur lors de la suppression du service'
+        });
         }
       });
     }
@@ -307,15 +310,27 @@ allPartenaires: Partenaire[] = [];
     switch (this.currentModalStep) {
       case 1:
         if (!this.formData.title || !this.formData.title.trim()) {
-          alert('Le titre est obligatoire');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Le titre est obligatoire'
+        });
           return false;
         }
         if (this.modalMode === 'add' && !this.selectedImage) {
-          alert('L\'image est obligatoire');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'L\'image est obligatoire'
+        });
           return false;
         }
         if (this.modalMode === 'add' && !this.selectedIcon) {
-          alert('L\'icône est obligatoire');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'L\'icône est obligatoire'
+        });
           return false;
         }
         return true;
@@ -334,7 +349,11 @@ allPartenaires: Partenaire[] = [];
     const file = event.target.files[0];
     if (file) {
       if (file.size > 200 * 1024 * 1024) {
-        alert('L\'image ne doit pas dépasser 200MB');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'L\'image ne doit pas dépasser 200MB'
+        });
         return;
       }
       this.selectedImage = file;
@@ -348,7 +367,11 @@ allPartenaires: Partenaire[] = [];
     const file = event.target.files[0];
     if (file) {
       if (file.size > 200 * 1024 * 1024) {
-        alert('L\'icône ne doit pas dépasser 200MB');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'L\'icône ne doit pas dépasser 200MB'
+        });
         return;
       }
       this.selectedIcon = file;
@@ -363,14 +386,22 @@ allPartenaires: Partenaire[] = [];
     if (file) {
       // Validation de la taille (200MB au lieu de 200MB)
       if (file.size > 200 * 1024 * 1024) {
-        alert('L\'icône ne doit pas dépasser 200MB');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'L\'icône ne doit pas dépasser 200MB'
+        });
         return;
       }
       
       // Validation du type
       const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml', 'image/webp'];
       if (!allowedTypes.includes(file.type)) {
-        alert('Format non supporté. Utilisez PNG, JPG, SVG ou WEBP');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Format non supporté. Utilisez PNG, JPG, SVG ou WEBP'
+        });
         return;
       }
       
@@ -392,7 +423,12 @@ allPartenaires: Partenaire[] = [];
     const file = event.target.files[0];
     if (file) {
       if (file.size > 200 * 1024 * 1024) {
-        alert('L\'icône ne doit pas dépasser 200MB');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'L\'icône ne doit pas dépasser 200MB'
+        });
+
         return;
       }
       this.formData.priceSections[priceIndex].details[detailIndex].icon = file;
@@ -523,35 +559,52 @@ countCompletedPriceSections(): number {
       if (this.modalMode === 'add') {
         this.serviceService.addService(formData).subscribe({
           next: (response) => {
-            alert('Service créé avec succès !');
+            Swal.fire({
+              icon: 'success',
+              title: 'Succès',
+              text: 'Service créé avec succès !'
+            });
             this.showModal = false;
             this.loadServices();
             this.isSubmitting = false;
           },
           error: (error) => {
-            console.error('Erreur lors de la création:', error);
-            alert('Erreur lors de la création du service');
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Erreur lors de la création du service'
+            });
             this.isSubmitting = false;
           }
         });
       } else {
         this.serviceService.putService(this.formData.id, formData).subscribe({
           next: (response) => {
-            alert('Service modifié avec succès !');
+            Swal.fire({
+              icon: 'success',
+              title: 'Succès',
+              text: 'Service modifié avec succès !'
+            });
             this.showModal = false;
             this.loadServices();
             this.isSubmitting = false;
           },
           error: (error) => {
-            console.error('Erreur lors de la modification:', error);
-            alert('Erreur lors de la modification du service');
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Erreur lors de la modification du service'
+            });
             this.isSubmitting = false;
           }
         });
       }
     } catch (error) {
-      console.error('Erreur:', error);
-      alert('Une erreur est survenue');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Une erreur est survenue'
+      });
       this.isSubmitting = false;
     }
   }
@@ -561,7 +614,11 @@ countCompletedPriceSections(): number {
    */
   validateForm(): boolean {
     if (!this.formData.title || !this.formData.title.trim()) {
-      alert('Le titre est obligatoire');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Le titre est obligatoire'
+      });
       this.goToModalStep(1);
       return false;
     }
@@ -606,7 +663,6 @@ async prepareFormData(): Promise<FormData> {
     section.details.forEach((detail) => {
       if (detail.icon instanceof File) {
         formData.append('detailIcons', detail.icon);
-        console.log('📤 Nouveau fichier:', detail.icon.name);
       }
     });
   });
@@ -706,25 +762,19 @@ async prepareFormData(): Promise<FormData> {
 
   selectIconFromGallery(iconUrl: string, detail: Details) {
     detail.icon = iconUrl;
-    console.log('✅ Icône sélectionnée:', iconUrl);
   }
 
 
   loadAvailableIcons(): void {
   this.loadingIcons = true;
-  console.log('🔄 Début chargement icônes...');
   
   this.iconsService.getAvailableIcons().subscribe({
     next: (icons: string[]) => {
       this.availableIcons = icons;
       this.loadingIcons = false;
-      console.log('✅ Icônes reçues:', icons.length);
-      console.log('📋 Liste:', icons);
+
     },
     error: (error) => {
-      console.error('❌ Erreur:', error);
-      console.error('Status:', error.status);
-      console.error('Message:', error.message);
       this.loadingIcons = false;
     }
   });

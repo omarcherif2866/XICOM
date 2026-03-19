@@ -24,6 +24,19 @@
         <button class="btn-primary" (click)="signup()">Connecter</button>
         <button class="btn-secondary" (click)="closeMenu()">Commencer</button>
       </li>
+
+      <li *ngIf="isAdminOrSuperAdmin">
+        <a routerLink="/services" (click)="closeMenu()" title="Dashboard">
+          <i class="fas fa-tachometer-alt"></i>
+        </a>
+      </li>
+
+      <!-- ✅ Icône Déconnexion (si connecté) -->
+      <li *ngIf="isLoggedIn">
+        <a (click)="logout(); closeMenu()" title="Déconnexion" style="cursor:pointer">
+          <i class="fas fa-sign-out-alt"></i>
+        </a>
+      </li>
     </ul>
 
     <!-- Boutons desktop -->
