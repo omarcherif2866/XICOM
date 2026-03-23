@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as CryptoJS from 'crypto-js';  // ✅ Ajouter
-import { environment } from 'src/environments/environment.prod';
+import * as CryptoJS from 'crypto-js';  // ✅ revenir à cette syntaxe
+import { environment } from 'src/environments/environment';  // ✅ pas environment.prod
 
 @Injectable({
   providedIn: 'root'
