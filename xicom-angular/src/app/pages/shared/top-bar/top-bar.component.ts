@@ -29,7 +29,7 @@ export class TopBarComponent {
 
 get isAdminOrSuperAdmin(): boolean {
     const role = this.authService.getRoleFromToken();
-    return role === 'ADMIN' || role === 'SUPERADMIN';
+    return role === 'Admin' || role === 'SUPERADMIN';
 }
 
 get isLoggedIn(): boolean {

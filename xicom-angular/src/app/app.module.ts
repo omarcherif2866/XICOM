@@ -9,7 +9,11 @@ import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'
 import { AdminGuard } from './guards/admin.guard'
+import { JwtModule } from '@auth0/angular-jwt'
 
+export function tokenGetter() {  // ✅ Ajouter
+  return localStorage.getItem('accessToken');
+}
 
 const routes = [
   {
@@ -104,7 +108,12 @@ const routes = [
     SharedModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    JwtModule.forRoot({          // ✅ Ajouter
+      config: {
+        tokenGetter: tokenGetter,
+      }
+    })    
   ],
   providers: [],
   bootstrap: [AppComponent],
