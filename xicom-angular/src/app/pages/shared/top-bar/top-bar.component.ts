@@ -28,12 +28,12 @@ export class TopBarComponent {
   }
 
 get isAdminOrSuperAdmin(): boolean {
-    const role = localStorage.getItem('userRole');
-    return role === 'Admin' || role === 'SUPERADMIN';
+    const role = this.authService.getRoleFromToken();
+    return role === 'ADMIN' || role === 'SUPERADMIN';
 }
 
 get isLoggedIn(): boolean {
-    return !!localStorage.getItem('accessToken');
+    return !!this.authService.getToken();
 }
 
   logout(): void {
