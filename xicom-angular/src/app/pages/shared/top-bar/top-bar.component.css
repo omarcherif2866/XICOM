@@ -62,6 +62,25 @@ body {
   border-radius: 12px; /* 👈 border radius */
 }
 
+.social-media-links {
+  display: flex;
+  justify-content: center;
+  gap: 27px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: #6863BF; /* ✅ couleur exacte */
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.icon:hover {
+  fill: #000; /* effet hover */
+  transform: scale(1.15);
+}
+
 .navbar .container {
   display: flex;
   align-items: center;
