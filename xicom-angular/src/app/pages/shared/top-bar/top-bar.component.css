@@ -33,6 +33,7 @@ body {
   background: var(--bg-white);
   line-height: 1.6;
   overflow-x: hidden;
+  
 }
 
 .container {
@@ -45,14 +46,20 @@ body {
 .navbar {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%); /* centre horizontalement */
+  
+  width: 80%;
+  margin: 0; /* supprime l'espace en haut */
+  
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm);
   z-index: 1000;
   padding: 20px 0;
   transition: var(--transition);
+
+  border-radius: 12px; /* 👈 border radius */
 }
 
 .navbar .container {

@@ -29,18 +29,23 @@ export interface Country {
   };
 }
 
+interface StatItem {
+  value: string;
+  label: string;
+}
+
 @Component({
   selector: 'home-page',
   templateUrl: 'home-page.component.html',
   styleUrls: ['home-page.component.css'],
 })
 export class HomePage implements OnInit {
-  stats = [
-    { icon: '../../../assets/icons/valise.svg', label: 'Nos projets', value: '+200', color: '#EFFBFF', valueColor: '#51B3D8'  },
-    { icon: '../../../assets/icons/coeur.svg', label: 'Satisfaction', value: '4%', color: '#FFEDED', valueColor: '#F26D6E' },
-    { icon: '../../../assets/icons/person.svg', label: 'Experts', value: '15', color: '#FFEEEA', valueColor: '#F1836A' },
-    { icon: '../../../assets/icons/puzzle.svg', label: 'Collaborateurs', value: '40', color: '#ECEBFF', valueColor: '#6863BF' }
-  ];
+  // stats = [
+  //   { icon: '../../../assets/icons/valise.svg', label: 'Nos projets', value: '+200', color: '#EFFBFF', valueColor: '#51B3D8'  },
+  //   { icon: '../../../assets/icons/coeur.svg', label: 'Satisfaction', value: '4%', color: '#FFEDED', valueColor: '#F26D6E' },
+  //   { icon: '../../../assets/icons/person.svg', label: 'Experts', value: '15', color: '#FFEEEA', valueColor: '#F1836A' },
+  //   { icon: '../../../assets/icons/puzzle.svg', label: 'Collaborateurs', value: '40', color: '#ECEBFF', valueColor: '#6863BF' }
+  // ];
 
   services: Service[] = [];
 
@@ -118,6 +123,37 @@ export class HomePage implements OnInit {
     }
   ];
 
+    private readonly rawStats: StatItem[] = [
+    { value: '120+',  label: 'Projets réalisés' },
+    { value: '98%',   label: 'Satisfaction client' },
+    { value: '15',    label: 'Experts métiers' },
+    { value: '25',    label: 'Collaborateurs engagés' },
+    { value: '200M+', label: 'Audience touchée / mois' },
+    { value: '1M+',   label: 'Interactions générées / mois' },
+    { value: '20K+',  label: 'Leads qualifiés / mois' },
+    { value: '300+',  label: 'Campagnes déployées' },
+    { value: '50+',   label: 'Clients actifs' },
+    { value: '80%',   label: 'Taux de fidélisation' },
+    { value: '35%',   label: 'Croissance moyenne' },
+    { value: '4×',    label: 'ROI moyen' },
+  ];
+
+    tickerItems: StatItem[] = [];
+    serviceItems: string[] = [];
+
+
+  private readonly rawServices: string[] = [
+    'Stratégie & Conseil',
+    'Audit & Études',
+    'Branding & Design',
+    'Création & Production',
+    'Contenu & Social Media',
+    'SEO & Acquisition',
+    'Publicité & Paid Media',
+    'Marketing Automation',
+    'Data & Analytics',
+    'Développement & Expérience',
+  ]
 
   constructor(
     private fb: FormBuilder,
@@ -131,7 +167,7 @@ export class HomePage implements OnInit {
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      countryCode: ['+216', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
+      countryCode: ['+33', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
       phone: ['', Validators.required],
     });
 
@@ -139,7 +175,7 @@ export class HomePage implements OnInit {
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      countryCode: ['+216', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
+      countryCode: ['+33', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
       sujet: ['', Validators.required],
       phone: ['', Validators.required],
       message: ['', Validators.required],    
@@ -149,6 +185,8 @@ export class HomePage implements OnInit {
   ngOnInit(): void {
     this.loadCountriesCodes();
     this.loadServices();
+    this.tickerItems = [...this.rawStats, ...this.rawStats];
+    this.serviceItems = [...this.rawServices, ...this.rawServices];
     
   }
 

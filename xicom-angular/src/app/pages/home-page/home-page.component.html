@@ -1,23 +1,41 @@
+<section class="heroP">
+  <div class="services-ticker-wrapper">
+    <div class="services-inner">
+      <span class="services-item" *ngFor="let svc of serviceItems">
+        <span class="svc-dot"></span>
+        {{ svc }}
+      </span>
+    </div>
+  </div>
+</section>
+
 
 
 <!-- Hero Section -->
 <section id="home" class="hero">
+ 
+  <!-- Floating shapes décoratifs (restent inchangés) -->
   <div class="hero-background">
     <div class="floating-shape shape-1"></div>
     <div class="floating-shape shape-4"></div>
     <div class="floating-shape shape-2"></div>
     <div class="floating-shape shape-3"></div>
   </div>
-  
+ 
   <div class="container hero-container">
+ 
+    <!-- ===== COLONNE GAUCHE : Texte + CTA ===== -->
     <div class="hero-content">
       <h1 class="hero-title">
-        Transformez votre présence <br>
+        Transformez votre présence
         en ligne avec <span class="xicom-text">XICOM</span>
       </h1>
+ 
       <p class="hero-subtitle">
-Nous offrons des solutions digitales sur mesure pour <br><strong>TPE</strong> et <strong>PME</strong>, alliant créativité et stratégie.
+        Nous offrons des solutions digitales sur mesure pour <strong>TPE</strong>
+        et <strong>PME</strong>, alliant créativité et stratégie.
       </p>
+ 
       <div class="hero-actions">
         <button class="btn-large btn-primary-large">
           <img src="../../../assets/icons/flash.svg" alt="flash" class="btn-icon">
@@ -27,72 +45,121 @@ Nous offrons des solutions digitales sur mesure pour <br><strong>TPE</strong> et
           <img src="../../../assets/icons/calendrier.svg" alt="flash" class="btn-icon">En savoir plus</button>
       </div>
     </div>
-    
+ 
+    <!-- ===== COLONNE DROITE : Formulaire avec dégradé ===== -->
     <div class="hero-image">
-<div class="hero-card">
-        <form class="hero-form" id="projectForm" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-            <h3 class="form-title">Contacter-nous</h3>
-            
-            <div class="form-group">
-                <input type="text" id="nom" placeholder="Nom*" class="form-input" formControlName="nom" required>
+      <!--
+        La card a maintenant :
+        - background: gradient blanc → transparent (de haut en bas)
+        - backdrop-filter: blur() pour l'effet verre givré
+        - La partie basse laisse voir l'image de fond de la section
+      -->
+      <div class="hero-card">
+        <form
+          class="hero-form"
+          id="projectForm"
+          [formGroup]="projectForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <h3 class="form-title">Contacter-nous</h3>
+ 
+          <div class="form-group">
+            <input
+              type="text"
+              id="nom"
+              placeholder="Nom*"
+              class="form-input"
+              formControlName="nom"
+              required
+            >
+          </div>
+ 
+          <div class="form-group">
+            <input
+              type="text"
+              id="prenom"
+              placeholder="Prénom*"
+              class="form-input"
+              formControlName="prenom"
+              required
+            >
+          </div>
+ 
+          <div class="form-group">
+            <input
+              type="email"
+              id="email"
+              placeholder="E-mail*"
+              class="form-input"
+              formControlName="email"
+              required
+            >
+          </div>
+ 
+          <div class="form-group alternative">
+            <label for="countryCode">Pays et indicatif</label>
+            <div class="phone-group">
+              <div class="country-select-wrapper">
+                <img
+                  *ngIf="projectForm.get('countryCode')?.value"
+                  [src]="getSelectedCountryFlag()"
+                  alt="flag"
+                  class="country-flag"
+                >
+                <select
+                  class="country-select with-flag"
+                  id="countryCode"
+                  formControlName="countryCode"
+                >
+                  <option value="" disabled>🌍 Sélectionner</option>
+                  <option
+                    *ngFor="let country of allCountriesCodes"
+                    [value]="country.dial_code"
+                    [attr.data-flag]="country.flags.png"
+                  >
+                    {{ country.name }} {{ country.dial_code }}
+                  </option>
+                </select>
+              </div>
+              <input
+                type="tel"
+                id="phone"
+                placeholder="Numéro*"
+                class="form-input phone-input"
+                formControlName="phone"
+                required
+              >
             </div>
-
-            <div class="form-group">
-                <input type="text" id="prenom" placeholder="Prénom*" class="form-input" formControlName="prenom" required>
-            </div>
-
-            <div class="form-group">
-                <input type="email" id="email" placeholder="E-mail*" class="form-input" formControlName="email" required>
-            </div>
-
-            <div class="form-group alternative">
-                <label for="countryCode">Pays et indicatif</label>
-                <div class="phone-group">
-                    <div class="country-select-wrapper">
-                        <img *ngIf="projectForm.get('countryCode')?.value" 
-                            [src]="getSelectedCountryFlag()" 
-                            alt="flag"
-                            class="country-flag">
-                        <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
-                            <option value="" disabled>🌍 Sélectionner</option>
-                            <option *ngFor="let country of allCountriesCodes" 
-                                    [value]="country.dial_code"
-                                    [attr.data-flag]="country.flags.png">
-                                {{ country.name }} {{ country.dial_code }}
-                            </option>
-                        </select>
-                    </div>
-                    <input type="tel" 
-                          id="phone" 
-                          placeholder="Numéro*" 
-                          class="form-input phone-input" 
-                          formControlName="phone" 
-                          required>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <button type="submit" class="btn-large btn-primary-contact form-submit">Prendre RDV</button>
-            </div>
+          </div>
+ 
+          <div class="form-group">
+            <button type="submit" class="btn-large btn-primary-contact form-submit">
+              Prendre RDV
+            </button>
+          </div>
         </form>
+      </div>
     </div>
-    </div>
+ 
   </div>
   
-  <!-- Stats Bar -->
-  <div class="stats-bar">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item" *ngFor="let stat of stats">
-          <div class="stat-icon-frame" [style.background]="stat.color">
-            <img [src]="stat.icon" alt="{{ stat.label }}" class="stat-icon-img">
-          </div>
-          <div class="stat-label">{{ stat.label }}</div>
-          <div class="stat-value" [style.color]="stat.valueColor">{{ stat.value }}</div>
+<!-- stats-ticker.component.html -->
+<div class="stats-ticker-wrapper">
+  <div class="ticker-track">
+    <div class="ticker-inner">
+      <!-- On duplique les items pour boucle infinie -->
+      <div class="stat-card" *ngFor="let stat of tickerItems">
+        <div class="stat-top">
+          <svg class="stat-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none">
+            <polygon points="5,1 9,9 1,9" fill="#22c55e"/>
+          </svg>
+          <span class="stat-label">{{ stat.label }}</span>
         </div>
+        <span class="stat-value">{{ stat.value }}</span>
       </div>
     </div>
   </div>
+</div>
 </section>
 
 <!-- Services Section -->
@@ -110,8 +177,10 @@ Nous offrons des solutions digitales sur mesure pour <br><strong>TPE</strong> et
             <img *ngIf="service.Icon" [src]="sanitizeImage(service.Icon)" alt="Icône service" class="ev-image" />
           </div>
         <h3 class="service-title">{{ service.title }}</h3>
-          <div *ngFor="let desc of service.sections[0].details; let i = index">
+          <div style="text-align: left; width: 100%;">
+            <div *ngFor="let desc of service.sections[0].details | slice:0:3">
               <p class="service-description">✔️ {{ desc.title }}</p>
+            </div>
           </div>
         <a class="service-link" [routerLink]="['/serviceDetails', service.id]" >En savoir plus →</a>
       </div>
@@ -302,7 +371,7 @@ Contactez-nous pour un accompagnement personnalisé !</h2>
       <div class="contact-info">
 
         <div class="contact-image-wrapper">
-          <img src="../../../assets/images/contactImage.jpg" alt="">
+          <img src="../../../assets/images/contact.jpg" alt="">
           
           <div class="contact-overlay-top">
             <h2 class="contact-title">Contactez nous</h2>
@@ -314,23 +383,17 @@ Contactez-nous pour un accompagnement personnalisé !</h2>
           <div class="contact-details">
             <div class="contact-item">
               <img src="../../../assets/icons/phone.svg" alt="">
-              <div>
                 <div class="contact-value">+216 56 656 656</div>
-              </div>
             </div>
             <div class="contact-item">
               <img src="../../../assets/icons/mail.svg" alt="">
 
-              <div>
                 <div class="contact-value">contact@xicom.fr</div>
-              </div>
             </div>
             <div class="contact-item">
               <img src="../../../assets/icons/localisation.svg" alt="" >
 
-              <div>
                 <div class="contact-value">123 Avenue des Champs-Élysées, Paris</div>
-              </div>
             </div>
           </div>
           </div>
