@@ -298,12 +298,11 @@ informé à chaque étape.</p>
     <div class="team-grid">
       <div class="team-card" *ngFor="let member of team; let i = index"
            [style.animation-delay]="(i * 0.1) + 's'">
-        <div class="team-image" [style.background-image]="'url(../../../assets/images/temoignage.jpg)'" [style.background-color]="member.overlayColor">
+        <div class="team-image" [style.background-image]="'url(' + member.image + ')'" [style.background-color]="member.overlayColor">
           <div class="team-info">
             <h3 class="team-name">{{ member.name }}</h3>
-            <p class="team-role">{{ member.role }}</p>
+            <p class="team-role">{{ member.secteur }}</p>
             <p class="team-message">{{ member.message }}</p>
-            <button type="submit" class="btn-large btn-primary-large form-submit service-link">Savoir plus →</button>
           </div>
         </div>
       </div>
@@ -332,32 +331,23 @@ Contactez-nous pour un accompagnement personnalisé !</h2>
       <h2 class="section-title">Actualités</h2>
       <p class="section-subtitle">Restez informé de nos dernières nouveautés</p>
     </div>
-    
-    <!-- <div class="news-grid">
-      <div class="news-card" *ngFor="let article of news; let i = index"
+    <div class="news-grid">
+      <div class="news-card" *ngFor="let actu of actualites.slice(0, 3); let i = index"
            [style.animation-delay]="(i * 0.1) + 's'">
-        <div class="news-image" [style.background]="article.gradient"></div>
         <div class="news-content">
-          <span class="news-category">{{ article.category }}</span>
-          <h3 class="news-title">{{ article.title }}</h3>
-          <p class="news-date">{{ article.date }}</p>
-          <a class="news-link">Lire la suite →</a>
+          <h3 class="news-title">{{ actu.title }}</h3>
+          <p class="news-description">{{ actu.description }}</p>
+          <button class="news-link" (click)="goToDetail(actu.id)">
+            Savoir plus →
+          </button>
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <div class="team-grid">
-      <div class="team-card" *ngFor="let member of team; let i = index"
-           [style.animation-delay]="(i * 0.1) + 's'">
-        <div class="team-image" [style.background-image]="'url(../../../assets/images/temoignage.jpg)'" [style.background-color]="member.overlayColor">
-          <div class="team-info">
-            <h3 class="team-name">{{ member.name }}</h3>
-            <p class="team-role">{{ member.role }}</p>
-            <p class="team-message">{{ member.message }}</p>
-            <button type="submit" class="btn-large btn-primary-large form-submit service-link">Savoir plus →</button>
-          </div>
-        </div>
-      </div>
+    <div class="news-footer">
+      <button class="btn-voir-tout" (click)="voirToutesActualites()">
+        Voir toutes les actualités →
+      </button>
     </div>
 
   </div>

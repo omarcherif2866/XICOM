@@ -1,0 +1,39 @@
+<section id="news" class="news">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Actualités</h2>
+      <p class="section-subtitle">Restez informé de nos dernières nouveautés</p>
+    </div>
+
+    <div class="news-grid">
+      <div class="news-card"
+           *ngFor="let actu of actualitesPaginees; let i = index"
+           [style.animation-delay]="(i * 0.1) + 's'">
+        <div class="news-content">
+          <h3 class="news-title">{{ actu.title }}</h3>
+          <p class="news-description">{{ actu.description }}</p>
+          <button class="news-link" (click)="goToDetail(actu.id)">
+            Savoir plus →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button class="page-btn"
+              (click)="page = page - 1"
+              [disabled]="page === 1">‹</button>
+
+      <button class="page-btn"
+              *ngFor="let p of pages"
+              [class.active]="p === page"
+              (click)="page = p">{{ p }}</button>
+
+      <button class="page-btn"
+              (click)="page = page + 1"
+              [disabled]="page === totalPages">›</button>
+    </div>
+
+  </div>
+</section>

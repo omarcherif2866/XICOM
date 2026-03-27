@@ -146,13 +146,15 @@ import { EncryptionService } from './encryption-service.service';
 })
 export class AuthService {
 
-  private apiUrl = "/api/auth";
+  // private apiUrl = "/api/auth";
+  private apiUrl = "http://localhost:9090/auth";
+
   private apiUrlUser = "/api/users";
   private localStorageKey = "userAuth";
   private loggedIn = new BehaviorSubject<boolean>(false);
   private jwtHelper = new JwtHelperService();
 
-  constructor(
+  constructor( 
     private httpClient: HttpClient,
     private encryptionService: EncryptionService
   ) {

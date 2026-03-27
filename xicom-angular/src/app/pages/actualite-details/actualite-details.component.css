@@ -1,0 +1,52 @@
+/* 🔥 espace en haut */
+.actualite-list {
+  padding: 120px 0 60px;  /* supprime le padding gauche/droite */
+  max-width: 1160px;  /* ← même largeur que .container */
+  margin: 0 auto;
+}
+
+
+/* article */
+.article {
+  margin-bottom: 60px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+/* titre */
+.title {
+  font-size: 28px;        /* 24px → 28px */
+  font-weight: 700;       /* 600 → 700 */
+  margin-bottom: 15px;
+  line-height: 1.4;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.description {
+  font-size: 18px;        /* 16px → 18px */
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 15px;
+  white-space: pre-line;
+}
+
+/* lien */
+.read-more {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+/* vide */
+.empty {
+  text-align: center;
+  color: #888;
+}

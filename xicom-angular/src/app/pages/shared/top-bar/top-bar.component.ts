@@ -48,4 +48,10 @@ get isLoggedIn(): boolean {
     this.router.navigate(['/']);
   }
 
+
+navigateToDashboard() {
+  this.router.navigate(['/services']);
+  this.menuOpen = false;
+}
+
 }

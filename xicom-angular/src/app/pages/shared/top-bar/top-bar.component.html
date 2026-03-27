@@ -74,7 +74,7 @@
     </div>
 
 <li *ngIf="isAdminOrSuperAdmin">
-  <a routerLink="/services" (click)="closeMenu()" class="nav-icon-link" title="Dashboard">
+  <a (click)="navigateToDashboard()" class="nav-icon-link" title="Dashboard" style="cursor:pointer">
     <i class="fas fa-tachometer-alt" style="font-size: 22px; color: #6863BF;"></i>
     <span class="nav-icon-tooltip">Dashboard</span>
   </a>

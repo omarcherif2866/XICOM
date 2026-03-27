@@ -1,0 +1,14 @@
+<section class="actualite-list">
+
+  <div *ngIf="actualite; else noData">
+    <article class="article">
+      <h3 class="title">{{ actualite.Title }}</h3>
+      <p class="description">{{ actualite.Description }}</p>
+    </article>
+  </div>
+
+  <ng-template #noData>
+    <p class="empty">Actualité introuvable</p>
+  </ng-template>
+
+</section>

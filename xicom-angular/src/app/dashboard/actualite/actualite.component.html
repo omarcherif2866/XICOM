@@ -103,14 +103,14 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
-      <h1>Gestion des partenaires</h1>
+      <h1>Gestion des Actualités</h1>
       <div class="spacer"></div>
     </header>
 
     <main>
       <div class="content-box">
         <div class="header-actions">
-          <h2>Liste des partenaires</h2>
+          <h2>Liste des Actualités</h2>
           <button (click)="handleAdd()" class="btn btn-blue">
             <span>Ajouter</span>
           </button>
@@ -119,59 +119,51 @@
         <!-- Loader -->
         <div *ngIf="loading" class="loader">
           <div class="spinner"></div>
-          <p>Chargement des partenaires...</p>
+          <p>Chargement des actualités...</p>
         </div>
 
         <!-- Empty State -->
-        <div *ngIf="!loading && partenaires.length === 0" class="empty-state">
-          Aucun partenaire disponible
+        <div *ngIf="!loading && actualites.length === 0" class="empty-state">
+          Aucune actualité disponible
         </div>
 
         <!-- Table -->
-<div *ngIf="!loading && partenaires.length > 0" class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Image</th>
-        <th>Nom</th>
-        <th>Déscription</th>
+        <div *ngIf="!loading && actualites.length > 0" class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let actualite of currentItems">
+                <td>{{actualite.id}}</td>             
+                <td>{{actualite.title}}</td>
+                <td>{{actualite.description}}</td>
+                <td class="actions">
+                <button (click)="handleEdit(actualite)" class="action-btn edit-btn" title="Modifier l'actualité">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                </button>
 
-        <!-- <th>Services</th>       
-        <th>Pourquoi moi</th>       -->
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let Partenaire of currentItems">
-        <td>{{Partenaire.id}}</td>
-        <td>
-            <img [src]="sanitizeImage(Partenaire.image)" alt="Photo ev" class="ev-image" />
-        </td>
-        <td>{{Partenaire.name}}</td>
-        <td>{{Partenaire.description}}</td>
+                <button (click)="handleDelete(actualite.Id)" class="action-btn delete-btn" title="Supprimer l'actualité">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </button>
+                </td>
 
-        <td class="actions">
-          <button (click)="handleEdit(Partenaire)" class="action-btn edit-btn" title="Modifier le ev">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-            </svg>
-          </button>
-
-          <button (click)="handleDelete(Partenaire.Id)" class="action-btn delete-btn" title="Supprimer le ev">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-            </svg>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <!-- Pagination -->
-        <div *ngIf="!loading && partenaires.length > 0" class="pagination">
+        <div *ngIf="!loading && actualites.length > 0" class="pagination">
           <button (click)="handlePageChange(currentPage - 1)" [disabled]="currentPage === 1">◀</button>
           <button *ngFor="let page of pagesArray" (click)="handlePageChange(page)" 
                   [class.active]="currentPage === page">{{page}}</button>
@@ -185,38 +177,18 @@
 <!-- Modal -->
 <div *ngIf="showModal" class="modal">
   <div class="modal-content-rectangle">
-    <h3>{{modalMode === 'add' ? 'Ajouter un partenaire' : 'Modifier le partenaire'}}</h3>
+    <h3>{{modalMode === 'add' ? 'Ajouter une actualité' : 'Modifier l\'actualité'}}</h3>
     <div class="modal-body scrollable">
-      <label>Nom</label>
-      <input type="text" [(ngModel)]="formData.name" placeholder="Entrez le nom">
+      <label>Titre</label>
+      <input type="text" [(ngModel)]="formData.title" placeholder="Entrez le titre">
 
       <label>Description</label>
       <textarea [(ngModel)]="formData.description" rows="4" placeholder="Entrez la description"></textarea>
 
-
-        <label for="image">Photo de l'Partenaire</label>
-        <input 
-            type="file" 
-            id="image" 
-            class="form-control"
-            accept="image/*"
-            (change)="onImageSelected($event)"
-        >
-        <small class="form-text text-muted">Formats acceptés: JPG, PNG, GIF (Max 5MB)</small>
-        
-        <div *ngIf="selectedImage" class="mt-2">
-            <p>Image sélectionnée: {{ selectedImage.name }}</p>
-        </div>
-
-
-
       <div class="modal-actions">
-        <button (click)="handleSubmit()" class="btn btn-blue">
-          {{modalMode === 'add' ? 'Ajouter' : 'Modifier'}}
-        </button>
+        <button (click)="handleSubmit()" class="btn btn-blue">{{modalMode === 'add' ? 'Ajouter' : 'Modifier'}}</button>
         <button (click)="showModal = false" class="btn btn-gray">Annuler</button>
       </div>
     </div>
   </div>
 </div>
-

@@ -3,8 +3,10 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser'
 import { Router } from '@angular/router';
+import { Actualite } from 'src/app/models/actualite';
 import { RDV } from 'src/app/models/rdv';
 import { Service } from 'src/app/models/service';
+import { ActualiteService } from 'src/app/service/actualite.service';
 import { RDVService } from 'src/app/service/rdv.service';
 import { ServiceService } from 'src/app/service/service.service';
 
@@ -48,6 +50,7 @@ export class HomePage implements OnInit {
   // ];
 
   services: Service[] = [];
+  actualites: Actualite[] = [];
 
   projectForm: FormGroup;
   contactForm: FormGroup;
@@ -92,14 +95,14 @@ export class HomePage implements OnInit {
   ];
 
   team = [
-    { name: 'Sophie Martin', role: 'CEO & Founder', message: 'Partenaires exceptionnels', overlayColor: '#522E2E' },
-    { name: 'Thomas Dubois', role: 'CTO', message: 'Équipe très professionnelle', overlayColor: '#A750F3' },
-    { name: 'Marie Laurent', role: 'Design Lead', message: 'Excellent travail et livraison rapide', overlayColor: '#0DF29F' },
-    { name: 'Lucas Bernard', role: 'Tech Director', message: 'Je recommande vivement', overlayColor: '#F3A950' },
-    { name: 'Sophie Martin', role: 'CEO & Founder', message: 'Partenaires exceptionnels', overlayColor: '#522E2E' },
-    { name: 'Thomas Dubois', role: 'CTO', message: 'Équipe très professionnelle', overlayColor: '#A750F3' },
-    { name: 'Marie Laurent', role: 'Design Lead', message: 'Excellent travail et livraison rapide', overlayColor: '#0DF29F' },
-    { name: 'Lucas Bernard', role: 'Tech Director', message: 'Je recommande vivement', overlayColor: '#F3A950' }
+    { name: 'S. Martin', secteur: 'Restaurant ', message: '“Très bonne collaboration avec XICOM. L’équipe a su comprendre rapidement nos besoins et proposer une stratégie claire et efficace. Résultats visibles dès les premières semaines', overlayColor: '#522E2E', image: '../../../assets/images/feedback/RESTO.png' },
+    { name: 'L.Bernard', secteur: 'Garage automobile ', message: '“Agence sérieuse et réactive. Les campagnes ont été bien pilotées et les reportings sont précis. On sent une vraie expertise digitale.”', overlayColor: '#A750F3', image: '../../../assets/images/feedback/mecanicien2.png' },
+    { name: 'C.Dubois', secteur: 'Boutique en ligne ', message: '“Accompagnement complet, de la stratégie à lexécution. Léquipe est disponible et force de proposition. Très satisfait du rendu.”', overlayColor: '#0DF29F', image: '../../../assets/images/feedback/C.png' },
+    { name: 'A. Lefèvre', secteur: 'Salon de coiffure', message: '“Une agence professionnelle avec une vraie vision marketing. Les recommandations sont pertinentes et adaptées à notre activité.”', overlayColor: '#F3A950', image: '../../../assets/images/feedback/A.png' },
+    { name: 'M. Robert', secteur: 'Artisan bâtiment', message: '“Excellent suivi et communication fluide. Les objectifs ont été atteints et même dépassés. Je recommande vivement.”', overlayColor: '#522E2E', image: '../../../assets/images/feedback/M.png' },
+    { name: 'T.Moreau', secteur: 'Hôtel ', message: '“Très bonne expérience. L’équipe est impliquée et les résultats sont au rendez-vous. Mention spéciale pour la qualité des contenus.”', overlayColor: '#A750F3', image: '../../../assets/images/feedback/S.png' },
+    { name: 'J.Petit', secteur: 'Magasin de vêtements ', message: '“XICOM nous a aidés à structurer notre communication digitale. Approche méthodique et efficace. On voit clairement la différence.”', overlayColor: '#0DF29F', image: '../../../assets/images/feedback/J.png' },
+    { name: 'D.Garcia', secteur: 'Cabinet médical ', message: '“Agence dynamique et professionnelle. Les campagnes sont optimisées en continu et les performances sont bien analysées. Très bon partenaire.”', overlayColor: '#F3A950', image: '../../../assets/images/feedback/D.png' }
   ];
 
   news = [
@@ -161,6 +164,8 @@ export class HomePage implements OnInit {
     private serviceService: ServiceService,
     private sanitizer: DomSanitizer,
     private rdvService: RDVService,
+    private actualiteService: ActualiteService, 
+    private router: Router
 
   ) {
     this.projectForm = this.fb.group({
@@ -187,7 +192,8 @@ export class HomePage implements OnInit {
     this.loadServices();
     this.tickerItems = [...this.rawStats, ...this.rawStats];
     this.serviceItems = [...this.rawServices, ...this.rawServices];
-    
+    this.loadActualites();
+
   }
 
   async loadCountriesCodes(): Promise<void> {
@@ -344,4 +350,19 @@ onSubmit(): void {
     });
   }
 
+loadActualites(): void {
+  this.actualiteService.getActualite().subscribe({
+    next: (data) => this.actualites = data,
+    error: (err) => console.error(err)
+  });
+}
+
+
+  goToDetail(id: number): void {
+    this.router.navigate(['/actualiteDetails', id]);
+  }
+
+  voirToutesActualites() {
+  this.router.navigate(['/allActualites']); // adapte la route selon ton app
+}
 }

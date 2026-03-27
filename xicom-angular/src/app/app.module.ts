@@ -9,7 +9,9 @@ import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'
 import { AdminGuard } from './guards/admin.guard'
-import { JwtModule } from '@auth0/angular-jwt'
+import { JwtModule } from '@auth0/angular-jwt';
+import { ActualiteDetailsComponent } from './pages/actualite-details/actualite-details.component';
+import { AllActualiteComponent } from './pages/all-actualite/all-actualite.component'
 
 export function tokenGetter() {  // ✅ Ajouter
   return localStorage.getItem('accessToken');
@@ -73,6 +75,15 @@ const routes = [
       ),
     canActivate: [AdminGuard]  // ✅ Ajouter
   },
+
+  {
+  path: 'actualites',
+  loadChildren: () =>
+    import('./dashboard/actualite/actualite.module').then(
+      (m) => m.ActualiteModule
+    ),
+    canActivate: [AdminGuard]  // ✅ Ajouter
+},
     {
     path: 'partenaires',
     loadChildren: () =>
@@ -88,11 +99,26 @@ const routes = [
         (m) => m.OffersModule
       ),
   },
+   {
+    path: 'allActualites',
+    loadChildren: () =>
+      import('./pages/all-actualite/all-actualite.module').then(
+        (m) => m.AllActualiteModule
+      ),
+  }, 
   {
     path: 'serviceDetails/:id',
     loadChildren: () =>
       import('./pages/service-details/service-details.module').then(
         (m) => m.ServiceDetailsModule
+      ),
+  },
+
+    {
+    path: 'actualiteDetails/:id',
+    loadChildren: () =>
+      import('./pages/actualite-details/actualite-details.module').then(
+        (m) => m.ActualiteDetailsModule
       ),
   },
 

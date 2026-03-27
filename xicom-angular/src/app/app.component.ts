@@ -12,17 +12,13 @@ export class AppComponent {
   showTopBar = true;
   showFooter = true;
 
-  constructor(private router: Router) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        // Masquer TopBar sur ActualiteComponent et FormateurComponent
-        this.showTopBar = !(
- event.url.match(/\/services(\/|$)/) 
-        );
-        this.showFooter = !(
- event.url.match(/\/services(\/|$)/) 
-        );
-      }
-    });
-  }
+constructor(private router: Router) {
+  this.router.events.subscribe(event => {
+    if (event instanceof NavigationEnd) {
+      const hiddenRoutes = /\/(services|actualites|partenaire|profile)(\/|$)/;
+      this.showTopBar = !event.url.match(hiddenRoutes);
+      this.showFooter = !event.url.match(hiddenRoutes);
+    }
+  });
+}
 }

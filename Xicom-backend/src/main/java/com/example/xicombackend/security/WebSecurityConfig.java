@@ -30,6 +30,7 @@ public class WebSecurityConfig {
             "/images/**",
             "/partenaire/**",
             "/rdv/**",
+            "/actualite/**"
     };
 
     public WebSecurityConfig(JwtAuthEntryPoint unauthorizedHandler, AuthenticationProvider authenticationProvider, JwtTokenFilter jwtTokenFilter) {
