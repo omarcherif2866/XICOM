@@ -16,7 +16,7 @@ export class ContactComponent implements OnInit {
           nom: ['', Validators.required],
           prenom: ['', Validators.required],
           email: ['', [Validators.required, Validators.email]],
-          countryCode: ['+216', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
+          countryCode: ['+33', Validators.required], // Changé de +33 à +33 pour la Tunisie par défaut
           sujet: ['', Validators.required],
           phone: ['', Validators.required],
           message: ['', Validators.required],    

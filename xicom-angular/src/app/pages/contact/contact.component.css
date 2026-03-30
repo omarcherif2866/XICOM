@@ -30,144 +30,105 @@ body {
 
 
 /* ===== CONTACT SECTION ===== */
-.phone-group {
-    display: flex;
-    gap: 10px;
-}
-
-.country-select {
-    flex: 0 0 200px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: white;
-    cursor: pointer;
-}
-
-.country-select-wrapper {
-    position: relative;
-    width: 200px;
-}
-
-.country-flag {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 24px;
-    height: 16px;
-    object-fit: cover;
-    border-radius: 2px;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.country-select.with-flag {
-    padding-left: 45px;
-        width: 200px;
-
-}
-
-.phone-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.phone-input:focus,
-.country-select:focus {
-    outline: none;
-    border-color: #4FC3F7;
-    box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.1);
-}
 .contact {
   padding: 120px 0;
   background: var(--bg-white);
-}
-
-.contact-image-wrapper {
-  position: relative;
-  width: 100%;
-  min-height: 500px;
-}
-
-.contact-image-wrapper img {
-
-  object-fit: cover;
-  display: block;
-  border-radius: 12px;
-}
-
-.contact-overlay-top {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  z-index: 2;
-}
-
-.contact-overlay-bottom {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-  right: 40px;
-  z-index: 2;
 }
 
 .contact-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: start;
+  align-items: stretch;
 }
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.contact-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Overlay opacité */
+.contact-image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(12, 10, 10, 0.13);
+  border-radius: 12px;
+  z-index: 1;
+}
+
+.contact-overlay-top    { position: absolute; top: 40px;    left: 40px; right: 40px; z-index: 2; }
+.contact-overlay-bottom { position: absolute; bottom: 40px; left: 40px; right: 40px; z-index: 2; }
 
 .contact-title {
   font-family: 'Montserrat';
   font-weight: 700;
   font-size: 40px;
   margin-bottom: 20px;
-  color: rgb(0, 0, 0);
+  color: #ffffff;
 }
 
 .contact-description {
   font-family: 'Montserrat';
   font-weight: 700;
   font-size: 14px;
-  color: rgb(0, 0, 0);
+  color: #ffffff;
   line-height: 1.7;
 }
 
-.contact-details {
-  display: flex;
-  flex-direction: column;
+.contact-details { 
+  display: flex; 
+  flex-direction: column; 
   gap: 28px;
+  position: relative;
+  z-index: 2;
 }
 
-.contact-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
+.contact-item { 
+  display: flex; 
+  align-items: center;
+  gap: 16px; 
+  position: relative;
+  z-index: 2;
+  overflow: visible;
 }
-
-
-.contact-value {
-  font-size: 17px;
-  color: var(--text-dark);
+.contact-value { 
+  font-size: 15px; 
+  color: #ffffff; 
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .contact-form {
   background: var(--bg-light);
   padding: 40px;
   border-radius: var(--border-radius);
-
 }
 
-.contact-form .btn-primary-large{
-    display: flex;
+.contact-form .btn-primary-large {
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
@@ -180,13 +141,8 @@ body {
   order: 0;
   flex-grow: 0;
   color: white;
-  justify-content: center; /* Ajouter cette ligne */
-    margin: 0 auto; /* Ajouter cette ligne pour centrer le bouton */
-
-}
-
-.form-group {
-  margin-bottom: 20px;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .form-input,
@@ -203,14 +159,9 @@ body {
 }
 
 .form-input:focus,
-.form-textarea:focus {
-  outline: none;
-}
+.form-textarea:focus { outline: none; }
 
-.form-textarea {
-  resize: vertical;
-  min-height: 120px;
-}
+.form-textarea { resize: vertical; min-height: 120px; }
 
 .form-submit {
   width: 100%;
@@ -220,6 +171,98 @@ body {
   z-index: 10;
 }
 
+.contact-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.contact-item img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: block;
+  min-width: 20px;
+  position: relative;
+  z-index: 2;
+  filter: brightness(0) invert(1);
+}
+
+:host ::ng-deep .phone-input::placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+.phone-group {
+  display: flex;
+  flex-direction: row;      /* forcer la ligne horizontale */
+  align-items: center;
+  gap: 12px;
+}
+
+.phone-input {
+  flex: 1;
+  padding: 14px 0;
+  font-size: 15px;
+  color: #000000;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+  outline: none;
+  font-family: inherit;
+  min-width: 0;            /* évite le débordement dans le flex */
+}
+ 
+.phone-input:focus {
+  border-bottom-color: #51B3D8;
+}
+ 
+
+.country-select-wrapper {
+  position: relative;
+  flex: 0 0 160px;
+  width: 160px;
+}
+ 
+/* Drapeau positionné à l'intérieur du select */
+.country-flag {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 1;
+}
+ 
+/* Select pays */
+.country-select,
+.country-select.with-flag {
+  width: 100%;
+  padding: 10px 28px 10px 36px;  /* espace drapeau à gauche, chevron à droite */
+  font-size: 13px;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 
 /* ===== RESPONSIVE DESIGN ===== */

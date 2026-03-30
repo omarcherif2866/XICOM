@@ -1,9 +1,9 @@
 <section class="heroP">
   <div class="services-ticker-wrapper">
     <div class="services-inner">
-      <span class="services-item" *ngFor="let svc of serviceItems">
-        <span class="svc-dot"></span>
-        {{ svc }}
+      <span class="services-item" *ngFor="let svc of serviceItems" [style.color]="svc.color">
+        <span class="svc-dot" ></span>
+        {{ svc.label }}
       </span>
     </div>
   </div>
@@ -269,21 +269,43 @@ informé à chaque étape.</p>
 <!-- Values Section -->
 <section id="values" class="values">
   <div class="container">
-    <div class="section-header">
+    <div class="section-headerValues">
       <h2 class="section-title">Nos Valeurs</h2>
       <p class="section-subtitle">Ce qui nous guide au quotidien</p>
     </div>
-    
-    <div class="values-grid">
-      <div class="value-card" *ngFor="let value of values; let i = index"
-           [style.animation-delay]="(i * 0.1) + 's'">
-        <div class="value-image" [style.background-image]="'url(' + value.image + ')'">
-          <h3 class="value-title">{{ value.title }}</h3>
-        </div>
-        <div class="value-content">
-          <p class="value-description">{{ value.description }}</p>
+
+    <div class="wave-timeline">
+
+      <!-- Courbe sinusoïdale -->
+      <svg class="wave-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#6863BF"/>
+            <stop offset="100%" stop-color="#51B3D8"/>
+          </linearGradient>
+        </defs>
+        <path
+          d="M0,20 C57,20 114,180 171,180 C228,180 285,20 343,20 C400,20 457,180 514,180 C571,180 628,20 686,20 C743,20 800,180 857,180 C914,180 971,20 1029,20 C1086,20 1143,180 1200,180"
+          fill="none"
+          stroke="url(#waveGrad)"
+          stroke-width="2.5"
+          stroke-linecap="round"/>
+      </svg>
+
+      <!-- Cards -->
+      <div class="wave-item"
+           *ngFor="let value of values; let i = index"
+           [class.is-peak]="i % 2 === 0"
+           [class.is-valley]="i % 2 !== 0"
+           [style.left]="getLeft(i)"
+           [style.animation-delay]="(i * 0.12) + 's'">
+
+        <div class="wave-card" [style.border-color]="value.color">
+          <span class="wave-icon" [style.color]="value.color">{{ value.icon }}</span>
+          <h3 class="wave-title" [style.color]="value.color">{{ value.title }}</h3>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -294,19 +316,35 @@ informé à chaque étape.</p>
     <div class="section-header">
       <h2 class="section-title">Ce qu'ils disent de nous</h2>
     </div>
-    
-    <div class="team-grid">
-      <div class="team-card" *ngFor="let member of team; let i = index"
-           [style.animation-delay]="(i * 0.1) + 's'">
-        <div class="team-image" [style.background-image]="'url(' + member.image + ')'" [style.background-color]="member.overlayColor">
-          <div class="team-info">
-            <h3 class="team-name">{{ member.name }}</h3>
-            <p class="team-role">{{ member.secteur }}</p>
-            <p class="team-message">{{ member.message }}</p>
+
+<div class="carousel-wrapper">
+  <div class="carousel-track" [style.transform]="'translateX(-' + currentGroupIndex * 100 + '%)'">
+    <div class="feedback-group" *ngFor="let group of groupedTeam">
+      <div class="feedback-card" *ngFor="let member of group">
+        <div class="feedback-header">
+          <div class="feedback-avatar">
+            <img [src]="member.image" [alt]="member.name" />
           </div>
+          <div class="feedback-meta">
+            <h3 class="feedback-name">{{ member.name }}</h3>
+            <p class="feedback-secteur">{{ member.secteur }}</p>
+          </div>
+          <div class="feedback-stars">★★★★★</div>
         </div>
+        <p class="feedback-message">{{ member.message }}</p>
       </div>
     </div>
+  </div>
+</div>
+
+    <div class="carousel-dots">
+      <span class="dot"
+            *ngFor="let g of groupedTeam; let i = index"
+            [class.active]="i === currentGroupIndex"
+            (click)="goToSlide(i)">
+      </span>
+    </div>
+
   </div>
 </section>
 
@@ -331,21 +369,33 @@ Contactez-nous pour un accompagnement personnalisé !</h2>
       <h2 class="section-title">Actualités</h2>
       <p class="section-subtitle">Restez informé de nos dernières nouveautés</p>
     </div>
-    <div class="news-grid">
-      <div class="news-card" *ngFor="let actu of actualites.slice(0, 3); let i = index"
-           [style.animation-delay]="(i * 0.1) + 's'">
-        <div class="news-content">
-          <h3 class="news-title">{{ actu.title }}</h3>
-          <p class="news-description">{{ actu.description }}</p>
-          <button class="news-link" (click)="goToDetail(actu.id)">
-            Savoir plus →
-          </button>
+
+    <div class="carousel-wrapper">
+      <div class="carousel-track" [style.transform]="'translateX(-' + currentNewsIndex * 100 + '%)'">
+        <div class="news-group" *ngFor="let group of groupedNews">
+          <div class="news-card" *ngFor="let actu of group" (click)="goToDetail(actu.id)">
+            <div class="news-content">
+              <h3 class="news-title">{{ actu.title }}</h3>
+              <p class="news-description">{{ actu.description }}</p>
+              <button class="news-link" (click)="goToDetail(actu.id)">
+                Savoir plus →
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
+    <div class="carousel-dots">
+      <span class="dot"
+            *ngFor="let g of groupedNews; let i = index"
+            [class.active]="i === currentNewsIndex"
+            (click)="goToNewsSlide(i)">
+      </span>
+    </div>
+
     <div class="news-footer">
-      <button class="btn-voir-tout" (click)="voirToutesActualites()">
+      <button class="news-link" (click)="voirToutesActualites()">
         Voir toutes les actualités →
       </button>
     </div>

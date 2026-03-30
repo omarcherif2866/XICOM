@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser'
 import { Router } from '@angular/router';
@@ -41,7 +41,7 @@ interface StatItem {
   templateUrl: 'home-page.component.html',
   styleUrls: ['home-page.component.css'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit,OnDestroy {
   // stats = [
   //   { icon: '../../../assets/icons/valise.svg', label: 'Nos projets', value: '+200', color: '#EFFBFF', valueColor: '#51B3D8'  },
   //   { icon: '../../../assets/icons/coeur.svg', label: 'Satisfaction', value: '4%', color: '#FFEDED', valueColor: '#F26D6E' },
@@ -59,40 +59,30 @@ export class HomePage implements OnInit {
   loading: boolean = false;
   isSubmitting = false;
 
-  values = [
-    {
-      title: 'Innovation',
-      image: '../../../assets/images/innovation.jpg',
-    },
-    {
-      title: 'Collaboration',
-      image: '../../../assets/images/collaboration.jpg',
-    },
-    {
-      title: 'Qualité',
-      image: '../../../assets/images/qualite.jpg',
-    },
-    {
-      title: 'Transparence',
-      image: '../../../assets/images/transparance.jpg',
-    },
-    {
-      title: 'Responsabilité',
-      image: '../../../assets/images/responsabilite.jpg',
-    },
-    {
-      title: 'Agilité',
-      image: '../../../assets/images/agilite.jpg',
-    },
-    {
-      title: 'Respect',
-      image: '../../../assets/images/respect.jpg',
-    },
-    {
-      title: 'Durabilité',
-      image: '../../../assets/images/durabilite.jpg',
-    }
-  ];
+values = [
+  { title: 'Innovation',     color: '#6863BF', icon: '◈' },
+  { title: 'Collaboration',  color: '#6472C3', icon: '◉' },
+  { title: 'Qualité',        color: '#5F81C8', icon: '◆' },
+  { title: 'Transparence',   color: '#5A90CC', icon: '◎' },
+  { title: 'Responsabilité', color: '#569FD1', icon: '◇' },
+  { title: 'Agilité',        color: '#53ACD5', icon: '○' },
+  { title: 'Respect',        color: '#51B3D8', icon: '◐' },
+  { title: 'Durabilité',     color: '#4FBFE0', icon: '◑' },
+];
+
+getLeft(i: number): string {
+  return (i / (this.values.length - 1) * 100) + '%';
+}
+
+  currentGroupIndex = 0;
+  visibleCount = 3;
+  autoPlayInterval: any;
+
+  currentNewsIndex = 0;
+  newsVisibleCount = 3;
+  newsAutoPlay: any;  
+
+  @ViewChild('carouselTrack') carouselTrack!: ElementRef;
 
   team = [
     { name: 'S. Martin', secteur: 'Restaurant ', message: '“Très bonne collaboration avec XICOM. L’équipe a su comprendre rapidement nos besoins et proposer une stratégie claire et efficace. Résultats visibles dès les premières semaines', overlayColor: '#522E2E', image: '../../../assets/images/feedback/RESTO.png' },
@@ -142,21 +132,21 @@ export class HomePage implements OnInit {
   ];
 
     tickerItems: StatItem[] = [];
-    serviceItems: string[] = [];
+    serviceItems: any[] = [];
 
 
-  private readonly rawServices: string[] = [
-    'Stratégie & Conseil',
-    'Audit & Études',
-    'Branding & Design',
-    'Création & Production',
-    'Contenu & Social Media',
-    'SEO & Acquisition',
-    'Publicité & Paid Media',
-    'Marketing Automation',
-    'Data & Analytics',
-    'Développement & Expérience',
-  ]
+  private readonly rawServices: any[] = [
+  { label: 'Stratégie & Conseil',        color: '#6863BF' },
+  { label: 'Audit & Études',             color: '#6472C3' },
+  { label: 'Branding & Design',          color: '#5F81C8' },
+  { label: 'Création & Production',      color: '#5A90CC' },
+  { label: 'Contenu & Social Media',     color: '#569FD1' },
+  { label: 'SEO & Acquisition',          color: '#53ACD5' },
+  { label: 'Publicité & Paid Media',     color: '#51B3D8' },
+  { label: 'Marketing Automation',       color: '#51B3D8' },
+  { label: 'Data & Analytics',           color: '#5F81C8' },
+  { label: 'Développement & Expérience', color: '#5A90CC' },
+];
 
   constructor(
     private fb: FormBuilder,
@@ -187,14 +177,45 @@ export class HomePage implements OnInit {
     });
   }
 
+
+
   ngOnInit(): void {
     this.loadCountriesCodes();
     this.loadServices();
     this.tickerItems = [...this.rawStats, ...this.rawStats];
     this.serviceItems = [...this.rawServices, ...this.rawServices];
     this.loadActualites();
+    this.startAutoPlay();
+    this.startNewsAutoPlay();
 
   }
+  
+    ngOnDestroy(): void {
+    clearInterval(this.autoPlayInterval);
+    clearInterval(this.newsAutoPlay);
+
+  }
+
+get groupedTeam(): any[][] {
+  const groups = [];
+  for (let i = 0; i < this.team.length; i += this.visibleCount) {
+    groups.push(this.team.slice(i, i + this.visibleCount));
+  }
+  return groups;
+}
+
+startAutoPlay(): void {
+  this.autoPlayInterval = setInterval(() => {
+    this.currentGroupIndex =
+      this.currentGroupIndex >= this.groupedTeam.length - 1
+        ? 0
+        : this.currentGroupIndex + 1;
+  }, 2000);
+}
+
+goToSlide(i: number): void {
+  this.currentGroupIndex = i;
+}
 
   async loadCountriesCodes(): Promise<void> {
     try {
@@ -204,6 +225,27 @@ export class HomePage implements OnInit {
       this.allCountriesCodes = [];
     }
   }
+
+get groupedNews(): any[][] {
+  const groups = [];
+  for (let i = 0; i < this.actualites.length; i += this.newsVisibleCount) {
+    groups.push(this.actualites.slice(i, i + this.newsVisibleCount));
+  }
+  return groups;
+}
+
+startNewsAutoPlay(): void {
+  this.newsAutoPlay = setInterval(() => {
+    this.currentNewsIndex =
+      this.currentNewsIndex >= this.groupedNews.length - 1
+        ? 0
+        : this.currentNewsIndex + 1;
+  }, 3500);
+}
+
+goToNewsSlide(i: number): void {
+  this.currentNewsIndex = i;
+}
 
 
   isFieldInvalid(fieldName: string): boolean {

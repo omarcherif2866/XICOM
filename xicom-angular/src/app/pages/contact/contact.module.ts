@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
   declarations: [
     ContactComponent
   ],
+  exports: [ContactComponent],  // ← ajoute ceci
   imports: [
     CommonModule, FormsModule, ReactiveFormsModule,
     RouterModule.forChild([
