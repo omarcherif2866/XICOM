@@ -578,7 +578,7 @@
   }
 
   .heroP {
-    padding-top: 20px;
+    padding-top: 110px;
   }
 
   .hero-container {
@@ -1146,7 +1146,6 @@
 
 
 .wave-card {
-  background: #ffffff;
   border: 2px solid;
   border-radius: 12px;
   padding: 12px 16px;
@@ -1165,6 +1164,7 @@
   font-size: 20px;
   display: block;
   margin-bottom: 4px;
+  color: #ffffff;
 }
 
 .wave-title {
@@ -1174,6 +1174,8 @@
   font-family: 'Poppins', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  color: #ffffff;
+
 }
 
 /* responsive */
@@ -1185,6 +1187,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding-top: 100px;
   }
 
   .wave-item {
@@ -1231,11 +1234,9 @@
 }
 
 .feedback-card {
-  background: #F5FFFF;
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 4px 24px rgba(104, 99, 191, 0.10);
-  border: 1px solid rgba(104, 99, 191, 0.12);
+  border: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1416,7 +1417,7 @@
 }
 
 .news-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #1a1a2e;
   line-height: 1.4;

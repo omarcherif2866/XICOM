@@ -10,8 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'
 import { AdminGuard } from './guards/admin.guard'
 import { JwtModule } from '@auth0/angular-jwt';
-import { ActualiteDetailsComponent } from './pages/actualite-details/actualite-details.component';
-import { AllActualiteComponent } from './pages/all-actualite/all-actualite.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 export function tokenGetter() {  // ✅ Ajouter
   return localStorage.getItem('accessToken');
@@ -135,6 +135,7 @@ const routes = [
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
     JwtModule.forRoot({          // ✅ Ajouter
       config: {
         tokenGetter: tokenGetter,

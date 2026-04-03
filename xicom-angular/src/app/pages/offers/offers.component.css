@@ -1,38 +1,95 @@
-:root {
-  --primary-color: var(--color-violet-claire);
-  --text-dark: #1a1143;
-  --text-medium: #373552;
-  --text-light: #686868;
-  --text-placeholder: #c1c1c1;
-  --bg-light: #eff0f4;
-  --white: #ffffff;
+/* ===== TOGGLE ===== */
+.toggle-wrapper {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
+.toggle-label {
+  font-size: 14px;
+  color: #686868;
   margin: 0;
-  padding: 0;
-  background-color: var(--white);
-  color: var(--text-medium);
-  line-height: 1.5;
 }
 
-
-.container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 20px;
+.toggle-bar {
+  display: flex;
+  align-items: center;
+  background: #eff0f4;
+  border-radius: 50px;
+  padding: 5px;
+  gap: 4px;
 }
 
-/* CSS for section section:Hero */
+.toggle-btn {
+  padding: 10px 28px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Montserrat';
+  background: transparent;
+  color: #6863bf;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-btn.active {
+  background: #6863bf;
+  color: #ffffff;
+}
+
+.badge-new {
+  font-size: 11px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.toggle-btn.active .badge-new {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+/* ===== PACK LABEL ===== */
+.pack-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6863bf;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.dark-card .pack-label {
+  color: #c5c2ff;
+}
+
+/* ===== AMOUNT LIGHT ===== */
+.amount-light {
+  color: #ffffff !important;
+}
+
+.period-light {
+  color: rgba(255,255,255,0.65) !important;
+}
+
+.feat-light {
+  color: rgba(255,255,255,0.85) !important;
+}
+
+/* ===== HERO ===== */
 #hero-section {
   position: relative;
   background-image: url('../../../assets/icons/background social media.svg');
-  background-size: 1600px; /* 500px, 700px… selon la taille souhaitée */
+  background-size: 1600px;
   background-position: center;
   background-attachment: fixed;
   padding-top: 60px;
@@ -57,7 +114,6 @@ body {
 
 .hero-content {
   text-align: center;
-  position: relative;
   width: 100%;
   max-width: 920px;
 }
@@ -69,53 +125,7 @@ body {
   line-height: 1.2;
 }
 
-
-
-h2,h1,h3,h4 {
-      font-family: 'Montserrat';
-      font-weight: 700;
-      font-size: 35px;
-      
-}
-
-p {
-      font-family: 'Montserrat';
-      font-weight: 200;
-      font-size: 16px;
-      
-}
-
-
-.social-icon-bg {
-  position: absolute;
-  opacity: 0.35;
-  width: 62px;
-  height: 62px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-fb { top: 30%; left: 15%; }
-.icon-x { top: 50%; right: 20%; }
-.icon-in { top: 70%; left: 40%; }
-.icon-insta { top: 25%; right: 10%; }
-.icon-yt { top: 35%; left: 45%; }
-.icon-web { bottom: 15%; left: 10%; }
-.icon-layers { bottom: 10%; right: 15%; }
-
-
-
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 32px;
-  }
-  .breadcrumb {
-    margin-left: 20px;
-  }
-}
-
-/* CSS for section section:Packs */
+/* ===== PACKS ===== */
 #packs-section {
   padding: 80px 0;
   background-color: #fff;
@@ -146,14 +156,14 @@ p {
 }
 
 .packs-grid {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 26px;
-  flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .pack-card {
-  width: 407px;
+  width: 100%;
   min-height: 605px;
   border-radius: 24px;
   padding: 40px;
@@ -174,13 +184,8 @@ p {
   color: #fff;
 }
 
-.pack-header {
-  margin-bottom: 20px;
-}
-
-.pack-icon-wrapper {
-  margin-bottom: 12px;
-}
+.pack-header { margin-bottom: 20px; }
+.pack-icon-wrapper { margin-bottom: 12px; }
 
 .icon-box {
   background-color: #fcfcff;
@@ -196,15 +201,12 @@ p {
   font-size: 36px;
   font-weight: 700;
   color: #303030;
+  margin: 0;
 }
 
-.text-light {
-  color: #eff0f4;
-}
+.text-light { color: #eff0f4; }
 
-.pack-price {
-  margin-bottom: 30px;
-}
+.pack-price { margin-bottom: 30px; }
 
 .amount {
   display: block;
@@ -226,32 +228,8 @@ p {
   margin-bottom: 40px;
 }
 
-.feature-item {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.feature-item p {
-  font-size: 14px;
-  line-height: 1.4;
-  margin: 0;
-}
-
-.contact-title {
-  font-size: 28px;
-  color: #ecebff;
-  margin-bottom: 20px;
-}
-
-.contact-desc {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  color: #eff0f4;
-  font-size: 14px;
-  line-height: 1.5;
-}
+.feature-item { display: flex; gap: 12px; align-items: flex-start; }
+.feature-item p { font-size: 14px; line-height: 1.4; margin: 0; }
 
 .btn-pack {
   width: 100%;
@@ -259,31 +237,17 @@ p {
   border-radius: 12px;
   font-weight: 600;
   font-size: 16px;
+  font-family: 'Montserrat';
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s ease;
 }
 
-.btn-dark {
-  background-color: #241e89;
-  color: #f5ffff;
-}
+.btn-pack:hover { opacity: 0.85; }
+.btn-dark { background-color: #241e89; color: #f5ffff; }
+.btn-light { background-color: #eff0f4; color: #241e89; }
 
-.btn-light {
-  background-color: #eff0f4;
-  color: #241e89;
-}
-
-@media (max-width: 1200px) {
-  .packs-grid {
-    flex-direction: column;
-    align-items: center;
-  }
-  .pack-card {
-    width: 100%;
-    max-width: 407px;
-  }
-}
-
-
-/* CSS for section section:SmallPlans */
+/* ===== SMALL PLANS ===== */
 #small-plans-section {
   padding: 80px 0;
   background-color: #fff;
@@ -317,10 +281,7 @@ p {
   gap: 40px;
 }
 
-.plan-info h3 {
-  font-size: 32px;
-  color: #373552;
-}
+.plan-info h3 { font-size: 32px; color: #373552; }
 
 .btn-small {
   background-color: #241e89;
@@ -328,7 +289,10 @@ p {
   padding: 16px 30px;
   border-radius: 12px;
   font-weight: 600;
+  font-family: 'Montserrat';
   width: fit-content;
+  border: none;
+  cursor: pointer;
 }
 
 .plan-features {
@@ -359,27 +323,22 @@ p {
   border-left: 2px solid #2a2576;
 }
 
-.price-val {
-  font-size: 64px;
-  font-weight: 700;
-  color: #f2f1ff;
-}
+.price-val { font-size: 64px; font-weight: 700; color: #f2f1ff; }
+.price-period { font-size: 20px; color: #f2f1ff; }
 
-.price-period {
-  font-size: 20px;
-  color: #f2f1ff;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .packs-grid {     grid-template-columns: 1fr;  /* ← empilé sur mobile */}
+  .pack-card { width: 100%; max-width: 407px; }
 }
 
 @media (max-width: 1024px) {
-  .plan-row {
-    flex-direction: column;
-    height: auto;
-  }
-  .plan-price-box {
-    width: 100%;
-    padding: 40px;
-    flex-direction: row;
-    gap: 20px;
-    align-items: baseline;
-  }
+  .plan-row { flex-direction: column; height: auto; }
+  .plan-price-box { width: 100%; padding: 40px; flex-direction: row; gap: 20px; align-items: baseline; }
+}
+
+@media (max-width: 768px) {
+  .hero-title { font-size: 32px; }
+  .breadcrumb { margin-left: 20px; }
+  .toggle-btn { padding: 8px 18px; font-size: 13px; }
 }

@@ -60,14 +60,14 @@ export class HomePage implements OnInit,OnDestroy {
   isSubmitting = false;
 
 values = [
-  { title: 'Innovation',     color: '#6863BF', icon: '◈' },
-  { title: 'Collaboration',  color: '#6472C3', icon: '◉' },
-  { title: 'Qualité',        color: '#5F81C8', icon: '◆' },
-  { title: 'Transparence',   color: '#5A90CC', icon: '◎' },
-  { title: 'Responsabilité', color: '#569FD1', icon: '◇' },
-  { title: 'Agilité',        color: '#53ACD5', icon: '○' },
-  { title: 'Respect',        color: '#51B3D8', icon: '◐' },
-  { title: 'Durabilité',     color: '#4FBFE0', icon: '◑' },
+  { title: 'Innovation',     color: '#6D28D9', icon: '◈' }, // violet profond
+  { title: 'Collaboration',  color: '#7C3AED', icon: '◉' }, // violet
+  { title: 'Qualité',        color: '#8B5CF6', icon: '◆' }, // violet clair
+  { title: 'Transparence',   color: '#6366F1', icon: '◎' }, // indigo
+  { title: 'Responsabilité', color: '#3B82F6', icon: '◇' }, // bleu
+  { title: 'Agilité',        color: '#0EA5E9', icon: '○' }, // bleu clair
+  { title: 'Respect',        color: '#06B6D4', icon: '◐' }, // cyan
+  { title: 'Durabilité',     color: '#14B8A6', icon: '◑' }, // teal
 ];
 
 getLeft(i: number): string {
@@ -134,18 +134,21 @@ getLeft(i: number): string {
     tickerItems: StatItem[] = [];
     serviceItems: any[] = [];
 
+private readonly rawServices: any[] = [
+  { label: 'Stratégie & Conseil',        color: '#1E3A8A' }, // bleu foncé
+  { label: 'Audit & Études',             color: '#60A5FA' }, // bleu clair
 
-  private readonly rawServices: any[] = [
-  { label: 'Stratégie & Conseil',        color: '#6863BF' },
-  { label: 'Audit & Études',             color: '#6472C3' },
-  { label: 'Branding & Design',          color: '#5F81C8' },
-  { label: 'Création & Production',      color: '#5A90CC' },
-  { label: 'Contenu & Social Media',     color: '#569FD1' },
-  { label: 'SEO & Acquisition',          color: '#53ACD5' },
-  { label: 'Publicité & Paid Media',     color: '#51B3D8' },
-  { label: 'Marketing Automation',       color: '#51B3D8' },
-  { label: 'Data & Analytics',           color: '#5F81C8' },
-  { label: 'Développement & Expérience', color: '#5A90CC' },
+  { label: 'Branding & Design',          color: '#6D28D9' }, // violet foncé
+  { label: 'Création & Production',      color: '#A78BFA' }, // violet clair
+
+  { label: 'Contenu & Social Media',     color: '#0F766E' }, // teal foncé
+  { label: 'SEO & Acquisition',          color: '#5EEAD4' }, // teal clair
+
+  { label: 'Publicité & Paid Media',     color: '#C2410C' }, // orange foncé
+  { label: 'Marketing Automation',       color: '#FDBA74' }, // orange clair
+
+  { label: 'Data & Analytics',           color: '#1D4ED8' }, // indigo foncé
+  { label: 'Développement & Expérience', color: '#93C5FD' }  // indigo clair
 ];
 
   constructor(
@@ -177,7 +180,8 @@ getLeft(i: number): string {
     });
   }
 
-
+colors = ['#6D28D9','#51B3D8','#8B5CF6','#6366F1','#3B82F6','#61a9b1','#06B6D4','#14B8A6'];
+shuffledColors: string[] = [];
 
   ngOnInit(): void {
     this.loadCountriesCodes();
@@ -187,6 +191,7 @@ getLeft(i: number): string {
     this.loadActualites();
     this.startAutoPlay();
     this.startNewsAutoPlay();
+    this.shuffledColors = this.shuffleColors([...this.colors]);
 
   }
   
@@ -195,6 +200,18 @@ getLeft(i: number): string {
     clearInterval(this.newsAutoPlay);
 
   }
+
+shuffleColors(arr: string[]): string[] {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+getCardColor(groupIndex: number, cardIndex: number): string {
+  return this.shuffledColors[(groupIndex * 3 + cardIndex) % this.shuffledColors.length];
+}
 
 get groupedTeam(): any[][] {
   const groups = [];

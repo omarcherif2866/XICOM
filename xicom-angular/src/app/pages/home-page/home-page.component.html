@@ -300,9 +300,11 @@ informé à chaque étape.</p>
            [style.left]="getLeft(i)"
            [style.animation-delay]="(i * 0.12) + 's'">
 
-        <div class="wave-card" [style.border-color]="value.color">
-          <span class="wave-icon" [style.color]="value.color">{{ value.icon }}</span>
-          <h3 class="wave-title" [style.color]="value.color">{{ value.title }}</h3>
+        <div class="wave-card"
+            [style.border-color]="value.color"
+            [style.background]="value.color ">
+          <span class="wave-icon" >{{ value.icon }}</span>
+          <h3 class="wave-title" >{{ value.title }}</h3>
         </div>
       </div>
 
@@ -319,20 +321,24 @@ informé à chaque étape.</p>
 
 <div class="carousel-wrapper">
   <div class="carousel-track" [style.transform]="'translateX(-' + currentGroupIndex * 100 + '%)'">
-    <div class="feedback-group" *ngFor="let group of groupedTeam">
-      <div class="feedback-card" *ngFor="let member of group">
-        <div class="feedback-header">
-          <div class="feedback-avatar">
-            <img [src]="member.image" [alt]="member.name" />
-          </div>
-          <div class="feedback-meta">
-            <h3 class="feedback-name">{{ member.name }}</h3>
-            <p class="feedback-secteur">{{ member.secteur }}</p>
-          </div>
-          <div class="feedback-stars">★★★★★</div>
-        </div>
-        <p class="feedback-message">{{ member.message }}</p>
+    <div class="feedback-group" *ngFor="let group of groupedTeam; let gi = index">
+  <div class="feedback-card"
+       *ngFor="let member of group; let j = index"
+       [style.background]="getCardColor(gi, j)">
+
+    <div class="feedback-header">
+      <div class="feedback-avatar">
+        <img [src]="member.image" [alt]="member.name" />
       </div>
+      <div class="feedback-meta">
+        <h3 class="feedback-name" style="color:#fff">{{ member.name }}</h3>
+        <p class="feedback-secteur" style="color:rgba(255,255,255,0.75)">{{ member.secteur }}</p>
+      </div>
+      <div class="feedback-stars" style="color:#fff">★★★★★</div>
+    </div>
+    <p class="feedback-message" style="color:rgba(255,255,255,0.85)">{{ member.message }}</p>
+
+  </div>
     </div>
   </div>
 </div>
@@ -372,17 +378,20 @@ Contactez-nous pour un accompagnement personnalisé !</h2>
 
     <div class="carousel-wrapper">
       <div class="carousel-track" [style.transform]="'translateX(-' + currentNewsIndex * 100 + '%)'">
-        <div class="news-group" *ngFor="let group of groupedNews">
-          <div class="news-card" *ngFor="let actu of group" (click)="goToDetail(actu.id)">
-            <div class="news-content">
-              <h3 class="news-title">{{ actu.title }}</h3>
-              <p class="news-description">{{ actu.description }}</p>
-              <button class="news-link" (click)="goToDetail(actu.id)">
-                Savoir plus →
-              </button>
-            </div>
-          </div>
-        </div>
+<div class="news-group" *ngFor="let group of groupedNews; let gi = index">
+  <div class="news-card"
+       *ngFor="let actu of group; let j = index"
+       [style.background]="getCardColor(gi, j)"
+       (click)="goToDetail(actu.id)">
+    <div class="news-content">
+      <h3 class="news-title" style="color:#fff">{{ actu.title }}</h3>
+      <p class="news-description" style="color:rgba(255,255,255,0.80)">{{ actu.description }}</p>
+      <button class="news-link" style="color:rgba(255,255,255,0.90)" (click)="goToDetail(actu.id)">
+        Savoir plus →
+      </button>
+    </div>
+  </div>
+</div>
       </div>
     </div>
 
