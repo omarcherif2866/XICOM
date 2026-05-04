@@ -65,25 +65,25 @@ public class ServiceController {
                 for (ServiceSection section : sections) {
                     if (section.getDetails() != null) {
                         for (DetailObject detail : section.getDetails()) {
-                            if (detail.getIcon() == null || "".equals(detail.getIcon())) {
-                                // ✅ icon == "" → un fichier correspond à cette position
+                            if ("".equals(detail.getIcon())) {
+                                // ✅ Seulement "" = nouveau fichier
                                 if (iconIndex < detailIcons.length) {
                                     MultipartFile iconFile = detailIcons[iconIndex];
                                     if (iconFile != null && !iconFile.isEmpty()) {
                                         String iconUrl = cloudinaryService.uploadIcon(iconFile, "xicom/icon");
                                         detail.setIcon(iconUrl);
-                                        System.out.println("✅ Icône detail uploadée: " + iconUrl);
+                                        System.out.println("✅ Icône uploadée: " + iconUrl);
                                     }
-                                    iconIndex++; // ✅ Toujours incrémenter quand "" rencontré
+                                    iconIndex++;
                                 }
                             } else if (detail.getIcon() != null && !detail.getIcon().isEmpty()) {
                                 System.out.println("⏭️ Icône existante conservée: " + detail.getIcon());
                             }
+                            // null → ignoré, iconIndex ne bouge pas
                         }
                     }
                 }
             }
-
             ServiceEntity serviceEntity = new ServiceEntity();
             serviceEntity.setTitle(title);
             serviceEntity.setSubTitle(subtitle);
@@ -227,12 +227,19 @@ public class ServiceController {
             }
 
             // ✅ Mise à jour des priceSections
+// ✅ Mise à jour des priceSections
             if (priceSectionsJson != null && !priceSectionsJson.isEmpty()) {
                 ObjectMapper priceMapper = new ObjectMapper();
                 List<PriceSection> priceSections = priceMapper.readValue(
                         priceSectionsJson,
                         new TypeReference<List<PriceSection>>() {}
                 );
+
+                // ✅ AJOUTE ICI
+                for (PriceSection ps : priceSections) {
+                    System.out.println("💰 pricePer reçu: " + ps.getPricePer());
+                }
+
                 existing.setPriceSections(priceSections);
             }
 
