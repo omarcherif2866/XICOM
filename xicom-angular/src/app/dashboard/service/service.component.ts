@@ -688,6 +688,7 @@ async prepareFormData(): Promise<FormData> {
     title: ps.title,
     subtitle: ps.subtitle,
     price: ps.price,
+    pricePer: ps.pricePer || '', 
     details: ps.details.map((detail) => {
       const isBlobUrl = typeof detail.icon === 'string' 
                         && this.detailIconFiles.has(detail.icon);
