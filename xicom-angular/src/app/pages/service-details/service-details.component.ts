@@ -275,16 +275,20 @@ fetchServiceDetails(id: number) {
   }
 
 
-    sanitizeImage(url: string | null): string {
-    if (!url) return '';
+sanitizeImage(url: string | null): string {
+  if (!url) return 'assets/images/placeholder.png';
 
-    if (url.includes("https://res.cloudinary.com") && url.split("https://res.cloudinary.com").length > 2) {
-      const parts = url.split("https://res.cloudinary.com/daxkymr4t/image/upload/");
-      return "https://res.cloudinary.com/daxkymr4t/image/upload/" + parts[parts.length - 1];
-    }
+  // ✅ Blob URL sauvegardée par erreur → fallback
+  if (url.startsWith('blob:')) return 'assets/images/placeholder.png';
 
-    return url;
+  // ✅ URL Cloudinary dupliquée → nettoyer
+  if (url.includes("https://res.cloudinary.com") && url.split("https://res.cloudinary.com").length > 2) {
+    const parts = url.split("https://res.cloudinary.com/daxkymr4t/image/upload/");
+    return "https://res.cloudinary.com/daxkymr4t/image/upload/" + parts[parts.length - 1];
   }
+
+  return url;
+}
 
 getColorByIndex(index: number): string {
   const colors = [
