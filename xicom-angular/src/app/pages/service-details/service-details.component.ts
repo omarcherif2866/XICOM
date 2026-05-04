@@ -241,6 +241,7 @@ fetchServiceDetails(id: number) {
       // Mettre une seule service dans le tableau
       this.services = [new Service(response)];
       // ⬇️ AJOUTE CETTE LIGNE POUR LE CARROUSEL
+      console.log('sections[1] details:', response.sections?.[1]?.details);
 
       this.loading = false;
 
@@ -275,13 +276,18 @@ fetchServiceDetails(id: number) {
   }
 
 
+isValidIcon(url: string | null): boolean {
+  if (!url) return false;
+  if (url.startsWith('blob:')) return false;
+  if (url.trim() === '') return false;
+  if (url === 'icon') return false; // cas corrompu
+  return true;
+}
+
 sanitizeImage(url: string | null): string {
-  if (!url) return 'assets/images/placeholder.png';
+  if (!url) return '';
+  if (url.startsWith('blob:')) return '';
 
-  // ✅ Blob URL sauvegardée par erreur → fallback
-  if (url.startsWith('blob:')) return 'assets/images/placeholder.png';
-
-  // ✅ URL Cloudinary dupliquée → nettoyer
   if (url.includes("https://res.cloudinary.com") && url.split("https://res.cloudinary.com").length > 2) {
     const parts = url.split("https://res.cloudinary.com/daxkymr4t/image/upload/");
     return "https://res.cloudinary.com/daxkymr4t/image/upload/" + parts[parts.length - 1];
