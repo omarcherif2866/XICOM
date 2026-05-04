@@ -645,39 +645,37 @@ async prepareFormData(): Promise<FormData> {
   formData.append('title', this.formData.title);
   formData.append('subtitle', this.formData.subtitle || '');
   
-  if (this.selectedImage) {
-    formData.append('image', this.selectedImage);
-  }
-  if (this.selectedIcon) {
-    formData.append('icon', this.selectedIcon);
-  }
-  
-  // ✅ Préparez les sections avec les URLs existantes
+  if (this.selectedImage) formData.append('image', this.selectedImage);
+  if (this.selectedIcon) formData.append('icon', this.selectedIcon);
+
+  // ✅ ÉTAPE 1 — Construire le JSON avec "" pour les nouvelles icônes (blob URLs)
   const sectionsToSend = this.formData.sections.map((section) => ({
     headline: section.headline,
     subtitle: section.subtitle,
-    details: section.details.map((detail) => {
-      // Gardez l'URL si c'est une string, sinon mettez ""
-      return {
-        title: detail.title,
-        description: detail.description,
-        icon: typeof detail.icon === 'string' ? detail.icon : ""
-      };
-    })
+    details: section.details.map((detail) => ({
+      title: detail.title,
+      description: detail.description,
+      // ✅ Blob URL → "" (le backend utilisera le fichier de detailIcons)
+      // ✅ URL Cloudinary existante → la garder
+      // ✅ null/File → ""
+      icon: (typeof detail.icon === 'string' && !this.detailIconFiles.has(detail.icon))
+        ? detail.icon   // vraie URL Cloudinary → conserver
+        : ""            // blob URL ou null → "" → backend uploadera sur Cloudinary
+    }))
   }));
-  
+
   formData.append('sections', JSON.stringify(sectionsToSend));
-  
-  // ✅ Envoyez SEULEMENT les nouveaux fichiers File
-this.formData.sections.forEach((section) => {
-  section.details.forEach((detail) => {
-    if (typeof detail.icon === 'string' && this.detailIconFiles.has(detail.icon)) {
-      formData.append('detailIcons', this.detailIconFiles.get(detail.icon)!);
-    }
+
+  // ✅ ÉTAPE 2 — Envoyer les fichiers dans le MÊME ordre que les "" dans le JSON
+  this.formData.sections.forEach((section) => {
+    section.details.forEach((detail) => {
+      if (typeof detail.icon === 'string' && this.detailIconFiles.has(detail.icon)) {
+        formData.append('detailIcons', this.detailIconFiles.get(detail.icon)!);
+      }
+    });
   });
-});
-  
-  // Même chose pour priceSections
+
+  // ✅ Même logique pour priceSections
   const priceSectionsToSend = this.formData.priceSections.map((ps) => ({
     title: ps.title,
     subtitle: ps.subtitle,
@@ -685,26 +683,30 @@ this.formData.sections.forEach((section) => {
     details: ps.details.map((detail) => ({
       title: detail.title,
       description: detail.description,
-      icon: typeof detail.icon === 'string' ? detail.icon : ""
+      icon: (typeof detail.icon === 'string' && !this.detailIconFiles.has(detail.icon))
+        ? detail.icon
+        : ""
     }))
   }));
-  
+
   formData.append('priceSections', JSON.stringify(priceSectionsToSend));
-  
+
+  // ✅ Fichiers des priceSections
+  this.formData.priceSections.forEach((ps) => {
+    ps.details.forEach((detail) => {
+      if (typeof detail.icon === 'string' && this.detailIconFiles.has(detail.icon)) {
+        formData.append('detailIcons', this.detailIconFiles.get(detail.icon)!);
+      } else if (detail.icon instanceof File) {
+        formData.append('detailIcons', detail.icon);
+      }
+    });
+  });
 
   // Partenaires
   (this.selectedPartenaires || []).forEach(p => {
     if (p?.Id != null) formData.append('partenairesIds', p.Id.toString());
   });
 
-  this.formData.priceSections.forEach((ps) => {
-    ps.details.forEach((detail) => {
-      if (detail.icon instanceof File) {
-        formData.append('detailIcons', detail.icon);
-      }
-    });
-  });
-  
   return formData;
 }
 

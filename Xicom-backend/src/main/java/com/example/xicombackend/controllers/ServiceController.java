@@ -40,39 +40,44 @@ public class ServiceController {
             @RequestParam(value = "icon", required = false) MultipartFile icon,
             @RequestParam(value = "partenairesIds", required = false) List<Long> partenairesIds,
             @RequestParam(value = "detailIcons", required = false) MultipartFile[] detailIcons
-    ) throws JsonProcessingException {
-
+    ) {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
+            System.out.println("🔍 sectionsJson reçu: " + sectionsJson);
+            System.out.println("🔍 Nombre de detailIcons reçus: " + (detailIcons != null ? detailIcons.length : 0));
+
             // Parse sections
             List<ServiceSection> sections = mapper.readValue(
                     sectionsJson,
-                    new TypeReference<List<ServiceSection>>(){}
+                    new TypeReference<List<ServiceSection>>() {}
             );
 
             // Parse priceSections
             List<PriceSection> priceSections = mapper.readValue(
                     priceSectionsJson,
-                    new TypeReference<List<PriceSection>>(){}
+                    new TypeReference<List<PriceSection>>() {}
             );
 
-            // Upload des icônes de DetailObject
+            // ✅ Upload des icônes — même logique que le PUT
             if (detailIcons != null && detailIcons.length > 0) {
                 int iconIndex = 0;
                 for (ServiceSection section : sections) {
                     if (section.getDetails() != null) {
                         for (DetailObject detail : section.getDetails()) {
-                            if (iconIndex < detailIcons.length &&
-                                    detailIcons[iconIndex] != null &&
-                                    !detailIcons[iconIndex].isEmpty()) {
-                                String iconUrl = cloudinaryService.uploadIcon(
-                                        detailIcons[iconIndex],
-                                        "xicom/icon"
-                                );
-                                detail.setIcon(iconUrl);
-                                System.out.println("✅ Icône detail uploadée: " + iconUrl);
-                                iconIndex++;
+                            if ("".equals(detail.getIcon())) {
+                                // ✅ icon == "" → un fichier correspond à cette position
+                                if (iconIndex < detailIcons.length) {
+                                    MultipartFile iconFile = detailIcons[iconIndex];
+                                    if (iconFile != null && !iconFile.isEmpty()) {
+                                        String iconUrl = cloudinaryService.uploadIcon(iconFile, "xicom/icon");
+                                        detail.setIcon(iconUrl);
+                                        System.out.println("✅ Icône detail uploadée: " + iconUrl);
+                                    }
+                                    iconIndex++; // ✅ Toujours incrémenter quand "" rencontré
+                                }
+                            } else if (detail.getIcon() != null && !detail.getIcon().isEmpty()) {
+                                System.out.println("⏭️ Icône existante conservée: " + detail.getIcon());
                             }
                         }
                     }
@@ -92,17 +97,26 @@ public class ServiceController {
                 System.out.println("✅ Image uploadée: " + imageUrl);
             }
 
-            // Upload icon principal
+            // Upload icône principale
             if (icon != null && !icon.isEmpty()) {
                 String iconUrl = cloudinaryService.uploadIcon(icon, "xicom/icon");
                 serviceEntity.setIcon(iconUrl);
-                System.out.println("✅ Icône uploadée: " + iconUrl);
+                System.out.println("✅ Icône principale uploadée: " + iconUrl);
             }
 
             if (partenairesIds != null && !partenairesIds.isEmpty()) {
                 serviceEntity.setPartenaires(
                         partenaireRepository.findAllById(partenairesIds)
                 );
+            }
+
+            System.out.println("🔍 Sections avant save:");
+            for (ServiceSection s : sections) {
+                if (s.getDetails() != null) {
+                    for (DetailObject d : s.getDetails()) {
+                        System.out.println("  - " + d.getTitle() + " → " + d.getIcon());
+                    }
+                }
             }
 
             ServiceEntity saved = serviceRepository.save(serviceEntity);
@@ -114,7 +128,6 @@ public class ServiceController {
             return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
         }
     }
-
 
     @GetMapping("{id}")
     public ServiceEntity getServiceEntityById(@PathVariable Long id) {
@@ -145,9 +158,7 @@ public class ServiceController {
             @RequestParam(value = "partenairesIds", required = false) List<Long> partenairesIds,
             @RequestParam(value = "detailIcons", required = false) MultipartFile[] detailIcons
     ) {
-
         try {
-            // DÉBOGAGE: Vérifier ce qui arrive
             System.out.println("🔍 sectionsJson reçu: " + sectionsJson);
             System.out.println("🔍 Nombre de detailIcons reçus: " + (detailIcons != null ? detailIcons.length : 0));
 
@@ -160,15 +171,13 @@ public class ServiceController {
 
             ServiceEntity existing = serviceService.getServiceById(id);
             if (existing == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Service non trouvé");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Service non trouvé");
             }
 
             if (title != null) existing.setTitle(title);
             if (subtitle != null) existing.setSubTitle(subtitle);
 
-            // Mise à jour des sections
-            // Mise à jour des sections
+            // ✅ Mise à jour des sections
             if (sectionsJson != null && !sectionsJson.isEmpty()) {
                 ObjectMapper mapper = new ObjectMapper();
                 List<ServiceSection> sections = mapper.readValue(
@@ -178,24 +187,24 @@ public class ServiceController {
 
                 System.out.println("🔍 Nombre de sections: " + sections.size());
 
-                // Upload des nouvelles icônes
+                // ✅ Upload des nouvelles icônes (seulement pour icon == "")
                 if (detailIcons != null && detailIcons.length > 0) {
                     int iconIndex = 0;
                     for (ServiceSection section : sections) {
                         if (section.getDetails() != null) {
                             for (DetailObject detail : section.getDetails()) {
-                                if ("".equals(detail.getIcon()) && iconIndex < detailIcons.length) {
-                                    MultipartFile iconFile = detailIcons[iconIndex];
-                                    if (iconFile != null && !iconFile.isEmpty()) {
-                                        System.out.println("⬆️ Upload icône pour: " + detail.getTitle());
-                                        String iconUrl = cloudinaryService.uploadIcon(
-                                                iconFile,
-                                                "xicom/icon"
-                                        );
-                                        detail.setIcon(iconUrl);
-                                        System.out.println("✅ Icône uploadée: " + iconUrl);
+                                if ("".equals(detail.getIcon())) {
+                                    // ✅ Incrémenter seulement quand icon == ""
+                                    if (iconIndex < detailIcons.length) {
+                                        MultipartFile iconFile = detailIcons[iconIndex];
+                                        if (iconFile != null && !iconFile.isEmpty()) {
+                                            System.out.println("⬆️ Upload icône pour: " + detail.getTitle());
+                                            String iconUrl = cloudinaryService.uploadIcon(iconFile, "xicom/icon");
+                                            detail.setIcon(iconUrl);
+                                            System.out.println("✅ Icône uploadée: " + iconUrl);
+                                        }
+                                        iconIndex++; // ✅ Toujours incrémenter quand "" rencontré
                                     }
-                                    iconIndex++;
                                 } else if (detail.getIcon() != null && !detail.getIcon().isEmpty()) {
                                     System.out.println("⏭️ Icône existante conservée: " + detail.getIcon());
                                 } else {
@@ -206,12 +215,10 @@ public class ServiceController {
                     }
                 }
 
-                // ✅ CRÉEZ UNE NOUVELLE LISTE pour forcer Hibernate à détecter le changement
-                List<ServiceSection> newSections = new ArrayList<>(sections);
-                existing.setSections(newSections);
+                existing.setSections(new ArrayList<>(sections));
 
                 System.out.println("🔍 Sections après modification:");
-                for (ServiceSection s : newSections) {
+                for (ServiceSection s : existing.getSections()) {
                     if (s.getDetails() != null) {
                         for (DetailObject d : s.getDetails()) {
                             System.out.println("  - " + d.getTitle() + " → " + d.getIcon());
@@ -220,6 +227,7 @@ public class ServiceController {
                 }
             }
 
+            // ✅ Mise à jour des priceSections
             if (priceSectionsJson != null && !priceSectionsJson.isEmpty()) {
                 ObjectMapper priceMapper = new ObjectMapper();
                 List<PriceSection> priceSections = priceMapper.readValue(
@@ -229,26 +237,30 @@ public class ServiceController {
                 existing.setPriceSections(priceSections);
             }
 
+            // ✅ Upload image principale
             if (image != null && !image.isEmpty()) {
                 String imageUrl = cloudinaryService.uploadImage(image, "xicom/service");
                 existing.setImage(imageUrl);
                 System.out.println("✅ Image uploadée: " + imageUrl);
             }
 
+            // ✅ Upload icône principale
             if (icon != null && !icon.isEmpty()) {
                 String iconUrl = cloudinaryService.uploadIcon(icon, "xicom/icon");
                 existing.setIcon(iconUrl);
                 System.out.println("✅ Icône principale uploadée: " + iconUrl);
             }
 
-            // ✅ MAJ des partenaires
+            // ✅ Mise à jour des partenaires
             if (partenairesIds != null && !partenairesIds.isEmpty()) {
                 List<Partenaire> partenaires = partenaireRepository.findAllById(partenairesIds);
                 existing.setPartenaires(partenaires);
                 System.out.println("✅ Partenaires mis à jour: " + partenaires.size());
             }
 
-            ServiceEntity saved = serviceService.updateService(id, existing);
+            // ✅ Sauvegarder directement sans repasser par updateService
+            // pour éviter que Hibernate re-fetch l'entité et écrase les URLs Cloudinary
+            ServiceEntity saved = serviceRepository.save(existing);
             return ResponseEntity.ok(saved);
 
         } catch (Exception e) {
