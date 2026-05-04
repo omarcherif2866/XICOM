@@ -18,7 +18,7 @@ public class PriceSection {
     private String title;
     private String subtitle;
     private float price;
-
+    private String pricePer;
     @Column(columnDefinition = "JSON")
     @Convert(converter = DetailObjectListConverter.class)
     List<DetailObject> details = new ArrayList<>();

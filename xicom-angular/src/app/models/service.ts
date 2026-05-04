@@ -17,6 +17,7 @@ export interface PriceSection {
   title: string;
   subtitle: string;
   price: any;
+  pricePer: string;
   details: Details[];
 }
 

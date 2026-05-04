@@ -324,14 +324,14 @@
       </div>
 
       <!-- STEP 2-3: Sections 1-2 -->
-      <div *ngFor="let section of formData.sections; let sectionIndex = index" 
+      <div *ngFor="let section of formData.sections | slice:0:2; let sectionIndex = index" 
           [hidden]="currentModalStep !== sectionIndex + 2">
         <div *ngIf="currentModalStep === sectionIndex + 2" class="step-content">
           <h4>📊 Section {{ sectionIndex + 1 }}</h4>
           
           <div class="section-card">
             <!-- Afficher headline et subtitle seulement pour les sections après la première (sectionIndex > 0) -->
-            <ng-container *ngIf="sectionIndex <= 1">
+            <!-- <ng-container *ngIf="sectionIndex <= 1">
               <label>Titre principal (Headline) *</label>
               <input type="text" 
                     [(ngModel)]="section.headline" 
@@ -343,126 +343,111 @@
                     [(ngModel)]="section.subtitle" 
                     placeholder="Ex: Évaluation des compétences"
                     class="form-input">
-            </ng-container>
+            </ng-container> -->
 
             <!-- Détails -->
-            <div class="details-section" *ngIf="sectionIndex <= 1">
-              <div *ngFor="let detail of section.details; let i = index" class="detail-card">
-                <div class="detail-header">
-                  <span class="detail-number">Détail #{{ i + 1 }}</span>
-                </div>
+<!-- Détails -->
+<div class="details-section" *ngIf="sectionIndex <= 1">
+  <div *ngFor="let detail of section.details; let i = index" class="detail-card">
+    <div class="detail-header">
+      <span class="detail-number">Détail #{{ i + 1 }}</span>
+    </div>
 
-                <label>Titre *</label>
-                <input type="text" 
-                      [(ngModel)]="detail.title" 
-                      placeholder="Ex: JavaScript"
-                      class="form-input">
+    <label>Titre *</label>
+    <input type="text" 
+          [(ngModel)]="detail.title" 
+          placeholder="Ex: JavaScript"
+          class="form-input">
 
-                <label>Description</label>
-                <textarea [(ngModel)]="detail.description" 
-                          rows="2" 
-                          placeholder="Ex: Maîtrise du langage JavaScript"
-                          class="form-input"></textarea>
+    <!-- ✅ Description : seulement pour section 2 (sectionIndex === 1) -->
+    <ng-container *ngIf="sectionIndex === 1">
+      <label>Description</label>
+      <textarea [(ngModel)]="detail.description" 
+                rows="2" 
+                placeholder="Ex: Maîtrise du langage JavaScript"
+                class="form-input"></textarea>
+    </ng-container>
 
-                <!-- Upload d'icône - Uniquement pour sectionIndex > 0 -->
-                <ng-container *ngIf="sectionIndex <= 1">
-                  <!-- <label>Icône * (Image)</label>
-                  <div class="icon-upload-section">
-                    <div *ngIf="detail.icon" class="icon-preview">
-                      <img [src]="getIconPreview(detail.icon)" alt="Icon preview" class="icon-thumbnail">
-                      <button type="button" 
-                              (click)="removeDetailIcon(sectionIndex, i)" 
-                              class="btn-remove-icon"
-                              title="Supprimer l'icône">
-                        ✕
-                      </button>
-                    </div> -->
+    <!-- ✅ Bloc icône : seulement pour section 2 (sectionIndex === 1) -->
+    <ng-container *ngIf="sectionIndex === 1">
+      <div class="inline-icon-gallery">
+        <h5 class="gallery-title">Choisir une icône existante :</h5>
+        
+        <div *ngIf="loadingIcons" class="loading-icons">
+          <div class="spinner"></div>
+          <p>Chargement des icônes...</p>
+        </div>
 
-                    <!-- Galerie d'icônes disponibles -->
-                    <div class="inline-icon-gallery">
-                      <h5 class="gallery-title">Choisir une icône existante :</h5>
-                      
-                      <div *ngIf="loadingIcons" class="loading-icons">
-                        <div class="spinner"></div>
-                        <p>Chargement des icônes...</p>
-                      </div>
+        <div *ngIf="!loadingIcons && availableIcons.length === 0" class="no-icons-message">
+          <p>⚠️ Aucune icône disponible. Uploadez-en une ci-dessous !</p>
+        </div>
 
-                      <div *ngIf="!loadingIcons && availableIcons.length === 0" class="no-icons-message">
-                        <p>⚠️ Aucune icône disponible. Uploadez-en une ci-dessous !</p>
-                      </div>
-
-                      <div *ngIf="!loadingIcons && availableIcons.length > 0" class="icons-grid-inline">
-                        <div *ngFor="let iconUrl of availableIcons" 
-                            class="icon-item-inline"
-                            [class.selected]="isIconSelected(iconUrl, detail)"
-                            (click)="selectIconFromGallery(iconUrl, detail)"
-                            [title]="iconUrl">
-                          <!-- ✅ Remplacer [src]="iconUrl" par : -->
-                          <img [src]="getSafeIconUrl(iconUrl)" alt="Icon" class="gallery-icon-img">
-                          <div class="icon-check" *ngIf="isIconSelected(iconUrl, detail)">
-                            <span class="check-mark">✓</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Séparateur OU -->
-                    <div class="divider-or">
-                      <span>OU</span>
-                    </div>
-
-
-                  <label>Icône * (Image)</label>
-                  <div class="icon-upload-section">
-                    <div *ngIf="detail.icon" class="icon-preview">
-                      <img [src]="getIconPreview(detail.icon)" alt="Icon preview" class="icon-thumbnail">
-                      <button type="button" 
-                              (click)="removeDetailIcon(sectionIndex, i)" 
-                              class="btn-remove-icon"
-                              title="Supprimer l'icône">
-                        ✕
-                      </button>
-                    </div>
-
-                    <!-- Input file pour upload manuel -->
-                    <div class="file-input-wrapper">
-                      <input type="file" 
-                            (change)="onDetailIconSelected($event, sectionIndex, i)" 
-                            accept="image/*"
-                            [id]="'section-icon-' + sectionIndex + '-' + i"
-                            class="file-input">
-                      <label [for]="'section-icon-' + sectionIndex + '-' + i" class="file-label">
-                        <span class="file-icon">📁</span>
-                        <span>Uploader une nouvelle icône</span>
-                      </label>
-                    </div>
-                    
-                    <small class="form-text">Format accepté: JPG, PNG, SVG (Max 200MB)</small>
-                  </div>
-                </ng-container>
-
-                <div class="detail-actions">
-                  <button type="button" 
-                          (click)="removeDetailFromSection(sectionIndex, i)" 
-                          class="btn btn-danger btn-sm"
-                          title="Supprimer ce détail">
-                    🗑️ Supprimer
-                  </button>
-                </div>
-              </div>
-
-              <div class="details-header">
-                <button type="button" 
-                        (click)="addDetailToSection(sectionIndex)" 
-                        class="btn btn-sm btn-blue">
-                  + Ajouter un détail
-                </button>
-              </div>
-
-              <div *ngIf="section.details.length === 0" class="no-details">
-                <p>Aucun détail ajouté. Cliquez sur "+ Ajouter un détail" pour commencer.</p>
-              </div>
+        <div *ngIf="!loadingIcons && availableIcons.length > 0" class="icons-grid-inline">
+          <div *ngFor="let iconUrl of availableIcons" 
+              class="icon-item-inline"
+              [class.selected]="isIconSelected(iconUrl, detail)"
+              (click)="selectIconFromGallery(iconUrl, detail)"
+              [title]="iconUrl">
+            <img [src]="getSafeIconUrl(iconUrl)" alt="Icon" class="gallery-icon-img">
+            <div class="icon-check" *ngIf="isIconSelected(iconUrl, detail)">
+              <span class="check-mark">✓</span>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-or">
+        <span>OU</span>
+      </div>
+
+      <label>Icône * (Image)</label>
+      <div class="icon-upload-section">
+        <div *ngIf="detail.icon" class="icon-preview">
+          <img [src]="getIconPreview(detail.icon)" alt="Icon preview" class="icon-thumbnail">
+          <button type="button" 
+                  (click)="removeDetailIcon(sectionIndex, i)" 
+                  class="btn-remove-icon"
+                  title="Supprimer l'icône">
+            ✕
+          </button>
+        </div>
+        <div class="file-input-wrapper">
+          <input type="file" 
+                (change)="onDetailIconSelected($event, sectionIndex, i)" 
+                accept="image/*"
+                [id]="'section-icon-' + sectionIndex + '-' + i"
+                class="file-input">
+          <label [for]="'section-icon-' + sectionIndex + '-' + i" class="file-label">
+            <span class="file-icon">📁</span>
+            <span>Uploader une nouvelle icône</span>
+          </label>
+        </div>
+        <small class="form-text">Format accepté: JPG, PNG, SVG (Max 200MB)</small>
+      </div>
+    </ng-container>
+
+    <div class="detail-actions">
+      <button type="button" 
+              (click)="removeDetailFromSection(sectionIndex, i)" 
+              class="btn btn-danger btn-sm"
+              title="Supprimer ce détail">
+        🗑️ Supprimer
+      </button>
+    </div>
+  </div>
+
+  <div class="details-header">
+    <button type="button" 
+            (click)="addDetailToSection(sectionIndex)" 
+            class="btn btn-sm btn-blue">
+      + Ajouter un détail
+    </button>
+  </div>
+
+  <div *ngIf="section.details.length === 0" class="no-details">
+    <p>Aucun détail ajouté. Cliquez sur "+ Ajouter un détail" pour commencer.</p>
+  </div>
+</div>
           </div>
         </div>
       </div>
@@ -574,6 +559,14 @@
                          placeholder="Ex: 99€/mois ou Gratuit"
                          class="form-input">
                 </div>
+
+                 <div class="form-group">
+                  <label>Prix par *</label>
+                  <input type="text" 
+                         [(ngModel)]="priceSection.pricePer" 
+                         placeholder="Ex: mois, pages, session ..."
+                         class="form-input">
+                </div>               
               </div>
 
               <!-- Fonctionnalités du pack -->
@@ -582,65 +575,36 @@
                   <h6>Fonctionnalités incluses</h6>
                 </div>
 
-                <div *ngFor="let detail of priceSection.details; let dIndex = index" class="feature-item">
-                  <div class="feature-header">
-                    <span class="feature-number">Fonctionnalité #{{ dIndex + 1 }}</span>
-                    <button type="button" 
-                            (click)="removeDetailFromPriceSection(psIndex, dIndex)" 
-                            class="btn-icon-sm btn-danger"
-                            title="Supprimer">
-                      ✕
-                    </button>
-                  </div>
+<div *ngFor="let detail of priceSection.details; let dIndex = index" class="feature-item">
+  <div class="feature-header">
+    <span class="feature-number">Fonctionnalité #{{ dIndex + 1 }}</span>
+    <button type="button" 
+            (click)="removeDetailFromPriceSection(psIndex, dIndex)" 
+            class="btn-icon-sm btn-danger"
+            title="Supprimer">
+      ✕
+    </button>
+  </div>
 
-                  <div class="feature-fields">
-                    <div class="form-group">
-                      <label>Titre *</label>
-                      <input type="text" 
-                             [(ngModel)]="detail.title" 
-                             placeholder="Ex: Accès illimité"
-                             class="form-input">
-                    </div>
+  <div class="feature-fields">
+    <div class="form-group">
+      <label>Titre *</label>
+      <input type="text" 
+             [(ngModel)]="detail.title" 
+             placeholder="Ex: Accès illimité"
+             class="form-input">
+    </div>
 
-                    <div class="form-group">
-                      <label>Description</label>
-                      <textarea [(ngModel)]="detail.description" 
-                                rows="2" 
-                                placeholder="Ex: Accédez à toutes les fonctionnalités"
-                                class="form-input"></textarea>
-                    </div>
-
-                    <!-- Upload d'icône -->
-                    <label>Icône * (Image)</label>
-                    <div class="icon-upload-section">
-                      <!-- Preview de l'icône -->
-                      <div *ngIf="detail.icon" class="icon-preview">
-                        <img [src]="getIconPreview(detail.icon)" alt="Icon preview" class="icon-thumbnail">
-                        <button type="button" 
-                                (click)="removePriceDetailIcon(psIndex, dIndex)" 
-                                class="btn-remove-icon"
-                                title="Supprimer l'icône">
-                          ✕
-                        </button>
-                      </div>
-
-                      <!-- Input file pour upload -->
-                      <div class="file-input-wrapper">
-                        <input type="file" 
-                              (change)="onPriceDetailIconSelected($event, psIndex, dIndex)" 
-                              accept="image/*"
-                              [id]="'price-icon-' + psIndex + '-' + dIndex"
-                              class="file-input">
-                        <label [for]="'price-icon-' + psIndex + '-' + dIndex" class="file-label">
-                          <span class="file-icon">📁</span>
-                          <span>{{ detail.icon ? 'Changer l\'icône' : 'Choisir une icône' }}</span>
-                        </label>
-                      </div>
-                    
-                      <small class="form-text">Format accepté: JPG, PNG, SVG (Max 2MB)</small>
-                    </div>
-                  </div>
-                </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea [(ngModel)]="detail.description" 
+                rows="2" 
+                placeholder="Ex: Accédez à toutes les fonctionnalités"
+                class="form-input"></textarea>
+    </div>
+    <!-- ✅ Bloc icône supprimé -->
+  </div>
+</div>
 
                 <div class="features-header">
                   <button type="button" 
