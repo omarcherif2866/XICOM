@@ -36,7 +36,8 @@ export class ServiceComponent implements OnInit {
   showModal: boolean = false;
   modalMode: 'add' | 'edit' = 'add';
   currentModalStep: number = 1;
-  
+  private detailIconFiles = new Map<string, File>();
+
   // Données du formulaire
   formData: {
     id: any;
@@ -162,26 +163,29 @@ allPartenaires: Partenaire[] = [];
   /**
    * Obtenir la preview d'une icône
    */
-  getIconPreview(icon: any): SafeUrl | string {
-    if (!icon) return 'assets/images/placeholder.png';
-    
-    // Si c'est un objet File
-    if (icon instanceof File) {
-      const objectUrl = URL.createObjectURL(icon);
-      return this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-    }
-    
-    // Si c'est une string base64 ou URL
-    if (typeof icon === 'string' && icon.startsWith('data:image')) {
-      return this.sanitizer.bypassSecurityTrustUrl(icon);
-    }
-
-    if (typeof icon === 'string' && (icon.startsWith('http') || icon.startsWith('https'))) {
-      return icon;
-    }
-    
-    return 'assets/images/placeholder.png';
+getIconPreview(icon: any): SafeUrl | string {
+  if (!icon) return 'assets/images/placeholder.png';
+  
+  if (icon instanceof File) {
+    const objectUrl = URL.createObjectURL(icon);
+    return this.sanitizer.bypassSecurityTrustUrl(objectUrl);
   }
+  
+  // ✅ Ajouter ce cas pour les blob URLs
+  if (typeof icon === 'string' && icon.startsWith('blob:')) {
+    return this.sanitizer.bypassSecurityTrustUrl(icon);
+  }
+  
+  if (typeof icon === 'string' && icon.startsWith('data:image')) {
+    return this.sanitizer.bypassSecurityTrustUrl(icon);
+  }
+
+  if (typeof icon === 'string' && (icon.startsWith('http') || icon.startsWith('https'))) {
+    return icon;
+  }
+  
+  return 'assets/images/placeholder.png';
+}
 
   /**
    * Ajouter un nouveau service
@@ -265,16 +269,19 @@ allPartenaires: Partenaire[] = [];
   /**
    * Fermer le modal
    */
-  closeModal(): void {
-    if (confirm('Êtes-vous sûr de vouloir annuler ? Les modifications non enregistrées seront perdues.')) {
-      this.showModal = false;
-      this.formData = this.getEmptyFormData();
-      this.selectedImage = null;
-      this.selectedIcon = null;
-      this.selectedPartenaires = [];
+closeModal(): void {
+  if (confirm('Êtes-vous sûr de vouloir annuler ? Les modifications non enregistrées seront perdues.')) {
+    // ✅ Libérer mémoire
+    this.detailIconFiles.forEach((_, blobUrl) => URL.revokeObjectURL(blobUrl));
+    this.detailIconFiles.clear();
 
-    }
+    this.showModal = false;
+    this.formData = this.getEmptyFormData();
+    this.selectedImage = null;
+    this.selectedIcon = null;
+    this.selectedPartenaires = [];
   }
+}
 
   /**
    * Naviguer vers une étape spécifique
@@ -381,33 +388,33 @@ allPartenaires: Partenaire[] = [];
   /**
    * Sélection d'une icône pour un détail de section
    */
-  onDetailIconSelected(event: any, sectionIndex: number, detailIndex: number): void {
-    const file = event.target.files[0];
-    if (file) {
-      // Validation de la taille (200MB au lieu de 200MB)
-      if (file.size > 200 * 1024 * 1024) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'L\'icône ne doit pas dépasser 200MB'
-        });
-        return;
-      }
-      
-      // Validation du type
-      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml', 'image/webp'];
-      if (!allowedTypes.includes(file.type)) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Format non supporté. Utilisez PNG, JPG, SVG ou WEBP'
-        });
-        return;
-      }
-      
-      this.formData.sections[sectionIndex].details[detailIndex].icon = file;
+onDetailIconSelected(event: any, sectionIndex: number, detailIndex: number): void {
+  const file = event.target.files[0];
+  if (file) {
+    if (file.size > 200 * 1024 * 1024) {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'L\'icône ne doit pas dépasser 200MB' });
+      return;
     }
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'Format non supporté. Utilisez PNG, JPG, SVG ou WEBP' });
+      return;
+    }
+
+    const blobUrl = URL.createObjectURL(file);
+
+    // ✅ Garder la référence File dans la Map du component
+    this.detailIconFiles.set(blobUrl, file);
+
+    // ✅ Ajouter à la galerie pour affichage immédiat
+    if (!this.availableIcons.includes(blobUrl)) {
+      this.availableIcons = [...this.availableIcons, blobUrl];
+    }
+
+    // ✅ detail.icon = blob URL (string) → galerie + sélection automatique
+    this.formData.sections[sectionIndex].details[detailIndex].icon = blobUrl;
   }
+}
 
   /**
    * Supprimer l'icône d'un détail de section
@@ -564,9 +571,12 @@ countCompletedPriceSections(): number {
               title: 'Succès',
               text: 'Service créé avec succès !'
             });
-            this.showModal = false;
-            this.loadServices();
-            this.isSubmitting = false;
+              this.detailIconFiles.forEach((_, blobUrl) => URL.revokeObjectURL(blobUrl));
+              this.detailIconFiles.clear();
+              this.showModal = false;
+              this.loadServices();
+              this.loadAvailableIcons(); // ✅ Recharger depuis Cloudinary
+              this.isSubmitting = false;
           },
           error: (error) => {
             Swal.fire({
@@ -659,13 +669,13 @@ async prepareFormData(): Promise<FormData> {
   formData.append('sections', JSON.stringify(sectionsToSend));
   
   // ✅ Envoyez SEULEMENT les nouveaux fichiers File
-  this.formData.sections.forEach((section) => {
-    section.details.forEach((detail) => {
-      if (detail.icon instanceof File) {
-        formData.append('detailIcons', detail.icon);
-      }
-    });
+this.formData.sections.forEach((section) => {
+  section.details.forEach((detail) => {
+    if (typeof detail.icon === 'string' && this.detailIconFiles.has(detail.icon)) {
+      formData.append('detailIcons', this.detailIconFiles.get(detail.icon)!);
+    }
   });
+});
   
   // Même chose pour priceSections
   const priceSectionsToSend = this.formData.priceSections.map((ps) => ({
@@ -792,5 +802,12 @@ async prepareFormData(): Promise<FormData> {
   isPartenaireSelected(partenaire: Partenaire): boolean {
     return this.selectedPartenaires.some(p => p.Id === partenaire.Id);
   }
+
+getSafeIconUrl(url: string): SafeUrl | string {
+  if (url.startsWith('blob:')) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+  return url; // URL Cloudinary normale → pas besoin de sanitizer
+}
 
 }

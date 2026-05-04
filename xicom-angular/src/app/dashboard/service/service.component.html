@@ -397,7 +397,8 @@
                             [class.selected]="isIconSelected(iconUrl, detail)"
                             (click)="selectIconFromGallery(iconUrl, detail)"
                             [title]="iconUrl">
-                          <img [src]="iconUrl" alt="Icon" class="gallery-icon-img">
+                          <!-- ✅ Remplacer [src]="iconUrl" par : -->
+                          <img [src]="getSafeIconUrl(iconUrl)" alt="Icon" class="gallery-icon-img">
                           <div class="icon-check" *ngIf="isIconSelected(iconUrl, detail)">
                             <span class="check-mark">✓</span>
                           </div>
