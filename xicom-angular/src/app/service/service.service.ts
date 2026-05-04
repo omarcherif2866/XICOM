@@ -10,8 +10,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class ServiceService {
 
-  // private apiUrl = "/api/service";
-  private apiUrl = "http://localhost:9090/service";
+  private apiUrl = "/api/service";
+  // private apiUrl = "http://localhost:9090/service";
 
   constructor(private http: HttpClient, private router: Router) { }
 
