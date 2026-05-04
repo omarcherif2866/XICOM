@@ -710,6 +710,11 @@ async prepareFormData(): Promise<FormData> {
     if (p?.Id != null) formData.append('partenairesIds', p.Id.toString());
   });
 
+  console.log('=== FormData envoyé ===');
+for (const pair of (formData as any).entries()) {
+  console.log(pair[0], '→', pair[1]);
+}
+
   return formData;
 }
 

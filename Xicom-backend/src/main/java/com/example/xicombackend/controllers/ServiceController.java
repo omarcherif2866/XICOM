@@ -193,28 +193,27 @@ public class ServiceController {
                     for (ServiceSection section : sections) {
                         if (section.getDetails() != null) {
                             for (DetailObject detail : section.getDetails()) {
-                                if (detail.getIcon() == null || "".equals(detail.getIcon())) {
-                                    // ✅ Incrémenter seulement quand icon == ""
+
+                                // ✅ Seulement "" = nouveau fichier à uploader
+                                // null = pas d'icône, on ne touche pas à iconIndex
+                                if ("".equals(detail.getIcon())) {
                                     if (iconIndex < detailIcons.length) {
                                         MultipartFile iconFile = detailIcons[iconIndex];
                                         if (iconFile != null && !iconFile.isEmpty()) {
-                                            System.out.println("⬆️ Upload icône pour: " + detail.getTitle());
                                             String iconUrl = cloudinaryService.uploadIcon(iconFile, "xicom/icon");
                                             detail.setIcon(iconUrl);
                                             System.out.println("✅ Icône uploadée: " + iconUrl);
                                         }
-                                        iconIndex++; // ✅ Toujours incrémenter quand "" rencontré
+                                        iconIndex++;
                                     }
                                 } else if (detail.getIcon() != null && !detail.getIcon().isEmpty()) {
                                     System.out.println("⏭️ Icône existante conservée: " + detail.getIcon());
-                                } else {
-                                    System.out.println("⏭️ Pas d'icône pour: " + detail.getTitle());
                                 }
+                                // null → on ignore, pas d'incrémentation
                             }
                         }
                     }
                 }
-
                 existing.setSections(new ArrayList<>(sections));
 
                 System.out.println("🔍 Sections après modification:");
