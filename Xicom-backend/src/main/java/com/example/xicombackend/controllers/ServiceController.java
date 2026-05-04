@@ -65,7 +65,7 @@ public class ServiceController {
                 for (ServiceSection section : sections) {
                     if (section.getDetails() != null) {
                         for (DetailObject detail : section.getDetails()) {
-                            if ("".equals(detail.getIcon())) {
+                            if (detail.getIcon() == null || "".equals(detail.getIcon())) {
                                 // ✅ icon == "" → un fichier correspond à cette position
                                 if (iconIndex < detailIcons.length) {
                                     MultipartFile iconFile = detailIcons[iconIndex];
@@ -193,7 +193,7 @@ public class ServiceController {
                     for (ServiceSection section : sections) {
                         if (section.getDetails() != null) {
                             for (DetailObject detail : section.getDetails()) {
-                                if ("".equals(detail.getIcon())) {
+                                if (detail.getIcon() == null || "".equals(detail.getIcon())) {
                                     // ✅ Incrémenter seulement quand icon == ""
                                     if (iconIndex < detailIcons.length) {
                                         MultipartFile iconFile = detailIcons[iconIndex];

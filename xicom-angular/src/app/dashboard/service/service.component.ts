@@ -648,61 +648,64 @@ async prepareFormData(): Promise<FormData> {
   if (this.selectedImage) formData.append('image', this.selectedImage);
   if (this.selectedIcon) formData.append('icon', this.selectedIcon);
 
-  // ✅ ÉTAPE 1 — Construire le JSON avec "" pour les nouvelles icônes (blob URLs)
+  // ✅ ÉTAPE 1 — Identifier les détails avec de nouveaux fichiers
+  // AVANT de construire le JSON, on collecte les fichiers dans l'ordre exact
+  const newIconFiles: File[] = [];
+
   const sectionsToSend = this.formData.sections.map((section) => ({
     headline: section.headline,
     subtitle: section.subtitle,
-    details: section.details.map((detail) => ({
-      title: detail.title,
-      description: detail.description,
-      // ✅ Blob URL → "" (le backend utilisera le fichier de detailIcons)
-      // ✅ URL Cloudinary existante → la garder
-      // ✅ null/File → ""
-      icon: (typeof detail.icon === 'string' && !this.detailIconFiles.has(detail.icon))
-        ? detail.icon   // vraie URL Cloudinary → conserver
-        : ""            // blob URL ou null → "" → backend uploadera sur Cloudinary
-    }))
+    details: section.details.map((detail) => {
+      const isBlobUrl = typeof detail.icon === 'string' 
+                        && this.detailIconFiles.has(detail.icon);
+      const isCloudinaryUrl = typeof detail.icon === 'string' 
+                              && !this.detailIconFiles.has(detail.icon)
+                              && detail.icon !== ''
+                              && detail.icon !== null;
+
+      if (isBlobUrl) {
+        // Nouveau fichier → "" dans JSON + fichier dans detailIcons
+        newIconFiles.push(this.detailIconFiles.get(detail.icon as string)!);
+        return { title: detail.title, description: detail.description, icon: '' };
+      } else if (isCloudinaryUrl) {
+        // URL existante → la conserver telle quelle
+        return { title: detail.title, description: detail.description, icon: detail.icon };
+      } else {
+        // null ou "" → pas d'icône, PAS de "" qui décale les index !
+        return { title: detail.title, description: detail.description, icon: null };
+      }
+    })
   }));
 
   formData.append('sections', JSON.stringify(sectionsToSend));
 
-  // ✅ ÉTAPE 2 — Envoyer les fichiers dans le MÊME ordre que les "" dans le JSON
-  this.formData.sections.forEach((section) => {
-    section.details.forEach((detail) => {
-      if (typeof detail.icon === 'string' && this.detailIconFiles.has(detail.icon)) {
-        formData.append('detailIcons', this.detailIconFiles.get(detail.icon)!);
-      }
-    });
-  });
+  // ✅ ÉTAPE 2 — Ajouter les fichiers dans le même ordre que les "" dans le JSON
+  newIconFiles.forEach(file => formData.append('detailIcons', file));
 
-  // ✅ Même logique pour priceSections
+  // priceSections (même logique)
   const priceSectionsToSend = this.formData.priceSections.map((ps) => ({
     title: ps.title,
     subtitle: ps.subtitle,
     price: ps.price,
-    details: ps.details.map((detail) => ({
-      title: detail.title,
-      description: detail.description,
-      icon: (typeof detail.icon === 'string' && !this.detailIconFiles.has(detail.icon))
-        ? detail.icon
-        : ""
-    }))
+    details: ps.details.map((detail) => {
+      const isBlobUrl = typeof detail.icon === 'string' 
+                        && this.detailIconFiles.has(detail.icon);
+      const isCloudinaryUrl = typeof detail.icon === 'string' 
+                              && !this.detailIconFiles.has(detail.icon)
+                              && detail.icon !== '' && detail.icon !== null;
+      if (isBlobUrl) {
+        newIconFiles.push(this.detailIconFiles.get(detail.icon as string)!);
+        return { title: detail.title, description: detail.description, icon: '' };
+      } else if (isCloudinaryUrl) {
+        return { title: detail.title, description: detail.description, icon: detail.icon };
+      } else {
+        return { title: detail.title, description: detail.description, icon: null };
+      }
+    })
   }));
 
   formData.append('priceSections', JSON.stringify(priceSectionsToSend));
 
-  // ✅ Fichiers des priceSections
-  this.formData.priceSections.forEach((ps) => {
-    ps.details.forEach((detail) => {
-      if (typeof detail.icon === 'string' && this.detailIconFiles.has(detail.icon)) {
-        formData.append('detailIcons', this.detailIconFiles.get(detail.icon)!);
-      } else if (detail.icon instanceof File) {
-        formData.append('detailIcons', detail.icon);
-      }
-    });
-  });
-
-  // Partenaires
   (this.selectedPartenaires || []).forEach(p => {
     if (p?.Id != null) formData.append('partenairesIds', p.Id.toString());
   });
