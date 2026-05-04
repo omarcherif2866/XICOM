@@ -32,7 +32,7 @@
             <div class="price-card">
                 <span class="price-label">A partir de</span>
                 <div class="price-value">{{service.priceSections[0].price}}€</div>
-                <span class="price-period">HT / mois</span>
+                <span class="price-period">HT / {{service.priceSections[0].pricePer}}</span>
                 <div class="price-rating">
                     <span class="rating-score">4.91/5</span>
                     <div class="stars">
@@ -49,8 +49,10 @@
 <section id="methodology" >
     <div class="container">
         <div class="hero-text">
-            <h1>{{service.sections[1].headline}}</h1>
-            <p>{{service.sections[1].subtitle}}</p>
+            <!-- <h1>{{service.sections[1].headline}}</h1>
+            <p>{{service.sections[1].subtitle}}</p> -->
+            <h1>Notre méthodologie</h1>
+            <p>Une approche structurée pour garantir un site efficace et évolutif</p>
         </div>
         <div class="stats-grid"  >
         <div class="step-item" *ngFor="let detail of service.sections[1]?.details; let i = index">
@@ -89,7 +91,7 @@ et commencez dès aujourd’hui à optimiser votre temps</p>
         <h3>{{ price.title }}</h3>
         <div class="price">
           <span class="amount">{{ price.price }}€</span>
-          <span class="period">HT / mois</span>
+          <span class="period">HT / {{ price.pricePer }}</span>
         </div>
         <span class="amount">{{ price.subtitle }}</span>
       </div>
