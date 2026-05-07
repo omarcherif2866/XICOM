@@ -291,8 +291,8 @@ sanitizeImage(url: string): string {
 
   // Cas où l'URL est en double
   if (url.includes("https://res.cloudinary.com") && url.split("https://res.cloudinary.com").length > 2) {
-    const parts = url.split("https://res.cloudinary.com/daxkymr4t/image/upload/");
-    return "https://res.cloudinary.com/daxkymr4t/image/upload/" + parts[parts.length - 1];
+    const parts = url.split("https://res.cloudinary.com/dnrnrxm9q/image/upload/");
+    return "https://res.cloudinary.com/dnrnrxm9q/image/upload/" + parts[parts.length - 1];
   }
 
   return url;
