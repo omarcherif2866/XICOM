@@ -1,4 +1,4 @@
-<section class="heroP">
+<!-- <section class="heroP">
   <div class="services-ticker-wrapper">
     <div class="services-inner">
       <span class="services-item" *ngFor="let svc of serviceItems" [style.color]="svc.color">
@@ -7,53 +7,94 @@
       </span>
     </div>
   </div>
-</section>
+</section> -->
 
 
 
 <!-- Hero Section -->
 <section id="home" class="hero">
- 
-  <!-- Floating shapes décoratifs (restent inchangés) -->
+<div class="heroP">
+  <div class="services-ticker-wrapper">
+    <div class="services-inner">
+      <span class="services-item" *ngFor="let svc of serviceItems" [style.color]="svc.color">
+        <span class="svc-dot" ></span>
+        {{ svc.label }}
+      </span>
+    </div>
+  </div>
+</div>
   <div class="hero-background">
     <div class="floating-shape shape-1"></div>
     <div class="floating-shape shape-4"></div>
     <div class="floating-shape shape-2"></div>
     <div class="floating-shape shape-3"></div>
   </div>
- 
+  <img 
+    class="hero-bg-illustration"
+    src="assets/images/Max_a_enlever_le_navbar,_l.png" 
+    alt=""
+    aria-hidden="true"
+  />
   <div class="container hero-container">
- 
-    <!-- ===== COLONNE GAUCHE : Texte + CTA ===== -->
+
+    <!-- ===== COLONNE GAUCHE ===== -->
     <div class="hero-content">
+
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AGENCE DIGITALE
+      </div>
+
       <h1 class="hero-title">
-        Transformez votre présence
-        en ligne avec <span class="xicom-text">XICOM</span>
+        Agence digitale<br>
+        nouvelle <span class="xicom-text">génération</span>
       </h1>
- 
+
       <p class="hero-subtitle">
-        Nous offrons des solutions digitales sur mesure pour <strong>TPE</strong>
-        et <strong>PME</strong>, alliant créativité et stratégie.
+        Nous créons des stratégies digitales sur-mesure
+        qui génèrent de la <span class="highlight-text">croissance réelle</span> pour les
+        entreprises ambitieuses.
       </p>
- 
+
       <div class="hero-actions">
         <button class="btn-large btn-primary-large">
-          <img src="../../../assets/icons/flash.svg" alt="flash" class="btn-icon">
-          Commencer maintenant
+          Démarrer mon projet →
         </button>
         <button class="btn-large btn-secondary-large">
-          <img src="../../../assets/icons/calendrier.svg" alt="flash" class="btn-icon">En savoir plus</button>
+          <span class="play-icon">▶</span>
+          Découvrir nos services
+        </button>
       </div>
+
+      <!-- Pills -->
+      <div class="hero-pills">
+        <div class="pill pill-blue">
+          <span class="pill-icon">📊</span>
+          Performance
+        </div>
+        <div class="pill pill-orange">
+          <span class="pill-icon">💡</span>
+          Créativité
+        </div>
+        <div class="pill pill-pink">
+          <span class="pill-icon">🗄️</span>
+          Data
+        </div>
+      </div>
+
     </div>
- 
-    <!-- ===== COLONNE DROITE : Formulaire avec dégradé ===== -->
+
+<!-- <div class="hero-illustration">
+  <img 
+    class="hero-bg-illustration"
+    src="assets/images/Max_a_enlever_le_navbar,_l.png" 
+    alt=""
+    aria-hidden="true"
+  />
+</div> -->
+
+    <!-- ===== COLONNE DROITE : Formulaire ===== -->
     <div class="hero-image">
-      <!--
-        La card a maintenant :
-        - background: gradient blanc → transparent (de haut en bas)
-        - backdrop-filter: blur() pour l'effet verre givré
-        - La partie basse laisse voir l'image de fond de la section
-      -->
       <div class="hero-card">
         <form
           class="hero-form"
@@ -61,206 +102,414 @@
           [formGroup]="projectForm"
           (ngSubmit)="onSubmit()"
         >
-          <h3 class="form-title">Contacter-nous</h3>
- 
+          <h3 class="form-title">Parlons de votre projet</h3>
+          <div class="form-badge">
+            <span class="form-badge-icon">⚡</span>
+            Réponse sous 24h
+          </div>
+
           <div class="form-group">
+            <span class="input-icon">👤</span>
             <input
               type="text"
-              id="nom"
-              placeholder="Nom*"
+              placeholder="Nom complet*"
               class="form-input"
               formControlName="nom"
-              required
             >
           </div>
- 
+
           <div class="form-group">
-            <input
-              type="text"
-              id="prenom"
-              placeholder="Prénom*"
-              class="form-input"
-              formControlName="prenom"
-              required
-            >
-          </div>
- 
-          <div class="form-group">
+            <span class="input-icon">✉️</span>
             <input
               type="email"
-              id="email"
               placeholder="E-mail*"
               class="form-input"
               formControlName="email"
-              required
             >
           </div>
- 
-          <div class="form-group alternative">
-            <label for="countryCode">Pays et indicatif</label>
-            <div class="phone-group">
-              <div class="country-select-wrapper">
-                <img
-                  *ngIf="projectForm.get('countryCode')?.value"
-                  [src]="getSelectedCountryFlag()"
-                  alt="flag"
-                  class="country-flag"
-                >
-                <select
-                  class="country-select with-flag"
-                  id="countryCode"
-                  formControlName="countryCode"
-                >
-                  <option value="" disabled>🌍 Sélectionner</option>
-                  <option
-                    *ngFor="let country of allCountriesCodes"
-                    [value]="country.dial_code"
-                    [attr.data-flag]="country.flags.png"
-                  >
-                    {{ country.name }} {{ country.dial_code }}
-                  </option>
-                </select>
-              </div>
-              <input
-                type="tel"
-                id="phone"
-                placeholder="Numéro*"
-                class="form-input phone-input"
-                formControlName="phone"
-                required
-              >
-            </div>
-          </div>
- 
+
           <div class="form-group">
-            <button type="submit" class="btn-large btn-primary-contact form-submit">
-              Prendre RDV
+            <span class="input-icon">📞</span>
+            <input
+              type="tel"
+              placeholder="Téléphone"
+              class="form-input"
+              formControlName="phone"
+            >
+          </div>
+
+          <div class="form-group phone-row">
+            <div class="country-select-wrapper">
+              <img
+                *ngIf="projectForm.get('countryCode')?.value"
+                [src]="getSelectedCountryFlag()"
+                alt="flag"
+                class="country-flag"
+              >
+              <select
+                class="country-select"
+                formControlName="countryCode"
+              >
+                <option value="" disabled>🌍</option>
+                <option
+                  *ngFor="let country of allCountriesCodes"
+                  [value]="country.dial_code"
+                >
+                  {{ country.dial_code }}
+                </option>
+              </select>
+            </div>
+            <input
+              type="tel"
+              placeholder="Numéro*"
+              class="form-input phone-input"
+              formControlName="phone"
+            >
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn-large btn-submit">
+              Prendre rendez-vous
+              <span class="submit-icon">📅</span>
             </button>
           </div>
+
+          <p class="form-privacy">
+            <span>🔒</span> Vos données sont 100% confidentielles
+          </p>
+
         </form>
       </div>
     </div>
- 
+
   </div>
-  
-<!-- stats-ticker.component.html -->
-<div class="stats-ticker-wrapper">
-  <div class="ticker-track">
-    <div class="ticker-inner">
-      <!-- On duplique les items pour boucle infinie -->
-      <div class="stat-card" *ngFor="let stat of tickerItems">
-        <div class="stat-top">
-          <svg class="stat-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none">
-            <polygon points="5,1 9,9 1,9" fill="#22c55e"/>
-          </svg>
-          <span class="stat-label">{{ stat.label }}</span>
-        </div>
-        <span class="stat-value">{{ stat.value }}</span>
-      </div>
-    </div>
-  </div>
-</div>
+
 </section>
 
 <!-- Services Section -->
 <section id="services" class="services">
+  <div class="services-dots-tl"></div>
+  <div class="services-dots-br"></div>
+
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Nos Services</h2>
+      <div class="section-badge">
+        <span class="badge-dot"></span>
+        NOS SERVICES
+      </div>
+      <h2 class="section-title">Nos <span class="services-gradient-text">Services</span></h2>
       <p class="section-subtitle">Votre partenaire pour un succès durable</p>
+      <div class="section-underline"></div>
     </div>
-    
+
     <div class="services-grid">
-      <div class="service-card" *ngFor="let service of services; let i = index" 
-           [style.animation-delay]="(i * 0.05) + 's'">
-          <div class="service-icon" [style.--random-color]="generateRandomColor()">
+      <div class="service-card" *ngFor="let service of services; let i = index"
+           [style.animation-delay]="(i * 0.05) + 's'"
+           [attr.data-index]="i">
+        <div class="service-card-top">
+          <div class="service-icon-circle" [ngClass]="'color-' + (i % 8)">
             <img *ngIf="service.Icon" [src]="sanitizeImage(service.Icon)" alt="Icône service" class="ev-image" />
           </div>
+          <div class="service-dots">· · ·</div>
+        </div>
+        <div class="service-title-line" [ngClass]="'line-' + (i % 8)"></div>
         <h3 class="service-title">{{ service.title }}</h3>
-          <div style="text-align: left; width: 100%;">
-            <div *ngFor="let desc of service.sections[0].details | slice:0:3">
-              <p class="service-description">✔️ {{ desc.title }}</p>
-            </div>
+        <div class="service-items">
+          <div class="service-item" *ngFor="let desc of service.sections[0].details | slice:0:3"
+               [ngClass]="'check-' + (i % 8)">
+            <span class="check-icon">✔</span>
+                <span>{{ desc.title | truncate:27 }}</span>
           </div>
-        <a class="service-link" [routerLink]="['/serviceDetails', service.id]" >En savoir plus →</a>
+        </div>
+        <a class="service-link-btn" [ngClass]="'btn-' + (i % 8)"
+           [routerLink]="['/serviceDetails', service.id]">
+          Découvrir <span>→</span>
+        </a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Call to Action -->
-<section class="cta-section">
-  <div class="container">
-    <div class="cta-content">
-      <h2 class="cta-title">L'Art de Créer Ensemble</h2>
-      <p class="section-subtitle">Votre vision, notre expertise</p>
-      
-      <!-- Timeline -->
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>Consultation Initiale</h3>
-            <p>Nous discutons de vos besoins et objectifs
-pour définir les prochaines étapes.</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>Analyse Approfondie</h3>
-            <p>Nous analysons vos besoins pour développer
-une stratégie personnalisée.</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>Conception Personnalisée</h3>
-            <p>Notre équipe crée une solution sur mesure
-avec les dernières technologies.</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>Réalisation et Suivi</h3>
-            <p>Nous réalisons votre projet en vous tenant
-informé à chaque étape.</p>
-          </div>
-        </div>
-      </div>      
+<section class="process-section">
+
+  <!-- Decorative background blobs -->
+  <div class="blob blob-tl"></div>
+  <div class="blob blob-tr"></div>
+  <div class="dots dots-tl"></div>
+  <div class="dots dots-br"></div>
+
+  <!-- Header -->
+  <div class="process-header">
+    <div class="section-badge">
+      <span class="badge-dot"></span>
+      NOTRE PROCESSUS
     </div>
+    <h2 class="process-title">
+      L'Art de <span class="gradient-blue">Créer</span> <span class="gradient-purple">Ensemble</span>
+    </h2>
+    <p class="process-subtitle">Votre vision, notre expertise</p>
+    <div class="title-underline"></div>
   </div>
+
+  <!-- Main content: left info + timeline + right value props interleaved -->
+  <div class="process-body container">
+
+    <!-- Row 1 -->
+    <div class="process-row row-1">
+      <!-- Left: info card -->
+      <div class="info-card info-card--left">
+        <div class="info-icon-wrap color-blue">
+          <img src="assets/icons/target.png" alt="" class="info-icon-img" />
+        </div>
+        <div class="info-text">
+          <h3>Votre succès,<br>notre priorité</h3>
+          <p>Chaque projet est unique. Nous croyons en une approche collaborative et personnalisée pour des résultats durables.</p>
+        </div>
+      </div>
+
+      <!-- Center dot + connector -->
+      <div class="timeline-col">
+        <div class="tl-line tl-line--top"></div>
+        <div class="tl-dot tl-dot--blue"></div>
+        <div class="tl-dash tl-dash--right"></div>
+        <div class="tl-line tl-line--bottom"></div>
+      </div>
+
+      <!-- Right: step card -->
+      <div class="step-card step-card--right step-card--blue">
+        <div class="step-number">01</div>
+        <div class="step-icon-wrap">
+          <img src="assets/icons/disscussion.svg" alt="" />
+        </div>
+        <div class="step-body">
+          <h4>Consultation Initiale</h4>
+          <p>Nous discutons de vos besoins et objectifs pour définir les prochaines étapes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="process-row row-2">
+      <!-- Left: step card -->
+      <div class="step-card step-card--left step-card--red">
+        <div class="step-number">02</div>
+        <div class="step-icon-wrap">
+          <img src="assets/icons/pie.svg" alt="" />
+        </div>
+        <div class="step-body">
+          <h4>Analyse Approfondie</h4>
+          <p>Nous analysons vos besoins pour développer une stratégie personnalisée.</p>
+        </div>
+      </div>
+
+      <!-- Center dot -->
+      <div class="timeline-col">
+        <div class="tl-line"></div>
+        <div class="tl-dash tl-dash--left"></div>
+        <div class="tl-dot tl-dot--red"></div>
+        <div class="tl-line"></div>
+      </div>
+
+      <!-- Right: value prop -->
+      <div class="value-card value-card--right">
+        <div class="info-icon-wrap color-blue">
+          <img src="assets/icons/gemma.svg" alt="" class="info-icon-img" />
+        </div>
+        <!-- <div class="value-icon">✦</div> -->
+        <div>
+          <h5>Approche sur-mesure</h5>
+          <p>Des solutions adaptées à vos enjeux et à votre marché.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="process-row row-3">
+      <!-- Left: value prop -->
+      <div class="value-card value-card--left">
+        <div class="info-icon-wrap color-blue">
+          <img src="assets/icons/rocket.png" alt="" class="info-icon-img" />
+        </div>
+        <div>
+          <h5>Innovation &amp; Créativité</h5>
+          <p>Nous créons des expériences qui marquent et qui convertissent.</p>
+        </div>
+      </div>
+
+      <!-- Center dot -->
+      <div class="timeline-col">
+        <div class="tl-line"></div>
+        <div class="tl-dash tl-dash--right"></div>
+        <div class="tl-dot tl-dot--orange"></div>
+        <div class="tl-line"></div>
+      </div>
+
+      <!-- Right: step card -->
+      <div class="step-card step-card--right step-card--orange">
+        <div class="step-number">03</div>
+        <div class="step-icon-wrap">
+          <img src="assets/icons/bright.svg" alt="" />
+        </div>
+        <div class="step-body">
+          <h4>Conception Personnalisée</h4>
+          <p>Notre équipe conçoit une solution sur mesure avec les dernières technologies.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="process-row row-4">
+      <!-- Left: step card -->
+      <div class="step-card step-card--left step-card--purple">
+        <div class="step-number">04</div>
+        <div class="step-icon-wrap">
+          <img src="assets/icons/loupe.svg" alt="" />
+        </div>
+        <div class="step-body">
+          <h4>Réalisation et Suivi</h4>
+          <p>Nous réalisons votre projet en vous tenant informé à chaque étape.</p>
+        </div>
+      </div>
+
+      <!-- Center dot -->
+      <div class="timeline-col">
+        <div class="tl-line"></div>
+        <div class="tl-dash tl-dash--left"></div>
+        <div class="tl-dot tl-dot--purple"></div>
+        <div class="tl-line tl-line--bottom-end"></div>
+      </div>
+
+      <!-- Right: value prop + decorative chart -->
+      <div class="value-card value-card--right value-card--with-deco">
+        <div class="info-icon-wrap color-blue">
+          <img src="assets/icons/security.png" alt="" class="info-icon-img" />
+        </div>
+        <div>
+          <h5>Transparence &amp; Suivi</h5>
+          <p>Un accompagnement constant pour garantir votre satisfaction.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.process-body -->
+
+  <!-- CTA Banner -->
+  <div class="cta-banner container">
+    <div class="cta-banner-icon">
+      <img src="assets/icons/football.png" alt="" class="info-icon-img" />
+    </div>
+    <div class="cta-banner-text">
+      <h3>Ensemble, transformons<br>vos idées en <span class="gradient-orange">succès</span></h3>
+      <p>De la stratégie à la réalisation, nous sommes à vos côtés pour faire grandir votre projet.</p>
+    </div>
+    <button class="cta-btn" (click)="onCtaClick()">
+      Parlons de votre projet &nbsp;→
+    </button>
+  </div>
+
 </section>
 
 <!-- newsletter Section -->
 <section id="newsletter" class="newsletter">
+  <!-- Éléments décoratifs -->
+  <div class="nl-deco nl-envelope">
+    <svg viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="20" width="110" height="75" rx="10" fill="white" fill-opacity="0.9" filter="url(#shadow)"/>
+      <path d="M5 30 L60 62 L115 30" stroke="#c5c0f0" stroke-width="2" fill="none"/>
+      <rect x="25" y="8" width="70" height="55" rx="8" fill="white" stroke="#e0dcff" stroke-width="1.5"/>
+      <rect x="35" y="25" width="50" height="4" rx="2" fill="#c5c0f0"/>
+      <rect x="35" y="35" width="35" height="4" rx="2" fill="#d8d4f5"/>
+      <defs><filter id="shadow"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#a89ff0" flood-opacity="0.3"/></filter></defs>
+    </svg>
+  </div>
+  <div class="nl-deco nl-torus">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="40" cy="40" rx="35" ry="35" stroke="url(#torusGrad)" stroke-width="16" fill="none"/>
+      <defs>
+        <linearGradient id="torusGrad" x1="0" y1="0" x2="80" y2="80">
+          <stop offset="0%" stop-color="#7c6ff7"/>
+          <stop offset="100%" stop-color="#ec4899"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+  <div class="nl-deco nl-blob"></div>
+  <div class="nl-deco nl-telegram">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="20" fill="white" fill-opacity="0.8"/>
+      <path d="M8 20 L32 11 L24 31 L19 24 Z" fill="#b0aee8" fill-opacity="0.7"/>
+      <path d="M19 24 L17 30 L22 26 Z" fill="#9b97d8" fill-opacity="0.6"/>
+    </svg>
+  </div>
+  <div class="nl-dots nl-dots-tr"></div>
+  <div class="nl-dots nl-dots-br"></div>
+
   <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Inscrivez-vous à la newsletter</h2>
-        <form class="newsletter-form">
-          <div class="newsletter-input-group">
-            <input type="text" placeholder="Votre nom" class="form-input">
-          </div>
-          <div class="newsletter-input-group">
-            <input type="email" placeholder="Votre email" class="form-input">
-          </div>
-          <button type="submit" class="btn-large btn-primary-large form-submit">abonnez-vous</button>
-        </form>
-        <div class="social-media-container">
-          <h2 class="social-media-title">Abonnez-vous au réseau sociaux</h2>
-          <div class="social-media-links">
-            <a href="https://www.facebook.com/"><img src="../../assets/icons/fb.svg" alt="fb"></a>
-            <a href=""><img src="../../assets/icons/instagram.svg" alt="instagram"></a>
-            <a href=""><img src="../../assets/icons/linkedin.svg" alt="linkedin"></a>
-            <a href=""><img src="../../assets/icons/x.svg" alt="x"></a>
-            <a href=""><img src="../../assets/icons/youtube.svg" alt="youtube"></a>
-          </div>
+    <div class="nl-card">
+      <!-- Badge -->
+      <div class="nl-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 7 10-7"/>
+        </svg>
+        RESTEZ INFORMÉ
+      </div>
+
+      <!-- Titre -->
+      <h2 class="nl-title">
+        Inscrivez-vous à la <span class="nl-gradient-text">newsletter</span>
+      </h2>
+
+      <!-- Sous-titre -->
+      <p class="nl-subtitle">
+        Recevez nos dernières actualités, conseils et études de cas<br>
+        pour booster votre <span class="nl-orange-text">croissance digitale</span>.
+      </p>
+
+      <!-- Formulaire -->
+      <div class="nl-form-row">
+        <div class="nl-input-wrap">
+          <svg class="nl-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.8">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          <input type="text" placeholder="Votre nom" class="nl-input">
         </div>
+        <div class="nl-input-wrap">
+          <svg class="nl-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.8">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 7 10-7"/>
+          </svg>
+          <input type="email" placeholder="Votre email" class="nl-input">
+        </div>
+        <button class="nl-btn-subscribe">
+          S'abonner maintenant
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Réseaux sociaux -->
+      <p class="nl-social-title">Suivez-nous sur les réseaux sociaux</p>
+      <div class="nl-social-links">
+        <a href="https://www.facebook.com/" class="nl-social-icon" aria-label="Facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="" class="nl-social-icon nl-insta" aria-label="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="url(#igGrad)" stroke-width="1.8">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="#c13584"/>
+            <defs><linearGradient id="igGrad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#f09433"/><stop offset="0.25" stop-color="#e6683c"/><stop offset="0.5" stop-color="#dc2743"/><stop offset="0.75" stop-color="#cc2366"/><stop offset="1" stop-color="#bc1888"/></linearGradient></defs>
+          </svg>
+        </a>
+        <a href="" class="nl-social-icon" aria-label="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="" class="nl-social-icon" aria-label="X (Twitter)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.737-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25z"/></svg>
+        </a>
+        <a href="" class="nl-social-icon" aria-label="YouTube">
+          <svg width="22" height="16" viewBox="0 0 24 17" fill="#FF0000"><path d="M23.5 2.5S23.2.8 22.5.1C21.6-.9 20.6-.9 20.1-.8 16.8-.6 12 -.6 12-.6s-4.8 0-8.1.2C3.4-.3 2.4-.3 1.5.1.8.8.5 2.5.5 2.5S.2 4.5.2 6.5v1.9c0 2 .3 4 .3 4s.3 1.7 1 2.4c.9 1 2.1.9 2.6 1C5.8 16 12 16 12 16s4.8 0 8.1-.2c.5-.1 1.5-.1 2.4-1 .7-.7 1-2.4 1-2.4S24 10.4 24 8.4V6.5c0-2-.5-4-.5-4zm-14 8.1V4.4l6.5 3.1-6.5 3.1z"/></svg>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -268,227 +517,466 @@ informé à chaque étape.</p>
 
 <!-- Values Section -->
 <section id="values" class="values">
+  <!-- Éléments décoratifs -->
+  <div class="val-blob val-blob-tl"></div>
+  <div class="val-blob val-blob-tr"></div>
+  <div class="val-dots val-dots-tl"></div>
+  <div class="val-dots val-dots-br"></div>
+
   <div class="container">
     <div class="section-headerValues">
-      <h2 class="section-title">Nos Valeurs</h2>
+      <span class="val-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        NOS VALEURS
+      </span>
+      <h2 class="section-title val-title">
+        Nos <span class="val-gradient-text">Valeurs</span>
+      </h2>
       <p class="section-subtitle">Ce qui nous guide au quotidien</p>
+      <div class="val-title-line"></div>
     </div>
 
     <div class="wave-timeline">
+      <!-- Courbe SVG de connexion -->
+<svg class="wave-svg" viewBox="0 0 1200 240" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="waveGradV" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#6863BF"/>
+      <stop offset="33%"  stop-color="#9b59f7"/>
+      <stop offset="66%"  stop-color="#51B3D8"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+  <!-- Pics à y=20, vallées à y=220, x alignés sur getLeft(i) * 1200 -->
+  <path
+    d="M96,20 C144,20 192,220 240,220
+       C288,220 336,20 384,20
+       C432,20 480,220 528,220
+       C576,220 624,20 672,20
+       C720,20 768,220 816,220
+       C864,220 912,20 960,20
+       C1008,20 1056,220 1104,220"
+    fill="none"
+    stroke="url(#waveGradV)"
+    stroke-width="2.5"
+    stroke-linecap="round"/>
+  <!-- Dots aux vallées 1, 3, 5 -->
+  <circle cx="240" cy="220" r="8" fill="#7c6ff7"/>
+  <circle cx="528" cy="220" r="8" fill="#9b59f7"/>
+  <circle cx="816" cy="220" r="8" fill="#51B3D8"/>
+</svg>
 
-      <!-- Courbe sinusoïdale -->
-      <svg class="wave-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stop-color="#6863BF"/>
-            <stop offset="100%" stop-color="#51B3D8"/>
-          </linearGradient>
-        </defs>
-        <path
-          d="M0,20 C57,20 114,180 171,180 C228,180 285,20 343,20 C400,20 457,180 514,180 C571,180 628,20 686,20 C743,20 800,180 857,180 C914,180 971,20 1029,20 C1086,20 1143,180 1200,180"
-          fill="none"
-          stroke="url(#waveGrad)"
-          stroke-width="2.5"
-          stroke-linecap="round"/>
-      </svg>
-
-      <!-- Cards -->
+      <!-- Cards via *ngFor -->
       <div class="wave-item"
            *ngFor="let value of values; let i = index"
            [class.is-peak]="i % 2 === 0"
            [class.is-valley]="i % 2 !== 0"
            [style.left]="getLeft(i)"
-           [style.animation-delay]="(i * 0.12) + 's'">
+           [style.animation-delay]="(i * 0.1) + 's'">
 
-        <div class="wave-card"
-            [style.border-color]="value.color"
-            [style.background]="value.color ">
-          <span class="wave-icon" >{{ value.icon }}</span>
-          <h3 class="wave-title" >{{ value.title }}</h3>
+        <div class="wave-card-new">
+          <!-- Icône flottant au-dessus de la carte -->
+          <div class="val-icon-circle" [style.background]="value.gradient">
+            <span class="val-icon-emoji">{{ value.icon }}</span>
+          </div>
+          <h3 class="val-card-title">{{ value.title }}</h3>
+          <div class="val-card-accent" [style.background]="value.lineColor"></div>
+          <p class="val-card-desc">{{ value.desc }}</p>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
 <!-- Team Section -->
-<section id="team" class="team">
+<section id="feedback" class="feedback-section">
+  <!-- Décors -->
+  <div class="fb-blob fb-blob-tl"></div>
+  <div class="fb-dots fb-dots-tl"></div>
+  <div class="fb-dots fb-dots-br"></div>
+  <div class="fb-heart-deco">💬</div>
+
   <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Ce qu'ils disent de nous</h2>
-    </div>
-
-<div class="carousel-wrapper">
-  <div class="carousel-track" [style.transform]="'translateX(-' + currentGroupIndex * 100 + '%)'">
-    <div class="feedback-group" *ngFor="let group of groupedTeam; let gi = index">
-  <div class="feedback-card"
-       *ngFor="let member of group; let j = index"
-       [style.background]="getCardColor(gi, j)">
-
-    <div class="feedback-header">
-      <div class="feedback-avatar">
-        <img [src]="member.image" [alt]="member.name" />
-      </div>
-      <div class="feedback-meta">
-        <h3 class="feedback-name" style="color:#fff">{{ member.name }}</h3>
-        <p class="feedback-secteur" style="color:rgba(255,255,255,0.75)">{{ member.secteur }}</p>
-      </div>
-      <div class="feedback-stars" style="color:#fff">★★★★★</div>
-    </div>
-    <p class="feedback-message" style="color:rgba(255,255,255,0.85)">{{ member.message }}</p>
-
-  </div>
-    </div>
-  </div>
-</div>
-
-    <div class="carousel-dots">
-      <span class="dot"
-            *ngFor="let g of groupedTeam; let i = index"
-            [class.active]="i === currentGroupIndex"
-            (click)="goToSlide(i)">
+    <!-- Header -->
+    <div class="fb-header">
+      <span class="fb-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        TÉMOIGNAGES
       </span>
+      <h2 class="fb-title">
+        Ce qu'ils <span class="fb-grad-blue">disent </span> <span class="fb-grad-purple">de </span> <span class="fb-grad-pink">nous</span>
+      </h2>
+      <div class="fb-title-line"></div>
+      <p class="fb-subtitle">La satisfaction de nos clients est notre plus belle réussite.</p>
     </div>
 
+    <!-- Carousel -->
+    <div class="carousel-wrapper">
+      <div class="carousel-track" [style.transform]="'translateX(-' + currentGroupIndex * 100 + '%)'">
+        <div class="feedback-group" *ngFor="let group of groupedTeam; let gi = index">
+<div class="feedback-card" 
+     *ngFor="let member of group; let j = index" 
+     [ngClass]="'fb-card-' + (j % 3)">   <!-- ← j % 3 au lieu de j -->
+
+  <div class="feedback-header">
+    <div class="feedback-avatar" [ngClass]="'fb-avatar-' + (j % 3)">
+      <img [src]="member.image" [alt]="member.name" />
+    </div>
+    <div class="feedback-meta">
+      <h3 class="feedback-name">{{ member.name }}</h3>
+      <p class="feedback-secteur" [ngClass]="'fb-secteur-' + (j % 3)">{{ member.secteur }}</p>
+    </div>
+    <div class="feedback-stars" [ngClass]="'fb-stars-' + (j % 3)">★★★★★</div>
+  </div>
+
+  <div class="fb-quote-open" [ngClass]="'fb-quote-open-' + (j % 3)">"</div>
+  <p class="feedback-message">{{ member.message }}</p>
+  <div class="fb-quote-close" [ngClass]="'fb-quote-close-' + (j % 3)">"</div>
+
+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dots -->
+<div class="carousel-dots">
+  <span 
+    class="dot"
+    *ngFor="let g of groupedTeam; let i = index"
+    [class.active]="i === currentGroupIndex"
+    (click)="goToSlide(i)">
+  </span>
+</div>
   </div>
 </section>
 
 
 <!-- rdv Section -->
-<section id="rdv" class="rdv">
-  <div class="container">
-    <div class="section-header-rdv">
-      <h2 class="section-title-rdv">Avez-vous un projet en préparation ? <br>
+<section id="rdv" class="rdv-section">
+  <!-- Décors extérieurs -->
+  <div class="rdv-blob-bl"></div>
+  <div class="rdv-blob-tr"></div>
+  <div class="rdv-dots-tl"></div>
 
-Contactez-nous pour un accompagnement personnalisé !</h2>
-        <button class="btn-large btn-secondary-large-rdv">
-          <img src="../../../assets/icons/calendrier blanc.svg" alt="flash" class="btn-icon-rdv">Prendre RDV</button>
+  <div class="container">
+    <div class="rdv-card">
+      <!-- Icônes 3D décoratives -->
+      <span class="rdv-deco rdv-deco--sun">☀️</span>
+      <span class="rdv-deco rdv-deco--puzzle">🧩</span>
+      <span class="rdv-deco rdv-deco--phone">📱</span>
+      <span class="rdv-deco rdv-deco--bolt">⚡</span>
+      <span class="rdv-deco rdv-deco--circle"></span>
+
+      <!-- Contenu centré -->
+      <div class="rdv-content">
+        <span class="rdv-badge">
+          🎯 PRÊT À DÉMARRER ?
+        </span>
+
+        <h2 class="rdv-title">
+          Avez-vous un <span class="rdv-grad-blue">projet</span>
+          <span class="rdv-grad-pink"> en préparation</span> ?<br>
+          Contactez-nous pour un<br>
+          <span class="rdv-grad-blue">accompagnement</span>
+          <span class="rdv-grad-pink"> personnalisé </span>!
+        </h2>
+
+        <div class="rdv-title-line"></div>
+
+        <button class="rdv-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Prendre rendez-vous
+          <span class="rdv-btn-arrow">→</span>
+        </button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- News Section -->
-<section id="news" class="news">
+<section id="news" class="news-section">
+  <!-- Décors -->
+  <div class="news-blob-tr"></div>
+  <div class="news-blob-bl"></div>
+  <div class="news-dots-tl"></div>
+  <div class="news-dots-br"></div>
+
   <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Actualités</h2>
-      <p class="section-subtitle">Restez informé de nos dernières nouveautés</p>
+    <!-- Header -->
+    <div class="news-header">
+      <span class="news-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+          <path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>
+        </svg>
+        NOS ACTUALITÉS
+      </span>
+      <h2 class="news-title-main">
+        Actual<span class="news-grad-pink">ités</span>
+      </h2>
+      <div class="news-title-line"></div>
+      <p class="news-subtitle">Restez informé de nos dernières nouveautés</p>
     </div>
 
+    <!-- Carousel -->
     <div class="carousel-wrapper">
-      <div class="carousel-track" [style.transform]="'translateX(-' + currentNewsIndex * 100 + '%)'">
-<div class="news-group" *ngFor="let group of groupedNews; let gi = index">
-  <div class="news-card"
-       *ngFor="let actu of group; let j = index"
-       [style.background]="getCardColor(gi, j)"
-       (click)="goToDetail(actu.id)">
-    <div class="news-content">
-      <h3 class="news-title" style="color:#fff">{{ actu.title }}</h3>
-      <p class="news-description" style="color:rgba(255,255,255,0.80)">{{ actu.description }}</p>
-      <button class="news-link" style="color:rgba(255,255,255,0.90)" (click)="goToDetail(actu.id)">
-        Savoir plus →
-      </button>
-    </div>
-  </div>
-</div>
+      <div class="carousel-track"
+           [style.transform]="'translateX(-' + currentNewsIndex * 100 + '%)'">
+
+        <div class="news-group" *ngFor="let group of groupedNews; let gi = index">
+          <div class="news-card-new"
+               *ngFor="let actu of group; let j = index"
+               [ngClass]="'news-card-' + (j % 3)"
+               (click)="goToDetail(actu.id)">
+
+            <!-- Image / Illustration -->
+            <div class="news-card-img" [ngClass]="'news-img-bg-' + (j % 3)">
+              <img *ngIf="actu.image" [src]="actu.image" [alt]="actu.title" />
+              <div *ngIf="!actu.image" class="news-img-placeholder">
+                <span class="news-img-icon">{{ ['📍', '📊', '🤖'][j % 3] }}</span>
+              </div>
+            </div>
+
+            <!-- Contenu -->
+            <div class="news-card-body">
+              <div class="news-card-meta">
+                <span class="news-category" [ngClass]="'news-cat-' + (j % 3)">
+                  {{ actu.category || 'ACTUALITÉ' }}
+                </span>
+                <span class="news-date">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  {{ actu.date }}
+                </span>
+              </div>
+
+              <h3 class="news-card-title">{{ actu.title }}</h3>
+              <p class="news-card-desc">{{ actu.description }}</p>
+
+              <button class="news-read-more" [ngClass]="'news-read-' + (j % 3)"
+                      (click)="$event.stopPropagation(); goToDetail(actu.id)">
+                Lire la suite →
+              </button>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="carousel-dots">
-      <span class="dot"
-            *ngFor="let g of groupedNews; let i = index"
-            [class.active]="i === currentNewsIndex"
-            (click)="goToNewsSlide(i)">
-      </span>
-    </div>
+    <!-- Footer : lien gauche + dots centrés -->
+    <div class="news-bottom">
+      <div class="news-footer-left">
+        <button class="news-voir-tout" (click)="voirToutesActualites()">
+          Voir toutes les actualités →
+        </button>
+        <div class="news-voir-line"></div>
+      </div>
 
-    <div class="news-footer">
-      <button class="news-link" (click)="voirToutesActualites()">
-        Voir toutes les actualités →
-      </button>
+      <div class="carousel-dots">
+        <span class="dot"
+              *ngFor="let g of groupedNews; let i = index"
+              [class.active]="i === currentNewsIndex"
+              (click)="goToNewsSlide(i)">
+        </span>
+      </div>
+
+      <div class="news-footer-right"></div>
     </div>
 
   </div>
 </section>
 
 <!-- Contact Section -->
-<section id="contact" class="contact">
+<section id="contact" class="contact-section">
+  <!-- Décors -->
+  <div class="ct-blob-tr"></div>
+  <div class="ct-blob-bl"></div>
+  <div class="ct-dots-tl"></div>
+  <div class="ct-dots-br"></div>
+
   <div class="container">
-    <div class="contact-wrapper">
+    <div class="ct-wrapper">
 
-      <div class="contact-info">
+      <!-- PANNEAU GAUCHE -->
+      <div class="ct-left">
+        <img src="../../../assets/images/contact.jpg" alt="" class="ct-bg-img" />
+        <div class="ct-left-overlay"></div>
 
-        <div class="contact-image-wrapper">
-          <img src="../../../assets/images/contact.jpg" alt="">
-          
-          <div class="contact-overlay-top">
-            <h2 class="contact-title">Contactez nous</h2>
-            <p class="contact-description">
-              Prenez contact pour un accompagnement personnalisé.
+        <div class="ct-left-content">
+          <!-- Titre -->
+          <div class="ct-left-top">
+            <p class="ct-label">Contactez-nous</p>
+            <h2 class="ct-title">
+              Nous sommes là<br>
+              pour <span class="ct-grad">vous accompagner</span>
+            </h2>
+            <div class="ct-title-line"></div>
+            <p class="ct-desc">
+              Prenez contact pour un accompagnement personnalisé et des solutions adaptées à vos besoins.
             </p>
           </div>
-          <div class="contact-overlay-bottom  ">
-          <div class="contact-details">
-            <div class="contact-item">
-              <img src="../../../assets/icons/phone.svg" alt="">
-                <div class="contact-value">+216 56 656 656</div>
-            </div>
-            <div class="contact-item">
-              <img src="../../../assets/icons/mail.svg" alt="">
 
-                <div class="contact-value">contact@xicom.fr</div>
+          <!-- Coordonnées -->
+          <div class="ct-details">
+            <div class="ct-item">
+              <div class="ct-icon-wrap ct-icon-purple">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.44 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="ct-item-label">Appelez-nous</p>
+                <p class="ct-item-value">+216 56 656 656</p>
+              </div>
             </div>
-            <div class="contact-item">
-              <img src="../../../assets/icons/localisation.svg" alt="" >
 
-                <div class="contact-value">123 Avenue des Champs-Élysées, Paris</div>
+            <div class="ct-item">
+              <div class="ct-icon-wrap ct-icon-blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div>
+                <p class="ct-item-label">Envoyez-nous un email</p>
+                <p class="ct-item-value">contact@xicom.fr</p>
+              </div>
+            </div>
+
+            <div class="ct-item">
+              <div class="ct-icon-wrap ct-icon-teal">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div>
+                <p class="ct-item-label">Notre adresse</p>
+                <p class="ct-item-value">123 Avenue des Champs-Élysées,<br>75008 Paris, France</p>
+              </div>
             </div>
           </div>
+
+          <!-- Carte aide rapide -->
+          <div class="ct-help-card">
+            <div class="ct-help-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="ct-help-title">Besoin d'aide rapidement ?</p>
+              <p class="ct-help-desc">Notre équipe est disponible du lundi au vendredi de 9h00 à 18h00.</p>
+            </div>
           </div>
         </div>
-
       </div>
 
-      <div class="contact-form">
-        <form class="hero-form" id="contactForm" [formGroup]="contactForm" >
-          <div class="form-group">
-            <input type="text" placeholder="Votre nom" class="form-input" formControlName="nom" required>
+      <!-- PANNEAU DROIT -->
+      <div class="ct-right">
+        <form [formGroup]="contactForm">
+
+          <div class="ct-field">
+            <div class="ct-field-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <input type="text" placeholder="Votre nom" class="ct-input" formControlName="nom" />
           </div>
-          <div class="form-group">
-            <input type="email" placeholder="Votre email" class="form-input" formControlName="email" required>
+
+          <div class="ct-field">
+            <div class="ct-field-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <input type="email" placeholder="Votre email" class="ct-input" formControlName="email" />
           </div>
-          <div class="form-group">
-            <input type="text" placeholder="Sujet" class="form-input" formControlName="sujet" required>
+
+          <div class="ct-field">
+            <div class="ct-field-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <input type="text" placeholder="Sujet" class="ct-input" formControlName="sujet" />
           </div>
-          <div class="form-group alternative">
-            <div class="phone-group">
-                <div class="country-select-wrapper">
-                    <img *ngIf="contactForm.get('countryCode')?.value" 
-                        [src]="getSelectedCountryFlagContactForm()" 
-                        alt="flag"
-                        class="country-flag">
-                    <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
-                        <option value="" disabled>🌍 Sélectionner</option>
-                        <option *ngFor="let country of allCountriesCodes" 
-                                [value]="country.dial_code"
-                                [attr.data-flag]="country.flags.png">
-                            {{ country.name }} {{ country.dial_code }}
-                        </option>
-                    </select>
-                </div>
-                <input type="tel" 
-                      id="phone" 
-                      placeholder="Numéro*" 
-                      class="form-input phone-input" 
-                      formControlName="phone" 
-                      required>
+
+          <!-- Row téléphone -->
+          <div class="ct-phone-row">
+            <div class="ct-field ct-phone-country">
+              <img *ngIf="contactForm.get('countryCode')?.value"
+                   [src]="getSelectedCountryFlagContactForm()"
+                   alt="flag" class="ct-flag" />
+              <select class="ct-select" formControlName="countryCode">
+                <option value="" disabled>🌍</option>
+                <option *ngFor="let country of allCountriesCodes"
+                        [value]="country.dial_code">
+                  {{ country.name }} {{ country.dial_code }}
+                </option>
+              </select>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+
+            <div class="ct-field ct-phone-number">
+              <div class="ct-field-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.44 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/>
+                </svg>
+              </div>
+              <input type="tel" placeholder="Numéro*" class="ct-input" formControlName="phone" />
             </div>
           </div>
-          <div class="form-group">
-            <textarea placeholder="Votre message" class="form-textarea" rows="5" formControlName="message"></textarea>
+
+          <!-- Textarea message -->
+          <div class="ct-field ct-field-textarea">
+            <div class="ct-field-icon ct-field-icon--top">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <textarea placeholder="Votre message" class="ct-textarea" rows="5" formControlName="message"></textarea>
           </div>
-          <button type="submit" class="btn-large btn-primary-large form-submit">Envoyer le message</button>
+
+          <!-- Bouton -->
+          <button type="submit" class="ct-submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Envoyer le message
+          </button>
+
+          <!-- Sécurité -->
+          <p class="ct-security">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Vos données sont sécurisées et confidentielles.
+          </p>
+
         </form>
       </div>
 

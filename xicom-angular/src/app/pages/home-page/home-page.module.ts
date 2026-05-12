@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { ComponentsModule } from 'src/app/components/components.module'
-import { HomePage } from './home-page.component'
+import { HomePage, TruncatePipe } from './home-page.component'
 
 const routes = [
   {
@@ -14,7 +14,7 @@ const routes = [
 ]
 
 @NgModule({
-  declarations: [HomePage],
+  declarations: [HomePage,TruncatePipe],
   imports: [CommonModule, ComponentsModule, FormsModule, ReactiveFormsModule, RouterModule.forChild(routes)],
   exports: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

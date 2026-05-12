@@ -1,31 +1,17 @@
-/* ===== VARIABLES & IMPORTS ===== */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap');
 
 :root {
   --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-
+  --cta-gradient: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
+  --brand-purple: #6863BF;
   --text-dark: #1a1a2e;
   --text-light: #6b7280;
-  --text-white: #ffffff;
-  --bg-light: #f8f9fa;
   --bg-white: #ffffff;
-
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
-  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
-
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.08);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --border-radius: 16px;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: 'Space Grotesk', sans-serif;
@@ -35,88 +21,61 @@ body {
   overflow-x: hidden;
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
 /* ===== NAVBAR ===== */
 .navbar {
   position: fixed;
-  top: 0;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
-  margin: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
+  width: 94%;
+  max-width: 1400px;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(16px);
   box-shadow: var(--shadow-sm);
   z-index: 1000;
-  padding: 20px 0;
-  transition: var(--transition);
-  border-radius: 12px;
-}
-/* ===== SOCIAL MEDIA (desktop) ===== */
-.social-media-links {
-  display: flex;
-  justify-content: center;
-  gap: 27px;
-  width: 100%;
-  list-style: none;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-  fill: #6863BF;
-  transition: 0.3s ease;
-  cursor: pointer;
-}
-
-.icon:hover {
-  fill: #000;
-  transform: scale(1.15);
+  padding: 0 28px;
+  border-radius: 16px;
+  height: 72px;
 }
 
 .navbar .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
+  max-width: 100%;
+  padding: 0;
 }
 
-.nav-brand .logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 800;
-  background: var(--primary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  cursor: pointer;
-}
+/* ===== LOGO ===== */
+.nav-brand a { display: flex; align-items: center; }
+.nav-brand .logoK { width: 88px; height: auto; display: block; }
 
-/* ===== MENU DESKTOP ===== */
+/* ===== MENU CENTRAL ===== */
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 32px;
+  gap: 28px;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-menu li a {
   color: var(--text-dark);
   text-decoration: none;
   font-weight: 500;
+  font-size: 14.5px;
   cursor: pointer;
   position: relative;
   transition: var(--transition);
-  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
 }
 
-.nav-menu li a:hover {
-  color: #667eea;
-}
+.nav-menu li a:hover { color: var(--brand-purple); }
 
 .nav-menu li a::after {
   content: '';
@@ -128,51 +87,149 @@ body {
   background: var(--primary-gradient);
   transition: width 0.3s ease;
 }
+.nav-menu li a:hover::after { width: 100%; }
 
-.nav-menu li a:hover::after {
-  width: 100%;
-}
 
-/* ===== BOUTONS NAVBAR ===== */
-.nav-actions {
+
+/* ===== DROITE DESKTOP ===== */
+.nav-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
-.btn-primary {
-  box-sizing: border-box;
+/* Icônes sociales */
+.social-icons {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  padding: 18px 35px;
-  gap: 10px;
-  width: 157px;
-  height: 57px;
-  background: #EFF0F4;
-  border: 1px solid #6863BF;
-  border-radius: 12px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  color: #6863BF;
-  font-family: 'Montserrat';
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
+  width: 20px;
+  height: 20px;
   transition: var(--transition);
 }
 
-.nav-icon-link {
-  position: relative;
-  display: inline-block;
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--brand-purple);
+  transition: 0.3s ease;
 }
 
+.social-link:hover svg {
+  fill: #1a1a2e;
+  transform: scale(1.15);
+}
+
+/* Séparateur vertical */
+.nav-divider {
+  width: 1px;
+  height: 32px;
+  background: #e5e7eb;
+  flex-shrink: 0;
+}
+
+/* ===== BOUTONS ===== */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* "Se connecter" — outline */
+.btn-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  height: 44px;
+  background: transparent;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  color: var(--text-dark);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.btn-login:hover {
+  border-color: var(--brand-purple);
+  color: var(--brand-purple);
+  transform: translateY(-1px);
+}
+
+/* "Démarrer un projet →" — gradient orange→rose */
+.btn-cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  height: 44px;
+  background: var(--cta-gradient);
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+/* ===== BTN-CTA FORCE OVERRIDE ===== */
+.btn-cta,
+.nav-menu .btn-cta,
+.nav-btn-group .btn-cta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 22px !important;
+  height: 44px !important;
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 100%) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  color: #ffffff !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+  -webkit-text-fill-color: #ffffff !important; /* ← clé si tu as un gradient text ailleurs */
+  -webkit-background-clip: unset !important;   /* ← annule background-clip: text */
+  background-clip: unset !important;
+  width: auto !important;
+}
+
+.btn-cta svg,
+.nav-menu .btn-cta svg,
+.nav-btn-group .btn-cta svg {
+  width: 16px !important;
+  height: 16px !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+}
+
+/* ===== ICÔNES ADMIN / LOGOUT ===== */
+.nav-icon-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
 .nav-icon-tooltip {
   visibility: hidden;
   opacity: 0;
-  background-color: #6863BF;
+  background: var(--brand-purple);
   color: #fff;
   text-align: center;
   padding: 4px 10px;
@@ -180,66 +237,27 @@ body {
   font-size: 12px;
   white-space: nowrap;
   position: absolute;
-  bottom: -30px;
+  bottom: -32px;
   left: 50%;
   transform: translateX(-50%);
   transition: opacity 0.3s;
   z-index: 999;
 }
-
-.nav-icon-link:hover .nav-icon-tooltip {
-  visibility: visible;
-  opacity: 1;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-}
-
-.btn-secondary {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 18px 35px;
-  gap: 10px;
-  width: 157px;
-  height: 57px;
-  background: #6863BF;
-  border: 1px solid #6863BF;
-  border-radius: 12px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  color: #ffffff;
-  font-family: 'Montserrat';
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.btn-secondary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-}
+.nav-icon-link:hover .nav-icon-tooltip { visibility: visible; opacity: 1; }
 
 /* ===== HAMBURGER ===== */
 .nav-toggle {
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 28px;
-  height: 20px;
+  width: 26px;
+  height: 18px;
   cursor: pointer;
   background: none;
   border: none;
   padding: 0;
   z-index: 1100;
 }
-
 .nav-toggle span {
   display: block;
   height: 2px;
@@ -248,211 +266,117 @@ body {
   border-radius: 4px;
   transition: var(--transition);
 }
+.nav-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-.nav-toggle.open span:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
-}
-.nav-toggle.open span:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.nav-toggle.open span:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
-}
-
-.nav-menu-logo { display: none; }
-
-.nav-btn-mobile {
-  display: none;
-}
+/* ===== ÉLÉMENTS MOBILES masqués en desktop ===== */
+.nav-menu-logo,
+.nav-btn-mobile,
+.social-mobile { display: none; }
 
 /* ============================================================
-   RESPONSIVE — TABLETTE  (max 1024px)
+   RESPONSIVE — TABLETTE (max 1100px)
    ============================================================ */
-@media (max-width: 1024px) {
-  .nav-menu { gap: 20px; }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 130px;
-    height: 48px;
-    padding: 14px 20px;
-    font-size: 14px;
-  }
+@media (max-width: 1100px) {
+  .nav-menu { gap: 18px; }
+  .nav-menu li a { font-size: 13.5px; }
+  .btn-login, .btn-cta { padding: 8px 16px; font-size: 13px; }
 }
 
+@media (max-width: 960px) {
+  .nav-menu { gap: 14px; }
+  .social-icons { gap: 10px; }
+  .btn-login, .btn-cta { height: 40px; }
+}
 
 /* ============================================================
-   RESPONSIVE — MOBILE  (max 768px)
+   RESPONSIVE — MOBILE (max 768px)
    ============================================================ */
 @media (max-width: 768px) {
 
   .navbar {
+    top: 0;
     left: 0;
     transform: none;
     width: 100%;
     border-radius: 0;
+    padding: 0 16px;
   }
 
-  .nav-actions {
-    display: none;
-  }
+  /* Cache les éléments desktop */
+  .nav-right { display: none; }
 
-  .nav-toggle {
-    display: flex;
-    position: relative;
-    z-index: 9999;
-  }
+  /* Affiche hamburger */
+  .nav-toggle { display: flex; }
 
+  /* MENU FULLSCREEN */
   .nav-menu {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     width: 100vw;
     height: 100vh;
     background: #ffffff;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 32px;
+    gap: 28px;
     z-index: 9998;
-    padding-top: 70px;
-    overflow-y: auto;
-    padding: 70px 0 0 0 !important;  /* reset tout padding sauf le top */
-    margin: 0 !important;
-  }
-
-  ul.nav-menu {
-    padding: 70px 0 0 0 !important;
-    margin: 0 !important;
+    padding-top: 80px !important;
     list-style: none !important;
+    overflow-y: auto;
   }
 
-  .nav-menu.open {
-    display: flex;
-  }
+  .nav-menu.open { display: flex; }
 
-  /* Tous les li normaux */
-  .nav-menu li {
-    list-style: none;
-    width: 100%;
-    text-align: center;
-  }
+  .nav-menu li { list-style: none; width: 100%; text-align: center; }
 
-  /* Liens normaux — display:block intentionnel pour les items de nav */
   .nav-menu li a {
     font-size: 22px;
     font-weight: 600;
-    display: block;
-    padding: 8px 0;
-    color: var(--text-dark);
-    text-decoration: none;
-  }
-
-  /* ===================================================
-     FIX ICÔNES SOCIALES
-     Déclaré APRÈS .nav-menu li a pour avoir priorité
-     ==================================================== */
-  .nav-menu li.social-media-links {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-    gap: 27px !important;
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    list-style: none !important;
-    text-align: left !important; /* reset text-align qui pousse vers la droite */
-  }
-
-  .nav-menu li.social-media-links a {
-    display: inline-flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: auto !important;
-    height: auto !important;
-    font-size: 0 !important;
-    background: none !important;
-    border: none !important;
-    /* Annule le ::after du underline hover */
-    pointer-events: auto;
-  }
-
-  /* Annule le trait souligné sur les icônes */
-  .nav-menu li.social-media-links a::after {
-    display: none !important;
-  }
-
-  /* L'icône SVG garde sa taille fixe */
-  .nav-menu li.social-media-links a .icon {
-    width: 20px !important;
-    height: 20px !important;
-    display: block !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* Groupe boutons */
-  .nav-menu li.nav-btn-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .nav-menu .nav-btn-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    margin-top: 16px;
-  }
-
-  .nav-menu .btn-primary,
-  .nav-menu .btn-secondary {
-    width: 220px;
-    height: 52px;
-    font-size: 15px;
-  }
-
-  .nav-menu-logo {
-    display: none;
-  }
-
-  .nav-menu.open .nav-menu-logo {
     display: flex;
     justify-content: center;
-    margin-bottom: 16px;
+    padding: 8px 0;
   }
 
-  .nav-menu.open .nav-menu-logo img {
-    height: 98px;
-    width: auto;
+  /* Logo mobile */
+  .nav-menu-logo {
+    display: flex !important;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .nav-menu-logo img { height: 60px; width: auto; }
+
+  /* Icônes sociales mobile */
+  .social-mobile { display: flex !important; }
+  .social-mobile .social-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+  }
+  .social-mobile .social-link svg { width: 22px; height: 22px; }
+
+  /* Boutons mobile */
+  .nav-btn-mobile { display: flex !important; }
+  .nav-btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .nav-btn-group .btn-login,
+  .nav-btn-group .btn-cta {
+    width: 220px;
+    height: 50px;
+    font-size: 15px;
+    justify-content: center;
   }
 }
 
-
-/* ============================================================
-   RESPONSIVE — TRÈS PETIT MOBILE  (max 480px)
-   ============================================================ */
 @media (max-width: 480px) {
-
-  .navbar .container { padding: 0 16px; }
-
-  .nav-brand .logo { font-size: 20px; }
-
+  .nav-brand .logoK { width: 70px; }
   .nav-menu li a { font-size: 19px; }
-
-  .nav-menu .btn-primary,
-  .nav-menu .btn-secondary {
-    width: 190px;
-    height: 48px;
-    font-size: 14px;
-  }
 }

@@ -1,91 +1,101 @@
 <nav class="navbar">
   <div class="container">
 
+    <!-- LOGO -->
     <div class="nav-brand">
       <a href="">
-        <img src="../../../assets/logo/Asset 40@4x.png" alt="" class="logoK" style="width: 88px; height: 55px;">
+        <img src="../../../assets/logo/Asset 40@4x.png" alt="Xi COM" class="logoK" style="width: 88px; height: 55px;">
       </a>
     </div>
 
-    <!-- Menu links -->
+    <!-- MENU CENTRAL -->
     <ul class="nav-menu" [class.open]="menuOpen">
 
-      <!-- ✅ Logo affiché en haut du menu mobile -->
+      <!-- Logo mobile uniquement -->
       <li class="nav-menu-logo">
         <img src="../../../assets/logo/Asset 40@4x.png" alt="Logo" class="logoK">
       </li>
 
       <li><a href="/" (click)="closeMenu()">Accueil</a></li>
+
       <li><a href="#services"  (click)="closeMenu()">Services</a></li>
+
+
       <li><a href="offers" (click)="closeMenu()">Offers</a></li>
-      <li><a href="contact" (click)="closeMenu()">Contact</a></li>
+      <li><a href="contact" (click)="closeMenu()">Contact</a>
 
-<div class="social-media-links">
-
-  <!-- Facebook -->
-  <a href="https://www.facebook.com/">
-    <svg class="icon" viewBox="0 0 24 24">
-      <path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.2 8.5 9.9v-7H8v-3h2.5V9.5C10.5 7 12 5.5 14.3 5.5c1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.3 0-1.7.8-1.7 1.6V12H17l-.5 3h-2v7C18.3 21.2 22 17 22 12z"/>
-    </svg>
-  </a>
-
-  <!-- Instagram -->
-  <a href="#">
-    <svg class="icon" viewBox="0 0 24 24">
-      <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5a5 5 0 110 10 5 5 0 010-10zm6.5-.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM12 9a3 3 0 100 6 3 3 0 000-6z"/>
-    </svg>
-  </a>
-
-  <!-- LinkedIn -->
-  <a href="#">
-    <svg class="icon" viewBox="0 0 24 24">
-      <path d="M4.98 3.5C4.98 5 3.87 6 2.5 6S0 5 0 3.5 1.11 1 2.5 1s2.48 1 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.1c.7-1.2 2.4-2.5 5-2.5 5.3 0 6.3 3.5 6.3 8v8.3h-5V17c0-1.7 0-3.8-2.3-3.8-2.3 0-2.7 1.8-2.7 3.7v7.1h-5V8z"/>
-    </svg>
-  </a>
-
-  <!-- X (Twitter) -->
-  <a href="#">
-    <svg class="icon" viewBox="0 0 24 24">
-      <path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l8-9L2 2h6l5 7 5-7z"/>
-    </svg>
-  </a>
-
-  <!-- YouTube -->
-  <a href="#">
-    <svg class="icon" viewBox="0 0 24 24">
-      <path d="M23.5 6.2s-.2-1.7-.8-2.5c-.8-1-1.7-1-2.1-1.1C17.7 2 12 2 12 2s-5.7 0-8.6.6c-.4.1-1.3.1-2.1 1.1-.6.8-.8 2.5-.8 2.5S0 8.3 0 10.4v2.2c0 2.1.5 4.2.5 4.2s.2 1.7.8 2.5c.8 1 1.9 1 2.4 1.1 1.7.2 7.3.6 7.3.6s5.7 0 8.6-.6c.4-.1 1.3-.1 2.1-1.1.6-.8.8-2.5.8-2.5s.5-2.1.5-4.2v-2.2c0-2.1-.5-4.2-.5-4.2zM9.5 15.5v-7l6.5 3.5-6.5 3.5z"/>
-    </svg>
-  </a>
-
-</div>
-
+      <!-- Boutons mobiles -->
       <li class="nav-btn-group nav-btn-mobile">
-        <button class="btn-primary" (click)="signup()">Connecter</button>
-        <button class="btn-secondary" (click)="closeMenu()">Commencer</button>
+        <button class="btn-login" (click)="signup()">Se connecter</button>
+        <button class="btn-cta" (click)="closeMenu()">
+          Démarrer un projet
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
       </li>
 
+      <!-- Réseaux sociaux mobiles -->
+      <li class="social-mobile">
+        <div class="social-icons">
+          <a href="https://www.facebook.com/" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.2 8.5 9.9v-7H8v-3h2.5V9.5C10.5 7 12 5.5 14.3 5.5c1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.3 0-1.7.8-1.7 1.6V12H17l-.5 3h-2v7C18.3 21.2 22 17 22 12z"/></svg>
+          </a>
+          <a href="#" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5a5 5 0 110 10 5 5 0 010-10zm6.5-.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM12 9a3 3 0 100 6 3 3 0 000-6z"/></svg>
+          </a>
+          <a href="#" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 5 3.87 6 2.5 6S0 5 0 3.5 1.11 1 2.5 1s2.48 1 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.1c.7-1.2 2.4-2.5 5-2.5 5.3 0 6.3 3.5 6.3 8v8.3h-5V17c0-1.7 0-3.8-2.3-3.8-2.3 0-2.7 1.8-2.7 3.7v7.1h-5V8z"/></svg>
+          </a>
+          <a href="#" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M23.5 6.2s-.2-1.7-.8-2.5c-.8-1-1.7-1-2.1-1.1C17.7 2 12 2 12 2s-5.7 0-8.6.6c-.4.1-1.3.1-2.1 1.1-.6.8-.8 2.5-.8 2.5S0 8.3 0 10.4v2.2c0 2.1.5 4.2.5 4.2s.2 1.7.8 2.5c.8 1 1.9 1 2.4 1.1 1.7.2 7.3.6 7.3.6s5.7 0 8.6-.6c.4-.1 1.3-.1 2.1-1.1.6-.8.8-2.5.8-2.5s.5-2.1.5-4.2v-2.2c0-2.1-.5-4.2-.5-4.2zM9.5 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>
+          </a>
+        </div>
+      </li>
 
     </ul>
 
-    <!-- Boutons desktop -->
-    <div class="nav-actions">
-      <button class="btn-primary" (click)="signup()">Connecter</button>
-      <button class="btn-secondary">Commencer</button>
+    <!-- DROITE DESKTOP : socials + séparateur + boutons -->
+    <div class="nav-right">
+
+      <!-- Icônes sociales -->
+      <div class="social-icons">
+        <a href="https://www.facebook.com/" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M22 12c0-5.5-4.5-10-10-10S2 6.5 2 12c0 5 3.7 9.2 8.5 9.9v-7H8v-3h2.5V9.5C10.5 7 12 5.5 14.3 5.5c1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.3 0-1.7.8-1.7 1.6V12H17l-.5 3h-2v7C18.3 21.2 22 17 22 12z"/></svg>
+        </a>
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5a5 5 0 110 10 5 5 0 010-10zm6.5-.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM12 9a3 3 0 100 6 3 3 0 000-6z"/></svg>
+        </a>
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 5 3.87 6 2.5 6S0 5 0 3.5 1.11 1 2.5 1s2.48 1 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.1c.7-1.2 2.4-2.5 5-2.5 5.3 0 6.3 3.5 6.3 8v8.3h-5V17c0-1.7 0-3.8-2.3-3.8-2.3 0-2.7 1.8-2.7 3.7v7.1h-5V8z"/></svg>
+        </a>
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M23.5 6.2s-.2-1.7-.8-2.5c-.8-1-1.7-1-2.1-1.1C17.7 2 12 2 12 2s-5.7 0-8.6.6c-.4.1-1.3.1-2.1 1.1-.6.8-.8 2.5-.8 2.5S0 8.3 0 10.4v2.2c0 2.1.5 4.2.5 4.2s.2 1.7.8 2.5c.8 1 1.9 1 2.4 1.1 1.7.2 7.3.6 7.3.6s5.7 0 8.6-.6c.4-.1 1.3-.1 2.1-1.1.6-.8.8-2.5.8-2.5s.5-2.1.5-4.2v-2.2c0-2.1-.5-4.2-.5-4.2zM9.5 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>
+        </a>
+      </div>
+
+      <!-- Séparateur vertical -->
+      <div class="nav-divider"></div>
+
+      <!-- Boutons -->
+      <div class="nav-actions">
+        <!-- Dashboard (admin) -->
+        <a *ngIf="isAdminOrSuperAdmin" (click)="navigateToDashboard()" class="nav-icon-link" title="Dashboard" style="cursor:pointer">
+          <i class="fas fa-tachometer-alt" style="font-size: 20px; color: #6863BF;"></i>
+          <span class="nav-icon-tooltip">Dashboard</span>
+        </a>
+
+        <!-- Logout -->
+        <a *ngIf="isLoggedIn" (click)="logout(); closeMenu()" class="nav-icon-link" style="cursor:pointer">
+          <i class="fas fa-sign-out-alt" style="font-size: 20px; color: #6863BF;"></i>
+          <span class="nav-icon-tooltip">Se déconnecter</span>
+        </a>
+
+        <button class="btn-login" (click)="signup()">Se connecter</button>
+        <button class="btn-cta">
+          Démarrer un projet
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
     </div>
-
-<li *ngIf="isAdminOrSuperAdmin">
-  <a (click)="navigateToDashboard()" class="nav-icon-link" title="Dashboard" style="cursor:pointer">
-    <i class="fas fa-tachometer-alt" style="font-size: 22px; color: #6863BF;"></i>
-    <span class="nav-icon-tooltip">Dashboard</span>
-  </a>
-</li>
-
-<li *ngIf="isLoggedIn">
-  <a (click)="logout(); closeMenu()" class="nav-icon-link" style="cursor:pointer">
-    <i class="fas fa-sign-out-alt" style="font-size: 22px; color: #6863BF;"></i>
-    <span class="nav-icon-tooltip">Se déconnecter</span>
-  </a>
-</li>
 
     <!-- Hamburger -->
     <button class="nav-toggle" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Toggle menu">

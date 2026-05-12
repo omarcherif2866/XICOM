@@ -9,8 +9,16 @@ import { Service } from 'src/app/models/service';
 import { ActualiteService } from 'src/app/service/actualite.service';
 import { RDVService } from 'src/app/service/rdv.service';
 import { ServiceService } from 'src/app/service/service.service';
+import { Pipe, PipeTransform } from '@angular/core';
 
 import Swal from 'sweetalert2';
+@Pipe({ name: 'truncate' })
+export class TruncatePipe implements PipeTransform {
+  transform(value: string, limit = 27): string {
+    if (!value) return '';
+    return value.length > limit ? value.substring(0, limit) + '...' : value;
+  }
+}
 
 export interface Expert {
   name: string;
@@ -60,18 +68,20 @@ export class HomePage implements OnInit,OnDestroy {
   isSubmitting = false;
 
 values = [
-  { title: 'Innovation',     color: '#6D28D9', icon: '◈' }, // violet profond
-  { title: 'Collaboration',  color: '#7C3AED', icon: '◉' }, // violet
-  { title: 'Qualité',        color: '#8B5CF6', icon: '◆' }, // violet clair
-  { title: 'Transparence',   color: '#6366F1', icon: '◎' }, // indigo
-  { title: 'Responsabilité', color: '#3B82F6', icon: '◇' }, // bleu
-  { title: 'Agilité',        color: '#0EA5E9', icon: '○' }, // bleu clair
-  { title: 'Respect',        color: '#06B6D4', icon: '◐' }, // cyan
-  { title: 'Durabilité',     color: '#14B8A6', icon: '◑' }, // teal
+  { title: 'INNOVATION',     icon: '💡', gradient: 'linear-gradient(135deg,#7c6ff7,#9b59f7)', lineColor: '#6863BF', desc: 'Nous repoussons les limites pour créer de la valeur.' },
+  { title: 'COLLABORATION',  icon: '👥', gradient: 'linear-gradient(135deg,#7c6ff7,#a855f7)', lineColor: '#7c6ff7', desc: 'Nous avançons ensemble vers des objectifs communs.' },
+  { title: 'QUALITÉ',        icon: '🏆', gradient: 'linear-gradient(135deg,#ec4899,#f472b6)', lineColor: '#ec4899', desc: 'Nous visons l\'excellence dans tout ce que nous faisons.' },
+  { title: 'TRANSPARENCE',   icon: '👁',  gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', lineColor: '#6366f1', desc: 'Nous communiquons avec clarté et honnêteté.' },
+  { title: 'RESPONSABILITÉ', icon: '🛡',  gradient: 'linear-gradient(135deg,#3b82f6,#60a5fa)', lineColor: '#3b82f6', desc: 'Nous assumons nos actions et leurs impacts.' },
+  { title: 'AGILITÉ',        icon: '⚡', gradient: 'linear-gradient(135deg,#0ea5e9,#38bdf8)', lineColor: '#0ea5e9', desc: 'Nous nous adaptons vite pour aller plus loin.' },
+  { title: 'RESPECT',        icon: '♥',  gradient: 'linear-gradient(135deg,#38bdf8,#06b6d4)', lineColor: '#38bdf8', desc: 'Nous valorisons chaque personne et chaque idée.' },
+  { title: 'DURABILITÉ',     icon: '🌿', gradient: 'linear-gradient(135deg,#14b8a6,#2dd4bf)', lineColor: '#14b8a6', desc: 'Nous agissons aujourd\'hui pour un avenir responsable.' },
 ];
 
 getLeft(i: number): string {
-  return (i / (this.values.length - 1) * 100) + '%';
+  const n = this.values.length; // 8
+  const padding = 8; // %
+  return `${padding + (i / (n - 1)) * (100 - 2 * padding)}%`;
 }
 
   currentGroupIndex = 0;
@@ -424,4 +434,12 @@ loadActualites(): void {
   voirToutesActualites() {
   this.router.navigate(['/allActualites']); // adapte la route selon ton app
 }
+
+  onCtaClick(): void {
+    // Navigate to contact section or open modal
+    const contactSection = document.querySelector('#contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
