@@ -1,6 +1,12 @@
 <section class="actualite-list">
 
   <div *ngIf="actualite; else noData">
+
+    <div class="actualite-banner">
+      <img [src]="actualite.ImageUrl" [alt]="actualite.Title" class="banner-img" />
+      <div class="banner-overlay"></div>
+    </div>
+
     <article class="article">
       <h3 class="title">{{ actualite.Title }}</h3>
       <p class="description">{{ actualite.Description }}</p>
