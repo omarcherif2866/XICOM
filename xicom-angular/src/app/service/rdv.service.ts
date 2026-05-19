@@ -11,6 +11,7 @@ import { catchError } from 'rxjs/operators';
 export class RDVService {
 
   private apiUrl = "/api/rdv";
+  // private apiUrl = "http://localhost:9090/rdv";
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -25,5 +26,22 @@ export class RDVService {
       })
     );
   }
+
+    getAllRDV(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  getRDVByClient(email: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/client/${email}`);
+  }
+
+
+  updateRDV(id: number, data: { date: string; heure: string; lien_reunion: string }): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}`, data);
+  }
+
+  getCalendrier(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/calendrier`);
+}
 
 }

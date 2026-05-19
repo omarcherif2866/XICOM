@@ -28,6 +28,7 @@ export class ActualiteComponent implements OnInit {
   };
   
   editId: any = null;
+  selectedImage: File | null = null;
 
   constructor(private actualiteService: ActualiteService, private authService: AuthService,private router:Router) {}
 
@@ -44,7 +45,8 @@ export class ActualiteComponent implements OnInit {
         this.actualites = response.map(f => new Actualite(
           f.id,
           f.title,
-          f.description
+          f.description,
+          f.image
         ));
         this.actualites = this.actualites; // si pagination ou filtrage
         this.loading = false;
@@ -147,7 +149,9 @@ handleSubmit() {
   formData.append('title', this.formData.title);
   formData.append('description', this.formData.description);
 
-
+  if (this.selectedImage) {
+    formData.append('image', this.selectedImage, this.selectedImage.name);
+  }
 
   if (this.modalMode === 'add') {
     this.actualiteService.addActualite(formData).subscribe(
@@ -155,11 +159,13 @@ handleSubmit() {
         const newActualite = new Actualite(
             response.Id,
             response.Title,
-            response.Description
+            response.Description,
+            response.Image
         );
 
         this.actualites.push(newActualite);
         this.showModal = false;
+        this.selectedImage = null; // Réinitialiser
 
         Swal.fire({
           title: 'Success!',
@@ -189,10 +195,13 @@ handleSubmit() {
           this.actualites[index] = new Actualite(
             response.Id,
             response.Title,
-            response.Description
+            response.Description,
+            response.Image
+
           );
         }
         this.showModal = false;
+        this.selectedImage = null; // Réinitialiser
 
         Swal.fire({
           title: 'Success!',
@@ -235,8 +244,48 @@ handleSubmit() {
         this.router.navigate(['/']);
       }
 
+onImageSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    // Vérifier le type de fichier
+    if (!file.type.startsWith('image/')) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: 'Veuillez sélectionner une image valide',
+        timer: 1500,
+        showConfirmButton: false
+      });
+      return;
+    }
+    
+    // Vérifier la taille (par exemple, max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: 'L\'image ne doit pas dépasser 5MB',
+        timer: 1500,
+        showConfirmButton: false
+      });
+      return;
+    }
+    
+    this.selectedImage = file;
+  }
+}
 
+sanitizeImage(url: string): string {
+  if (!url) return '';
 
+  // Cas où l'URL est en double
+  if (url.includes("https://res.cloudinary.com") && url.split("https://res.cloudinary.com").length > 2) {
+    const parts = url.split("https://res.cloudinary.com/dnrnrxm9q/image/upload/");
+    return "https://res.cloudinary.com/dnrnrxm9q/image/upload/" + parts[parts.length - 1];
+  }
+
+  return url;
+}
 
 
 }

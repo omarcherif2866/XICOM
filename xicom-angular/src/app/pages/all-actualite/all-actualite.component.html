@@ -4,21 +4,57 @@
       <h2 class="section-title">Actualités</h2>
       <p class="section-subtitle">Restez informé de nos dernières nouveautés</p>
     </div>
+    <div class="news-group">
+          <div class="news-card-new"
+               *ngFor="let actu of actualitesPaginees; let j = index"
+               [ngClass]="'news-card-' + (j % 3)"
+               (click)="goToDetail(actu.id)">
 
-    <div class="news-grid">
-      <div class="news-card"
-           *ngFor="let actu of actualitesPaginees; let i = index"
-           [style.animation-delay]="(i * 0.1) + 's'">
-        <div class="news-content">
-          <h3 class="news-title">{{ actu.title }}</h3>
-          <p class="news-description">{{ actu.description }}</p>
-          <button class="news-link" (click)="goToDetail(actu.id)">
-            Savoir plus →
-          </button>
-        </div>
-      </div>
-    </div>
+            <!-- Image / Illustration -->
+            <div class="news-card-img" [ngClass]="'news-img-bg-' + (j % 3)">
+              <img 
+                *ngIf="actu.image; else placeholderImg"
+                [src]="actu.image" 
+                [alt]="actu.title" 
+                class="news-img-cover"
+              />
+              <ng-template #placeholderImg>
+                <img 
+                  src="assets/images/news-placeholder.png" 
+                  [alt]="actu.title" 
+                  class="news-img-cover news-img-fallback"
+                />
+              </ng-template>
+            </div>
 
+            <!-- Contenu -->
+            <div class="news-card-body">
+              <div class="news-card-meta">
+                <span class="news-category" [ngClass]="'news-cat-' + (j % 3)">
+                  {{ actu.category || 'ACTUALITÉ' }}
+                </span>
+                <span class="news-date">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  {{ actu.date }}
+                </span>
+              </div>
+
+              <h3 class="news-card-title">{{ actu.title }}</h3>
+              <p class="news-card-desc">{{ actu.description }}</p>
+
+              <button class="news-read-more" [ngClass]="'news-read-' + (j % 3)"
+                      (click)="$event.stopPropagation(); goToDetail(actu.id)">
+                Lire la suite →
+              </button>
+            </div>
+
+          </div>
+    </div>    
     <!-- Pagination -->
     <div class="pagination" *ngIf="totalPages > 1">
       <button class="page-btn"

@@ -12,6 +12,8 @@ import { ServiceService } from 'src/app/service/service.service';
 import { Pipe, PipeTransform } from '@angular/core';
 
 import Swal from 'sweetalert2';
+import { Abonnee } from 'src/app/models/abonnee';
+import { AbonneeServiceService } from 'src/app/service/abonnee-service.service';
 @Pipe({ name: 'truncate' })
 export class TruncatePipe implements PipeTransform {
   transform(value: string, limit = 27): string {
@@ -44,6 +46,8 @@ interface StatItem {
   label: string;
 }
 
+
+
 @Component({
   selector: 'home-page',
   templateUrl: 'home-page.component.html',
@@ -62,6 +66,7 @@ export class HomePage implements OnInit,OnDestroy {
 
   projectForm: FormGroup;
   contactForm: FormGroup;
+  newsletterForm: FormGroup;
 
   allCountriesCodes: Country[] = [];
   loading: boolean = false;
@@ -72,8 +77,8 @@ values = [
   { title: 'COLLABORATION',  icon: '👥', gradient: 'linear-gradient(135deg,#7c6ff7,#a855f7)', lineColor: '#7c6ff7', desc: 'Nous avançons ensemble vers des objectifs communs.' },
   { title: 'QUALITÉ',        icon: '🏆', gradient: 'linear-gradient(135deg,#ec4899,#f472b6)', lineColor: '#ec4899', desc: 'Nous visons l\'excellence dans tout ce que nous faisons.' },
   { title: 'TRANSPARENCE',   icon: '👁',  gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', lineColor: '#6366f1', desc: 'Nous communiquons avec clarté et honnêteté.' },
-  { title: 'RESPONSABILITÉ', icon: '🛡',  gradient: 'linear-gradient(135deg,#3b82f6,#60a5fa)', lineColor: '#3b82f6', desc: 'Nous assumons nos actions et leurs impacts.' },
-  { title: 'AGILITÉ',        icon: '⚡', gradient: 'linear-gradient(135deg,#0ea5e9,#38bdf8)', lineColor: '#0ea5e9', desc: 'Nous nous adaptons vite pour aller plus loin.' },
+  { title: 'RESPONSABILITÉ', icon: '🛡',  gradient: 'linear-gradient(135deg,#3b82f6,#60a5fa)', lineColor: '#3b82f6', desc: 'Nous assumons pleinement nos actions et leurs impacts.' },
+  { title: 'AGILITÉ',        icon: '⚡', gradient: 'linear-gradient(135deg,#0ea5e9,#38bdf8)', lineColor: '#0ea5e9', desc: 'Nous nous adaptons rapidement pour avancer et aller plus loin.' },
   { title: 'RESPECT',        icon: '♥',  gradient: 'linear-gradient(135deg,#38bdf8,#06b6d4)', lineColor: '#38bdf8', desc: 'Nous valorisons chaque personne et chaque idée.' },
   { title: 'DURABILITÉ',     icon: '🌿', gradient: 'linear-gradient(135deg,#14b8a6,#2dd4bf)', lineColor: '#14b8a6', desc: 'Nous agissons aujourd\'hui pour un avenir responsable.' },
 ];
@@ -168,25 +173,29 @@ private readonly rawServices: any[] = [
     private sanitizer: DomSanitizer,
     private rdvService: RDVService,
     private actualiteService: ActualiteService, 
-    private router: Router
-
-  ) {
+    private router: Router,
+    private abonneeService: AbonneeServiceService) {
     this.projectForm = this.fb.group({
-      nom: ['', Validators.required],
-      prenom: ['', Validators.required],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       countryCode: ['+33', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
-      phone: ['', Validators.required],
+      num: ['', Validators.required],
     });
 
       this.contactForm = this.fb.group({
-      nom: ['', Validators.required],
-      prenom: ['', Validators.required],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       countryCode: ['+33', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
       sujet: ['', Validators.required],
-      phone: ['', Validators.required],
+      num: ['', Validators.required],
       message: ['', Validators.required],    
+    });
+
+      this.newsletterForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],  
     });
   }
 
@@ -310,20 +319,22 @@ goToNewsSlide(i: number): void {
   }
 
 
-    loadServices(): void {
-      this.loading = true;
+loadServices(): void {
+  this.loading = true;
+  
+  this.serviceService.getService().subscribe({
+    next: (data: Service[]) => {
+      this.services = data
+        .map(item => new Service(item))
+        .sort((a, b) => a.Id - b.Id);  // ← tri par ID croissant
       
-      this.serviceService.getService().subscribe({
-        next: (data: Service[]) => {
-          this.services = data.map(item => new Service(item));
-          
-          this.loading = false;
-        },
-        error: (error) => {
-          this.loading = false;
-        }
-      });
+      this.loading = false;
+    },
+    error: (error) => {
+      this.loading = false;
     }
+  });
+}
 
   sanitizeImage(image: string | null): SafeUrl | string {
     if (!image) {
@@ -379,11 +390,11 @@ onSubmit(): void {
 
   // Créer un objet JSON (pas FormData)
   const rdvData = {
-    name: this.projectForm.get('nom')?.value,
-    surname: this.projectForm.get('prenom')?.value,
+    name: this.projectForm.get('name')?.value,
+    surname: this.projectForm.get('surname')?.value,
     email: this.projectForm.get('email')?.value,
     countryCode: this.projectForm.get('countryCode')?.value,
-    num: this.projectForm.get('phone')?.value
+    num: this.projectForm.get('num')?.value
   };
 
   // Utiliser le service
@@ -442,4 +453,45 @@ loadActualites(): void {
       contactSection.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
+  scrollToForm(): void {
+  const el = document.getElementById('projectForm');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+  scrollToServices(): void {
+  const el = document.getElementById('services');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+subscribe(): void {
+  if (this.newsletterForm.invalid) return;
+
+const abonne = new Abonnee(
+  null,
+  this.newsletterForm.value.email!,
+  this.newsletterForm.value.name!
+);
+
+  this.abonneeService.addAbonne(abonne).subscribe({
+    next: () => {
+          Swal.fire({
+            title: 'Success!',
+            text: 'Vous êtes maintenant abonné à notre newsletter.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            timer: 1500,
+          })
+      this.newsletterForm.reset();
+    },
+    error: (err) => {
+      console.error(err);
+    }
+  });
+}
+
 }

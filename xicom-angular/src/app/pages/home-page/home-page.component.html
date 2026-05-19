@@ -60,7 +60,7 @@
         <button class="btn-large btn-primary-large">
           Démarrer mon projet →
         </button>
-        <button class="btn-large btn-secondary-large">
+        <button class="btn-large btn-secondary-large" (click)="scrollToServices()">
           <span class="play-icon">▶</span>
           Découvrir nos services
         </button>
@@ -112,9 +112,19 @@
             <span class="input-icon">👤</span>
             <input
               type="text"
-              placeholder="Nom complet*"
+              placeholder="Nom*"
               class="form-input"
-              formControlName="nom"
+              formControlName="name"
+            >
+          </div>
+
+          <div class="form-group">
+            <span class="input-icon">👤</span>
+            <input
+              type="text"
+              placeholder="Prénom*"
+              class="form-input"
+              formControlName="surname"
             >
           </div>
 
@@ -128,7 +138,7 @@
             >
           </div>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <span class="input-icon">📞</span>
             <input
               type="tel"
@@ -136,7 +146,7 @@
               class="form-input"
               formControlName="phone"
             >
-          </div>
+          </div> -->
 
           <div class="form-group phone-row">
             <div class="country-select-wrapper">
@@ -155,7 +165,7 @@
                   *ngFor="let country of allCountriesCodes"
                   [value]="country.dial_code"
                 >
-                  {{ country.dial_code }}
+                 {{ country.name }} {{ country.dial_code }}
                 </option>
               </select>
             </div>
@@ -163,11 +173,11 @@
               type="tel"
               placeholder="Numéro*"
               class="form-input phone-input"
-              formControlName="phone"
+              formControlName="num"
             >
           </div>
 
-          <div class="form-group">
+          <div >
             <button type="submit" class="btn-large btn-submit">
               Prendre rendez-vous
               <span class="submit-icon">📅</span>
@@ -183,7 +193,26 @@
     </div>
 
   </div>
+<div class="stats-ticker-wrapper">
+  <div class="ticker-track">
+    <div class="ticker-inner">
+      <!-- On duplique les items pour boucle infinie -->
+      <div class="stat-card" *ngFor="let stat of tickerItems">
+        <div class="stat-top">
+          <svg class="stat-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none">
+            <polygon points="5,1 9,9 1,9" fill="#22c55e"/>
+          </svg>
+          <span class="stat-label">{{ stat.label }}</span>
+        </div>
+        <span class="stat-value">{{ stat.value }}</span>
+      </div>
+    </div>
+  </div>
+</div>
 
+
+
+  
 </section>
 
 <!-- Services Section -->
@@ -203,29 +232,29 @@
     </div>
 
     <div class="services-grid">
-      <div class="service-card" *ngFor="let service of services; let i = index"
-           [style.animation-delay]="(i * 0.05) + 's'"
-           [attr.data-index]="i">
-        <div class="service-card-top">
-          <div class="service-icon-circle" [ngClass]="'color-' + (i % 8)">
-            <img *ngIf="service.Icon" [src]="sanitizeImage(service.Icon)" alt="Icône service" class="ev-image" />
-          </div>
-          <div class="service-dots">· · ·</div>
-        </div>
-        <div class="service-title-line" [ngClass]="'line-' + (i % 8)"></div>
-        <h3 class="service-title">{{ service.title }}</h3>
-        <div class="service-items">
-          <div class="service-item" *ngFor="let desc of service.sections[0].details | slice:0:3"
-               [ngClass]="'check-' + (i % 8)">
-            <span class="check-icon">✔</span>
-                <span>{{ desc.title | truncate:27 }}</span>
-          </div>
-        </div>
-        <a class="service-link-btn" [ngClass]="'btn-' + (i % 8)"
-           [routerLink]="['/serviceDetails', service.id]">
-          Découvrir <span>→</span>
-        </a>
-      </div>
+<div class="service-card" *ngFor="let service of services; let i = index"
+     [style.animation-delay]="(i * 0.05) + 's'"
+     [attr.data-index]="i">
+  <div class="service-card-top">
+    <div class="service-icon-circle" [ngClass]="'color-' + (i % 20)">
+      <img *ngIf="service.Icon" [src]="sanitizeImage(service.Icon)" alt="Icône service" class="ev-image" />
+    </div>
+    <div class="service-dots">· · ·</div>
+  </div>
+  <div class="service-title-line" [ngClass]="'line-' + (i % 20)"></div>
+  <h3 class="service-title">{{ service.title }}</h3>
+  <div class="service-items">
+    <div class="service-item" *ngFor="let desc of service.sections[0].details | slice:0:3"
+         [ngClass]="'check-' + (i % 20)">
+      <span class="check-icon">✔</span>
+      <span>{{ desc.title | truncate:27 }}</span>
+    </div>
+  </div>
+  <a class="service-link-btn" [ngClass]="'btn-' + (i % 20)"
+     [routerLink]="['/serviceDetails', service.id]">
+    Découvrir <span>→</span>
+  </a>
+</div>
     </div>
   </div>
 </section>
@@ -312,13 +341,13 @@
       </div>
 
       <!-- Right: value prop -->
-      <div class="value-card value-card--right">
+      <div class="info-card info-card--right">
         <div class="info-icon-wrap color-blue">
           <img src="assets/icons/gemma.svg" alt="" class="info-icon-img" />
         </div>
         <!-- <div class="value-icon">✦</div> -->
-        <div>
-          <h5>Approche sur-mesure</h5>
+        <div class="info-text">
+          <h3>Approche sur-mesure</h3>
           <p>Des solutions adaptées à vos enjeux et à votre marché.</p>
         </div>
       </div>
@@ -327,12 +356,12 @@
     <!-- Row 3 -->
     <div class="process-row row-3">
       <!-- Left: value prop -->
-      <div class="value-card value-card--left">
+      <div class="info-card info-card--left innovation-card">
         <div class="info-icon-wrap color-blue">
           <img src="assets/icons/rocket.png" alt="" class="info-icon-img" />
         </div>
-        <div>
-          <h5>Innovation &amp; Créativité</h5>
+        <div class="info-text">
+          <h3>Innovation &amp; Créativité</h3>
           <p>Nous créons des expériences qui marquent et qui convertissent.</p>
         </div>
       </div>
@@ -381,12 +410,12 @@
       </div>
 
       <!-- Right: value prop + decorative chart -->
-      <div class="value-card value-card--right value-card--with-deco">
+      <div class="info-card info-card--right value-card--with-deco">
         <div class="info-icon-wrap color-blue">
           <img src="assets/icons/security.png" alt="" class="info-icon-img" />
         </div>
-        <div>
-          <h5>Transparence &amp; Suivi</h5>
+        <div class="info-text">
+          <h3>Transparence &amp; Suivi</h3>
           <p>Un accompagnement constant pour garantir votre satisfaction.</p>
         </div>
       </div>
@@ -467,26 +496,26 @@
       </p>
 
       <!-- Formulaire -->
-      <div class="nl-form-row">
-        <div class="nl-input-wrap">
-          <svg class="nl-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.8">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-          </svg>
-          <input type="text" placeholder="Votre nom" class="nl-input">
-        </div>
-        <div class="nl-input-wrap">
-          <svg class="nl-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.8">
-            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 7 10-7"/>
-          </svg>
-          <input type="email" placeholder="Votre email" class="nl-input">
-        </div>
-        <button class="nl-btn-subscribe">
-          S'abonner maintenant
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </button>
-      </div>
+<div class="nl-form-row" [formGroup]="newsletterForm">
+  <div class="nl-input-wrap">
+    <svg class="nl-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.8">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </svg>
+    <input type="text" placeholder="Votre nom" class="nl-input" formControlName="name">
+  </div>
+  <div class="nl-input-wrap">
+    <svg class="nl-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.8">
+      <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 7 10-7"/>
+    </svg>
+    <input type="email" placeholder="Votre email" class="nl-input" formControlName="email">
+  </div>
+  <button class="nl-btn-subscribe" (click)="subscribe()">
+    S'abonner maintenant
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </button>
+</div>
 
       <!-- Réseaux sociaux -->
       <p class="nl-social-title">Suivez-nous sur les réseaux sociaux</p>
@@ -622,22 +651,35 @@
      *ngFor="let member of group; let j = index" 
      [ngClass]="'fb-card-' + (j % 3)">   <!-- ← j % 3 au lieu de j -->
 
-  <div class="feedback-header">
-    <div class="feedback-avatar" [ngClass]="'fb-avatar-' + (j % 3)">
-      <img [src]="member.image" [alt]="member.name" />
-    </div>
-    <div class="feedback-meta">
-      <h3 class="feedback-name">{{ member.name }}</h3>
-      <p class="feedback-secteur" [ngClass]="'fb-secteur-' + (j % 3)">{{ member.secteur }}</p>
-    </div>
-    <div class="feedback-stars" [ngClass]="'fb-stars-' + (j % 3)">★★★★★</div>
-  </div>
+    <div class="feedback-header">
+        <div class="feedback-avatar" [ngClass]="'fb-avatar-' + (j % 3)">
+          <img [src]="member.image" [alt]="member.name" />
+        </div>
+        <div class="feedback-meta">
+          <h3 class="feedback-name">{{ member.name }}</h3>
+          <p class="feedback-secteur" [ngClass]="'fb-secteur-' + (j % 3)">{{ member.secteur }}</p>
+        </div>
+        <div class="feedback-stars" [ngClass]="'fb-stars-' + (j % 3)">★★★★★</div>
+      </div>
 
-  <div class="fb-quote-open" [ngClass]="'fb-quote-open-' + (j % 3)">"</div>
+    <div class="fb-quote-open" [ngClass]="'fb-quote-open-' + (j % 3)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+        <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
+      </svg>
+    </div>
+
   <p class="feedback-message">{{ member.message }}</p>
-  <div class="fb-quote-close" [ngClass]="'fb-quote-close-' + (j % 3)">"</div>
 
+  <!-- 2 guillemets fermants en bas à droite, dans la carte -->
+  <div class="fb-quote-corner" [ngClass]="'fb-quote-corner-' + (j % 3)">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+      <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
+    </svg>
+  </div>
 </div>
+
         </div>
       </div>
     </div>
@@ -687,8 +729,8 @@
 
         <div class="rdv-title-line"></div>
 
-        <button class="rdv-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button class="rdv-btn" (click)="scrollToForm()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" >
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
             <line x1="16" y1="2" x2="16" y2="6"/>
             <line x1="8" y1="2" x2="8" y2="6"/>
@@ -740,10 +782,15 @@
 
             <!-- Image / Illustration -->
             <div class="news-card-img" [ngClass]="'news-img-bg-' + (j % 3)">
-              <img *ngIf="actu.image" [src]="actu.image" [alt]="actu.title" />
-              <div *ngIf="!actu.image" class="news-img-placeholder">
-                <span class="news-img-icon">{{ ['📍', '📊', '🤖'][j % 3] }}</span>
-              </div>
+              <img 
+                *ngIf="actu.image; else placeholderImg"
+                [src]="actu.image" 
+                [alt]="actu.title" 
+                class="news-img-cover"
+              />
+              <ng-template #placeholderImg>
+                <img *ngIf="actu.Image" [src]="sanitizeImage(actu.Image)" alt="Icône actu" class="news-image" />
+              </ng-template>
             </div>
 
             <!-- Contenu -->
@@ -814,7 +861,7 @@
 
       <!-- PANNEAU GAUCHE -->
       <div class="ct-left">
-        <img src="../../../assets/images/contact.jpg" alt="" class="ct-bg-img" />
+        <img src="../../../assets/images/contactt.jpg" alt="" class="ct-bg-img" />
         <div class="ct-left-overlay"></div>
 
         <div class="ct-left-content">
@@ -899,7 +946,17 @@
                 <circle cx="12" cy="7" r="4"/>
               </svg>
             </div>
-            <input type="text" placeholder="Votre nom" class="ct-input" formControlName="nom" />
+            <input type="text" placeholder="Votre nom" class="ct-input" formControlName="name" />
+          </div>
+
+          <div class="ct-field">
+            <div class="ct-field-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <input type="text" placeholder="Votre prénom" class="ct-input" formControlName="surname" />
           </div>
 
           <div class="ct-field">
@@ -945,7 +1002,7 @@
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.44 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/>
                 </svg>
               </div>
-              <input type="tel" placeholder="Numéro*" class="ct-input" formControlName="phone" />
+              <input type="tel" placeholder="Numéro*" class="ct-input" formControlName="num" />
             </div>
           </div>
 

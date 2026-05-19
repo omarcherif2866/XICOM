@@ -2,24 +2,19 @@ package com.example.xicombackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "rdv")
-public class RDV {
+@NoArgsConstructor
+@Table(name = "abonnee")
+public class Abonnee {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String surname;
     private String email;
-    private String num;
-    private String countryCode;
-    private String date;
-    private String heure;
-    private String lien_reunion;
-
 }

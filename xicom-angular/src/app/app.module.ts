@@ -84,6 +84,23 @@ const routes = [
     ),
     canActivate: [AdminGuard]  // ✅ Ajouter
 },
+
+  {
+  path: 'rdv',
+  loadChildren: () =>
+    import('./dashboard/rdv/rdv.module').then(
+      (m) => m.RdvModule
+    ),
+    canActivate: [AdminGuard]  // ✅ Ajouter
+},
+  {
+  path: 'abonnee',
+  loadChildren: () =>
+    import('./dashboard/abonnee/abonnee.module').then(
+      (m) => m.AbonneeModule
+    ),
+    canActivate: [AdminGuard]  // ✅ Ajouter
+},
     {
     path: 'partenaires',
     loadChildren: () =>

@@ -6,6 +6,9 @@ export class RDV {
     private surname: string;
     private num: string;
     private countryCode: string;
+    private date: string;
+    private heure: string;
+    private lien_reunion: string;
 
   
     constructor(
@@ -14,7 +17,11 @@ export class RDV {
       name: string,
       surname: string,
       num: string,
-      countryCode: string
+      countryCode: string,
+      date: string,
+      heure: string,
+      lien_reunion: string
+
 
     ) {
       this.id = id;
@@ -23,7 +30,9 @@ export class RDV {
       this.surname = surname;
       this.num = num;
       this.countryCode = countryCode;
-
+      this.date = date;
+      this.heure = heure;
+      this.lien_reunion = lien_reunion;
     }
   
     public get Id(): any {
@@ -73,6 +82,29 @@ export class RDV {
       this.countryCode = countryCode;
     }
 
+    public get Date(): string {
+      return this.date;
+    }
+  
+    public set Date(date: string) {
+      this.date = date;
+    }
+
+        public get Heure(): string {
+      return this.heure;
+    }
+  
+    public set Heure(heure: string) {
+      this.heure = heure;
+    }
+
+    public get LienReunion(): string {
+      return this.lien_reunion;
+    }
+  
+    public set LienReunion(lien_reunion: string) {
+      this.lien_reunion = lien_reunion;
+    }
 
     
   }

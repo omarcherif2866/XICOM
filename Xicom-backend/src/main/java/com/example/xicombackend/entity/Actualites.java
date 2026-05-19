@@ -18,5 +18,5 @@ public class Actualites {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
-
+    private String image;
 }

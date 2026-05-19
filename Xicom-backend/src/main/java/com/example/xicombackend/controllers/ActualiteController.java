@@ -2,6 +2,7 @@ package com.example.xicombackend.controllers;
 
 import com.example.xicombackend.entity.Actualites;
 import com.example.xicombackend.service.ActualiteService;
+import com.example.xicombackend.service.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,12 +21,14 @@ import java.util.Set;
 public class ActualiteController {
 
     private final ActualiteService actualiteService;
+    private final CloudinaryService cloudinaryService;
 
 
     @PostMapping()
     public ResponseEntity<?> addActualite(
             @RequestParam("title") String title,
-            @RequestParam("description") String description) {
+            @RequestParam("description") String description,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
         try {
             // Validation
             if (title == null || title.isEmpty() || description == null || description.isEmpty()) {
@@ -36,7 +39,11 @@ public class ActualiteController {
             actualite.setTitle(title);
             actualite.setDescription(description);
 
-
+            // Upload de l'image vers Cloudinary
+            if (image != null && !image.isEmpty()) {
+                String imageUrl = cloudinaryService.uploadImage(image, "xicom/actualite");
+                actualite.setImage(imageUrl);
+            }
 
 
 
@@ -73,7 +80,8 @@ public class ActualiteController {
     public ResponseEntity<?> updateActualite(
             @PathVariable Long id,
             @RequestParam("title") String title,
-            @RequestParam("description") String description) {
+            @RequestParam("description") String description,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
 
         try {
             Actualites existing = actualiteService.getActualitesById(id);
@@ -84,7 +92,10 @@ public class ActualiteController {
             // MAJ des champs
             existing.setTitle(title);
             existing.setDescription(description);
-
+            if (image != null && !image.isEmpty()) {
+                String imageUrl = cloudinaryService.uploadImage(image, "xicom/actualite");
+                existing.setImage(imageUrl);
+            }
 
             Actualites saved = actualiteService.updateActualites(id, existing);
             return ResponseEntity.ok(saved);

@@ -2,6 +2,7 @@ export class Actualite {
     private id : any
     private description: string;
     private title: string;
+    private image: string;
 
 
   
@@ -9,12 +10,14 @@ export class Actualite {
       id: any,
       title: string,
       description: string,
+      image: string,
 
 
     ) {
       this.id = id;
       this.description = description;
       this.title = title;
+      this.image = image;
 
     }
   
@@ -39,6 +42,14 @@ export class Actualite {
     public set Title(title: string) {
       this.title = title;
     }
+
+    public get Image(): string {
+      return this.image;
+    }
+  
+    public set Image(image: string) {
+      this.image = image;
+    } 
 
     
   }

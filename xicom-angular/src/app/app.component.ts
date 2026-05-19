@@ -15,7 +15,7 @@ export class AppComponent {
 constructor(private router: Router) {
   this.router.events.subscribe(event => {
     if (event instanceof NavigationEnd) {
-      const hiddenRoutes = /\/(services|actualites|partenaire|profile)(\/|$)/;
+      const hiddenRoutes = /\/(services|actualites|partenaire|profile|rdv|abonnee)(\/|$)/;
       this.showTopBar = !event.url.match(hiddenRoutes);
       this.showFooter = !event.url.match(hiddenRoutes);
     }

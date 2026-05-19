@@ -21,7 +21,7 @@ export class ActualiteDetailsComponent implements OnInit {
   loadActualiteById(id: any): void {
     this.actualiteService.getActualiteById(id).subscribe({
       next: (data: any) => {
-        this.actualite = new Actualite(data.id, data.title, data.description);
+        this.actualite = new Actualite(data.id, data.title, data.description, data.image);
       },
       error: (err) => console.error(err)
     });
