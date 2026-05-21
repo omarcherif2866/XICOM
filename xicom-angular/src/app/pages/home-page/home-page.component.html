@@ -57,7 +57,7 @@
       </p>
 
       <div class="hero-actions">
-        <button class="btn-large btn-primary-large">
+        <button class="btn-large btn-primary-large" (click)="openDialog()">
           Démarrer mon projet →
         </button>
         <button class="btn-large btn-secondary-large" (click)="scrollToServices()">
@@ -65,7 +65,7 @@
           Découvrir nos services
         </button>
       </div>
-
+      
       <!-- Pills -->
       <div class="hero-pills">
         <div class="pill pill-blue">
@@ -432,7 +432,7 @@
       <h3>Ensemble, transformons<br>vos idées en <span class="gradient-orange">succès</span></h3>
       <p>De la stratégie à la réalisation, nous sommes à vos côtés pour faire grandir votre projet.</p>
     </div>
-    <button class="cta-btn" (click)="onCtaClick()">
+    <button class="cta-btn" (click)="openDialog()">
       Parlons de votre projet &nbsp;→
     </button>
   </div>
@@ -1041,3 +1041,9 @@
   </div>
 </section>
 
+<div class="dialog-overlay" *ngIf="isDialogOpen" (click)="closeDialog()">
+  <div class="dialog-container" (click)="$event.stopPropagation()">
+    <button class="dialog-close" (click)="closeDialog()">✕</button>
+    <app-projet></app-projet>
+  </div>
+</div>  

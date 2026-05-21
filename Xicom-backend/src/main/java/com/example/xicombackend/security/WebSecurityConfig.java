@@ -32,6 +32,8 @@ public class WebSecurityConfig {
             "/rdv/**",
             "/abonnee",      // ← POST /abonnee
             "/abonnee/**",
+            "/compagne/**",
+            "/projet/**",
             "/actualite/**"
     };
 

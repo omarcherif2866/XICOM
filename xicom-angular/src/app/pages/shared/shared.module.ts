@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // ← AJOUTER
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { FooterComponent } from './footer/footer.component';
+import { ProjetModule } from '../projet/projet.module';
+import { CompagneModule } from '../compagne/compagne.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +13,9 @@ import { FooterComponent } from './footer/footer.component';
   ],
   imports: [
     CommonModule,
-    RouterModule // ← indispensable pour routerLink
+    RouterModule, // ← indispensable pour routerLink
+    ProjetModule,
+    CompagneModule
   ],
   exports: [
     TopBarComponent,

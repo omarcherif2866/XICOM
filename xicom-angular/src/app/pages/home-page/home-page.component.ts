@@ -73,14 +73,14 @@ export class HomePage implements OnInit,OnDestroy {
   isSubmitting = false;
 
 values = [
-  { title: 'INNOVATION',     icon: '💡', gradient: 'linear-gradient(135deg,#7c6ff7,#9b59f7)', lineColor: '#6863BF', desc: 'Nous repoussons les limites pour créer de la valeur.' },
-  { title: 'COLLABORATION',  icon: '👥', gradient: 'linear-gradient(135deg,#7c6ff7,#a855f7)', lineColor: '#7c6ff7', desc: 'Nous avançons ensemble vers des objectifs communs.' },
-  { title: 'QUALITÉ',        icon: '🏆', gradient: 'linear-gradient(135deg,#ec4899,#f472b6)', lineColor: '#ec4899', desc: 'Nous visons l\'excellence dans tout ce que nous faisons.' },
-  { title: 'TRANSPARENCE',   icon: '👁',  gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', lineColor: '#6366f1', desc: 'Nous communiquons avec clarté et honnêteté.' },
-  { title: 'RESPONSABILITÉ', icon: '🛡',  gradient: 'linear-gradient(135deg,#3b82f6,#60a5fa)', lineColor: '#3b82f6', desc: 'Nous assumons pleinement nos actions et leurs impacts.' },
-  { title: 'AGILITÉ',        icon: '⚡', gradient: 'linear-gradient(135deg,#0ea5e9,#38bdf8)', lineColor: '#0ea5e9', desc: 'Nous nous adaptons rapidement pour avancer et aller plus loin.' },
-  { title: 'RESPECT',        icon: '♥',  gradient: 'linear-gradient(135deg,#38bdf8,#06b6d4)', lineColor: '#38bdf8', desc: 'Nous valorisons chaque personne et chaque idée.' },
-  { title: 'DURABILITÉ',     icon: '🌿', gradient: 'linear-gradient(135deg,#14b8a6,#2dd4bf)', lineColor: '#14b8a6', desc: 'Nous agissons aujourd\'hui pour un avenir responsable.' },
+  { title: 'Innovation',     icon: '💡', gradient: 'linear-gradient(135deg,#7c6ff7,#9b59f7)', lineColor: '#6863BF', desc: 'Nous repoussons les limites pour créer de la valeur.' },
+  { title: 'Collaboration',  icon: '👥', gradient: 'linear-gradient(135deg,#7c6ff7,#a855f7)', lineColor: '#7c6ff7', desc: 'Nous avançons ensemble vers des objectifs communs.' },
+  { title: 'Qualité',        icon: '🏆', gradient: 'linear-gradient(135deg,#ec4899,#f472b6)', lineColor: '#ec4899', desc: 'Nous visons l\'excellence dans tout ce que nous faisons.' },
+  { title: 'Transparence',   icon: '👁',  gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', lineColor: '#6366f1', desc: 'Nous communiquons avec clarté et honnêteté.' },
+  { title: 'Responsabilité', icon: '🛡',  gradient: 'linear-gradient(135deg,#3b82f6,#60a5fa)', lineColor: '#3b82f6', desc: 'Nous assumons pleinement nos actions et leurs impacts.' },
+  { title: 'Agilité',        icon: '⚡', gradient: 'linear-gradient(135deg,#0ea5e9,#38bdf8)', lineColor: '#0ea5e9', desc: 'Nous nous adaptons rapidement pour avancer et aller plus loin.' },
+  { title: 'Respect',        icon: '♥',  gradient: 'linear-gradient(135deg,#38bdf8,#06b6d4)', lineColor: '#38bdf8', desc: 'Nous valorisons chaque personne et chaque idée.' },
+  { title: 'Durabilité',     icon: '🌿', gradient: 'linear-gradient(135deg,#14b8a6,#2dd4bf)', lineColor: '#14b8a6', desc: 'Nous agissons aujourd\'hui pour un avenir responsable.' },
 ];
 
 getLeft(i: number): string {
@@ -96,6 +96,7 @@ getLeft(i: number): string {
   currentNewsIndex = 0;
   newsVisibleCount = 3;
   newsAutoPlay: any;  
+  isDialogOpen = false;
 
   @ViewChild('carouselTrack') carouselTrack!: ElementRef;
 
@@ -493,5 +494,13 @@ const abonne = new Abonnee(
     }
   });
 }
+
+  openDialog(): void {
+    this.isDialogOpen = true;
+  }
+
+  closeDialog(): void {
+    this.isDialogOpen = false;
+  }
 
 }

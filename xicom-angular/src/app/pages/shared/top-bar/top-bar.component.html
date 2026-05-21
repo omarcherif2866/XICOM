@@ -90,8 +90,12 @@
         </a>
 
         <button class="btn-login" (click)="signup()">Se connecter</button>
-        <button class="btn-cta">
+        <button class="btn-cta" (click)="openDialog()">
           Démarrer un projet
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="btn-cta" (click)="openDialogC()">
+          Lancer un compagne
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
@@ -106,3 +110,18 @@
 
   </div>
 </nav>
+
+
+<div class="dialog-overlay" *ngIf="isDialogOpen" (click)="closeDialog()">
+  <div class="dialog-container" (click)="$event.stopPropagation()">
+    <button class="dialog-close" (click)="closeDialog()">✕</button>
+    <app-projet></app-projet>
+  </div>
+</div>  
+
+<div class="dialog-overlay" *ngIf="isDialogCOpen" (click)="closeDialogC()">
+  <div class="dialog-container" (click)="$event.stopPropagation()">
+    <button class="dialog-close" (click)="closeDialogC()">✕</button>
+    <app-compagne></app-compagne>
+  </div>
+</div> 

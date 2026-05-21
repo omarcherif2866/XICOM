@@ -123,6 +123,13 @@ const routes = [
         (m) => m.AllActualiteModule
       ),
   }, 
+  // {
+  //   path: 'projet',
+  //   loadChildren: () =>
+  //     import('./pages/projet/projet.module').then(
+  //       (m) => m.ProjetModule
+  //     ),
+  // },
   {
     path: 'serviceDetails/:id',
     loadChildren: () =>

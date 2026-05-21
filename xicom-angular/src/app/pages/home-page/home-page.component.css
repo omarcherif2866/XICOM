@@ -1,11 +1,43 @@
 /* ===== HERO ===== */
+
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog-container {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 800px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
 .hero {
   padding-top: 80px;
   padding-bottom: 80px;
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, #f0f0ff 0%, #faf0ff 40%, #fff5f0 100%);
-  min-height: 100vh;
+  min-height: 88vh; /* ajustez : 70vh, 60vh, ou même auto */
 }
 
 .heroP {
@@ -75,6 +107,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 24px;
+  
 }
 
 
@@ -361,7 +394,8 @@
 /* ===== STATS TICKER ===== */
 .stats-ticker-wrapper {
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
+  /* top: 650px; ajustez selon vos besoins */
   left: 0;
   right: 0;
   z-index: 3;
@@ -1279,13 +1313,12 @@
 }
 
 .val-card-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat';
   font-weight: 800;
-  font-size: 11px;
+  font-size: 15px;
   color: #1a1a2e;
   letter-spacing: 0.1em;
   margin: 0 0 8px;
-  text-transform: uppercase;
 }
 
 .val-card-accent {

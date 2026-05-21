@@ -11,7 +11,8 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class TopBarComponent {
   menuOpen = false;
-
+  isDialogOpen = false;
+  isDialogCOpen = false;
   constructor(private router: Router, private authService: AuthService) {}
 
   toggleMenu() {
@@ -53,5 +54,21 @@ navigateToDashboard() {
   this.router.navigate(['/services']);
   this.menuOpen = false;
 }
+
+  openDialog(): void {
+    this.isDialogOpen = true;
+  }
+
+  closeDialog(): void {
+    this.isDialogOpen = false;
+  }
+
+    openDialogC(): void {
+    this.isDialogCOpen = true;
+  }
+
+  closeDialogC(): void {
+    this.isDialogCOpen = false;
+  }
 
 }
