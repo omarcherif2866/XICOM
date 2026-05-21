@@ -13,6 +13,7 @@ export class TopBarComponent {
   menuOpen = false;
   isDialogOpen = false;
   isDialogCOpen = false;
+  
   constructor(private router: Router, private authService: AuthService) {}
 
   toggleMenu() {
@@ -29,8 +30,8 @@ export class TopBarComponent {
   }
 
 get isAdminOrSuperAdmin(): boolean {
-    const role = this.authService.getRoleFromToken();
-    return role === 'Admin' || role === 'SUPERADMIN';
+  const role = this.authService.getRoleFromToken();
+  return role === 'Admin' || role === 'SUPERADMIN'; // ← vérifiez ces valeurs exactes
 }
 
 get isLoggedIn(): boolean {

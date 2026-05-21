@@ -54,30 +54,7 @@ a {
   align-items: center;
 }
 
-.navbar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
 
-.logo-group {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  position: relative;
-}
-
-.nav-links {
-  display: flex;
-  gap: 51px;
-}
-
-.nav-item {
-  font-size: 16px;
-  color: var(--text-medium);
-  font-weight: 500;
-}
 
 .nav-buttons {
   display: flex;
@@ -95,16 +72,7 @@ a {
   justify-content: center;
 }
 
-.btn-login {
-  background-color: var(--bg-light);
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
-}
 
-.btn-start {
-  background-color: var(--primary-color);
-  color: var(--bg-light);
-}
 
 @media (max-width: 1024px) {
   .nav-links {
