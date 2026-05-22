@@ -5,11 +5,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContactComponent } from '../contact/contact.component';
 import { ContactModule } from '../contact/contact.module';
+import { CountCheckedPipe } from 'src/app/pipes/count-checked.pipe';
 
 
 
 @NgModule({
-  declarations: [ServiceDetailsComponent],
+  declarations: [ServiceDetailsComponent,CountCheckedPipe],
   imports: [
     CommonModule,FormsModule, ReactiveFormsModule,
     RouterModule.forChild([

@@ -1,167 +1,264 @@
-<div class="pj-wrapper">
+<div class="app-container">
+  <div [class]="sidebarOpen ? 'sidebar open' : 'sidebar'">
+    <div class="sidebar-content">
+      <h2>Admin Panel</h2>
+        <nav>
+        <!-- Dashboard -->
+        <a href="#">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+            </svg>
+            <span>Dashboard</span>
+        </a>
 
-  <!-- Stepper -->
-  <div class="pj-stepper">
-    <div class="pj-step"
-      *ngFor="let step of steps"
-      [class.active]="currentStep === step.number"
-      [class.done]="currentStep > step.number"
-      (click)="goTo(step.number)">
-      <div class="pj-step-circle">
-        <svg *ngIf="currentStep > step.number" width="16" height="16"
-             viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-        <span *ngIf="currentStep <= step.number">{{ step.number }}</span>
-      </div>
-      <p class="pj-step-label">{{ step.label }}</p>
+        <!-- Services -->
+        <a href="compagne">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span>Lancer une campagne</span>
+        </a>
+
+        <!-- Partenaires -->
+        <a href="commande_service">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Choisir un service</span>
+        </a>
+
+
+        <!-- Profil -->
+        <a href="profil">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Profil</span>
+        </a>
+
+        <!-- Se déconnecter -->
+        <a (click)="logout(); $event.preventDefault()">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>Se déconnecter</span>
+        </a>
+        </nav>
     </div>
-    <div class="pj-step-line"></div>
   </div>
 
-  <!-- Success -->
-  <div class="pj-success" *ngIf="submitted">
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
-      <circle cx="12" cy="12" r="10"/>
-      <polyline points="9 12 11 14 15 10"/>
-    </svg>
-    <p>{{ successMessage }}</p>
-  </div>
+    <div class="pj-wrapper">
 
-  <div class="pj-card" *ngIf="!submitted">
+    <!-- Stepper -->
+    <div class="pj-stepper">
+        <div class="pj-step"
+        *ngFor="let step of steps"
+        [class.active]="currentStep === step.number"
+        [class.done]="currentStep > step.number"
+        (click)="goTo(step.number)">
+        <div class="pj-step-circle">
+            <svg *ngIf="currentStep > step.number" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span *ngIf="currentStep <= step.number">{{ step.number }}</span>
+        </div>
+        <p class="pj-step-label">{{ step.label }}</p>
+        </div>
+        <div class="pj-step-line"></div>
+    </div>
+
+    <!-- Success -->
+    <div class="pj-success" *ngIf="submitted">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="9 12 11 14 15 10"/>
+        </svg>
+        <p>{{ successMessage }}</p>
+    </div>
+
+    <div class="pj-card" *ngIf="!submitted">
 
     <!-- ===== STEP 1 ===== -->
     <div *ngIf="currentStep === 1" [formGroup]="step1Form">
-      <h2 class="pj-title"><span class="pj-title-accent">Infos</span> & Stratégie</h2>
+        <h2 class="pj-title"><span class="val-gradient-text">Infos & Stratégie</span></h2>
 
-      <div class="pj-row">
-        <label>Nom de la campagne</label>
-        <input class="pj-input" formControlName="nomCampagne" placeholder="Nom de la campagne" />
-      </div>
-      <div class="pj-row">
-        <label>Date de début</label>
-        <input class="pj-input" type="date" formControlName="dateDebut" />
-      </div>
-      <div class="pj-row">
-        <label>Date de fin</label>
-        <input class="pj-input" type="date" formControlName="dateFin" />
-      </div>
-      <div class="pj-row">
-        <label>Budget total</label>
-        <input class="pj-input" type="number" formControlName="budgetTotal" placeholder="0.00" />
-      </div>
-      <div class="pj-row">
-        <label>Objectifs</label>
-        <textarea class="pj-input" formControlName="objectifs" placeholder="Objectifs de la campagne" rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Cible</label>
-        <input class="pj-input" formControlName="cible" placeholder="Public cible" />
-      </div>
-      <div class="pj-row">
-        <label>Canaux de communication</label>
-        <input class="pj-input" formControlName="canauxCommunication" placeholder="Email, social media..." />
-      </div>
-      <div class="pj-row">
-        <label>Message clé</label>
-        <textarea class="pj-input" formControlName="messageCle" placeholder="Message principal" rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Concept</label>
-        <textarea class="pj-input" formControlName="concept" placeholder="Concept créatif" rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Brief</label>
-        <textarea class="pj-input" formControlName="brief" placeholder="Brief de la campagne" rows="3"></textarea>
-      </div>
+        <div class="pj-form-grid">
 
-      <div class="pj-section-label">Stratégie</div>
+        <div class="pj-row">
+            <label>Nom de la campagne</label>
+            <input class="pj-input" formControlName="nomCampagne" placeholder="Nom de la campagne" />
+            <small class="text-danger" *ngIf="step1Form.get('nomCampagne')?.invalid && step1Form.get('nomCampagne')?.touched">Champ obligatoire.</small>
+        </div>
 
-      <div class="pj-row">
-        <label>Analyse de la situation</label>
-        <textarea class="pj-input" formControlName="analyseSituation" placeholder="Analyse SWOT, contexte..." rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Objectif stratégique</label>
-        <textarea class="pj-input" formControlName="objectif" placeholder="Objectif principal" rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Date limite (deadline)</label>
-        <input class="pj-input" type="date" formControlName="dateLine" />
-      </div>
+        <div class="pj-row">
+            <label>Budget total</label>
+            <input class="pj-input" type="number" formControlName="budgetTotal" placeholder="0.00" />
+            <small class="text-danger" *ngIf="step1Form.get('budgetTotal')?.invalid && step1Form.get('budgetTotal')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Date de début</label>
+            <input class="pj-input" type="date" formControlName="dateDebut" />
+            <small class="text-danger" *ngIf="step1Form.get('dateDebut')?.invalid && step1Form.get('dateDebut')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Date de fin</label>
+            <input class="pj-input" type="date" formControlName="dateFin" />
+            <small class="text-danger" *ngIf="step1Form.get('dateFin')?.invalid && step1Form.get('dateFin')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Cible</label>
+            <input class="pj-input" formControlName="cible" placeholder="Public cible" />
+            <small class="text-danger" *ngIf="step1Form.get('cible')?.invalid && step1Form.get('cible')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Canaux de communication</label>
+            <input class="pj-input" formControlName="canauxCommunication" placeholder="Email, social media..." />
+            <small class="text-danger" *ngIf="step1Form.get('canauxCommunication')?.invalid && step1Form.get('canauxCommunication')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Date limite (deadline)</label>
+            <input class="pj-input" type="date" formControlName="dateLine" />
+            <small class="text-danger" *ngIf="step1Form.get('dateLine')?.invalid && step1Form.get('dateLine')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <br>
+        <!-- Textareas en 2 colonnes (sans full-width) -->
+        <div class="pj-row">
+            <label>Objectifs</label>
+            <textarea class="pj-input" formControlName="objectifs" placeholder="Objectifs de la campagne" rows="4"></textarea>
+            <small class="text-danger" *ngIf="step1Form.get('objectifs')?.invalid && step1Form.get('objectifs')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Message clé</label>
+            <textarea class="pj-input" formControlName="messageCle" placeholder="Message principal" rows="4"></textarea>
+            <small class="text-danger" *ngIf="step1Form.get('messageCle')?.invalid && step1Form.get('messageCle')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Concept</label>
+            <textarea class="pj-input" formControlName="concept" placeholder="Concept créatif" rows="4"></textarea>
+            <small class="text-danger" *ngIf="step1Form.get('concept')?.invalid && step1Form.get('concept')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Brief</label>
+            <textarea class="pj-input" formControlName="brief" placeholder="Brief de la campagne" rows="4"></textarea>
+            <small class="text-danger" *ngIf="step1Form.get('brief')?.invalid && step1Form.get('brief')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-section-label full-width">Stratégie</div>
+
+        <div class="pj-row">
+            <label>Analyse de la situation</label>
+            <textarea class="pj-input" formControlName="analyseSituation" placeholder="Analyse SWOT, contexte..." rows="4"></textarea>
+            <small class="text-danger" *ngIf="step1Form.get('analyseSituation')?.invalid && step1Form.get('analyseSituation')?.touched">Champ obligatoire.</small>
+        </div>
+
+        <div class="pj-row">
+            <label>Objectif stratégique</label>
+            <textarea class="pj-input" formControlName="objectif" placeholder="Objectif principal" rows="4"></textarea>
+            <small class="text-danger" *ngIf="step1Form.get('objectif')?.invalid && step1Form.get('objectif')?.touched">Champ obligatoire.</small>
+        </div>
+
+        </div>
     </div>
 
     <!-- ===== STEP 2 ===== -->
     <div *ngIf="currentStep === 2" [formGroup]="step2Form">
-      <h2 class="pj-title"><span class="pj-title-accent">Exécution</span> & Évaluation</h2>
+        <h2 class="pj-title"><span class="val-gradient-text">Exécution & Évaluation</span></h2>
 
-      <div class="pj-row">
-        <label>Ciblage</label>
-        <input class="pj-input" formControlName="ciblage" placeholder="Segments ciblés" />
-      </div>
-      <div class="pj-row">
-        <label>Message & mots-clés</label>
-        <textarea class="pj-input" formControlName="messageMotsCles" placeholder="Mots-clés, tonalité..." rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Stratégie canaux de communication</label>
-        <textarea class="pj-input" formControlName="strategieCanauxCommunication" placeholder="Plan de diffusion par canal" rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Benchmark & analyse concurrentielle</label>
-        <textarea class="pj-input" formControlName="benchmarkAnalyseConcurrentielle" placeholder="Analyse des concurrents" rows="3"></textarea>
-      </div>
+        <div class="pj-form-grid">
 
-      <div class="pj-section-label">Exécution</div>
+        <div class="pj-row">
+            <label>Ciblage</label>
+            <input class="pj-input" formControlName="ciblage" placeholder="Segments ciblés" />
+        </div>
 
-      <div class="pj-row">
-        <label>Création de contenu</label>
-        <textarea class="pj-input" formControlName="creationContenu" placeholder="Détails sur le contenu à créer" rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Test préliminaire</label>
-        <textarea class="pj-input" formControlName="testPreliminaire" placeholder="A/B test, focus group..." rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Ajustement</label>
-        <textarea class="pj-input" formControlName="ajustement" placeholder="Modifications suite aux tests" rows="3"></textarea>
-      </div>
+        <br>
 
-      <div class="pj-section-label">Évaluation</div>
+        <div class="pj-row">
+            <label>Message & mots-clés</label>
+            <textarea class="pj-input" formControlName="messageMotsCles" placeholder="Mots-clés, tonalité..." rows="4"></textarea>
+        </div>
 
-      <div class="pj-row">
-        <label>Post-évaluation</label>
-        <textarea class="pj-input" formControlName="postEvaluation" placeholder="Bilan après campagne" rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Analyses des données</label>
-        <textarea class="pj-input" formControlName="analysesDonnees" placeholder="KPIs, métriques..." rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Compilation des données</label>
-        <textarea class="pj-input" formControlName="compilationDonnees" placeholder="Synthèse des résultats" rows="3"></textarea>
-      </div>
-      <div class="pj-row">
-        <label>Rapport final</label>
-        <textarea class="pj-input" formControlName="rapportFinal" placeholder="Rapport complet de la campagne" rows="4"></textarea>
-      </div>
+        <div class="pj-row">
+            <label>Stratégie canaux</label>
+            <textarea class="pj-input" formControlName="strategieCanauxCommunication" placeholder="Plan de diffusion par canal" rows="4"></textarea>
+        </div>
+
+        <div class="pj-row">
+            <label>Benchmark concurrentiel</label>
+            <textarea class="pj-input" formControlName="benchmarkAnalyseConcurrentielle" placeholder="Analyse des concurrents" rows="4"></textarea>
+        </div>
+
+        <div class="pj-section-label full-width">Exécution</div>
+
+        <div class="pj-row">
+            <label>Création de contenu</label>
+            <textarea class="pj-input" formControlName="creationContenu" placeholder="Détails sur le contenu à créer" rows="4"></textarea>
+        </div>
+
+        <div class="pj-row">
+            <label>Test préliminaire</label>
+            <textarea class="pj-input" formControlName="testPreliminaire" placeholder="A/B test, focus group..." rows="4"></textarea>
+        </div>
+
+        <div class="pj-row">
+            <label>Ajustement</label>
+            <textarea class="pj-input" formControlName="ajustement" placeholder="Modifications suite aux tests" rows="4"></textarea>
+        </div>
+
+        <div class="pj-section-label full-width">Évaluation</div>
+
+        <div class="pj-row">
+            <label>Post-évaluation</label>
+            <textarea class="pj-input" formControlName="postEvaluation" placeholder="Bilan après campagne" rows="4"></textarea>
+        </div>
+
+        <div class="pj-row">
+            <label>Analyses des données</label>
+            <textarea class="pj-input" formControlName="analysesDonnees" placeholder="KPIs, métriques..." rows="4"></textarea>
+        </div>
+
+        <div class="pj-row">
+            <label>Compilation des données</label>
+            <textarea class="pj-input" formControlName="compilationDonnees" placeholder="Synthèse des résultats" rows="4"></textarea>
+        </div>
+
+        <div class="pj-row">
+            <label>Rapport final</label>
+            <textarea class="pj-input" formControlName="rapportFinal" placeholder="Rapport complet de la campagne" rows="4"></textarea>
+        </div>
+
+        </div>
     </div>
 
     <!-- Navigation -->
     <div class="pj-nav">
-      <button class="pj-btn-prev" type="button" (click)="prev()" *ngIf="currentStep > 1">
+        <button class="pj-btn-prev" type="button" (click)="prev()" *ngIf="currentStep > 1">
         ← Précédent
-      </button>
-      <button class="pj-btn-next" type="button" (click)="next()" *ngIf="currentStep < totalSteps">
+        </button>
+        <button class="pj-btn-next" type="button" (click)="next()" *ngIf="currentStep < totalSteps">
         Suivant →
-      </button>
-      <button class="pj-btn-submit" type="button" (click)="submit()" *ngIf="currentStep === totalSteps">
+        </button>
+        <button class="pj-btn-submit" type="button" (click)="submit()" *ngIf="currentStep === totalSteps">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-          <polyline points="20 6 9 17 4 12"/>
+            <polyline points="20 6 9 17 4 12"/>
         </svg>
         Enregistrer la campagne
-      </button>
+        </button>
     </div>
 
-  </div>
+    </div>
+    </div>
 </div>

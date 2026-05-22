@@ -83,4 +83,8 @@ public class Projet {
     private String moyenPaiement;
     private String pagesConsultees;
     private String produitsPlusVisites;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

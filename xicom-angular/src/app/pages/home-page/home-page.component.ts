@@ -247,7 +247,7 @@ startAutoPlay(): void {
       this.currentGroupIndex >= this.groupedTeam.length - 1
         ? 0
         : this.currentGroupIndex + 1;
-  }, 2000);
+  }, 5500);
 }
 
 goToSlide(i: number): void {

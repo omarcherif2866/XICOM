@@ -1,12 +1,16 @@
 package com.example.xicombackend.controllers;
 
 import com.example.xicombackend.entity.Projet;
+import com.example.xicombackend.entity.User;
+import com.example.xicombackend.repository.UserRepository;
 import com.example.xicombackend.service.CloudinaryService;
 import com.example.xicombackend.service.ProjetService;
+import com.example.xicombackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +25,7 @@ public class ProjetController {
 
     private final ProjetService projetService;
     private final CloudinaryService cloudinaryService;
+    private final UserRepository userRepository;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> create(
@@ -58,8 +63,11 @@ public class ProjetController {
             @RequestParam(value = "imagesIllustrations", required = false) List<MultipartFile> imagesIllustrations,
             @RequestParam(value = "lesProduits", required = false) List<MultipartFile> lesProduits,
             @RequestParam(value = "lesAvis", required = false) List<MultipartFile> lesAvis,
-            @RequestParam(value = "lesPublications", required = false) List<MultipartFile> lesPublications
-    ) {
+            @RequestParam(value = "lesPublications", required = false) List<MultipartFile> lesPublications,
+
+            @RequestParam("userId") Integer userId
+
+            ) {
         try {
             Projet projet = new Projet();
 
@@ -98,6 +106,8 @@ public class ProjetController {
             projet.setLesProduits(uploadList(lesProduits, "xicom/projet/produits"));
             projet.setLesAvis(uploadList(lesAvis, "xicom/projet/avis"));
             projet.setLesPublications(uploadList(lesPublications, "xicom/projet/publications"));
+            User user = userRepository.findById(userId).orElse(null);
+            projet.setUser(user);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(projetService.create(projet));
 

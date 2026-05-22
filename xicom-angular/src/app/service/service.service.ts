@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Service } from '../models/service';
@@ -57,4 +57,18 @@ export class ServiceService {
   deleteService(id: any): Observable<Service> {
     return this.http.delete<Service>(`${this.apiUrl}/${id}`);
   }
+
+commander(serviceTitle: string, detailTitles: string[], userId: number): Observable<any> {
+  const params = new HttpParams()
+    .set('serviceTitle', serviceTitle)
+    .set('userId', userId.toString());
+
+  // Ajouter chaque detailTitle séparément
+  let finalParams = params;
+  detailTitles.forEach(d => {
+    finalParams = finalParams.append('detailTitles', d);
+  });
+
+  return this.http.post(`${this.apiUrl}/commander`, null, { params: finalParams });
+}
 }

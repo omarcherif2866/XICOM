@@ -13,6 +13,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
+
 export function tokenGetter() {  // ✅ Ajouter
   return localStorage.getItem('accessToken');
 }
@@ -109,6 +110,15 @@ const routes = [
       ),
       canActivate: [AdminGuard] 
   },
+
+    {
+    path: 'commande_service',
+    loadChildren: () =>
+      import('./dashboard/commande-service/commande-service.module').then(
+        (m) => m.CommandeServiceModule
+      )
+  },
+
   {
     path: 'offers',
     loadChildren: () =>
@@ -123,13 +133,13 @@ const routes = [
         (m) => m.AllActualiteModule
       ),
   }, 
-  // {
-  //   path: 'projet',
-  //   loadChildren: () =>
-  //     import('./pages/projet/projet.module').then(
-  //       (m) => m.ProjetModule
-  //     ),
-  // },
+  {
+    path: 'compagne',
+    loadChildren: () =>
+      import('./pages/compagne/compagne.module').then(
+        (m) => m.CompagneModule
+      ),
+  },
   {
     path: 'serviceDetails/:id',
     loadChildren: () =>

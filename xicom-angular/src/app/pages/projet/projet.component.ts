@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Projet } from 'src/app/models/projet';
+
+import { AuthService } from 'src/app/service/auth.service';
 import { ProjetService } from 'src/app/service/projet.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-projet',
   templateUrl: './projet.component.html',
   styleUrls: ['./projet.component.css']
 })
-export class ProjetComponent {
-
+export class ProjetComponent implements OnInit {
 
   currentStep = 1;
   totalSteps = 4;
@@ -26,12 +27,12 @@ export class ProjetComponent {
   // Step 1
   step1Form: FormGroup = this.fb.group({
     client: ['', Validators.required],
-    secteur: [''],
-    categorie: [''],
-    responsableNomPrenom: [''],
-    responsableAdresse: [''],
-    responsableTelephone: [''],
-    responsableEmail: ['', Validators.email],
+    secteur: ['', Validators.required],
+    categorie: ['', Validators.required],
+    responsableNomPrenom: ['', Validators.required],
+    responsableAdresse: ['', Validators.required],
+    responsableTelephone: ['', Validators.required],
+    responsableEmail: ['', [Validators.required, Validators.email]],
   });
 
   // Step 2
@@ -71,9 +72,33 @@ export class ProjetComponent {
     pagesConsultees: [''],
     produitsPlusVisites: [''],
   });
-fileMap: { [key: string]: File[] } = {};  // liste de fichiers par champ
 
-  constructor(private fb: FormBuilder, private projetService: ProjetService) {}
+  fileMap: { [key: string]: File[] } = {};
+
+  constructor(private fb: FormBuilder, private projetService: ProjetService, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.loadCurrentUser();
+  }
+
+  loadCurrentUser(): void {
+    const userId = this.authService.getUserIdFromToken();
+    if (!userId) return;
+
+    this.authService.getUserById(userId).subscribe({
+      next: (user: any) => {
+        setTimeout(() => {
+          this.step1Form.patchValue({
+            client: `${user.name} ${user.surname}`.trim(),
+            responsableEmail: user.email || '',
+            responsableTelephone: '',
+            responsableAdresse: '',
+          });
+        }, 0);
+      },
+      error: (err) => console.error('Erreur:', err)
+    });
+  }
 
   get currentForm(): FormGroup {
     const forms: { [key: number]: FormGroup } = {
@@ -85,7 +110,12 @@ fileMap: { [key: string]: File[] } = {};  // liste de fichiers par champ
     return forms[this.currentStep];
   }
 
+  // ✅ next() corrigé et séparé du subscribe
   next(): void {
+    if (this.currentStep === 1) {
+      this.step1Form.markAllAsTouched();
+      if (this.step1Form.invalid) return; // bloque si champs invalides
+    }
     if (this.currentStep < this.totalSteps) this.currentStep++;
   }
 
@@ -94,68 +124,76 @@ fileMap: { [key: string]: File[] } = {};  // liste de fichiers par champ
   }
 
   goTo(step: number): void {
-    this.currentStep = step;
+  if (step > 1) {
+    this.step1Form.markAllAsTouched();
+    if (this.step1Form.invalid) return;
+  }
+  this.currentStep = step;
+}
+
+  // ✅ submit() propre sans next() dedans
+  submit(): void {
+      const userId = this.authService.getUserIdFromToken(); // ← déclaré ici
+
+    const data = {
+      ...this.step1Form.value,
+      ...this.step3Form.value,
+      couleurSecondaire: this.step2Form.value.couleurSecondaire,
+      couleurANePasUtiliser: this.step2Form.value.couleurANePasUtiliser,
+      autresDonnees: this.step2Form.value.autresDonnees,
+      autresCommentaires: this.step2Form.value.autresCommentaires,
+      programmeFidelite: this.step4Form.value.programmeFidelite,
+      hobbiesMarque: this.step4Form.value.hobbiesMarque,
+      consommation: this.step4Form.value.consommation,
+      achatsRealises: this.step4Form.value.achatsRealises,
+      frequenceAchat: this.step4Form.value.frequenceAchat,
+      moyenPaiement: this.step4Form.value.moyenPaiement,
+      pagesConsultees: this.step4Form.value.pagesConsultees,
+      produitsPlusVisites: this.step4Form.value.produitsPlusVisites,
+      userId: userId  // ← ajout
+
+    };
+
+    this.projetService.create(data, this.fileMap).subscribe({
+      next: () => {
+        this.successMessage = 'Projet créé avec succès !';
+        this.submitted = true;
+      },
+      error: (err) => console.error(err)
+    });
   }
 
-submit(): void {
-  const data = {
-    ...this.step1Form.value,
-    ...this.step3Form.value,
-    // champs texte du step2 et step4
-    couleurSecondaire: this.step2Form.value.couleurSecondaire,
-    couleurANePasUtiliser: this.step2Form.value.couleurANePasUtiliser,
-    autresDonnees: this.step2Form.value.autresDonnees,
-    autresCommentaires: this.step2Form.value.autresCommentaires,
-    programmeFidelite: this.step4Form.value.programmeFidelite,
-    hobbiesMarque: this.step4Form.value.hobbiesMarque,
-    consommation: this.step4Form.value.consommation,
-    achatsRealises: this.step4Form.value.achatsRealises,
-    frequenceAchat: this.step4Form.value.frequenceAchat,
-    moyenPaiement: this.step4Form.value.moyenPaiement,
-    pagesConsultees: this.step4Form.value.pagesConsultees,
-    produitsPlusVisites: this.step4Form.value.produitsPlusVisites,
-  };
+  triggerFileInput(key: string): void {
+    const input = document.getElementById('file-' + key) as HTMLInputElement;
+    input?.click();
+  }
 
-  this.projetService.create(data, this.fileMap).subscribe({
-    next: () => {
-      this.successMessage = 'Projet créé avec succès !';
-      this.submitted = true;
-    },
-    error: (err) => console.error(err)
-  });
-}
+  onFileSelected(event: Event, key: string): void {
+    const files = Array.from((event.target as HTMLInputElement).files || []);
+    this.fileMap[key] = [...(this.fileMap[key] || []), ...files];
+  }
 
+  downloadFile(key: string): void {
+    (this.fileMap[key] || []).forEach(file => {
+      const url = URL.createObjectURL(file);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
 
-triggerFileInput(key: string): void {
-  const input = document.getElementById('file-' + key) as HTMLInputElement;
-  input?.click();
-}
+  getFileName(key: string): string {
+    const files = this.fileMap[key];
+    if (!files || files.length === 0) return '';
+    if (files.length === 1) return files[0].name;
+    return `${files.length} fichiers sélectionnés`;
+  }
 
-onFileSelected(event: Event, key: string): void {
-  const files = Array.from((event.target as HTMLInputElement).files || []);
-  this.fileMap[key] = [...(this.fileMap[key] || []), ...files];
-}
-
-downloadFile(key: string): void {
-  (this.fileMap[key] || []).forEach(file => {
-    const url = URL.createObjectURL(file);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = file.name;
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-}
-
-getFileName(key: string): string {
-  const files = this.fileMap[key];
-  if (!files || files.length === 0) return '';
-  if (files.length === 1) return files[0].name;
-  return `${files.length} fichiers sélectionnés`;
-}
+  getFileCount(key: string): number {
+    return this.fileMap[key]?.length || 0;
+  }
 
 
-getFileCount(key: string): number {
-  return this.fileMap[key]?.length || 0;
-}
 }

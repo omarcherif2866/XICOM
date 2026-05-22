@@ -150,6 +150,8 @@ export class AuthService {
   // private apiUrl = "http://localhost:9090/auth";
 
   private apiUrlUser = "/api/users";
+  // private apiUrlUser = "http://localhost:9090/api/users";
+
   private localStorageKey = "userAuth";
   private loggedIn = new BehaviorSubject<boolean>(false);
   private jwtHelper = new JwtHelperService();

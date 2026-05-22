@@ -19,7 +19,7 @@
             </div>
 
             <div class="hero-actions">
-                <button class="btn-large btn-primary-large">
+                <button class="btn-large btn-primary-large" (click)="openCommanderDialog()">
                 <img src="../../../assets/icons/flash.svg" alt="flash" class="btn-icon">
                 Commencer maintenant
                 </button>
@@ -273,5 +273,33 @@ Contactez-nous pour un accompagnement personnalisé !</h2>
   </div>
 </section>
 
+
+
+<!-- Overlay dialog -->
+<div class="dialog-overlay" *ngIf="showDialog" (click)="closeDialog()">
+  <div class="dialog-box" (click)="$event.stopPropagation()">
+
+    <div class="dialog-header">
+          <h2 class="sv-details-title">
+            <span class="sv-accent">{{ service.title }}</span> — Choisissez vos prestations
+          </h2>
+      <button class="dialog-close" (click)="closeDialog()">✕</button>
+    </div>
+
+    <div class="dialog-body">
+      <label class="dialog-item" *ngFor="let detail of selectedDetails">
+        <input type="checkbox" [(ngModel)]="detail.checked" />
+        <span>{{ detail.title }}</span>
+      </label>
+    </div>
+
+    <div class="dialog-footer">
+      <button class="btn-commander-confirm" (click)="confirmerCommande()">
+        ✔ Commander ({{ selectedDetails | countChecked }})
+      </button>
+    </div>
+
+  </div>
+</div>
 
 </div>

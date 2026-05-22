@@ -4,7 +4,7 @@
     <!-- LOGO -->
     <div class="nav-brand">
       <a href="">
-        <img src="../../../assets/logo/Asset 40@4x.png" alt="Xi COM" class="logoK" style="width: 88px; height: 55px;">
+        <img src="../../../assets/logo/Asset 34@4x.png" alt="Xi COM" class="logoK" style="width: 88px; height: 55px;">
       </a>
     </div>
 
@@ -13,7 +13,7 @@
 
       <!-- Logo mobile uniquement -->
       <li class="nav-menu-logo">
-        <img src="../../../assets/logo/Asset 40@4x.png" alt="Logo" class="logoK">
+        <img src="../../../assets/logo/Asset 34@4x.png" alt="Logo" class="logoK">
       </li>
 
       <li><a href="/" (click)="closeMenu()">Accueil</a></li>
@@ -26,7 +26,7 @@
 
       <!-- Boutons mobiles -->
       <li class="nav-btn-group nav-btn-mobile">
-        <button class="btn-login" (click)="signup()">Se connecter</button>
+        <button class="btn-login" (click)="signin()">Se connecter</button>
         <button class="btn-cta" (click)="closeMenu()">
           Démarrer un projet
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -89,15 +89,16 @@
 
   <!-- Utilisateur connecté (non admin) -->
   <ng-container *ngIf="isLoggedIn && !isAdminOrSuperAdmin">
- 
+     <button class="btn-login" (click)="navigateToDashboardClient()">Dashboard</button>
+
     <button class="btn-cta" (click)="openDialog()">
       Démarrer un projet
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
-    <button class="btn-cta" (click)="openDialogC()">
+    <!-- <button class="btn-cta" (click)="openDialogC()">
       Lancer un compagne
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-    </button>
+    </button> -->
     <a (click)="logout(); closeMenu()" class="nav-icon-link" style="cursor:pointer">
       <i class="fas fa-sign-out-alt" style="font-size: 20px; color: #6863BF;"></i>
       <span class="nav-icon-tooltip">Se déconnecter</span>
@@ -106,15 +107,15 @@
 
   <!-- Non connecté -->
   <ng-container *ngIf="!isLoggedIn">
-    <button class="btn-login" (click)="signup()">Se connecter</button>
-    <button class="btn-cta" (click)="openDialog()">
+    <button class="btn-login" (click)="signin()">Se connecter</button>
+    <button class="btn-cta" (click)="checkAuthAndOpenDialog()">
       Démarrer un projet
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
-    <button class="btn-cta" (click)="openDialogC()">
+    <!-- <button class="btn-cta" (click)="openDialogC()">
       Lancer un compagne
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-    </button>
+    </button> -->
   </ng-container>
 
 </div>
@@ -138,9 +139,9 @@
   </div>
 </div>  
 
-<div class="dialog-overlay" *ngIf="isDialogCOpen" (click)="closeDialogC()">
+<!-- <div class="dialog-overlay" *ngIf="isDialogCOpen" (click)="closeDialogC()">
   <div class="dialog-container" (click)="$event.stopPropagation()">
     <button class="dialog-close" (click)="closeDialogC()">✕</button>
     <app-compagne></app-compagne>
   </div>
-</div> 
+</div>  -->

@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PartenaireService } from 'src/app/service/partenaire.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-service-details',
@@ -31,6 +32,8 @@ export class ServiceDetailsComponent implements OnInit {
   allPartners: any[] = [];
   currentIndexPartners = 0;
   visiblePartners: any[] = [];
+showDialog = false;
+selectedDetails: { title: string; checked: boolean }[] = [];
 
   private serviceThemes: { [key: number]: any } = {
     1: {
@@ -161,7 +164,8 @@ export class ServiceDetailsComponent implements OnInit {
         private route: ActivatedRoute,
         private http: HttpClient,
         private fb: FormBuilder,
-            private sanitizer: DomSanitizer
+            private sanitizer: DomSanitizer,
+        private authService: AuthService
 
   ) { 
 
@@ -241,7 +245,7 @@ fetchServiceDetails(id: number) {
       // Mettre une seule service dans le tableau
       this.services = [new Service(response)];
       // ⬇️ AJOUTE CETTE LIGNE POUR LE CARROUSEL
-      // console.log('sections[2] details:', response.sections?.[2]?.details);
+      console.log('sections[0] details:', response.sections?.[0]?.details);
 
       this.loading = false;
 
@@ -364,5 +368,56 @@ getColorByIndex(index: number): string {
       (this.currentIndexPartners - 1 + this.allPartners.length) % this.allPartners.length;
     this.updateVisiblePartners();
   }
+
+
+openCommanderDialog(): void {
+  const details = this.services[0]?.Sections[0]?.details || [];
+  this.selectedDetails = details.map((d: any) => ({ title: d.title, checked: false }));
+  this.showDialog = true;
+}
+
+getAllDetails(): string[] {
+  const details: string[] = [];
+  if (this.services[0]?.Sections) {
+    this.services[0].Sections.forEach((section: any) => {
+      section.details?.forEach((detail: any) => {
+        if (detail.title) details.push(detail.title);
+      });
+    });
+  }
+  return details;
+}
+
+closeDialog(): void {
+  this.showDialog = false;
+}
+
+confirmerCommande(): void {
+  const userId = this.authService.getUserIdFromToken();
+  if (!userId) return;
+
+  const selected = this.selectedDetails
+    .filter(d => d.checked)
+    .map(d => d.title);
+
+  if (selected.length === 0) {
+    Swal.fire({ icon: 'warning', title: 'Sélectionnez au moins une prestation', timer: 2000, showConfirmButton: false });
+    return;
+  }
+
+const serviceTitle = this.services[0]?.Title;
+
+if (!serviceTitle) {
+  Swal.fire({ icon: 'warning', title: 'Service introuvable', timer: 2000, showConfirmButton: false });
+  return;
+}
+  this.serviceService.commander(serviceTitle, selected, userId).subscribe({
+    next: () => {
+      this.showDialog = false;
+      Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 2000, showConfirmButton: false });
+    },
+    error: (err) => console.error(err)
+  });
+}
 
 }

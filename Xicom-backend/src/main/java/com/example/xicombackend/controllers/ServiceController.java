@@ -276,4 +276,15 @@ public class ServiceController {
                     .body("Erreur serveur : " + e.getMessage());
         }
     }
+
+    @PostMapping("/commander")
+    public ResponseEntity<Commande> commander(
+            @RequestParam("serviceTitle") String serviceTitle,
+            @RequestParam("detailTitles") List<String> detailTitles,
+            @RequestParam("userId") Integer userId
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(serviceService.commanderService(serviceTitle, detailTitles, userId));
+    }
+
 }

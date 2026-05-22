@@ -12,7 +12,7 @@ export class CompagneService {
   private apiUrl = "/api/compagne";
   constructor(private http: HttpClient) {}
 
-  create(compagne: Compagne): Observable<Compagne> {
-    return this.http.post<Compagne>(this.apiUrl, compagne);
-  }
+create(compagne: any, userId: number): Observable<Compagne> {
+  return this.http.post<Compagne>(`${this.apiUrl}?userId=${userId}`, compagne);
+}
 }

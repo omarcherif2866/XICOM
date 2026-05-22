@@ -20,8 +20,8 @@ export class TopBarComponent {
     this.menuOpen = !this.menuOpen;
   }
 
-  signup() {
-    this.router.navigate(['/signup']);
+  signin() {
+    this.router.navigate(['/signin']);
     this.menuOpen = false;
   }
 
@@ -56,6 +56,11 @@ navigateToDashboard() {
   this.menuOpen = false;
 }
 
+navigateToDashboardClient() {
+  this.router.navigate(['/compagne']);
+  this.menuOpen = false;
+}
+
   openDialog(): void {
     this.isDialogOpen = true;
   }
@@ -63,6 +68,29 @@ navigateToDashboard() {
   closeDialog(): void {
     this.isDialogOpen = false;
   }
+
+checkAuthAndOpenDialog() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    Swal.fire({
+      title: 'Connexion requise',
+      text: 'Vous devez être connecté pour démarrer un projet.',
+      icon: 'warning',
+      confirmButtonText: 'Se connecter',
+      confirmButtonColor: '#7c3aed',
+      showCancelButton: true,
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/signin'], {
+          queryParams: { returnAction: 'openDialog' }
+        });
+      }
+    });
+  } else {
+    this.openDialog();
+  }
+}
 
     openDialogC(): void {
     this.isDialogCOpen = true;

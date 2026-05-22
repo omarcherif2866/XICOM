@@ -80,5 +80,8 @@ public class Compagne {
     @Column(columnDefinition = "TEXT")
     private String rapportFinal;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

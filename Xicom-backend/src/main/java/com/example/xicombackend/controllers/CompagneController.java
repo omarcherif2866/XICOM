@@ -1,6 +1,8 @@
 package com.example.xicombackend.controllers;
 
 import com.example.xicombackend.entity.Compagne;
+import com.example.xicombackend.entity.User;
+import com.example.xicombackend.repository.UserRepository;
 import com.example.xicombackend.service.CompagneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,13 @@ import java.util.List;
 public class CompagneController {
 
     private final CompagneService compagneService;
+    private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<Compagne> create(@RequestBody Compagne compagne) {
+    public ResponseEntity<Compagne> create(@RequestBody Compagne compagne,
+                                           @RequestParam("userId") Integer userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        compagne.setUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(compagneService.create(compagne));
     }
 

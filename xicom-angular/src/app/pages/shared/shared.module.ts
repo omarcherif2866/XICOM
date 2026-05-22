@@ -15,7 +15,7 @@ import { CompagneModule } from '../compagne/compagne.module';
     CommonModule,
     RouterModule, // ← indispensable pour routerLink
     ProjetModule,
-    CompagneModule
+    // CompagneModule
   ],
   exports: [
     TopBarComponent,

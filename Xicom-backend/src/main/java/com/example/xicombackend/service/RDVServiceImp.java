@@ -107,7 +107,7 @@ public class RDVServiceImp implements RDVService {
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
                         <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                            <h2 style="color: #E94560; margin-top: 0;">🔔 Nouvelle demande de rendez-vous</h2>
+                           <h2 style="color: #7c3aed; margin-top: 0;">🔔 Nouvelle demande de rendez-vous</h2>
                             <p>Une nouvelle demande de rendez-vous vient d'être enregistrée.</p>
                             
                             <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #E94560;">

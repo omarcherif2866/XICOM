@@ -81,7 +81,12 @@
 }
 
 
-
+.text-danger {
+  display: block;
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
 
 .pj-title-accent { color: #e11d48; }
 
@@ -303,4 +308,13 @@
     color: #22c55e;
     margin-top: 16px;
   }
+}
+
+
+
+.val-gradient-text {
+  background: linear-gradient(90deg, #4a6cf7, #c13584);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
