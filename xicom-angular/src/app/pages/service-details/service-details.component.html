@@ -279,25 +279,117 @@ Contactez-nous pour un accompagnement personnalisé !</h2>
 <div class="dialog-overlay" *ngIf="showDialog" (click)="closeDialog()">
   <div class="dialog-box" (click)="$event.stopPropagation()">
 
-    <div class="dialog-header">
-          <h2 class="sv-details-title">
-            <span class="sv-accent">{{ service.title }}</span> — Choisissez vos prestations
-          </h2>
-      <button class="dialog-close" (click)="closeDialog()">✕</button>
-    </div>
+    <!-- VUE 1 : Choix des prestations -->
+    <ng-container *ngIf="!showCommandeForm">
+      <div class="dialog-header">
+        <h2 class="sv-details-title">
+          <span class="sv-accent">{{ service.title }}</span> — Choisissez vos prestations
+        </h2>
+        <button class="dialog-close" (click)="closeDialog()">✕</button>
+      </div>
 
-    <div class="dialog-body">
-      <label class="dialog-item" *ngFor="let detail of selectedDetails">
-        <input type="checkbox" [(ngModel)]="detail.checked" />
-        <span>{{ detail.title }}</span>
-      </label>
-    </div>
+      <div class="dialog-body">
+        <label class="dialog-item" *ngFor="let detail of selectedDetails">
+          <input type="checkbox" [(ngModel)]="detail.checked" />
+          <span>{{ detail.title }}</span>
+        </label>
+      </div>
 
-    <div class="dialog-footer">
-      <button class="btn-commander-confirm" (click)="confirmerCommande()">
-        ✔ Commander ({{ selectedDetails | countChecked }})
-      </button>
-    </div>
+      <div class="dialog-footer">
+        <button class="btn-commander-confirm"
+                (click)="openCommandeForm()"
+                [disabled]="(selectedDetails | countChecked) === 0">
+          ✔ Démarrer le service ({{ selectedDetails | countChecked }})
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- VUE 2 : Formulaire commande -->
+    <ng-container *ngIf="showCommandeForm" [formGroup]="commandeForm">
+      <div class="dialog-header">
+        <h3>Démarrer le service <span class="sv-accent">{{ service.title }}</span></h3>
+        <button class="dialog-close" (click)="closeCommandeForm()">✕</button>
+      </div>
+
+      <div class="dialog-body">
+
+        <div class="sv-modal-row">
+          <label>Service / Objectifs</label>
+          <textarea class="pj-input" formControlName="objectifs"
+            placeholder="Décrivez vos objectifs..." rows="3"></textarea>
+          <small class="text-danger"
+            *ngIf="commandeForm.get('objectifs')?.invalid && commandeForm.get('objectifs')?.touched">
+            Champ obligatoire.
+          </small>
+        </div>
+
+        <div class="sv-modal-row">
+          <label>Analyse de la situation</label>
+          <textarea class="pj-input" formControlName="analyseSituation"
+            placeholder="Contexte, SWOT..." rows="3"></textarea>
+          <small class="text-danger"
+            *ngIf="commandeForm.get('analyseSituation')?.invalid && commandeForm.get('analyseSituation')?.touched">
+            Champ obligatoire.
+          </small>
+        </div>
+
+        <div class="sv-modal-row">
+          <label>Message clé</label>
+          <textarea class="pj-input" formControlName="messageCle"
+            placeholder="Message principal..." rows="3"></textarea>
+          <small class="text-danger"
+            *ngIf="commandeForm.get('messageCle')?.invalid && commandeForm.get('messageCle')?.touched">
+            Champ obligatoire.
+          </small>
+        </div>
+
+        <div class="sv-modal-row">
+          <label>Brief</label>
+          <textarea class="pj-input" formControlName="brief"
+            placeholder="Brief complet..." rows="3"></textarea>
+          <small class="text-danger"
+            *ngIf="commandeForm.get('brief')?.invalid && commandeForm.get('brief')?.touched">
+            Champ obligatoire.
+          </small>
+        </div>
+
+        <div class="sv-modal-row">
+          <label>Devis</label>
+          <input class="pj-input" formControlName="devis"
+            placeholder="Budget estimé..." />
+          <small class="text-danger"
+            *ngIf="commandeForm.get('devis')?.invalid && commandeForm.get('devis')?.touched">
+            Champ obligatoire.
+          </small>
+        </div>
+
+        <div class="sv-modal-row">
+          <label>Délai souhaité</label>
+          <input class="pj-input" type="date" formControlName="delaiSouhaite" />
+          <small class="text-danger"
+            *ngIf="commandeForm.get('delaiSouhaite')?.invalid && commandeForm.get('delaiSouhaite')?.touched">
+            Champ obligatoire.
+          </small>
+        </div>
+
+      </div>
+
+<div class="dialog-footer">
+  <button class="btn-commander-cancel" type="button" (click)="closeCommandeForm()">
+    ← Retour
+  </button>
+  <button class="btn-commander-confirm" type="button" (click)="submitCommande()" [disabled]="isLoading">
+
+    <span *ngIf="isLoading" class="pj-spinner"></span>
+
+    <svg *ngIf="!isLoading" width="16" height="16" fill="none" stroke="white" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+    </svg>
+
+    {{ isLoading ? 'Envoi...' : 'Commander' }}
+  </button>
+</div>
+    </ng-container>
 
   </div>
 </div>

@@ -1,7 +1,9 @@
 package com.example.xicombackend.service;
 
+import com.example.xicombackend.dto.CommandeRequest;
 import com.example.xicombackend.entity.Commande;
 import com.example.xicombackend.entity.ServiceEntity;
+import com.example.xicombackend.entity.StatusCommande;
 
 import java.util.List;
 
@@ -12,5 +14,8 @@ public interface ServiceService {
     public List<ServiceEntity> getAllServices();
     ServiceEntity updateService(Long id, ServiceEntity Service);
 
-    Commande commanderService(String serviceTitle, List<String> detailTitles, Integer userId);
+    Commande commanderService(CommandeRequest request);
+    List<Commande> getCommandesByStatus(StatusCommande status);
+
+
 }

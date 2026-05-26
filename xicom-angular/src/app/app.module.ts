@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common'
 import { AdminGuard } from './guards/admin.guard'
 import { JwtModule } from '@auth0/angular-jwt';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommandeStatusComponent } from './dashboard/commande-status/commande-status.component';
 
 
 
@@ -76,7 +77,13 @@ const routes = [
       ),
     canActivate: [AdminGuard]  // ✅ Ajouter
   },
-
+  {
+    path: 'commande_status',
+    loadChildren: () =>
+      import('./dashboard/commande-status/commande-status.module').then(
+        (m) => m.CommandeStatusModule
+      )
+  },
   {
   path: 'actualites',
   loadChildren: () =>

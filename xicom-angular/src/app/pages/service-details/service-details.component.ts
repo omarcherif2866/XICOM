@@ -22,6 +22,8 @@ export class ServiceDetailsComponent implements OnInit {
     { icon: '../../../assets/icons/person.svg', label: 'Experts', value: '15', color: '#FFEEEA', valueColor: '#F1836A' },
     { icon: '../../../assets/icons/puzzle.svg', label: 'Collaborateurs', value: '40', color: '#ECEBFF', valueColor: '#6863BF' }
   ];
+showCommandeForm = false;
+  isLoading = false;
 
   serviceId!: any;
   loading = false;
@@ -34,7 +36,14 @@ export class ServiceDetailsComponent implements OnInit {
   visiblePartners: any[] = [];
 showDialog = false;
 selectedDetails: { title: string; checked: boolean }[] = [];
-
+commandeForm: FormGroup = this.fb.group({
+  objectifs:        ['', Validators.required],
+  analyseSituation: ['', Validators.required],
+  messageCle:       ['', Validators.required],
+  brief:            ['', Validators.required],
+  devis:            ['', Validators.required],
+  delaiSouhaite:    ['', Validators.required],
+});
   private serviceThemes: { [key: number]: any } = {
     1: {
     gradientStart: '#DD8484',
@@ -245,7 +254,7 @@ fetchServiceDetails(id: number) {
       // Mettre une seule service dans le tableau
       this.services = [new Service(response)];
       // ⬇️ AJOUTE CETTE LIGNE POUR LE CARROUSEL
-      console.log('sections[0] details:', response.sections?.[0]?.details);
+      // console.log('sections[0] details:', response.sections?.[0]?.details);
 
       this.loading = false;
 
@@ -390,9 +399,50 @@ getAllDetails(): string[] {
 
 closeDialog(): void {
   this.showDialog = false;
+    this.showCommandeForm = false;
+  this.commandeForm.reset();
 }
 
-confirmerCommande(): void {
+// confirmerCommande(): void {
+//   const userId = this.authService.getUserIdFromToken();
+//   if (!userId) return;
+
+//   const selected = this.selectedDetails
+//     .filter(d => d.checked)
+//     .map(d => d.title);
+
+//   if (selected.length === 0) {
+//     Swal.fire({ icon: 'warning', title: 'Sélectionnez au moins une prestation', timer: 2000, showConfirmButton: false });
+//     return;
+//   }
+
+// const serviceTitle = this.services[0]?.Title;
+
+// if (!serviceTitle) {
+//   Swal.fire({ icon: 'warning', title: 'Service introuvable', timer: 2000, showConfirmButton: false });
+//   return;
+// }
+//   this.serviceService.commander(serviceTitle, selected, userId).subscribe({
+//     next: () => {
+//       this.showDialog = false;
+//       Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 2000, showConfirmButton: false });
+//     },
+//     error: (err) => console.error(err)
+//   });
+// }
+openCommandeForm(): void {
+  this.showCommandeForm = true;
+}
+
+closeCommandeForm(): void {
+  this.showCommandeForm = false;
+  this.commandeForm.reset();
+}
+
+submitCommande(): void {
+  this.commandeForm.markAllAsTouched();
+  if (this.commandeForm.invalid) return;
+
   const userId = this.authService.getUserIdFromToken();
   if (!userId) return;
 
@@ -405,19 +455,33 @@ confirmerCommande(): void {
     return;
   }
 
-const serviceTitle = this.services[0]?.Title;
+  const serviceTitle = this.services[0]?.Title;
+  if (!serviceTitle) {
+    Swal.fire({ icon: 'warning', title: 'Service introuvable', timer: 2000, showConfirmButton: false });
+    return;
+  }
+  this.isLoading = true;
 
-if (!serviceTitle) {
-  Swal.fire({ icon: 'warning', title: 'Service introuvable', timer: 2000, showConfirmButton: false });
-  return;
-}
-  this.serviceService.commander(serviceTitle, selected, userId).subscribe({
+  const payload = {
+    serviceTitle,
+    detailTitles:     selected,
+    objectifs:        this.commandeForm.value.objectifs,
+    analyseSituation: this.commandeForm.value.analyseSituation,
+    messageCle:       this.commandeForm.value.messageCle,
+    brief:            this.commandeForm.value.brief,
+    devis:            this.commandeForm.value.devis,
+    delaiSouhaite:    this.commandeForm.value.delaiSouhaite,
+    status:           'en cours',
+  };
+
+  this.serviceService.commander(payload, userId).subscribe({
     next: () => {
-      this.showDialog = false;
-      Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 2000, showConfirmButton: false });
+      this.isLoading = false;
+      this.closeDialog();
+      this.selectedDetails.forEach(d => d.checked = false);
+      Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
     },
     error: (err) => console.error(err)
   });
 }
-
 }

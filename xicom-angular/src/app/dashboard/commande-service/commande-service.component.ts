@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { ServiceService } from 'src/app/service/service.service';
@@ -14,9 +15,24 @@ export class CommandeServiceComponent implements OnInit {
   sidebarOpen = true;
   services: any[] = [];
   selectedService: any = null;
-serviceDetails: { title: string; checked: boolean }[] = [];
+  serviceDetails: { title: string; checked: boolean }[] = [];
+
+  // Modal
+  showCommandeForm = false;
+  selectedServiceTitle = '';
+  isLoading = false;
+
+  commandeForm: FormGroup = this.fb.group({
+    objectifs:        ['', Validators.required],
+    analyseSituation: ['', Validators.required],
+    messageCle:       ['', Validators.required],
+    brief:            ['', Validators.required],
+    devis:            ['', Validators.required],
+    delaiSouhaite:    ['', Validators.required],
+  });
 
   constructor(
+    private fb: FormBuilder,
     private serviceService: ServiceService,
     private authService: AuthService,
     private router: Router
@@ -33,23 +49,23 @@ serviceDetails: { title: string; checked: boolean }[] = [];
     });
   }
 
-selectService(service: any): void {
-  if (this.selectedService?.id === service.id) {
-    this.selectedService = null;
-    this.serviceDetails = [];
-  } else {
-    this.selectedService = service;
-    this.serviceDetails = this.getDetails(service).map(d => ({ title: d, checked: false }));
+  selectService(service: any): void {
+    if (this.selectedService?.id === service.id) {
+      this.selectedService = null;
+      this.serviceDetails = [];
+    } else {
+      this.selectedService = service;
+      this.serviceDetails = this.getDetails(service).map(d => ({ title: d, checked: false }));
+    }
   }
-}
 
-toggleDetail(detail: { title: string; checked: boolean }): void {
-  detail.checked = !detail.checked;
-}
+  toggleDetail(detail: { title: string; checked: boolean }): void {
+    detail.checked = !detail.checked;
+  }
 
-getSelectedCount(): number {
-  return this.serviceDetails.filter(d => d.checked).length;
-}
+  getSelectedCount(): number {
+    return this.serviceDetails.filter(d => d.checked).length;
+  }
 
   getDetails(service: any): string[] {
     const details: string[] = [];
@@ -65,25 +81,52 @@ getSelectedCount(): number {
     return details;
   }
 
-commanderSelected(serviceTitle: string): void {
-  const userId = this.authService.getUserIdFromToken();
-  if (!userId) return;
-
-  const selected = this.serviceDetails.filter(d => d.checked).map(d => d.title);
-
-  if (selected.length === 0) {
-    Swal.fire({ icon: 'warning', title: 'Sélectionnez au moins une prestation', timer: 2000, showConfirmButton: false });
-    return;
+  // Remplace commanderSelected()
+  openCommandeForm(serviceTitle: string): void {
+    this.selectedServiceTitle = serviceTitle;
+    this.commandeForm.reset();
+    this.showCommandeForm = true;
   }
 
-  this.serviceService.commander(serviceTitle, selected, userId).subscribe({
-    next: () => {
-      Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 2000, showConfirmButton: false });
-      this.serviceDetails.forEach(d => d.checked = false);
-    },
-    error: (err) => console.error(err)
-  });
-}
+  closeCommandeForm(): void {
+    this.showCommandeForm = false;
+  }
+
+  submitCommande(): void {
+    this.commandeForm.markAllAsTouched();
+    if (this.commandeForm.invalid) return;
+
+    const userId = this.authService.getUserIdFromToken();
+    if (!userId) return;
+
+    const selected = this.serviceDetails.filter(d => d.checked).map(d => d.title);
+  this.isLoading = true;
+
+    const payload = {
+      serviceTitle:     this.selectedServiceTitle,
+      detailTitles:     selected,
+      objectifs:        this.commandeForm.value.objectifs,
+      analyseSituation: this.commandeForm.value.analyseSituation,
+      messageCle:       this.commandeForm.value.messageCle,
+      brief:            this.commandeForm.value.brief,
+      devis:            this.commandeForm.value.devis,
+      delaiSouhaite:    this.commandeForm.value.delaiSouhaite,
+      status:           'en cours',
+    };
+
+    this.serviceService.commander(payload, userId).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.closeCommandeForm();
+        this.serviceDetails.forEach(d => d.checked = false);
+        Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error(err);
+      }
+    });
+  }
 
   logout(): void {
     this.authService.logout();

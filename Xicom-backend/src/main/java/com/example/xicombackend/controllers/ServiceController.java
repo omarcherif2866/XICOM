@@ -1,5 +1,6 @@
 package com.example.xicombackend.controllers;
 
+import com.example.xicombackend.dto.CommandeRequest;
 import com.example.xicombackend.entity.*;
 import com.example.xicombackend.repository.PartenaireRepository;
 import com.example.xicombackend.repository.ServiceRepository;
@@ -278,13 +279,15 @@ public class ServiceController {
     }
 
     @PostMapping("/commander")
-    public ResponseEntity<Commande> commander(
-            @RequestParam("serviceTitle") String serviceTitle,
-            @RequestParam("detailTitles") List<String> detailTitles,
-            @RequestParam("userId") Integer userId
-    ) {
+    public ResponseEntity<Commande> commander(@RequestBody CommandeRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(serviceService.commanderService(serviceTitle, detailTitles, userId));
+                .body(serviceService.commanderService(request));
+    }
+
+    @GetMapping("/by-status")
+    public ResponseEntity<List<Commande>> getCommandesByStatus(
+            @RequestParam("status") StatusCommande status) {
+        return ResponseEntity.ok(serviceService.getCommandesByStatus(status));
     }
 
 }

@@ -4,25 +4,14 @@
       <h2>Admin Panel</h2>
         <nav>
         <!-- Dashboard -->
-        <a href="#">
+        <a href="profil">
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/>
-            <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/>
-            <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/>
-            <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <span>Dashboard</span>
+            <span>Profil</span>
         </a>
 
-        <!-- Services -->
-        <a href="compagne">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            <span>Lancer une campagne</span>
-        </a>
-
-        <!-- Partenaires -->
+        <!-- service -->
         <a href="commande_service">
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -30,13 +19,35 @@
             <span>Choisir un service</span>
         </a>
 
+        <!-- campagne -->
+        <a href="compagne">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span>Lancer une campagne</span>
+        </a>
 
-        <!-- Profil -->
+        <!-- Livrable -->
         <a href="profil">
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <span>Profil</span>
+            <span>Livrable</span>
+        </a>
+
+        <a href="commande_status">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Commande en cours</span>
+        </a>        
+
+        <!-- Rapport -->
+        <a href="profil">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Rapport</span>
         </a>
 
         <!-- Se déconnecter -->
@@ -84,7 +95,7 @@
 
     <!-- ===== STEP 1 ===== -->
     <div *ngIf="currentStep === 1" [formGroup]="step1Form">
-        <h2 class="pj-title"><span class="val-gradient-text">Infos & Stratégie</span></h2>
+        <h2 class="pj-title"><span class="val-gradient-text">Démarrer la campagne</span></h2>
 
         <div class="pj-form-grid">
 
@@ -119,9 +130,62 @@
         </div>
 
         <div class="pj-row">
-            <label>Canaux de communication</label>
-            <input class="pj-input" formControlName="canauxCommunication" placeholder="Email, social media..." />
-            <small class="text-danger" *ngIf="step1Form.get('canauxCommunication')?.invalid && step1Form.get('canauxCommunication')?.touched">Champ obligatoire.</small>
+        <label>Canaux de communication</label>
+        <div class="checkbox-group" formGroupName="canauxCommunication">
+
+            <label class="checkbox-item">
+            <div class="checkbox-wrapper-31">
+                <input type="checkbox" formControlName="Facebook" />
+                <svg viewBox="0 0 35.6 35.6">
+                <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
+                <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
+                <polyline class="check" points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
+                </svg>
+            </div>
+            Facebook
+            </label>
+
+            <label class="checkbox-item">
+            <div class="checkbox-wrapper-31">
+                <input type="checkbox" formControlName="Instagram" />
+                <svg viewBox="0 0 35.6 35.6">
+                <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
+                <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
+                <polyline class="check" points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
+                </svg>
+            </div>
+            Instagram
+            </label>
+
+            <label class="checkbox-item">
+            <div class="checkbox-wrapper-31">
+                <input type="checkbox" formControlName="TIKTOK" />
+                <svg viewBox="0 0 35.6 35.6">
+                <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
+                <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
+                <polyline class="check" points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
+                </svg>
+            </div>
+            TIKTOK
+            </label>
+
+            <label class="checkbox-item">
+            <div class="checkbox-wrapper-31">
+                <input type="checkbox" formControlName="Youtube" />
+                <svg viewBox="0 0 35.6 35.6">
+                <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
+                <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
+                <polyline class="check" points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
+                </svg>
+            </div>
+            Youtube
+            </label>
+
+        </div>
+        <small class="text-danger"
+            *ngIf="step1Form.get('canauxCommunication')?.invalid && step1Form.get('canauxCommunication')?.touched">
+            Veuillez sélectionner au moins un canal.
+        </small>
         </div>
 
         <div class="pj-row">
@@ -174,7 +238,7 @@
     </div>
 
     <!-- ===== STEP 2 ===== -->
-    <div *ngIf="currentStep === 2" [formGroup]="step2Form">
+    <!-- <div *ngIf="currentStep === 2" [formGroup]="step2Form">
         <h2 class="pj-title"><span class="val-gradient-text">Exécution & Évaluation</span></h2>
 
         <div class="pj-form-grid">
@@ -241,10 +305,10 @@
         </div>
 
         </div>
-    </div>
+    </div> -->
 
     <!-- Navigation -->
-    <div class="pj-nav">
+    <!-- <div class="pj-nav">
         <button class="pj-btn-prev" type="button" (click)="prev()" *ngIf="currentStep > 1">
         ← Précédent
         </button>
@@ -257,8 +321,22 @@
         </svg>
         Enregistrer la campagne
         </button>
-    </div>
+    </div> -->
+<!-- Navigation -->
+<div class="pj-nav">
+  <button class="pj-btn-submit" type="button" (click)="submit()" [disabled]="isLoading">
 
+    <!-- Loader spinner -->
+    <span *ngIf="isLoading" class="pj-spinner"></span>
+
+    <!-- Icône check normale -->
+    <svg *ngIf="!isLoading" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+
+    {{ isLoading ? 'Enregistrement...' : 'Enregistrer & Télécharger PDF' }}
+  </button>
+</div>
     </div>
     </div>
 </div>

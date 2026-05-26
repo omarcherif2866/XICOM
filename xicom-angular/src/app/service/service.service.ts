@@ -10,8 +10,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class ServiceService {
 
-  private apiUrl = "/api/service";
-  // private apiUrl = "http://localhost:9090/service";
+  // private apiUrl = "/api/service";
+  private apiUrl = "http://localhost:9090/service";
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -58,17 +58,37 @@ export class ServiceService {
     return this.http.delete<Service>(`${this.apiUrl}/${id}`);
   }
 
-commander(serviceTitle: string, detailTitles: string[], userId: number): Observable<any> {
-  const params = new HttpParams()
-    .set('serviceTitle', serviceTitle)
-    .set('userId', userId.toString());
+commander(payload: {
+  serviceTitle: string;
+  detailTitles: string[];
+  objectifs: string;
+  analyseSituation: string;
+  messageCle: string;
+  brief: string;
+  devis: string;
+  delaiSouhaite: string;
+  status: string;
+}, userId: number): Observable<any> {
 
-  // Ajouter chaque detailTitle séparément
-  let finalParams = params;
-  detailTitles.forEach(d => {
-    finalParams = finalParams.append('detailTitles', d);
+  const body = {
+    serviceTitle:     payload.serviceTitle,
+    detailTitles:     payload.detailTitles,
+    userId:           userId,
+    objectifs:        payload.objectifs,
+    analyseSituation: payload.analyseSituation,
+    messageCle:       payload.messageCle,
+    brief:            payload.brief,
+    devis:            payload.devis,
+    delaiSouhaite:    payload.delaiSouhaite,
+  };
+
+  return this.http.post(`${this.apiUrl}/commander`, body);
+}
+
+
+getCommandesByStatus(status: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/by-status`, {
+    params: new HttpParams().set('status', status)
   });
-
-  return this.http.post(`${this.apiUrl}/commander`, null, { params: finalParams });
 }
 }

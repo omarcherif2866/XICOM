@@ -19,9 +19,20 @@ public class Commande {
     private Long id;
 
     private String serviceTitle;
+
     @Convert(converter = StringListConverter.class)
     @Column(columnDefinition = "JSON")
     private List<String> detailTitles = new ArrayList<>();
+
+    private String objectifs;
+    private String analyseSituation;
+    private String messageCle;
+    private String brief;
+    private String devis;
+    private String delaiSouhaite;
+
+    @Enumerated(EnumType.STRING)
+    private StatusCommande status = StatusCommande.EN_COURS;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -8,7 +8,7 @@ export interface Compagne {
   budgetTotal: number;
   objectifs: string;
   cible: string;
-  canauxCommunication: string;
+  canauxCommunication: string[];  // ← string[] au lieu de string
   messageCle: string;
   concept: string;
   brief: string;

@@ -1,7 +1,9 @@
 package com.example.xicombackend.service;
 
+import com.example.xicombackend.dto.CommandeRequest;
 import com.example.xicombackend.entity.Commande;
 import com.example.xicombackend.entity.ServiceEntity;
+import com.example.xicombackend.entity.StatusCommande;
 import com.example.xicombackend.entity.User;
 import com.example.xicombackend.repository.CommandeRepository;
 import com.example.xicombackend.repository.ServiceRepository;
@@ -108,13 +110,19 @@ public class ServiceServiceImp implements ServiceService {
     }
 
     @Override
-    public Commande commanderService(String serviceTitle, List<String> detailTitles, Integer userId) {
-        User user = userRepository.findById(userId)
+    public Commande commanderService(CommandeRequest request) {
+        User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
         Commande commande = new Commande();
-        commande.setServiceTitle(serviceTitle);
-        commande.setDetailTitles(detailTitles);
+        commande.setServiceTitle(request.getServiceTitle());
+        commande.setDetailTitles(request.getDetailTitles());
+        commande.setObjectifs(request.getObjectifs());
+        commande.setAnalyseSituation(request.getAnalyseSituation());
+        commande.setMessageCle(request.getMessageCle());
+        commande.setBrief(request.getBrief());
+        commande.setDevis(request.getDevis());
+        commande.setDelaiSouhaite(request.getDelaiSouhaite());
         commande.setUser(user);
 
         Commande saved = commandeRepository.save(commande);
@@ -132,7 +140,6 @@ public class ServiceServiceImp implements ServiceService {
 
             User user = commande.getUser();
 
-            // ← construire la liste des prestations
             String detailsHtml = commande.getDetailTitles().stream()
                     .map(d -> "<li style='padding: 4px 0;'>✔️ " + d + "</li>")
                     .collect(Collectors.joining());
@@ -151,6 +158,12 @@ public class ServiceServiceImp implements ServiceService {
                     + "<ul style='list-style: none; padding: 0; margin: 0;'>"
                     + "<li style='padding: 8px 0;'>🛠️ <strong>Service :</strong> " + commande.getServiceTitle() + "</li>"
                     + "<li style='padding: 8px 0;'>📌 <strong>Prestations :</strong><ul>" + detailsHtml + "</ul></li>"
+                    + "<li style='padding: 8px 0;'>🎯 <strong>Objectifs :</strong> " + commande.getObjectifs() + "</li>"
+                    + "<li style='padding: 8px 0;'>📊 <strong>Analyse de la situation :</strong> " + commande.getAnalyseSituation() + "</li>"
+                    + "<li style='padding: 8px 0;'>💬 <strong>Message clé :</strong> " + commande.getMessageCle() + "</li>"
+                    + "<li style='padding: 8px 0;'>📝 <strong>Brief :</strong> " + commande.getBrief() + "</li>"
+                    + "<li style='padding: 8px 0;'>💰 <strong>Devis :</strong> " + commande.getDevis() + "</li>"
+                    + "<li style='padding: 8px 0;'>📅 <strong>Délai souhaité :</strong> " + commande.getDelaiSouhaite() + "</li>"
                     + "</ul></div>"
                     + "<p style='color: #666;'>Notre équipe va traiter votre commande et vous recontactera très prochainement.</p>"
                     + "<hr style='border: none; border-top: 1px solid #e0e0e0; margin: 25px 0;'>"
@@ -191,6 +204,12 @@ public class ServiceServiceImp implements ServiceService {
                     + "<ul style='list-style: none; padding: 0; margin: 0;'>"
                     + "<li style='padding: 8px 0;'>🛠️ <strong>Service :</strong> " + commande.getServiceTitle() + "</li>"
                     + "<li style='padding: 8px 0;'>📌 <strong>Prestations :</strong><ul>" + detailsHtml + "</ul></li>"
+                    + "<li style='padding: 8px 0;'>🎯 <strong>Objectifs :</strong> " + commande.getObjectifs() + "</li>"
+                    + "<li style='padding: 8px 0;'>📊 <strong>Analyse de la situation :</strong> " + commande.getAnalyseSituation() + "</li>"
+                    + "<li style='padding: 8px 0;'>💬 <strong>Message clé :</strong> " + commande.getMessageCle() + "</li>"
+                    + "<li style='padding: 8px 0;'>📝 <strong>Brief :</strong> " + commande.getBrief() + "</li>"
+                    + "<li style='padding: 8px 0;'>💰 <strong>Devis :</strong> " + commande.getDevis() + "</li>"
+                    + "<li style='padding: 8px 0;'>📅 <strong>Délai souhaité :</strong> " + commande.getDelaiSouhaite() + "</li>"
                     + "<li style='padding: 8px 0;'>👤 <strong>Client :</strong> " + user.getName() + " " + user.getSurname() + "</li>"
                     + "<li style='padding: 8px 0;'>📧 <strong>Email :</strong> " + user.getEmail() + "</li>"
                     + "</ul></div>"
@@ -208,6 +227,11 @@ public class ServiceServiceImp implements ServiceService {
         } catch (MessagingException e) {
             System.err.println("❌ Erreur lors de l'envoi de l'email à l'admin : " + e.getMessage());
         }
+    }
+
+    @Override
+    public List<Commande> getCommandesByStatus(StatusCommande status) {
+        return commandeRepository.findByStatus(status);
     }
 
 }

@@ -1,10 +1,13 @@
 package com.example.xicombackend.entity;
+import com.example.xicombackend.converter.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -27,7 +30,9 @@ public class Compagne {
     private String objectifs;
 
     private String cible;
-    private String canauxCommunication;
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "JSON")
+    private List<String> canauxCommunication = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String messageCle;
