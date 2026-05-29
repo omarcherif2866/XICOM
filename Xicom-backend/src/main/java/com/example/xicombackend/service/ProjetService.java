@@ -11,4 +11,6 @@ public interface ProjetService {
     Projet getById(Long id);
     List<Projet> getAll();
     long count();
+    List<Projet> getByUser(Long userId); // 👈 ajouter
+
 }

@@ -1,138 +1,3 @@
-// import { Injectable } from '@angular/core';
-// import { BehaviorSubject, Observable, throwError } from 'rxjs';
-// import { User } from '../models/user';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { JwtHelperService } from '@auth0/angular-jwt';
-// import { catchError, tap } from 'rxjs/operators';
-// import { EncryptionService } from './encryption-service.service';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthService {
-
-
-//   private apiUrl = "/api/auth";
-//   private apiUrlUser = "/api/users";
-
-//   private localStorageKey = "userAuth";   // stockage principal
-//   private loggedIn = new BehaviorSubject<boolean>(false);
-//   private jwtHelper = new JwtHelperService();
-
-//   constructor(private httpClient: HttpClient, private encryptionService: EncryptionService) {
-
-//     const userData = localStorage.getItem(this.localStorageKey);
-//     if (userData) {
-//       const parsed = JSON.parse(userData);
-//       this.loggedIn.next(!!parsed.accessToken);
-//     }
-//   }
-
-//   get isLoggedIn() {
-//     return this.loggedIn.asObservable();
-//   }
-
-//   // -------------------- LOGIN --------------------
-//   login(loginData: { email: string; password: string }): Observable<any> {
-//     return this.httpClient.post<any>(`${this.apiUrl}/login`, loginData).pipe(
-//       tap(response => {
-//         // ✅ Chiffrer avant de stocker
-//         const encrypted = this.encryptionService.encrypt(response);
-//         localStorage.setItem(this.localStorageKey, encrypted);
-
-//         // Stocker aussi role et token chiffrés séparément
-//         localStorage.setItem('userRole', this.encryptionService.encrypt(response.role));
-//         localStorage.setItem('accessToken', this.encryptionService.encrypt(response.accessToken));
-
-//         this.loggedIn.next(true);
-//       }),
-//       catchError(error => throwError(() => error))
-//     );
-//   }
-
-//   // -------------------- LOGOUT --------------------
-// logout(): void {
-//   // Déclarer toutes les clés à supprimer
-//   const keysToRemove = ['userAuth', 'accessToken', 'userId', 'userRole'];
-
-//   // Boucler et supprimer chaque clé
-//   keysToRemove.forEach(key => localStorage.removeItem(key));
-
-//   // Mettre à jour l'état de connexion
-//   this.loggedIn.next(false);
-// }
-
-
-//   // -------------------- REGISTER --------------------
-//   addUser(user: any): Observable<User> {
-//     return this.httpClient.post<User>(`${this.apiUrl}/register`, user);
-//   }
-
-//   // -------------------- TOKEN --------------------
-//   getToken(): string | null {
-//     const userData = localStorage.getItem(this.localStorageKey);
-//     return userData ? JSON.parse(userData).accessToken : null;
-//   }
-
-//   getRoleFromToken(): string {
-//     const token = this.getToken();
-//     if (!token) return "vide";
-//     const decoded = this.jwtHelper.decodeToken(token);
-//     return decoded?.role || "";
-//   }
-
-//   // -------------------- USER ID --------------------
-//   getUserIdFromToken(): number | null {
-//     const token = this.getToken();
-//     if (token && !this.jwtHelper.isTokenExpired(token)) {
-//       const decoded = this.jwtHelper.decodeToken(token);
-//       return decoded?.id || null;
-//     }
-//     return null;
-//   }
-
-//   storeUserIdFromToken(): void {
-//     const id = this.getUserIdFromToken();
-//     if (id !== null) {
-//       localStorage.setItem('userId', id.toString());
-//     }
-//   }
-
-//   getUserId(): number | null {
-//     const id = localStorage.getItem('userId');
-//     return id ? Number(id) : null;
-//   }
-
-//   // -------------------- UPDATE USER --------------------
-//   updateUser(id: number, user: User): Observable<User> {
-//     return this.httpClient.put<User>(`${this.apiUrl}/${id}`, user, {
-//       headers: new HttpHeaders().set('Content-Type', 'application/json')
-//     });
-//   }
-
-// getUserById(id: number): Observable<User> {
-//   return this.httpClient.get<User>(`${this.apiUrlUser}/${id}`);
-// }
-
-// changePassword(id: number, data: any): Observable<any> {
-//   return this.httpClient.put(`${this.apiUrlUser}/change-password/${id}`, data);
-// }
-
-//  forgotPassword(email: string): Observable<any> {
-//     return this.httpClient.post(`${this.apiUrl}/forgot`, { email });
-//   }
-
-//   // Vérifier le code
-//   verifyCode(userId: string, code: string): Observable<any> {
-//     return this.httpClient.post(`${this.apiUrl}/verify-code`, { userId, code });
-//   }
-
-//   // Réinitialiser le mot de passe
-//   resetPassword(userId: string, newPassword: string): Observable<any> {
-//     return this.httpClient.post(`${this.apiUrl}/reset`, { userId, newPassword });
-//   }
-
-// }
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { User } from '../models/user';
@@ -146,11 +11,11 @@ import { EncryptionService } from './encryption-service.service';
 })
 export class AuthService {
 
-  // private apiUrl = "/api/auth";
-  private apiUrl = "http://localhost:9090/auth";
+  private apiUrl = "/api/auth";
+  // private apiUrl = "http://localhost:9090/auth";
 
-  // private apiUrlUser = "/api/users";
-  private apiUrlUser = "http://localhost:9090/api/users";
+  private apiUrlUser = "/api/users";
+  // private apiUrlUser = "http://localhost:9090/api/users";
 
   private localStorageKey = "userAuth";
   private loggedIn = new BehaviorSubject<boolean>(false);

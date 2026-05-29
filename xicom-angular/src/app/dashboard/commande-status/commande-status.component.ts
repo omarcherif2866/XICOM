@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceService } from 'src/app/service/service.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-commande-status',
@@ -7,20 +8,61 @@ import { ServiceService } from 'src/app/service/service.service';
   styleUrls: ['./commande-status.component.css']
 })
 export class CommandeStatusComponent implements OnInit {
+
   sidebarOpen = true;
   loading = false;
   commandes: any[] = [];
   statuses = ['EN_COURS', 'LIVREE'];
   selectedStatus = 'EN_COURS';
+  statusLabels: { [key: string]: string } = {
+    'EN_COURS': 'En cours',
+    'LIVREE': 'Livrée'
+  };
+
+  isAdmin = false;
+  currentUserId: number | null = null;
 
   // Pagination
   currentPage = 1;
   itemsPerPage = 8;
+  userId: number | null = null;
 
-  constructor(private serviceService: ServiceService) {}
+  constructor(
+    private serviceService: ServiceService,
+    private authService: AuthService
+  ) {
+    const token = this.authService.getToken();
+    const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
+    this.userId = decoded?.id || decoded?.userId || null;
+  }
 
   ngOnInit(): void {
-    this.filterByStatus(this.selectedStatus);
+    const role = this.authService.getRoleFromToken();
+    this.isAdmin = role === 'Admin' || role === 'SUPERADMIN';
+
+    if (!this.isAdmin) {
+      const token = this.authService.getToken();
+      const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
+      this.currentUserId = decoded?.id || decoded?.userId || null;
+      this.loadByClient();
+    } else {
+      this.filterByStatus(this.selectedStatus);
+    }
+  }
+
+  loadByClient(): void {
+    if (!this.currentUserId) return;
+    this.loading = true;
+    this.serviceService.getByClient(this.currentUserId).subscribe({
+      next: (data) => {
+        this.commandes = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      }
+    });
   }
 
   filterByStatus(status: string): void {
@@ -37,6 +79,19 @@ export class CommandeStatusComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  updateStatus(commande: any, newStatus: string): void {
+    this.serviceService.updateStatus(commande.id, newStatus).subscribe({
+      next: (updated) => {
+        commande.status = updated.status;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  getStatusLabel(status: string): string {
+    return this.statusLabels[status] || status;
   }
 
   get currentItems(): any[] {
@@ -62,8 +117,5 @@ export class CommandeStatusComponent implements OnInit {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-  logout(): void {
-    // votre logique de déconnexion
-  }
-
+  logout(): void {}
 }

@@ -1,0 +1,362 @@
+<div class="app-container">
+  <div [class]="sidebarOpen ? 'sidebar open' : 'sidebar'">
+    <div class="sidebar-content">
+      <h2>Admin Panel</h2>
+        <nav>
+        <!-- Dashboard -->
+        <a [routerLink]="['/fiche_client', userId]">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Ma fiche Client</span>
+        </a>
+
+        <!-- service -->
+        <a href="commande_service">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Choisir un service</span>
+        </a>
+
+        <!-- campagne -->
+        <a href="compagne">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span>Lancer une campagne</span>
+        </a>
+
+        <!-- Livrable -->
+        <a href="profil">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Livrable</span>
+        </a>
+
+        <a href="commande_status">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Commande en cours</span>
+        </a>        
+
+        <!-- Rapport -->
+        <a href="profil">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Rapport</span>
+        </a>
+
+        <!-- Se déconnecter -->
+        <a (click)="logout(); $event.preventDefault()">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>Se déconnecter</span>
+        </a>
+        </nav>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <!-- ===== LISTE DES PROJETS ===== -->
+    <div *ngIf="showList">
+      <div class="pj-list-header">
+        <h2 class="pj-list-title"><span class="val-gradient-text">Mes Projets</span></h2>
+      </div>
+
+      <div *ngIf="projets.length === 0" class="pj-empty">
+        Aucun projet trouvé.
+      </div>
+
+      <div class="pj-cards-grid" *ngIf="projets.length > 0">
+        <div class="pj-mini-card"
+          *ngFor="let projet of paginatedProjets"
+          (click)="selectProjet(projet)">
+          <div class="pj-mini-card-icon">📁</div>
+          <div class="pj-mini-card-info">
+            <h4>{{ projet.secteur || 'Secteur non défini' }}</h4>
+            <!-- <p>{{ projet.secteur || 'Secteur non défini' }}</p> -->
+            <span class="pj-mini-card-tag">{{ projet.categorie || 'Sans catégorie' }}</span>
+          </div>
+          <div class="pj-mini-card-arrow">→</div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pj-pagination" *ngIf="totalPages > 1">
+        <button (click)="handlePageChange(currentPage - 1)" [disabled]="currentPage === 1">◀</button>
+        <button *ngFor="let page of pagesArray"
+          (click)="handlePageChange(page)"
+          [class.active]="currentPage === page">
+          {{ page }}
+        </button>
+        <button (click)="handlePageChange(currentPage + 1)" [disabled]="currentPage === totalPages">▶</button>
+      </div>
+    </div>
+
+    <!-- ===== FORMULAIRE PROJET ===== -->
+    <div *ngIf="!showList">
+
+      <button class="pj-btn-back" (click)="backToList()">
+        ← Retour à la liste
+      </button>
+
+        <div class="pj-wrapper">
+
+        <!-- Stepper header -->
+        <div class="pj-stepper">
+            <div class="pj-step"
+            *ngFor="let step of steps"
+            [class.active]="currentStep === step.number"
+            [class.done]="currentStep > step.number"
+            (click)="goTo(step.number)">
+            <div class="pj-step-circle">
+                <svg *ngIf="currentStep > step.number" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span *ngIf="currentStep <= step.number">{{ step.number }}</span>
+            </div>
+            <p class="pj-step-label">{{ step.label }}</p>
+            </div>
+            <div class="pj-step-line"></div>
+        </div>
+
+        <!-- Success -->
+        <div class="pj-success" *ngIf="submitted">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="9 12 11 14 15 10"/>
+            </svg>
+            <p>{{ successMessage }}</p>
+        </div>
+
+        <div class="pj-card" *ngIf="!submitted">
+
+            <!-- Mode badge -->
+            <div class="pj-mode-badge" *ngIf="isEditMode">
+            ✏️ Mode modification
+            </div>
+
+            <!-- ===== STEP 1 ===== -->
+            <div *ngIf="currentStep === 1" [formGroup]="step1Form">
+            <h2 class="pj-title"><span class="val-gradient-text">Fiche client</span></h2>
+
+            <div class="pj-row">
+                <label>Client</label>
+                <input class="pj-input" formControlName="client" placeholder="Nom du client" />
+                <small class="text-danger" *ngIf="step1Form.get('client')?.invalid && step1Form.get('client')?.touched">
+                Le nom du client est obligatoire.
+                </small>
+            </div>
+            <div class="pj-row">
+                <label>Secteur</label>
+                <input class="pj-input" formControlName="secteur" placeholder="Secteur d'activité" />
+            </div>
+            <div class="pj-row">
+                <label>Catégorie</label>
+                <input class="pj-input" formControlName="categorie" placeholder="Catégorie" />
+            </div>
+            <div class="pj-row">
+                <label>Nom & prénom du responsable</label>
+                <input class="pj-input" formControlName="responsableNomPrenom" placeholder="Nom complet" />
+            </div>
+
+            <div class="pj-section-label">Contacts</div>
+
+            <div class="pj-row">
+                <label>Adresse</label>
+                <input class="pj-input" formControlName="responsableAdresse" placeholder="Adresse" />
+            </div>
+            <div class="pj-row">
+                <label>Téléphone</label>
+                <input class="pj-input" formControlName="responsableTelephone" placeholder="+216 XX XXX XXX" />
+            </div>
+            <div class="pj-row">
+                <label>E-mail</label>
+                <input class="pj-input" type="email" formControlName="responsableEmail" placeholder="email@exemple.com" />
+                <small class="text-danger" *ngIf="step1Form.get('responsableEmail')?.touched">
+                <span *ngIf="step1Form.get('responsableEmail')?.hasError('required')">L'email est obligatoire.</span>
+                <span *ngIf="step1Form.get('responsableEmail')?.hasError('email')">L'email n'est pas valide.</span>
+                </small>
+            </div>
+            </div>
+
+            <!-- ===== STEP 2 ===== -->
+            <div *ngIf="currentStep === 2" [formGroup]="step2Form">
+            <h2 class="pj-title"><span class="val-gradient-text">Graphique et Identités</span></h2>
+
+            <div class="pj-file-row" *ngFor="let field of [
+                {key: 'logo', label: 'Logo'},
+                {key: 'avatars', label: 'Avatars et personnages'},
+                {key: 'charteGraphique', label: 'Charte graphique'},
+                {key: 'policesCaracteres', label: 'Polices de caractères'},
+                {key: 'imagesIllustrations', label: 'Images & illustrations'},
+                {key: 'couleurSecondaire', label: 'Couleur secondaire'},
+                {key: 'couleurANePasUtiliser', label: 'Couleur à ne pas utiliser'},
+                {key: 'autresDonnees', label: 'Autre données'},
+                {key: 'autresCommentaires', label: 'Autres commentaires'}
+            ]">
+                <input type="file" [id]="'file-' + field.key" style="display:none" multiple
+                (change)="onFileSelected($event, field.key)" />
+
+                <div class="pj-file-info">
+                <span class="pj-file-label">• {{ field.label }}</span>
+
+<!-- Fichiers existants (mode édition) -->
+<div class="pj-existing-files" *ngIf="getExistingFiles(field.key).length > 0">
+  <div class="pj-existing-file" *ngFor="let url of getExistingFiles(field.key)">
+    <img [src]="url" class="pj-file-preview" alt="aperçu" />
+    <a [href]="url" target="_blank" class="pj-file-link">
+      {{ url | slice:url.lastIndexOf('/')+1 }}
+    </a>
+    <button class="pj-btn-remove" type="button" (click)="removeExistingFile(field.key, url)">✕</button>
+  </div>
+</div>
+
+<!-- Nouveaux fichiers (aperçu local) -->
+<div class="pj-existing-files" *ngIf="getLocalPreviews(field.key).length > 0">
+  <div class="pj-existing-file" *ngFor="let preview of getLocalPreviews(field.key); let i = index">
+    <img [src]="preview" class="pj-file-preview" alt="aperçu" />
+    <span class="pj-file-link">Fichier {{ i + 1 }}</span>
+    <button class="pj-btn-remove" type="button" (click)="removeLocalFile(field.key, i)">✕</button>
+  </div>
+</div>
+                </div>
+
+                <div class="pj-file-actions">
+                <button class="pj-btn-insert" type="button" (click)="triggerFileInput(field.key)"
+                    [disabled]="uploadingMap[field.key]">
+                    {{ uploadingMap[field.key] ? '⏳' : '⬆' }} Insérer
+                </button>
+                <button class="pj-btn-download" type="button" (click)="downloadFile(field.key)"
+                    [disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length"
+                    [class.disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length">
+                    ⬇ Télécharger
+                </button>
+                </div>
+            </div>
+            </div>
+
+            <!-- ===== STEP 3 ===== -->
+            <div *ngIf="currentStep === 3" [formGroup]="step3Form">
+            <div class="pj-digital-header">
+                <h2 class="pj-title"><span class="val-gradient-text">Digital</span></h2>
+                <!-- icônes sociales inchangées -->
+            </div>
+
+            <div class="pj-row">
+                <label>Site web</label>
+                <input class="pj-input pj-input-link" formControlName="siteWeb" placeholder="https://..." />
+            </div>
+            <div class="pj-row">
+                <label>Réseaux sociaux</label>
+                <input class="pj-input pj-input-link" formControlName="reseauxSociaux" placeholder="Lien" />
+            </div>
+
+            <div class="pj-section-label">Identité stable</div>
+
+            <div class="pj-row">
+                <label>Les coordonnées</label>
+                <input class="pj-input" formControlName="coordonnees" placeholder="Texte" />
+            </div>
+            <div class="pj-row">
+                <label>Les canaux de contact</label>
+                <input class="pj-input" formControlName="canauxContact" placeholder="Texte" />
+            </div>
+            <div class="pj-row">
+                <label>Services reconnus & outils</label>
+                <input class="pj-input" formControlName="servicesReconnusOutils" placeholder="Texte" />
+            </div>
+            <div class="pj-row">
+                <label>Concurrent</label>
+                <input class="pj-input" formControlName="concurrent" placeholder="Texte" />
+            </div>
+            </div>
+
+            <!-- ===== STEP 4 ===== -->
+            <div *ngIf="currentStep === 4" [formGroup]="step4Form">
+            <h2 class="pj-title"><span class="val-gradient-text">Marque et Produits</span></h2>
+
+            <div class="pj-file-row" *ngFor="let field of [
+                {key: 'lesProduits', label: 'Les produits'},
+                {key: 'programmeFidelite', label: 'Programme de Fidélité'},
+                {key: 'lesAvis', label: 'Les avis'},
+                {key: 'lesPublications', label: 'Les publications'},
+                {key: 'hobbiesMarque', label: 'Les hobbies de la marque'},
+                {key: 'consommation', label: 'La consommation'},
+                {key: 'achatsRealises', label: 'Les achats réalisés'},
+                {key: 'frequenceAchat', label: 'La fréquence d\'achat'},
+                {key: 'moyenPaiement', label: 'Le moyen de paiement utilisé'},
+                {key: 'pagesConsultees', label: 'Les pages consultées'},
+                {key: 'produitsPlusVisites', label: 'Les produits les plus visités'}
+            ]">
+                <input type="file" [id]="'file-' + field.key" style="display:none" multiple
+                (change)="onFileSelected($event, field.key)" />
+
+                <div class="pj-file-info">
+                <span class="pj-file-label">• {{ field.label }}</span>
+
+                <!-- Fichiers existants -->
+<!-- Fichiers existants (mode édition) -->
+<div class="pj-existing-files" *ngIf="getExistingFiles(field.key).length > 0">
+  <div class="pj-existing-file" *ngFor="let url of getExistingFiles(field.key)">
+    <img [src]="url" class="pj-file-preview" alt="aperçu" />
+    <a [href]="url" target="_blank" class="pj-file-link">
+      {{ url | slice:url.lastIndexOf('/')+1 }}
+    </a>
+    <button class="pj-btn-remove" type="button" (click)="removeExistingFile(field.key, url)">✕</button>
+  </div>
+</div>
+
+<!-- Nouveaux fichiers (aperçu local) -->
+<div class="pj-existing-files" *ngIf="getLocalPreviews(field.key).length > 0">
+  <div class="pj-existing-file" *ngFor="let preview of getLocalPreviews(field.key); let i = index">
+    <img [src]="preview" class="pj-file-preview" alt="aperçu" />
+    <span class="pj-file-link">Fichier {{ i + 1 }}</span>
+    <button class="pj-btn-remove" type="button" (click)="removeLocalFile(field.key, i)">✕</button>
+  </div>
+</div>
+                </div>
+
+                <div class="pj-file-actions">
+                <button class="pj-btn-insert" type="button" (click)="triggerFileInput(field.key)">
+                    ⬆ Insérer
+                </button>
+                <button class="pj-btn-download" type="button" (click)="downloadFile(field.key)"
+                    [disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length"
+                    [class.disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length">
+                    ⬇ Télécharger
+                </button>
+                </div>
+            </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="pj-nav">
+            <button class="pj-btn-prev" type="button" (click)="prev()" *ngIf="currentStep > 1">
+                ← Précédent
+            </button>
+            <button class="pj-btn-next" type="button" (click)="next()" *ngIf="currentStep < totalSteps">
+                Suivant →
+            </button>
+            <button class="pj-btn-submit" type="button" (click)="submit()"
+                *ngIf="currentStep === totalSteps" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="pj-spinner"></span>
+                <svg *ngIf="!isLoading" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {{ isLoading ? 'Enregistrement...' : (isEditMode ? 'Modifier le projet' : 'Enregistrer le projet') }}
+            </button>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+  </div>
+</div>

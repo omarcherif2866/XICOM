@@ -339,6 +339,8 @@
   padding: 14px 4px;
   appearance: none;
   -webkit-appearance: none;
+  max-width: 110px;
+  width: 110px;
 }
 
 .phone-input {

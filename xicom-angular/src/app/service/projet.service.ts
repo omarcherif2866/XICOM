@@ -6,8 +6,8 @@ import { Projet } from '../models/projet';
 @Injectable({ providedIn: 'root' })
 export class ProjetService {
 
-  private apiUrl = 'http://localhost:9090/projet';
-  // private apiUrl = "/api/projet";
+  // private apiUrl = 'http://localhost:9090/projet';
+  private apiUrl = "/api/projet";
 
   constructor(private http: HttpClient) {}
 
@@ -33,9 +33,33 @@ create(data: any, fileMap: { [key: string]: File[] }): Observable<any> {
   return this.http.post(`${this.apiUrl}`, formData);
 }
 
-  update(id: number, projet: Projet): Observable<Projet> {
-    return this.http.put<Projet>(`${this.apiUrl}/${id}`, projet);
-  }
+update(id: number, data: any, fileMap: { [key: string]: File[] }, existingUrlMap: { [key: string]: string[] }): Observable<any> {
+  const formData = new FormData();
+
+  // Champs texte
+  Object.keys(data).forEach(key => {
+    if (data[key] !== null && data[key] !== undefined) {
+      formData.append(key, data[key]);
+    }
+  });
+
+  // Nouveaux fichiers
+  const fileFields = ['logo', 'avatars', 'charteGraphique', 'policesCaracteres',
+    'imagesIllustrations', 'lesProduits', 'lesAvis', 'lesPublications'];
+
+  fileFields.forEach(key => {
+    const files = fileMap[key] || [];
+    files.forEach(file => formData.append(key, file));
+  });
+
+  // URLs existantes à conserver
+  fileFields.forEach(key => {
+    const urls = existingUrlMap[key] || [];
+    urls.forEach(url => formData.append(key + 'Existing', url));
+  });
+
+  return this.http.put(`${this.apiUrl}/${id}`, formData);
+}
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
@@ -52,4 +76,8 @@ create(data: any, fileMap: { [key: string]: File[] }): Observable<any> {
   count(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/count`);
   }
+
+  getByUser(userId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/by-user/${userId}`);
+}
 }

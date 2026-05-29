@@ -290,4 +290,16 @@ public class ServiceController {
         return ResponseEntity.ok(serviceService.getCommandesByStatus(status));
     }
 
+    @GetMapping("/by-client/{userId}")
+    public ResponseEntity<List<Commande>> getCommandesByClient(@PathVariable Long userId) {
+        return ResponseEntity.ok(serviceService.getCommandesByClient(userId));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Commande> updateStatus(
+            @PathVariable Long id,
+            @RequestParam StatusCommande status) {
+        return ResponseEntity.ok(serviceService.updateStatus(id, status));
+    }
+
 }

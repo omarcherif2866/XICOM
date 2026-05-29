@@ -50,7 +50,7 @@ export class ActualiteComponent implements OnInit {
         ));
         this.actualites = this.actualites; // si pagination ou filtrage
         this.loading = false;
-        console.log('Données reçues: ', this.actualites);
+        // console.log('Données reçues: ', this.actualites);
       },
       (error) => {
         console.error('Erreur lors du chargement des actualites:', error);

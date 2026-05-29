@@ -10,8 +10,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class ServiceService {
 
-  // private apiUrl = "/api/service";
-  private apiUrl = "http://localhost:9090/service";
+  private apiUrl = "/api/service";
+  // private apiUrl = "http://localhost:9090/service";
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -91,4 +91,16 @@ getCommandesByStatus(status: string): Observable<any[]> {
     params: new HttpParams().set('status', status)
   });
 }
+
+  getByClient(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/by-client/${userId}`);
+  }
+
+  updateStatus(id: number, status: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/status`, null, {
+      params: new HttpParams().set('status', status)
+    });
+  }
+
+
 }

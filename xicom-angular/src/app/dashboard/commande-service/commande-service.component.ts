@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Service } from 'src/app/models/service';
 import { AuthService } from 'src/app/service/auth.service';
 import { ServiceService } from 'src/app/service/service.service';
 import Swal from 'sweetalert2';
@@ -16,6 +17,7 @@ export class CommandeServiceComponent implements OnInit {
   services: any[] = [];
   selectedService: any = null;
   serviceDetails: { title: string; checked: boolean }[] = [];
+  userId: number | null = null;
 
   // Modal
   showCommandeForm = false;
@@ -36,18 +38,29 @@ export class CommandeServiceComponent implements OnInit {
     private serviceService: ServiceService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+        const token = this.authService.getToken();
+    const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
+    this.userId = decoded?.id || decoded?.userId || null;
+  }
 
   ngOnInit(): void {
     this.loadServices();
   }
 
-  loadServices(): void {
-    this.serviceService.getService().subscribe({
-      next: (data) => this.services = data,
-      error: (err) => console.error(err)
-    });
-  }
+loadServices(): void {
+  
+  this.serviceService.getService().subscribe({
+    next: (data: Service[]) => {
+      this.services = data
+        .map(item => new Service(item))
+        .sort((a, b) => a.Id - b.Id);  // ← tri par ID croissant
+      
+    },
+    error: (error) => {
+    }
+  });
+}
 
   selectService(service: any): void {
     if (this.selectedService?.id === service.id) {

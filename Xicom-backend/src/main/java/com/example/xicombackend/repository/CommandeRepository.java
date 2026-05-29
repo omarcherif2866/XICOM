@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface CommandeRepository extends JpaRepository<Commande, Long> {
     List<Commande> findByStatus(StatusCommande status);
+
+    List<Commande> findByUserId(Long userId);
 }

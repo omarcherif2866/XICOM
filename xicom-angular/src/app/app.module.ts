@@ -12,6 +12,7 @@ import { AdminGuard } from './guards/admin.guard'
 import { JwtModule } from '@auth0/angular-jwt';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommandeStatusComponent } from './dashboard/commande-status/commande-status.component';
+import { FicheClientProjetComponent } from './dashboard/fiche-client-projet/fiche-client-projet.component';
 
 
 
@@ -82,6 +83,13 @@ const routes = [
     loadChildren: () =>
       import('./dashboard/commande-status/commande-status.module').then(
         (m) => m.CommandeStatusModule
+      )
+  },
+    {
+    path: 'fiche_client/:id',
+    loadChildren: () =>
+      import('./dashboard/fiche-client-projet/fiche-client-projet.module').then(
+        (m) => m.FicheClientProjetModule
       )
   },
   {

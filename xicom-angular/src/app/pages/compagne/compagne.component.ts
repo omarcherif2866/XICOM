@@ -151,6 +151,7 @@ export class CompagneComponent {
   submitted = false;
   successMessage = '';
 isLoading = false;
+  userId: number | null = null;
 
   steps = [
     { number: 1, label: 'Infos & Stratégie' },
@@ -185,7 +186,11 @@ isLoading = false;
     private compagneService: CompagneService,
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) {
+    const token = this.authService.getToken();
+    const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
+    this.userId = decoded?.id || decoded?.userId || null;
+  }
 
   next(): void {
     this.step1Form.markAllAsTouched();

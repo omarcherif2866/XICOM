@@ -234,4 +234,17 @@ public class ServiceServiceImp implements ServiceService {
         return commandeRepository.findByStatus(status);
     }
 
+    @Override
+    public List<Commande> getCommandesByClient(Long userId) {
+        return commandeRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Commande updateStatus(Long id, StatusCommande status) {
+        Commande commande = commandeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Commande introuvable : " + id));
+        commande.setStatus(status);
+        return commandeRepository.save(commande);
+    }
+
 }

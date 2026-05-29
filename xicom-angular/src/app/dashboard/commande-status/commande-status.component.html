@@ -5,15 +5,15 @@
       <h2>Admin Panel</h2>
         <nav>
         <!-- Dashboard -->
-        <a href="profil">
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a [routerLink]="['/fiche_client', userId]">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span>Profil</span>
+          </svg>
+          <span>Ma fiche Client</span>
         </a>
 
         <!-- service -->
-        <a href="commande_service">
+        <a href="commande_service" >
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
@@ -59,93 +59,171 @@
             <span>Se déconnecter</span>
         </a>
         </nav>
+      <nav  *ngIf="isAdmin">
+        <!-- Dashboard -->
+        <a href="#">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- Services -->
+        <a href="services">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          <span>Services</span>
+        </a>
+
+        <!-- Partenaires -->
+        <a href="partenaires">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span>Partenaires</span>
+        </a>
+
+        <!-- Actualités -->
+        <a href="actualites">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+          </svg>
+          <span>Actualités</span>
+        </a>
+
+        <!-- Rendez-vous -->
+        <a href="rdv">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span>Rendez-vous</span>
+        </a>
+
+        <!-- Abonnées -->
+          <a href="abonnee">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+          </svg>
+          <span>Abonnées</span>
+          </a>    
+
+        <!-- Profil -->
+        <a href="profil">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Profil</span>
+        </a>
+
+      </nav>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div class="main-area">
-    <header>
-      <button (click)="toggleSidebar()" class="sidebar-toggle">
-        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-      <h1>Gestion des Commandes</h1>
-      <div class="spacer"></div>
-    </header>
+<div class="main-area">
+  <header>
+    <button (click)="toggleSidebar()" class="sidebar-toggle">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <h1>Gestion des Commandes</h1>
+    <div class="spacer"></div>
+  </header>
 
-    <main>
-      <div class="content-box">
+  <main>
+    <div class="content-box">
 
-        <!-- Filtres par status -->
-        <div class="header-actions">
-          <h2>Liste des Commandes</h2>
-          <div class="filter-tabs">
-            <button *ngFor="let s of statuses"
-                    (click)="filterByStatus(s)"
-                    [class.active]="selectedStatus === s"
-                    class="btn btn-filter">
-              {{ s }}
-            </button>
-          </div>
+      <div class="header-actions">
+        <h2>{{ isAdmin ? 'Liste des Commandes' : 'Mes Commandes' }}</h2>
+
+        <!-- Filtres status — admin seulement -->
+        <div class="filter-tabs" *ngIf="isAdmin">
+          <button *ngFor="let s of statuses"
+                  (click)="filterByStatus(s)"
+                  [class.active]="selectedStatus === s"
+                  class="btn btn-filter">
+            {{ getStatusLabel(s) }}
+          </button>
         </div>
-
-        <!-- Loader -->
-        <div *ngIf="loading" class="loader">
-          <div class="spinner"></div>
-          <p>Chargement des commandes...</p>
-        </div>
-
-        <!-- Empty State -->
-        <div *ngIf="!loading && commandes.length === 0" class="empty-state">
-          Aucune commande pour ce statut
-        </div>
-
-        <!-- Table -->
-        <div *ngIf="!loading && commandes.length > 0" class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Client</th>
-                <th>Service</th>
-                <th>Prestations</th>
-                <th>Objectifs</th>
-                <th>Délai souhaité</th>
-                <th>Statut</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let commande of currentItems">
-                <td>{{ commande.id }}</td>
-                <td>{{ commande.user?.name }} {{ commande.user?.surname }}</td>
-                <td>{{ commande.serviceTitle }}</td>
-                <td>
-                  <ul style="margin: 0; padding-left: 16px;">
-                    <li *ngFor="let d of commande.detailTitles">{{ d }}</li>
-                  </ul>
-                </td>
-                <td>{{ commande.objectifs }}</td>
-                <td>{{ commande.delaiSouhaite }}</td>
-                <td>
-                    <span class="badge" [ngClass]="{'badge-encours': commande.status === 'EN_COURS', 'badge-termine': commande.status === 'LIVREE'}">
-                        {{ commande.status }}
-                    </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Pagination -->
-        <div *ngIf="!loading && commandes.length > 0" class="pagination">
-          <button (click)="handlePageChange(currentPage - 1)" [disabled]="currentPage === 1">◀</button>
-          <button *ngFor="let page of pagesArray" (click)="handlePageChange(page)"
-                  [class.active]="currentPage === page">{{ page }}</button>
-          <button (click)="handlePageChange(currentPage + 1)" [disabled]="currentPage === totalPages">▶</button>
-        </div>
-
       </div>
-    </main>
-  </div>
+
+      <div *ngIf="loading" class="loader">
+        <div class="spinner"></div>
+        <p>Chargement des commandes...</p>
+      </div>
+
+      <div *ngIf="!loading && commandes.length === 0" class="empty-state">
+        Aucune commande trouvée
+      </div>
+
+      <div *ngIf="!loading && commandes.length > 0" class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Client</th>
+              <th>Service</th>
+              <th>Prestations</th>
+              <th>Objectifs</th>
+              <th>Délai souhaité</th>
+              <th>Analyse Situation</th>
+              <th>Message Clé</th>
+              <th>Devis</th>
+              <th>Brief</th>
+              <th>Statut</th>
+              <th *ngIf="isAdmin">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let commande of currentItems">
+              <td>{{ commande.id }}</td>
+              <td>{{ commande.user?.name }} {{ commande.user?.surname }}</td>
+              <td>{{ commande.serviceTitle }}</td>
+              <td>
+                <ul style="margin: 0; padding-left: 16px;">
+                  <li *ngFor="let d of commande.detailTitles">{{ d }}</li>
+                </ul>
+              </td>
+              <td>{{ commande.objectifs }}</td>
+              <td>{{ commande.delaiSouhaite }}</td>
+              <td>{{ commande.analyseSituation }}</td>
+              <td>{{ commande.messageCle }}</td>
+              <td>{{ commande.devis }}</td>
+              <td>{{ commande.brief }}</td>
+
+              <td>
+                <span class="badge" [ngClass]="{'badge-encours': commande.status === 'EN_COURS', 'badge-termine': commande.status === 'LIVREE'}">
+                  {{ getStatusLabel(commande.status) }}
+                </span>
+              </td>
+
+              <!-- Action modifier status — admin seulement -->
+              <td *ngIf="isAdmin">
+                <select class="status-select"
+                        [value]="commande.status"
+                        (change)="updateStatus(commande, $any($event.target).value)">
+                  <option *ngFor="let s of statuses" [value]="s">{{ getStatusLabel(s) }}</option>
+                </select>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="!loading && commandes.length > 0" class="pagination">
+        <button (click)="handlePageChange(currentPage - 1)" [disabled]="currentPage === 1">◀</button>
+        <button *ngFor="let page of pagesArray" (click)="handlePageChange(page)"
+                [class.active]="currentPage === page">{{ page }}</button>
+        <button (click)="handlePageChange(currentPage + 1)" [disabled]="currentPage === totalPages">▶</button>
+      </div>
+
+    </div>
+  </main>
+</div>
 </div>

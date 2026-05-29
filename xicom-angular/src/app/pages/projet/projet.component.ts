@@ -16,6 +16,7 @@ export class ProjetComponent implements OnInit {
   totalSteps = 4;
   submitted = false;
   successMessage = '';
+  isLoading = false;
 
   steps = [
     { number: 1, label: 'Fiche Client' },
@@ -134,6 +135,7 @@ export class ProjetComponent implements OnInit {
   // ✅ submit() propre sans next() dedans
   submit(): void {
       const userId = this.authService.getUserIdFromToken(); // ← déclaré ici
+  this.isLoading = true;
 
     const data = {
       ...this.step1Form.value,
@@ -156,6 +158,8 @@ export class ProjetComponent implements OnInit {
 
     this.projetService.create(data, this.fileMap).subscribe({
       next: () => {
+          this.isLoading = false;
+
         this.successMessage = 'Projet créé avec succès !';
         this.submitted = true;
       },

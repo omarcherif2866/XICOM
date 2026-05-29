@@ -186,5 +186,9 @@ public class ProjetServiceImp implements ProjetService {
         }
     }
 
+    @Override
+    public List<Projet> getByUser(Long userId) {
+        return projetRepository.findByUserId(userId);
+    }
 
 }

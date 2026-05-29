@@ -16,6 +16,7 @@ public interface ServiceService {
 
     Commande commanderService(CommandeRequest request);
     List<Commande> getCommandesByStatus(StatusCommande status);
-
+    List<Commande> getCommandesByClient(Long userId);
+    Commande updateStatus(Long id, StatusCommande status);
 
 }
