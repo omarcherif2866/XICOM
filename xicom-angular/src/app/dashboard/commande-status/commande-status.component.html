@@ -13,7 +13,7 @@
         </a>
 
         <!-- service -->
-        <a href="commande_service" >
+        <a href="commande_service">
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
@@ -29,7 +29,7 @@
         </a>
 
         <!-- Livrable -->
-        <a href="profil">
+        <a [routerLink]="['/livrables', userId]">
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -131,7 +131,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
       </svg>
     </button>
-    <h1>Gestion des Commandes</h1>
+     <h1 class="pj-list-title"><span class="val-gradient-text">Gestion des Commandes</span></h1>
     <div class="spacer"></div>
   </header>
 
@@ -139,7 +139,7 @@
     <div class="content-box">
 
       <div class="header-actions">
-        <h2>{{ isAdmin ? 'Liste des Commandes' : 'Mes Commandes' }}</h2>
+        <h2 class="pj-list-title">{{ isAdmin ? 'Liste des Commandes' : 'Mes Commandes' }}</h2>
 
         <!-- Filtres status — admin seulement -->
         <div class="filter-tabs" *ngIf="isAdmin">

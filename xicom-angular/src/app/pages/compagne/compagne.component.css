@@ -11,8 +11,35 @@
 }
 
 /* Layout principal avec sidebar */
+
+.pj-list-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 28px;
+    font-family: 'Montserrat', sans-serif;
+
+  
+}
+
+.spacer {
+  width: 40px;
+}
+
+.val-gradient-text {
+  background: linear-gradient(90deg, #4a6cf7, #c13584);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
 .main-content {
-  align-items: flex-start;  /* ← empêche l'étirement vertical */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100vh;
 }
 
 .pj-stepper {
@@ -39,6 +66,14 @@
   animation: spin 0.7s linear infinite;
   display: inline-block;
   flex-shrink: 0;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100vh;
 }
 
 @keyframes spin {

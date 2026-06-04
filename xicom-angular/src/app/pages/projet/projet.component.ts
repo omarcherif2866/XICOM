@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/service/auth.service';
-import { ProjetService } from 'src/app/service/projet.service';
+import { ClientService } from 'src/app/service/projet.service';
+// import { ProjetService } from 'src/app/service/projet.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -76,7 +77,7 @@ export class ProjetComponent implements OnInit {
 
   fileMap: { [key: string]: File[] } = {};
 
-  constructor(private fb: FormBuilder, private projetService: ProjetService, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private clientService: ClientService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadCurrentUser();
@@ -156,11 +157,11 @@ export class ProjetComponent implements OnInit {
 
     };
 
-    this.projetService.create(data, this.fileMap).subscribe({
+    this.clientService.create(data, this.fileMap).subscribe({
       next: () => {
           this.isLoading = false;
 
-        this.successMessage = 'Projet créé avec succès !';
+        this.successMessage = 'Client créé avec succès !';
         this.submitted = true;
       },
       error: (err) => console.error(err)

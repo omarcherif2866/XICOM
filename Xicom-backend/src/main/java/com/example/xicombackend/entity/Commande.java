@@ -1,6 +1,7 @@
 package com.example.xicombackend.entity;
 
 import com.example.xicombackend.converter.StringListConverter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,4 +38,10 @@ public class Commande {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "livrable_id")
+    @JsonIgnoreProperties({"commandes", "hibernateLazyInitializer"})
+    private Livrable livrable;
+
 }

@@ -1,7 +1,6 @@
 package com.example.xicombackend.service;
 
 import com.example.xicombackend.entity.Compagne;
-import com.example.xicombackend.entity.Projet;
 import com.example.xicombackend.entity.User;
 import com.example.xicombackend.repository.CompagneRepository;
 import jakarta.mail.MessagingException;

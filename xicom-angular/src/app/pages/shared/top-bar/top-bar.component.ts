@@ -61,6 +61,29 @@ navigateToDashboardClient() {
   this.menuOpen = false;
 }
 
+goToService() {
+  const token = localStorage.getItem('token'); // ou ton clé de stockage
+
+  if (!token) {
+    Swal.fire({
+      title: 'Connexion requise',
+      text: 'Vous devez être connecté pour accéder à cette page.',
+      icon: 'warning',
+      confirmButtonText: 'Se connecter',
+      cancelButtonText: 'Annuler',
+      showCancelButton: true,
+      confirmButtonColor: '#6863BF',
+      cancelButtonColor: '#aaa',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/signin']);
+      }
+    });
+  } else {
+    this.router.navigate(['/commande_service']);
+  }
+}
+
   openDialog(): void {
     this.isDialogOpen = true;
   }

@@ -1,16 +1,14 @@
 package com.example.xicombackend.controllers;
 
-import com.example.xicombackend.entity.Projet;
+import com.example.xicombackend.entity.Client;
 import com.example.xicombackend.entity.User;
 import com.example.xicombackend.repository.UserRepository;
 import com.example.xicombackend.service.CloudinaryService;
 import com.example.xicombackend.service.ProjetService;
-import com.example.xicombackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,7 +67,7 @@ public class ProjetController {
 
             ) {
         try {
-            Projet projet = new Projet();
+            Client projet = new Client();
 
             projet.setClient(client);
             projet.setSecteur(secteur);
@@ -183,7 +181,7 @@ public class ProjetController {
             @RequestParam(value = "lesPublicationsExisting", required = false) List<String> lesPublicationsExisting
     ) {
         try {
-            Projet projet = projetService.getById(id);
+            Client projet = projetService.getById(id);
 
             projet.setClient(client);
             projet.setSecteur(secteur);
@@ -246,12 +244,12 @@ public class ProjetController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Projet> getById(@PathVariable Long id) {
+    public ResponseEntity<Client> getById(@PathVariable Long id) {
         return ResponseEntity.ok(projetService.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Projet>> getAll() {
+    public ResponseEntity<List<Client>> getAll() {
         return ResponseEntity.ok(projetService.getAll());
     }
 
@@ -261,7 +259,7 @@ public class ProjetController {
     }
 
     @GetMapping("/by-user/{userId}")
-    public ResponseEntity<List<Projet>> getByUser(@PathVariable Long userId) {
+    public ResponseEntity<List<Client>> getByUser(@PathVariable Long userId) {
         return ResponseEntity.ok(projetService.getByUser(userId));
     }
 }

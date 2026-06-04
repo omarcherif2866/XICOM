@@ -1,11 +1,9 @@
 package com.example.xicombackend.service;
 
 import com.example.xicombackend.dto.CommandeRequest;
-import com.example.xicombackend.entity.Commande;
-import com.example.xicombackend.entity.ServiceEntity;
-import com.example.xicombackend.entity.StatusCommande;
-import com.example.xicombackend.entity.User;
+import com.example.xicombackend.entity.*;
 import com.example.xicombackend.repository.CommandeRepository;
+import com.example.xicombackend.repository.LivrableRepository;
 import com.example.xicombackend.repository.ServiceRepository;
 import com.example.xicombackend.repository.UserRepository;
 import jakarta.mail.MessagingException;
@@ -18,6 +16,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +31,7 @@ public class ServiceServiceImp implements ServiceService {
     private final UserRepository userRepository;
     private final CommandeRepository commandeRepository;
     private final JavaMailSender mailSender;
+    private final LivrableRepository livrableRepository;
 
     @Value("${spring.mail.username}")
     private String adminEmail;
@@ -114,6 +114,15 @@ public class ServiceServiceImp implements ServiceService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
+        // Créer le livrable automatiquement
+        Livrable livrable = new Livrable();
+        livrable.setTitre("Livrable - " + request.getServiceTitle());
+        livrable.setDescription("Livrable généré automatiquement pour la commande : " + request.getServiceTitle());
+        livrable.setStatus(StatusLivrable.EN_ATTENTE);
+        livrable.setDateCreation(LocalDateTime.now());
+        Livrable savedLivrable = livrableRepository.save(livrable);
+
+        // Créer la commande et lui associer le livrable
         Commande commande = new Commande();
         commande.setServiceTitle(request.getServiceTitle());
         commande.setDetailTitles(request.getDetailTitles());
@@ -124,6 +133,7 @@ public class ServiceServiceImp implements ServiceService {
         commande.setDevis(request.getDevis());
         commande.setDelaiSouhaite(request.getDelaiSouhaite());
         commande.setUser(user);
+        commande.setLivrable(savedLivrable);
 
         Commande saved = commandeRepository.save(commande);
 

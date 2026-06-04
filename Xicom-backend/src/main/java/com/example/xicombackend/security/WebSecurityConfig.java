@@ -28,6 +28,7 @@ public class WebSecurityConfig {
             "/service/**",
             "/users/**",
             "/images/**",
+            "/livrables/**",
             "/partenaire/**",
             "/rdv/**",
             "/abonnee",      // ← POST /abonnee

@@ -1,7 +1,6 @@
 package com.example.xicombackend.service;
 
-import com.example.xicombackend.entity.Projet;
-import com.example.xicombackend.entity.RDV;
+import com.example.xicombackend.entity.Client;
 import com.example.xicombackend.entity.User;
 import com.example.xicombackend.repository.ProjetRepository;
 import jakarta.mail.MessagingException;
@@ -26,8 +25,8 @@ public class ProjetServiceImp implements ProjetService {
     private String adminEmail;
 
     @Override
-    public Projet create(Projet projet) {
-        Projet savedProject = projetRepository.save(projet);
+    public Client create(Client projet) {
+        Client savedProject = projetRepository.save(projet);
 
         // Envoyer les emails de manière asynchrone
         sendProjectConfirmationEmailAsync(savedProject);
@@ -36,8 +35,8 @@ public class ProjetServiceImp implements ProjetService {
     }
 
     @Override
-    public Projet update(Long id, Projet projet) {
-        Projet existing = getById(id);
+    public Client update(Long id, Client projet) {
+        Client existing = getById(id);
         projet.setId(existing.getId());
         return projetRepository.save(projet);
     }
@@ -48,13 +47,13 @@ public class ProjetServiceImp implements ProjetService {
     }
 
     @Override
-    public Projet getById(Long id) {
+    public Client getById(Long id) {
         return projetRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Projet introuvable : " + id));
     }
 
     @Override
-    public List<Projet> getAll() {
+    public List<Client> getAll() {
         return projetRepository.findAll();
     }
 
@@ -63,7 +62,7 @@ public class ProjetServiceImp implements ProjetService {
         return projetRepository.count();
     }
 
-    public void sendProjectConfirmationEmailAsync(Projet projet) {
+    public void sendProjectConfirmationEmailAsync(Client projet) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -126,7 +125,7 @@ public class ProjetServiceImp implements ProjetService {
     }
 
     @Async
-    public void sendProjectNotificationToAdminAsync(Projet projet) {
+    public void sendProjectNotificationToAdminAsync(Client projet) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -187,7 +186,7 @@ public class ProjetServiceImp implements ProjetService {
     }
 
     @Override
-    public List<Projet> getByUser(Long userId) {
+    public List<Client> getByUser(Long userId) {
         return projetRepository.findByUserId(userId);
     }
 

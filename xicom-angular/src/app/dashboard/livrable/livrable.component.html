@@ -1,0 +1,391 @@
+<div class="app-container">
+  <div [class]="sidebarOpen ? 'sidebar open' : 'sidebar'">
+    <div class="sidebar-content">
+      <h2>Admin Panel</h2>
+        <nav>
+        <!-- Dashboard -->
+        <a [routerLink]="['/fiche_client', userId]">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Ma fiche Client</span>
+        </a>
+
+        <!-- service -->
+        <a href="commande_service">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Choisir un service</span>
+        </a>
+
+        <!-- campagne -->
+        <a href="compagne">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span>Lancer une campagne</span>
+        </a>
+
+        <!-- Livrable -->
+        <a [routerLink]="['/livrables', userId]">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Livrable</span>
+        </a>
+
+        <a href="commande_status">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Commande en cours</span>
+        </a>        
+
+        <!-- Rapport -->
+        <a href="profil">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Rapport</span>
+        </a>
+
+        <!-- Se déconnecter -->
+        <a (click)="logout(); $event.preventDefault()">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>Se déconnecter</span>
+        </a>
+        </nav>
+    </div>
+  </div>
+
+<div class="main-content">
+  <header>
+    <button class="sidebar-toggle" (click)="toggleSidebar()">
+      <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <h1 class="pj-list-title"><span class="val-gradient-text">Livrables</span></h1>
+    <div class="spacer"></div>
+  </header>
+
+  <!-- ================================================================ -->
+  <!-- VUE 1 : TABLEAU ADMIN                                            -->
+  <!-- ================================================================ -->
+  <div *ngIf="currentView === 'list'" class="lv-section">
+    <div class="pj-list-header">
+      <h2 class="pj-list-title"><span class="val-gradient-text">Tous les livrables</span></h2>
+      <input class="pj-search-input" type="text"
+        placeholder="🔍 Rechercher par client, statut..."
+        [(ngModel)]="searchQuery" (input)="onSearch()" />
+    </div>
+
+    <div *ngIf="filteredLivrables.length === 0" class="pj-empty">Aucun livrable trouvé.</div>
+
+    <table class="pj-table" *ngIf="filteredLivrables.length > 0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Livrable</th>
+          <th>Statut</th>
+          <th>Date création</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let liv of paginatedLivrables; let i = index">
+          <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+          <td>
+            <span class="lv-name">{{ getLivrableLabel(liv) }}</span>
+          </td>
+          <td>
+            <span class="lv-badge" [ngClass]="getStatusClass(liv.status)">
+              {{ getStatusLabel(liv.status) }}
+            </span>
+          </td>
+          <td>{{ liv.dateCreation | date:'dd/MM/yyyy' }}</td>
+          <td>
+            <button class="pj-btn-view" (click)="openFolders(liv)">📁 Voir les dossiers</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pj-pagination" *ngIf="totalPages > 1">
+      <button (click)="handlePageChange(currentPage - 1)" [disabled]="currentPage === 1">◀</button>
+      <button *ngFor="let page of pagesArray"
+        (click)="handlePageChange(page)" [class.active]="currentPage === page">{{ page }}</button>
+      <button (click)="handlePageChange(currentPage + 1)" [disabled]="currentPage === totalPages">▶</button>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- VUE 2 : DOSSIERS (cards detail_titles) — Admin                   -->
+  <!-- ================================================================ -->
+  <div *ngIf="currentView === 'folders'" class="lv-section">
+    <div class="lv-topbar">
+      <button class="pj-btn-back" (click)="backToList()">← Retour</button>
+      <h2 class="pj-list-title">
+        <span class="val-gradient-text">{{ getLivrableLabel(selectedLivrable) }}</span>
+      </h2>
+    </div>
+
+    <div *ngIf="getDetailTitles(selectedLivrable).length === 0" class="pj-empty">
+      Aucun dossier disponible pour ce livrable.
+    </div>
+
+    <div class="lv-folders-grid">
+      <div class="lv-folder-card"
+        *ngFor="let folder of getDetailTitles(selectedLivrable)"
+        (click)="openUpload(folder.title, folder.livrableId)">
+        <div class="lv-folder-icon">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+            <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"
+              fill="url(#fg1)"/>
+            <defs>
+              <linearGradient id="fg1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6341c4"/>
+                <stop offset="100%" stop-color="#a78bfa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <p class="lv-folder-name">{{ folder.title }}</p>
+        <span class="lv-folder-hint">Cliquer pour gérer</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- VUE 3 : UPLOAD + DOCS EXISTANTS — Admin                          -->
+  <!-- ================================================================ -->
+  <div *ngIf="currentView === 'upload'" class="lv-section">
+    <div class="lv-topbar">
+      <button class="pj-btn-back" (click)="backToFolders()">← Retour aux dossiers</button>
+      <h2 class="pj-list-title">
+        <span class="val-gradient-text">📁 {{ selectedFolder?.title }}</span>
+      </h2>
+    </div>
+
+    <!-- Docs existants -->
+    <div class="lv-existing-docs" *ngIf="existingDocs.length > 0">
+      <h3 class="lv-docs-title">📎 Fichiers déjà enregistrés</h3>
+      <div class="lv-docs-grid">
+        <div class="lv-doc-item" *ngFor="let url of existingDocs">
+
+          <!-- Image -->
+          <div class="lv-doc-thumb" *ngIf="isImage(url)">
+            <img [src]="url" [alt]="getFileName(url)" />
+            <div class="lv-doc-overlay">
+              <a [href]="url" target="_blank" class="lv-doc-open">👁 Voir</a>
+          <a [href]="getDownloadUrl(url)" target="_blank" class="lv-doc-open">⬇ Télécharger</a>
+              <button class="lv-doc-remove" (click)="removeExistingDoc(url)">🗑 Supprimer</button>
+            </div>
+          </div>
+
+          <!-- PDF / Fichier -->
+          <div class="lv-doc-thumb lv-doc-file" *ngIf="!isImage(url)">
+            <svg width="36" height="36" fill="none" stroke="#6341c4" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span class="lv-doc-filename">{{ getFileName(url) }}</span>
+            <div class="lv-doc-overlay">
+              <a [href]="url" [download]="getFileName(url)" class="lv-doc-open" (click)="downloadFile($event, url)">⬇ Télécharger</a>
+              <button class="lv-doc-remove" (click)="removeExistingDoc(url)">🗑 Supprimer</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="lv-no-docs" *ngIf="existingDocs.length === 0">
+      <p>Aucun fichier enregistré pour ce dossier.</p>
+    </div>
+
+    <!-- Séparateur -->
+    <div class="lv-divider">
+      <span>Ajouter de nouveaux fichiers</span>
+    </div>
+
+    <!-- Zone Drag & Drop -->
+    <div class="lv-dropzone"
+      [class.dragging]="isDragging"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+      (click)="fileInput.click()">
+      <input #fileInput type="file" style="display:none"
+        multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+        (change)="onFileSelected($event)" />
+      <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+      </svg>
+      <p class="lv-drop-text">Glissez-déposez vos fichiers ici</p>
+      <p class="lv-drop-sub">ou cliquez pour parcourir — Images & PDF & Documents</p>
+    </div>
+
+    <!-- Aperçus nouveaux fichiers -->
+    <div class="lv-previews" *ngIf="uploadedFiles.length > 0">
+      <h3 class="lv-preview-title">Fichiers à envoyer ({{ uploadedFiles.length }})</h3>
+      <div class="lv-preview-grid">
+        <div class="lv-preview-item" *ngFor="let file of uploadedFiles; let i = index">
+          <div class="lv-preview-thumb">
+            <img *ngIf="uploadPreviews[i] !== 'pdf'" [src]="uploadPreviews[i]" [alt]="file.name" />
+            <div *ngIf="uploadPreviews[i] === 'pdf'" class="lv-pdf-thumb">
+              <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <span>{{ file.name.split('.').pop()?.toUpperCase() }}</span>
+            </div>
+          </div>
+          <p class="lv-preview-name">{{ file.name }}</p>
+          <button class="pj-btn-remove" type="button" (click)="removeFile(i)">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton save -->
+    <div class="lv-upload-actions" *ngIf="uploadedFiles.length > 0">
+      <button class="pj-btn-submit" type="button" (click)="saveUpload()" [disabled]="isUploading">
+        <span *ngIf="isUploading" class="lv-spinner"></span>
+        <svg *ngIf="!isUploading" width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        {{ isUploading ? 'Envoi en cours...' : 'Enregistrer les fichiers' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- VUE 4 : SIMPLE USER — liste de ses livrables                    -->
+  <!-- ================================================================ -->
+  <div *ngIf="currentView === 'user'" class="lv-section">
+    <h2 class="pj-list-title" style="margin-bottom: 24px;">
+      <span class="val-gradient-text">Mes Livrables</span>
+    </h2>
+
+    <div *ngIf="userLivrables.length === 0" class="pj-empty">
+      Vous n'avez pas encore de livrables.
+    </div>
+
+    <div class="lv-user-grid">
+      <div class="lv-user-card" *ngFor="let liv of userLivrables">
+
+        <div class="lv-user-card-header">
+          <div class="lv-user-card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"
+                fill="url(#uFg)"/>
+              <defs>
+                <linearGradient id="uFg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#6341c4"/>
+                  <stop offset="100%" stop-color="#a78bfa"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <strong>{{ liv.titre || 'Livrable' }}</strong>
+          </div>
+          <span class="lv-badge" [ngClass]="getStatusClass(liv.status)">
+            {{ getStatusLabel(liv.status) }}
+          </span>
+        </div>
+
+        <!-- Détails commande -->
+        <div class="lv-commande-details" *ngIf="liv.commandes?.[0] as cmd">
+          <div class="lv-detail-row" *ngIf="cmd.serviceTitle">
+            <span class="lv-detail-label">Service</span>
+            <span>{{ cmd.serviceTitle }}</span>
+          </div>
+          <div class="lv-detail-row" *ngIf="cmd.objectifs">
+            <span class="lv-detail-label">Objectifs</span>
+            <span>{{ cmd.objectifs }}</span>
+          </div>
+          <div class="lv-detail-row" *ngIf="cmd.messageCle">
+            <span class="lv-detail-label">Message clé</span>
+            <span>{{ cmd.messageCle }}</span>
+          </div>
+          <div class="lv-detail-row" *ngIf="cmd.brief">
+            <span class="lv-detail-label">Brief</span>
+            <span>{{ cmd.brief }}</span>
+          </div>
+          <div class="lv-detail-row" *ngIf="cmd.delaiSouhaite">
+            <span class="lv-detail-label">Délai souhaité</span>
+            <span>{{ cmd.delaiSouhaite }}</span>
+          </div>
+        </div>
+
+        <!-- Chips detail_titles -->
+        <div class="lv-user-folders" *ngIf="liv.commandes?.[0]?.detailTitles?.length > 0">
+          <p class="lv-folders-label">📂 Contenus :</p>
+          <div class="lv-user-folder-chips">
+            <span class="lv-folder-chip"
+              *ngFor="let t of liv.commandes[0].detailTitles">{{ t }}</span>
+          </div>
+        </div>
+
+        <div class="lv-user-dates">
+          <span *ngIf="liv.dateCreation">📅 {{ liv.dateCreation | date:'dd/MM/yyyy' }}</span>
+          <span *ngIf="liv.dateLivraison">🚀 Livraison : {{ liv.dateLivraison | date:'dd/MM/yyyy' }}</span>
+        </div>
+
+        <!-- Bouton voir les docs -->
+        <div class="lv-user-actions">
+          <button class="pj-btn-view" (click)="openUserDocs(liv)">
+            📎 Voir les fichiers livrés
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- VUE 5 : SIMPLE USER — docs d'un livrable                        -->
+  <!-- ================================================================ -->
+  <div *ngIf="currentView === 'userDocs'" class="lv-section">
+    <div class="lv-topbar">
+      <button class="pj-btn-back" (click)="backToUserList()">← Retour</button>
+      <h2 class="pj-list-title">
+        <span class="val-gradient-text">📁 {{ selectedUserLivrable?.titre || 'Livrable' }}</span>
+      </h2>
+    </div>
+
+    <div *ngIf="userDocs.length === 0" class="pj-empty">
+      Aucun fichier livré pour le moment.
+    </div>
+
+    <div class="lv-docs-grid" *ngIf="userDocs.length > 0">
+      <div class="lv-doc-item" *ngFor="let url of userDocs">
+
+        <!-- Image -->
+        <div class="lv-doc-thumb" *ngIf="isImage(url)">
+          <img [src]="url" [alt]="getFileName(url)" />
+          <div class="lv-doc-overlay">
+            <a [href]="url" target="_blank" class="lv-doc-open">👁 Voir</a>
+          </div>
+        </div>
+
+        <!-- PDF / Fichier -->
+        <div class="lv-doc-thumb lv-doc-file" *ngIf="!isImage(url)">
+          <svg width="36" height="36" fill="none" stroke="#6341c4" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <span class="lv-doc-filename">{{ getFileName(url) }}</span>
+          <div class="lv-doc-overlay">
+            <a [href]="url" target="_blank" class="lv-doc-open">⬇ Télécharger</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>

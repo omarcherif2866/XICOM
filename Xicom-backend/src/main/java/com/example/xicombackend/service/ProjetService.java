@@ -1,16 +1,16 @@
 package com.example.xicombackend.service;
 
-import com.example.xicombackend.entity.Projet;
+import com.example.xicombackend.entity.Client;
 
 import java.util.List;
 
 public interface ProjetService {
-    Projet create(Projet projet);
-    Projet update(Long id, Projet projet);
+    Client create(Client projet);
+    Client update(Long id, Client projet);
     void delete(Long id);
-    Projet getById(Long id);
-    List<Projet> getAll();
+    Client getById(Long id);
+    List<Client> getAll();
     long count();
-    List<Projet> getByUser(Long userId); // 👈 ajouter
+    List<Client> getByUser(Long userId); // 👈 ajouter
 
 }

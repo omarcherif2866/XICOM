@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Projet } from '../models/projet';
+import { Client } from '../models/projet';
+// import { Client } from '../models/Client';
 
 @Injectable({ providedIn: 'root' })
-export class ProjetService {
+export class ClientService {
 
   // private apiUrl = 'http://localhost:9090/projet';
   private apiUrl = "/api/projet";
@@ -65,12 +66,12 @@ update(id: number, data: any, fileMap: { [key: string]: File[] }, existingUrlMap
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  getById(id: number): Observable<Projet> {
-    return this.http.get<Projet>(`${this.apiUrl}/${id}`);
+  getById(id: number): Observable<Client> {
+    return this.http.get<Client>(`${this.apiUrl}/${id}`);
   }
 
-  getAll(): Observable<Projet[]> {
-    return this.http.get<Projet[]>(this.apiUrl);
+  getAll(): Observable<Client[]> {
+    return this.http.get<Client[]>(this.apiUrl);
   }
 
   count(): Observable<number> {

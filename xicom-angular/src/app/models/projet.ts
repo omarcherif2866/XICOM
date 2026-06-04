@@ -1,4 +1,6 @@
-export class Projet {
+import { User } from "./user";
+
+export class Client {
   constructor(
     public id: number | null = null,
 
@@ -12,11 +14,11 @@ export class Projet {
     public responsableEmail: string = '',
 
     // Step 2 - Graphique & Identités
-    public logo: string = '',
-    public avatars: string = '',
-    public charteGraphique: string = '',
-    public policesCaracteres: string = '',
-    public imagesIllustrations: string = '',
+    public logo: string[] = [],
+    public avatars: string[] = [],
+    public charteGraphique: string[] = [],
+    public policesCaracteres: string[] = [],
+    public imagesIllustrations: string[] = [],
     public couleurSecondaire: string = '',
     public couleurANePasUtiliser: string = '',
     public autresDonnees: string = '',
@@ -31,10 +33,10 @@ export class Projet {
     public concurrent: string = '',
 
     // Step 4 - Marque & Produits
-    public lesProduits: string = '',
+    public lesProduits: string[] = [],
+    public lesAvis: string[] = [],
+    public lesPublications: string[] = [],
     public programmeFidelite: string = '',
-    public lesAvis: string = '',
-    public lesPublications: string = '',
     public hobbiesMarque: string = '',
     public consommation: string = '',
     public achatsRealises: string = '',
@@ -42,5 +44,8 @@ export class Projet {
     public moyenPaiement: string = '',
     public pagesConsultees: string = '',
     public produitsPlusVisites: string = '',
+
+    // Relation OneToOne
+    public user: User | null = null,
   ) {}
 }

@@ -86,6 +86,21 @@ const routes = [
       )
   },
     {
+    path: 'livrables/:id',
+    loadChildren: () =>
+      import('./dashboard/livrable/livrable.module').then(
+        (m) => m.LivrableModule
+      )
+  },
+
+  {
+  path: 'livrables',           // ← admin accède sans ID
+  loadChildren: () =>
+    import('./dashboard/livrable/livrable.module').then(m => m.LivrableModule) ,
+      canActivate: [AdminGuard]  // ✅ Ajouter
+
+},
+    {
     path: 'fiche_client/:id',
     loadChildren: () =>
       import('./dashboard/fiche-client-projet/fiche-client-projet.module').then(
