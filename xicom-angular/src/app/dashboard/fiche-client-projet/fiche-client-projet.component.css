@@ -582,9 +582,25 @@ header h1 {
   height: 100vh;
 }
 
-/* .pj-list-header {
-  margin-bottom: 24px;
-} */
+.pj-social-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.pj-social-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pj-social-label {
+  width: 90px;
+  font-size: 13px;
+  color: #888;
+  flex-shrink: 0;
+}
 
 .pj-list-title {
   font-size: 26px;

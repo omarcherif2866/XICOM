@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class IconsService {
 
-  private apiUrl = "/api/images";
-  // private apiUrl = "http://localhost:9090/images";
+  // private apiUrl = "/api/images";
+  private apiUrl = "http://localhost:9090/images";
 
 
   constructor(private http: HttpClient, private router: Router) { }

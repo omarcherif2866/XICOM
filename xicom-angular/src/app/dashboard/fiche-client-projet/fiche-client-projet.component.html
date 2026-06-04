@@ -155,105 +155,185 @@
         </div>
       </div>
 
-      <!-- ===== STEP 2 ===== -->
-      <div *ngIf="currentStep === 2" [formGroup]="step2Form">
+        <!-- ===== STEP 2 ===== -->
+        <div *ngIf="currentStep === 2" [formGroup]="step2Form">
         <h2 class="pj-title"><span class="val-gradient-text">Graphique et Identités</span></h2>
         <div class="pj-file-row" *ngFor="let field of step2Fields">
-          <input type="file" [id]="'file-' + field.key" style="display:none" multiple
-            (change)="onFileSelected($event, field.key)" />
-          <div class="pj-file-info">
-            <span class="pj-file-label">• {{ field.label }}</span>
-            <div class="pj-existing-files" *ngIf="getExistingFiles(field.key).length > 0">
-              <div class="pj-existing-file" *ngFor="let url of getExistingFiles(field.key)">
-                <img [src]="url" class="pj-file-preview" alt="aperçu" />
-                <a [href]="url" target="_blank" class="pj-file-link">{{ url | slice:url.lastIndexOf('/')+1 }}</a>
-                <button class="pj-btn-remove" type="button" (click)="removeExistingFile(field.key, url)">✕</button>
-              </div>
+            
+            <!-- Champs texte simples -->
+            <ng-container *ngIf="field.key === 'couleurANePasUtiliser' || field.key === 'autresDonnees' || field.key === 'autresCommentaires'">
+            <div class="pj-file-info">
+                <span class="pj-file-label">• {{ field.label }}</span>
+                <input type="text" [formControlName]="field.key" class="pj-input-text" [placeholder]="field.label" />
             </div>
-            <div class="pj-existing-files" *ngIf="getLocalPreviews(field.key).length > 0">
-              <div class="pj-existing-file" *ngFor="let preview of getLocalPreviews(field.key); let i = index">
-                <img [src]="preview" class="pj-file-preview" alt="aperçu" />
-                <span class="pj-file-link">Fichier {{ i + 1 }}</span>
-                <button class="pj-btn-remove" type="button" (click)="removeLocalFile(field.key, i)">✕</button>
-              </div>
+            </ng-container>
+
+            <!-- Champs fichiers -->
+            <ng-container *ngIf="field.key !== 'couleurANePasUtiliser' && field.key !== 'autresDonnees' && field.key !== 'autresCommentaires'">
+            <input type="file" [id]="'file-' + field.key" style="display:none" multiple
+                (change)="onFileSelected($event, field.key)" />
+            <div class="pj-file-info">
+                <span class="pj-file-label">• {{ field.label }}</span>
+                <div class="pj-existing-files" *ngIf="getExistingFiles(field.key).length > 0">
+                <div class="pj-existing-file" *ngFor="let url of getExistingFiles(field.key)">
+                    <img [src]="url" class="pj-file-preview" alt="aperçu" />
+                    <a [href]="url" target="_blank" class="pj-file-link">{{ url | slice:url.lastIndexOf('/')+1 }}</a>
+                    <button class="pj-btn-remove" type="button" (click)="removeExistingFile(field.key, url)">✕</button>
+                </div>
+                </div>
+                <div class="pj-existing-files" *ngIf="getLocalPreviews(field.key).length > 0">
+                <div class="pj-existing-file" *ngFor="let preview of getLocalPreviews(field.key); let i = index">
+                    <img [src]="preview" class="pj-file-preview" alt="aperçu" />
+                    <span class="pj-file-link">Fichier {{ i + 1 }}</span>
+                    <button class="pj-btn-remove" type="button" (click)="removeLocalFile(field.key, i)">✕</button>
+                </div>
+                </div>
             </div>
-          </div>
-          <div class="pj-file-actions">
-            <button class="pj-btn-insert" type="button" (click)="triggerFileInput(field.key)" [disabled]="uploadingMap[field.key]">
-              {{ uploadingMap[field.key] ? '⏳' : '⬆' }} Insérer
-            </button>
-            <button class="pj-btn-download" type="button" (click)="downloadFile(field.key)"
-              [disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length"
-              [class.disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length">
-              ⬇ Télécharger
-            </button>
-          </div>
+            <div class="pj-file-actions">
+                <button class="pj-btn-insert" type="button" (click)="triggerFileInput(field.key)" [disabled]="uploadingMap[field.key]">
+                {{ uploadingMap[field.key] ? '⏳' : '⬆' }} Insérer
+                </button>
+                <button class="pj-btn-download" type="button" (click)="downloadFile(field.key)"
+                [disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length"
+                [class.disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length">
+                ⬇ Télécharger
+                </button>
+            </div>
+            </ng-container>
+
         </div>
-      </div>
+        </div>
 
       <!-- ===== STEP 3 ===== -->
-      <div *ngIf="currentStep === 3" [formGroup]="step3Form">
-        <h2 class="pj-title"><span class="val-gradient-text">Digital</span></h2>
-        <div class="pj-row">
-          <label>Site web</label>
-          <input class="pj-input pj-input-link" formControlName="siteWeb" placeholder="https://..." />
-        </div>
-        <div class="pj-row">
-          <label>Réseaux sociaux</label>
-          <input class="pj-input pj-input-link" formControlName="reseauxSociaux" placeholder="Lien" />
-        </div>
-        <div class="pj-section-label">Identité stable</div>
-        <div class="pj-row">
-          <label>Les coordonnées</label>
-          <input class="pj-input" formControlName="coordonnees" placeholder="Texte" />
-        </div>
-        <div class="pj-row">
-          <label>Les canaux de contact</label>
-          <input class="pj-input" formControlName="canauxContact" placeholder="Texte" />
-        </div>
-        <div class="pj-row">
-          <label>Services reconnus & outils</label>
-          <input class="pj-input" formControlName="servicesReconnusOutils" placeholder="Texte" />
-        </div>
-        <div class="pj-row">
-          <label>Concurrent</label>
-          <input class="pj-input" formControlName="concurrent" placeholder="Texte" />
-        </div>
-      </div>
+<div *ngIf="currentStep === 3">
+  <h2 class="pj-title"><span class="val-gradient-text">Digital</span></h2>
 
-      <!-- ===== STEP 4 ===== -->
-      <div *ngIf="currentStep === 4" [formGroup]="step4Form">
-        <h2 class="pj-title"><span class="val-gradient-text">Marque et Produits</span></h2>
-        <div class="pj-file-row" *ngFor="let field of step4Fields">
-          <input type="file" [id]="'file-' + field.key" style="display:none" multiple
-            (change)="onFileSelected($event, field.key)" />
-          <div class="pj-file-info">
-            <span class="pj-file-label">• {{ field.label }}</span>
-            <div class="pj-existing-files" *ngIf="getExistingFiles(field.key).length > 0">
-              <div class="pj-existing-file" *ngFor="let url of getExistingFiles(field.key)">
-                <img [src]="url" class="pj-file-preview" alt="aperçu" />
-                <a [href]="url" target="_blank" class="pj-file-link">{{ url | slice:url.lastIndexOf('/')+1 }}</a>
-                <button class="pj-btn-remove" type="button" (click)="removeExistingFile(field.key, url)">✕</button>
-              </div>
-            </div>
-            <div class="pj-existing-files" *ngIf="getLocalPreviews(field.key).length > 0">
-              <div class="pj-existing-file" *ngFor="let preview of getLocalPreviews(field.key); let i = index">
-                <img [src]="preview" class="pj-file-preview" alt="aperçu" />
-                <span class="pj-file-link">Fichier {{ i + 1 }}</span>
-                <button class="pj-btn-remove" type="button" (click)="removeLocalFile(field.key, i)">✕</button>
-              </div>
-            </div>
-          </div>
-          <div class="pj-file-actions">
-            <button class="pj-btn-insert" type="button" (click)="triggerFileInput(field.key)">⬆ Insérer</button>
-            <button class="pj-btn-download" type="button" (click)="downloadFile(field.key)"
-              [disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length"
-              [class.disabled]="!getFileCount(field.key) && !getExistingFiles(field.key).length">
-              ⬇ Télécharger
-            </button>
-          </div>
-        </div>
+  <!-- step3Form pour ses propres champs -->
+  <div [formGroup]="step3Form">
+    <div class="pj-row">
+      <label>Site web</label>
+      <input class="pj-input pj-input-link" formControlName="siteWeb" placeholder="https://..." />
+    </div>
+  </div>
+
+  <!-- socialForm séparé -->
+  <div class="pj-row">
+    <label>Réseaux sociaux</label>
+    <div class="pj-social-inputs" [formGroup]="socialForm">
+      <div class="pj-social-item" *ngFor="let social of socialFields">
+        <span class="pj-social-label">{{ social.label }}</span>
+        <input class="pj-input pj-input-link"
+               [formControlName]="social.key"
+               [placeholder]="social.placeholder" />
       </div>
+    </div>
+  </div>
+
+  <!-- contactForm séparé -->
+  <div class="pj-row">
+    <label>Les canaux de contact</label>
+    <div class="pj-social-inputs" [formGroup]="contactForm">
+      <div class="pj-social-item" *ngFor="let contact of contactFields">
+        <span class="pj-social-label">{{ contact.label }}</span>
+        <input class="pj-input pj-input-link"
+               [formControlName]="contact.key"
+               [placeholder]="contact.placeholder" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Retour dans step3Form pour les champs restants -->
+  <div [formGroup]="step3Form">
+    <div class="pj-section-label">Identité stable</div>
+    <div class="pj-row">
+      <label>Les coordonnées</label>
+      <input class="pj-input" formControlName="coordonnees" placeholder="Texte" />
+    </div>
+    <div class="pj-row">
+      <label>Services reconnus & outils</label>
+      <input class="pj-input" formControlName="servicesReconnusOutils" placeholder="Texte" />
+    </div>
+    <div class="pj-row">
+      <label>Concurrent</label>
+      <input class="pj-input" formControlName="concurrent" placeholder="Texte" />
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== STEP 4 ===== -->
+<div *ngIf="currentStep === 4">
+  <h2 class="pj-title"><span class="val-gradient-text">Marque et Produits</span></h2>
+
+  <div class="pj-file-row" *ngFor="let key of produitKeys">
+    <!-- Input fichier caché -->
+    <input
+      type="file"
+      [id]="'produit-file-' + key"
+      style="display:none"
+      multiple
+      accept="image/*"
+      (change)="onProduitImageSelected($event, key)"
+    />
+
+    <div class="pj-file-info">
+      <span class="pj-file-label">• {{ produitLabels[key] }}</span>
+
+      <!-- Liste ordonnée des items (texte + image) -->
+<div class="pj-produit-items">
+  <div class="pj-existing-file"
+       *ngFor="let item of getProduitItems(key); let i = index">
+
+    <!-- Item texte -->
+    <ng-container *ngIf="item.type === 'text'">
+      <textarea
+        class="pj-produit-textarea"
+        [(ngModel)]="item.value"
+        placeholder="Saisir un texte..."
+        rows="2"
+      ></textarea>
+    </ng-container>
+
+    <!-- Item image -->
+    <ng-container *ngIf="item.type === 'image'">
+      <!-- Image locale (nouveau fichier) -->
+      <img
+        *ngIf="!item.value && getProduitImagePreview(key, i)"
+        [src]="getProduitImagePreview(key, i)"
+        class="pj-file-preview"
+        alt="aperçu produit"
+      />
+      <!-- Image existante (URL Cloudinary) -->
+      <img
+        *ngIf="item.value"
+        [src]="item.value"
+        class="pj-file-preview"
+        alt="aperçu produit"
+      />
+      <a *ngIf="item.value" [href]="item.value" target="_blank" class="pj-file-link">
+        {{ item.value | slice: item.value.lastIndexOf('/') + 1 }}
+      </a>
+      <span *ngIf="!item.value && !getProduitImagePreview(key, i)" class="pj-file-link">
+        Image en attente...
+      </span>
+    </ng-container>
+
+    <button class="pj-btn-remove" type="button" (click)="removeProduitItem(key, i)">✕</button>
+  </div>
+</div>
+    </div>
+
+    <!-- Boutons d'ajout -->
+    <div class="pj-file-actions">
+      <button class="pj-btn-insert" type="button" (click)="addProduitText(key)">
+        + Texte
+      </button>
+      <button class="pj-btn-insert" type="button" (click)="triggerProduitImageInput(key)">
+        ⬆ Image
+      </button>
+    </div>
+  </div>
+</div>
 
       <!-- Navigation -->
       <div class="pj-nav">

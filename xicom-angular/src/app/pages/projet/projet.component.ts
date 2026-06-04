@@ -157,15 +157,15 @@ export class ProjetComponent implements OnInit {
 
     };
 
-    this.clientService.create(data, this.fileMap).subscribe({
-      next: () => {
-          this.isLoading = false;
+    // this.clientService.create(data, this.fileMap).subscribe({
+    //   next: () => {
+    //       this.isLoading = false;
 
-        this.successMessage = 'Client créé avec succès !';
-        this.submitted = true;
-      },
-      error: (err) => console.error(err)
-    });
+    //     this.successMessage = 'Client créé avec succès !';
+    //     this.submitted = true;
+    //   },
+    //   error: (err) => console.error(err)
+    // });
   }
 
   triggerFileInput(key: string): void {

@@ -1,5 +1,6 @@
 package com.example.xicombackend.entity;
 
+import com.example.xicombackend.converter.ProduitItemListConverter;
 import com.example.xicombackend.converter.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,40 +50,57 @@ public class Client {
     @Column(columnDefinition = "JSON")
     private List<String> imagesIllustrations = new ArrayList<>();
 
-    private String couleurSecondaire;
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "JSON")
+    private List<String> couleurSecondaire = new ArrayList<>();
+//    private String couleurSecondaire;
     private String couleurANePasUtiliser;
     private String autresDonnees;
     private String autresCommentaires;
 
     // Présence en ligne
     private String siteWeb;
-    private String reseauxSociaux;
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "JSON")
+    private List<String> reseauxSociaux = new ArrayList<>();
+//    private String reseauxSociaux;
+@Convert(converter = StringListConverter.class)
+@Column(columnDefinition = "JSON")
+private List<String> canauxContact = new ArrayList<>();
     private String coordonnees;
-    private String canauxContact;
+//    private String canauxContact;
     private String servicesReconnusOutils;
     private String concurrent;
 
     // Produits & fidélité — listes
-    @Convert(converter = StringListConverter.class)
+    @Convert(converter = ProduitItemListConverter.class)  // ← was StringListConverter
     @Column(columnDefinition = "JSON")
-    private List<String> lesProduits = new ArrayList<>();
+    private List<ProduitItem> produit1 = new ArrayList<>();
 
-    @Convert(converter = StringListConverter.class)
+    @Convert(converter = ProduitItemListConverter.class)  // ← was StringListConverter
     @Column(columnDefinition = "JSON")
-    private List<String> lesAvis = new ArrayList<>();
+    private List<ProduitItem> produit2 = new ArrayList<>();
 
-    @Convert(converter = StringListConverter.class)
+    @Convert(converter = ProduitItemListConverter.class)  // ← was StringListConverter
     @Column(columnDefinition = "JSON")
-    private List<String> lesPublications = new ArrayList<>();
+    private List<ProduitItem> produit3 = new ArrayList<>();
 
-    private String programmeFidelite;
-    private String hobbiesMarque;
-    private String consommation;
-    private String achatsRealises;
-    private String frequenceAchat;
-    private String moyenPaiement;
-    private String pagesConsultees;
-    private String produitsPlusVisites;
+    @Convert(converter = ProduitItemListConverter.class)  // ← was StringListConverter
+    @Column(columnDefinition = "JSON")
+    private List<ProduitItem> produit4 = new ArrayList<>();
+
+    @Convert(converter = ProduitItemListConverter.class)  // ← was StringListConverter
+    @Column(columnDefinition = "JSON")
+    private List<ProduitItem> produit5 = new ArrayList<>();
+
+//    private String programmeFidelite;
+//    private String hobbiesMarque;
+//    private String consommation;
+//    private String achatsRealises;
+//    private String frequenceAchat;
+//    private String moyenPaiement;
+//    private String pagesConsultees;
+//    private String produitsPlusVisites;
 
     @OneToOne
     private User user;

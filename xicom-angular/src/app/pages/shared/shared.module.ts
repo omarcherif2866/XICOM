@@ -14,7 +14,7 @@ import { CompagneModule } from '../compagne/compagne.module';
   imports: [
     CommonModule,
     RouterModule, // ← indispensable pour routerLink
-    ProjetModule,
+    // ProjetModule,
     // CompagneModule
   ],
   exports: [

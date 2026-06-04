@@ -7,56 +7,101 @@ import { Client } from '../models/projet';
 @Injectable({ providedIn: 'root' })
 export class ClientService {
 
-  // private apiUrl = 'http://localhost:9090/projet';
-  private apiUrl = "/api/projet";
+  private apiUrl = 'http://localhost:9090/projet';
+  // private apiUrl = "/api/projet";
 
   constructor(private http: HttpClient) {}
 
-create(data: any, fileMap: { [key: string]: File[] }): Observable<any> {
+create(
+  data: any,
+  fileMap: { [key: string]: File[] },
+  produitItemsJson: { [key: string]: string },
+  produitFilesMap: { [key: string]: File[] }
+): Observable<any> {
   const formData = new FormData();
 
-  // Champs texte
-  Object.keys(data).forEach(key => {
+  // ===== Champs texte =====
+  const textFields = [
+    'client', 'secteur', 'categorie', 'responsableNomPrenom',
+    'responsableAdresse', 'responsableTelephone', 'responsableEmail',
+    'couleurANePasUtiliser', 'autresDonnees', 'autresCommentaires',
+    'siteWeb', 'coordonnees', 'servicesReconnusOutils', 'concurrent'
+  ];
+  textFields.forEach(key => {
     if (data[key] !== null && data[key] !== undefined) {
       formData.append(key, data[key]);
     }
   });
 
-  // Champs fichiers — liste
-  const fileFields = ['logo', 'avatars', 'charteGraphique', 'policesCaracteres',
-    'imagesIllustrations', 'lesProduits', 'lesAvis', 'lesPublications'];
+  // ===== Listes texte (reseauxSociaux, canauxContact) =====
+  (data.reseauxSociaux || []).forEach((v: string) => formData.append('reseauxSociaux', v));
+  (data.canauxContact || []).forEach((v: string) => formData.append('canauxContact', v));
 
-  fileFields.forEach(key => {
-    const files = fileMap[key] || [];
-    files.forEach(file => formData.append(key, file));
+  // ===== userId =====
+  if (data.userId !== undefined) {
+    formData.append('userId', data.userId);
+  }
+
+  // ===== Fichiers identité visuelle =====
+  // couleurSecondaire est maintenant un fichier
+  const imageFileFields = ['logo', 'avatars', 'charteGraphique', 'policesCaracteres', 'imagesIllustrations', 'couleurSecondaire'];
+  imageFileFields.forEach(key => {
+    (fileMap[key] || []).forEach(file => formData.append(key, file));
+  });
+
+  // ===== Produits (items JSON + fichiers) =====
+  ['produit1', 'produit2', 'produit3', 'produit4', 'produit5'].forEach(key => {
+    const itemsJson = produitItemsJson[key] || '[]';
+    formData.append(`${key}Items`, itemsJson);
+    (produitFilesMap[key] || []).forEach(file => formData.append(`${key}Files`, file));
   });
 
   return this.http.post(`${this.apiUrl}`, formData);
 }
 
-update(id: number, data: any, fileMap: { [key: string]: File[] }, existingUrlMap: { [key: string]: string[] }): Observable<any> {
+update(
+  id: number,
+  data: any,
+  fileMap: { [key: string]: File[] },
+  existingUrlMap: { [key: string]: string[] },
+  produitItemsJson: { [key: string]: string },
+  produitFilesMap: { [key: string]: File[] }
+): Observable<any> {
   const formData = new FormData();
 
-  // Champs texte
-  Object.keys(data).forEach(key => {
+  // ===== Champs texte =====
+  const textFields = [
+    'client', 'secteur', 'categorie', 'responsableNomPrenom',
+    'responsableAdresse', 'responsableTelephone', 'responsableEmail',
+    'couleurANePasUtiliser', 'autresDonnees', 'autresCommentaires',
+    'siteWeb', 'coordonnees', 'servicesReconnusOutils', 'concurrent'
+  ];
+  textFields.forEach(key => {
     if (data[key] !== null && data[key] !== undefined) {
       formData.append(key, data[key]);
     }
   });
 
-  // Nouveaux fichiers
-  const fileFields = ['logo', 'avatars', 'charteGraphique', 'policesCaracteres',
-    'imagesIllustrations', 'lesProduits', 'lesAvis', 'lesPublications'];
+  // ===== Listes texte =====
+  (data.reseauxSociaux || []).forEach((v: string) => formData.append('reseauxSociaux', v));
+  (data.canauxContact || []).forEach((v: string) => formData.append('canauxContact', v));
 
-  fileFields.forEach(key => {
-    const files = fileMap[key] || [];
-    files.forEach(file => formData.append(key, file));
+  // ===== Nouveaux fichiers identité visuelle =====
+  const imageFileFields = ['logo', 'avatars', 'charteGraphique', 'policesCaracteres', 'imagesIllustrations', 'couleurSecondaire'];
+  imageFileFields.forEach(key => {
+    (fileMap[key] || []).forEach(file => formData.append(key, file));
   });
 
-  // URLs existantes à conserver
-  fileFields.forEach(key => {
-    const urls = existingUrlMap[key] || [];
-    urls.forEach(url => formData.append(key + 'Existing', url));
+  // ===== URLs existantes à conserver (identité visuelle) =====
+  imageFileFields.forEach(key => {
+    (existingUrlMap[key] || []).forEach(url => formData.append(`${key}Existing`, url));
+  });
+
+  // ===== Produits (items JSON contient existants + nouveaux slots vides) =====
+  ['produit1', 'produit2', 'produit3', 'produit4', 'produit5'].forEach(key => {
+    const itemsJson = produitItemsJson[key] || '[]';
+    formData.append(`${key}Items`, itemsJson);
+    (produitFilesMap[key] || []).forEach(file => formData.append(`${key}Files`, file));
   });
 
   return this.http.put(`${this.apiUrl}/${id}`, formData);
