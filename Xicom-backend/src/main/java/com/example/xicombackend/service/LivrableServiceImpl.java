@@ -106,10 +106,22 @@ public class LivrableServiceImpl implements LivrableService {
     private String uploadFile(MultipartFile file, String folder) throws IOException {
         Map<String, Object> options = new HashMap<>();
         options.put("folder", folder);
+
+        String originalName = file.getOriginalFilename();
         String contentType = file.getContentType();
+
         if (contentType != null && !contentType.startsWith("image/")) {
             options.put("resource_type", "raw");
+
+            if (originalName != null) {
+                // ✅ Sanitize le nom et l'inclure dans public_id avec extension
+                String sanitized = originalName.trim().replaceAll("\\s+", "_");
+                options.put("public_id", folder + "/" + sanitized);
+                options.put("use_filename", true);
+                options.put("unique_filename", false);
+            }
         }
+
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
         return (String) uploadResult.get("secure_url");
     }
