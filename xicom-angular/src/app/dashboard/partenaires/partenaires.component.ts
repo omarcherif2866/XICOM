@@ -26,11 +26,14 @@ export class PartenaireComponent implements OnInit {
     description: '',
     image:''
   };
-  
+    userId: number | null = null;
+
   editId: any = null;
   selectedImage: File | null = null;
 
-  constructor(private partenaireservice: PartenaireService, private authService: AuthService,private router:Router) {}
+  constructor(private partenaireservice: PartenaireService, private authService: AuthService,private router:Router) {
+    
+  }
 
   ngOnInit() {
     this.fetchPartenaires();

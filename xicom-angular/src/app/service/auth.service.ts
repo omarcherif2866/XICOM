@@ -11,11 +11,11 @@ import { EncryptionService } from './encryption-service.service';
 })
 export class AuthService {
 
-  // private apiUrl = "/api/auth";
-  private apiUrl = "http://localhost:9090/auth";
+  private apiUrl = "/api/auth";
+  // private apiUrl = "http://localhost:9090/auth";
 
-  // private apiUrlUser = "/api/users";
-  private apiUrlUser = "http://localhost:9090/users";
+  private apiUrlUser = "/api/users";
+  // private apiUrlUser = "http://localhost:9090/users";
 
   private localStorageKey = "userAuth";
   private loggedIn = new BehaviorSubject<boolean>(false);
@@ -132,4 +132,13 @@ export class AuthService {
   resetPassword(userId: string, newPassword: string): Observable<any> {
     return this.httpClient.post(`${this.apiUrl}/reset`, { userId, newPassword });
   }
+
+    getAll(): Observable<User[]> {
+      return this.httpClient.get<any[]>(`${this.apiUrlUser}/all`).pipe(
+        catchError((error: any) => {
+          console.error('Erreur:', error);
+          return throwError(error);
+        })
+      );
+    }
 }

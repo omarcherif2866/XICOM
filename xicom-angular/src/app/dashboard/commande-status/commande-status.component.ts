@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceService } from 'src/app/service/service.service';
 import { AuthService } from 'src/app/service/auth.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-commande-status',
@@ -20,6 +22,7 @@ export class CommandeStatusComponent implements OnInit {
   };
 
   isAdmin = false;
+  isSimpleUser = false;
   currentUserId: number | null = null;
 
   // Pagination
@@ -29,7 +32,8 @@ export class CommandeStatusComponent implements OnInit {
 
   constructor(
     private serviceService: ServiceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router:Router
   ) {
     const token = this.authService.getToken();
     const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
@@ -39,6 +43,7 @@ export class CommandeStatusComponent implements OnInit {
   ngOnInit(): void {
     const role = this.authService.getRoleFromToken();
     this.isAdmin = role === 'Admin' || role === 'SUPERADMIN';
+    this.isSimpleUser = role === 'SIMPLEU';
 
     if (!this.isAdmin) {
       const token = this.authService.getToken();
@@ -117,5 +122,17 @@ export class CommandeStatusComponent implements OnInit {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-  logout(): void {}
+    logout(): void {
+        this.authService.logout();
+    
+        Swal.fire({
+          icon: 'error',
+          title: 'Vous êtes deconnecté',
+          showConfirmButton: false,
+          timer: 1500
+        }); 
+        
+
+        this.router.navigate(['/']);
+      }
 }

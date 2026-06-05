@@ -23,6 +23,9 @@ export class FicheClientProjetComponent implements OnInit {
   currentStep = 1;
   totalSteps = 4;
 
+socialForm: FormGroup;   // ← déclarer sans initialiser
+contactForm: FormGroup;  // ← déclarer sans initialiser
+
   steps = [
     { number: 1, label: 'Fiche Client' },
     { number: 2, label: 'Graphique & Identités' },
@@ -107,6 +110,23 @@ export class FicheClientProjetComponent implements OnInit {
       servicesReconnusOutils: [''],
       concurrent: [''],
     });
+
+  this.socialForm = this.fb.group({
+    facebook:  [''],
+    instagram: [''],
+    linkedin:  [''],
+    tikTok:    [''],
+    youtube:   [''],
+    threads:   [''],
+  });
+
+  // ← déplacer ici
+  this.contactForm = this.fb.group({
+    whatsApp:    [''],
+    telephone:   [''],
+    chatenligne: [''],
+    emails:      [''],
+  });
   }
 
   // Map clé → liste des object URLs dans l'ordre des fichiers locaux
@@ -136,14 +156,7 @@ private produitRawUrlsMap: { [key: string]: string[] } = {
     { key: 'threads',   label: 'Threads',   placeholder: 'https://threads.com/...' },
   ];
 
-socialForm: FormGroup = this.fb.group({
-  facebook:  [''],
-  instagram: [''],
-  linkedin:  [''],
-  tikTok:    [''],   // ← correspondre à socialFields
-  youtube:   [''],
-  threads:   [''],   // ← ajouter
-});
+
 
   contactFields = [
     { key: 'whatsApp',    label: 'WhatsApp',      placeholder: 'WhatsApp' },
@@ -152,12 +165,7 @@ socialForm: FormGroup = this.fb.group({
     { key: 'emails',      label: 'Emails',        placeholder: 'Emails' },
   ];
 
-  contactForm: FormGroup = this.fb.group({
-    whatsApp:    [''],
-    telephone:   [''],
-    chatenligne: [''],
-    emails:      [''],
-  });
+
 
   getSocialControl(key: string) { return this.socialForm.get(key) as any; }
   getContactControl(key: string) { return this.contactForm.get(key) as any; }

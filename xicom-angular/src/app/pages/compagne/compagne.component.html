@@ -43,15 +43,15 @@
         </a>        
 
         <!-- Rapport -->
-        <a href="profil">
+        <a [routerLink]="['/factures', userId]">
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <span>Rapport</span>
+            <span>Factures</span>
         </a>
 
         <!-- Se déconnecter -->
-        <a (click)="logout(); $event.preventDefault()">
+        <a (click)="logout(); $event.preventDefault()" class="logout-link">
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
@@ -108,7 +108,7 @@
 
     <!-- ===== STEP 1 ===== -->
     <div *ngIf="currentStep === 1" [formGroup]="step1Form">
-        <h2 class="pj-title"><span class="val-gradient-text">Démarrer la campagne</span></h2>
+        <h2 class="pj-title"><span class="val-gradient-text">Lancer une campagne Social Media</span></h2>
 
         <div class="pj-form-grid">
 
@@ -119,7 +119,7 @@
         </div>
 
         <div class="pj-row">
-            <label>Budget total</label>
+            <label>Budget estimé</label>
             <input class="pj-input" type="number" formControlName="budgetTotal" placeholder="0.00" />
             <small class="text-danger" *ngIf="step1Form.get('budgetTotal')?.invalid && step1Form.get('budgetTotal')?.touched">Champ obligatoire.</small>
         </div>
@@ -236,7 +236,7 @@
         <div class="pj-section-label full-width">Stratégie</div>
 
         <div class="pj-row">
-            <label>Analyse de la situation</label>
+            <label>Analyse de la demande</label>
             <textarea class="pj-input" formControlName="analyseSituation" placeholder="Analyse SWOT, contexte..." rows="4"></textarea>
             <small class="text-danger" *ngIf="step1Form.get('analyseSituation')?.invalid && step1Form.get('analyseSituation')?.touched">Champ obligatoire.</small>
         </div>

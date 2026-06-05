@@ -14,7 +14,10 @@ import frLocale from '@fullcalendar/core/locales/fr';
   styleUrls: ['./rdv.component.css']
 })
 export class RdvComponent implements OnInit {
-sidebarOpen = true;
+  userId: number | null = null;
+
+
+  sidebarOpen = true;
 rdvList: any[] = [];
 loading = false;
 currentPage = 1;

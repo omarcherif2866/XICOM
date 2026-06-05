@@ -22,6 +22,10 @@
   
 }
 
+.logout-link{
+    cursor: pointer;
+}
+
 .spacer {
   width: 40px;
 }

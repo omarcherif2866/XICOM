@@ -1154,7 +1154,9 @@ header h1 {
 }
 
 .lv-user-actions { display: flex; justify-content: flex-end; }
-
+.logout-link{
+    cursor: pointer;
+}
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
   .lv-folders-grid { grid-template-columns: repeat(2, 1fr); }

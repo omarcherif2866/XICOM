@@ -15,6 +15,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./service.component.css']
 })
 export class ServiceComponent implements OnInit {
+    userId: number | null = null;
+
+  
   // Liste des services
   services: Service[] = [];
     sidebarOpen = true;
@@ -62,7 +65,9 @@ allPartenaires: Partenaire[] = [];
     private authService: AuthService,
     private router: Router,
     private partenaireService: PartenaireService
-  ) {}
+  ) {
+    
+  }
 
   ngOnInit(): void {
     this.loadServices();

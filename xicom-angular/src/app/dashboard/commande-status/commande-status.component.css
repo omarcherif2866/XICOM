@@ -66,6 +66,9 @@
   
 }
 
+.logout-link{
+    cursor: pointer;
+}
 
 .val-gradient-text {
   background: linear-gradient(90deg, #4a6cf7, #c13584);

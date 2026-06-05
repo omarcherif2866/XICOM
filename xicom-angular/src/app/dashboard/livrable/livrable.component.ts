@@ -14,6 +14,7 @@ export class LivrableComponent implements OnInit {
   // ===== Rôle =====
   userRole: string = '';
   isAdminOrSuper = false;
+  isSimpleUser = false;
   userId: number | null = null;
   sidebarOpen = true;
 
@@ -58,6 +59,8 @@ export class LivrableComponent implements OnInit {
     this.userId = decoded?.id || decoded?.userId || null;
     this.userRole = decoded?.role || decoded?.roles?.[0] || '';
     this.isAdminOrSuper = ['ADMIN', 'SUPERADMIN', 'ROLE_ADMIN', 'ROLE_SUPERADMIN']
+      .includes(this.userRole.toUpperCase());
+    this.isSimpleUser = ['SIMPLEU']
       .includes(this.userRole.toUpperCase());
   }
 

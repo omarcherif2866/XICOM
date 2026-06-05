@@ -3,7 +3,7 @@
   <div [class]="sidebarOpen ? 'sidebar open' : 'sidebar'">
     <div class="sidebar-content">
       <h2>Admin Panel</h2>
-      <nav>
+      <nav  >
         <!-- Dashboard -->
         <a href="#">
           <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,23 +53,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
           </svg>
           <span>Abonnées</span>
-          </a>
-
-
-              <!-- Livrable -->
-              <a href="profil">
-                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  <span>Livrable</span>
-              </a>
-
-              <a href="commande_status">
-                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  <span>Commande en cours</span>
-              </a>      
+          </a>    
 
         <!-- Profil -->
         <a href="profil">
@@ -79,13 +63,38 @@
           <span>Profil</span>
         </a>
 
-        <!-- Se déconnecter -->
-        <a (click)="logout(); $event.preventDefault()">
-          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-          </svg>
-          <span>Se déconnecter</span>
+                <!-- Livrable -->
+        <a [routerLink]="['/livrables', userId]">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Livrable</span>
         </a>
+
+        <a href="commande_status">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Commande en cours</span>
+        </a>        
+
+        <!-- Rapport -->
+        <a [routerLink]="['/factures', userId]">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Factures</span>
+        </a>
+
+        <!-- Se déconnecter -->
+        <a (click)="logout(); $event.preventDefault()" class="logout-link">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>Se déconnecter</span>
+        </a>
+        
+
       </nav>
     </div>
   </div>

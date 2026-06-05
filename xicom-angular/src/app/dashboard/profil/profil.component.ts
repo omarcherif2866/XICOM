@@ -9,7 +9,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./profil.component.css']
 })
 export class ProfilComponent implements OnInit {
-user: any = {};  
+
+  
+  user: any = {};  
 userId!: number;
 sidebarOpen = true;
 

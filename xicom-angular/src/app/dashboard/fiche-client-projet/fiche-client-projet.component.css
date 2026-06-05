@@ -612,6 +612,9 @@ header h1 {
   
 }
 
+.logout-link{
+    cursor: pointer;
+}
 .spacer {
   width: 40px;
 }

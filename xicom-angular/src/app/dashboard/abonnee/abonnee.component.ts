@@ -11,7 +11,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./abonnee.component.css']
 })
 export class AbonneeComponent implements OnInit {
-abonnes: Abonnee[] = [];
+  userId: number | null = null;
+
+
+  abonnes: Abonnee[] = [];
 abonneCount: number = 0;
 sidebarOpen = true;
 currentPage: number = 1;

@@ -100,6 +100,22 @@ const routes = [
       canActivate: [AdminGuard]  // ✅ Ajouter
 
 },
+
+    {
+    path: 'factures/:id',
+    loadChildren: () =>
+      import('./dashboard/facture/facture.module').then(
+        (m) => m.FactureModule
+      )
+  },
+
+  {
+  path: 'factures',           // ← admin accède sans ID
+  loadChildren: () =>
+    import('./dashboard/facture/facture.module').then(m => m.FactureModule) ,
+      canActivate: [AdminGuard]  // ✅ Ajouter
+
+},
     {
     path: 'fiche_client/:id',
     loadChildren: () =>

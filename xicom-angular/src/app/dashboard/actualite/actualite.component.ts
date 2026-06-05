@@ -30,7 +30,22 @@ export class ActualiteComponent implements OnInit {
   editId: any = null;
   selectedImage: File | null = null;
 
-  constructor(private actualiteService: ActualiteService, private authService: AuthService,private router:Router) {}
+      userId: number | null = null;
+  userRole: string = '';
+  isAdminOrSuper = false;
+  isSimpleUser = false;
+  constructor(private actualiteService: ActualiteService, private authService: AuthService,private router:Router) {
+            const token = this.authService.getToken();
+    const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
+    this.userId = decoded?.id || decoded?.userId || null;
+    this.userRole = decoded?.role || decoded?.roles?.[0] || '';
+    this.isAdminOrSuper = ['ADMIN', 'SUPERADMIN', 'ROLE_ADMIN', 'ROLE_SUPERADMIN']
+      .includes(this.userRole.toUpperCase());
+    this.isSimpleUser = ['SIMPLEU'].includes(this.userRole.toUpperCase());
+    const today = new Date();
+    const weekAgo = new Date();
+    weekAgo.setDate(today.getDate() - 7);
+  }
 
   ngOnInit() {
     this.fetchActualites();

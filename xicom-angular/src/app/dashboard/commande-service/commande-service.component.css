@@ -19,7 +19,9 @@
   margin-bottom: 0;
 }
 
-
+.logout-link{
+    cursor: pointer;
+}
 .sv-card {
   background: white;
   border-radius: 12px;
