@@ -73,14 +73,14 @@ export class HomePage implements OnInit,OnDestroy {
   isSubmitting = false;
 
 values = [
-  { title: 'Innovation',     icon: '💡', gradient: 'linear-gradient(135deg,#7c6ff7,#9b59f7)', lineColor: '#6863BF', desc: 'Nous repoussons les limites pour créer de la valeur.' },
-  { title: 'Collaboration',  icon: '👥', gradient: 'linear-gradient(135deg,#7c6ff7,#a855f7)', lineColor: '#7c6ff7', desc: 'Nous avançons ensemble vers des objectifs communs.' },
-  { title: 'Qualité',        icon: '🏆', gradient: 'linear-gradient(135deg,#ec4899,#f472b6)', lineColor: '#ec4899', desc: 'Nous visons l\'excellence dans tout ce que nous faisons.' },
-  { title: 'Transparence',   icon: '👁',  gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', lineColor: '#6366f1', desc: 'Nous communiquons avec clarté et honnêteté.' },
-  { title: 'Responsabilité', icon: '🛡',  gradient: 'linear-gradient(135deg,#3b82f6,#60a5fa)', lineColor: '#3b82f6', desc: 'Nous assumons pleinement nos actions et leurs impacts.' },
-  { title: 'Agilité',        icon: '⚡', gradient: 'linear-gradient(135deg,#0ea5e9,#38bdf8)', lineColor: '#0ea5e9', desc: 'Nous nous adaptons rapidement pour avancer et aller plus loin.' },
-  { title: 'Respect',        icon: '♥',  gradient: 'linear-gradient(135deg,#38bdf8,#06b6d4)', lineColor: '#38bdf8', desc: 'Nous valorisons chaque personne et chaque idée.' },
-  { title: 'Durabilité',     icon: '🌿', gradient: 'linear-gradient(135deg,#14b8a6,#2dd4bf)', lineColor: '#14b8a6', desc: 'Nous agissons aujourd\'hui pour un avenir responsable.' },
+  { title: 'Innovation',     icon: '💡', gradient: 'linear-gradient(135deg,#7c6ff7,#9b59f7)', lineColor: '#6863BF', desc: 'Nous repoussons les limites pour créer de la valeur.Nous imaginons de nouvelles solutions pour créer de la valeur.' },
+  { title: 'Collaboration',  icon: '👥', gradient: 'linear-gradient(135deg,#7c6ff7,#a855f7)', lineColor: '#7c6ff7', desc: 'Nous travaillons ensemble pour atteindre des objectifs communs.' },
+  { title: 'Qualité',        icon: '🏆', gradient: 'linear-gradient(135deg,#ec4899,#f472b6)', lineColor: '#ec4899', desc: 'Nous recherchons l’excellence dans chaque réalisation.' },
+  { title: 'Transparence',   icon: '👁',  gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', lineColor: '#6366f1', desc: 'Nous privilégions une communication claire et transparente.' },
+  { title: 'Responsabilité', icon: '🛡',  gradient: 'linear-gradient(135deg,#3b82f6,#60a5fa)', lineColor: '#3b82f6', desc: 'Nous assumons nos engagements avec sérieux et rigueur.' },
+  { title: 'Agilité',        icon: '⚡', gradient: 'linear-gradient(135deg,#0ea5e9,#38bdf8)', lineColor: '#0ea5e9', desc: 'Nous nous adaptons rapidement aux évolutions et aux besoins.' },
+  { title: 'Respect',        icon: '♥',  gradient: 'linear-gradient(135deg,#38bdf8,#06b6d4)', lineColor: '#38bdf8', desc: 'Nous respectons chaque personne, chaque idée et chaque échange.' },
+  { title: 'Durabilité',     icon: '🌿', gradient: 'linear-gradient(135deg,#14b8a6,#2dd4bf)', lineColor: '#14b8a6', desc: 'Nous construisons aujourd’hui un avenir durable et responsable.' },
 ];
 
 getLeft(i: number): string {
