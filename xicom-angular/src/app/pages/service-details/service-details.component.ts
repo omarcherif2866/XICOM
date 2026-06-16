@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Service } from 'src/app/models/service';
 import { ServiceService } from 'src/app/service/service.service';
 import Swal from 'sweetalert2';
@@ -192,7 +192,7 @@ private serviceThemes: { [key: number]: any } = {
         private route: ActivatedRoute,
         private http: HttpClient,
         private fb: FormBuilder,
-            private sanitizer: DomSanitizer,
+        private router: Router,
         private authService: AuthService
 
   ) { 
@@ -399,9 +399,31 @@ getColorByIndex(index: number): string {
 
 
 openCommanderDialog(): void {
+
+  const token = localStorage.getItem('token'); // ou ton clé de stockage
+
+  if (!token) {
+    Swal.fire({
+      title: 'Connexion requise',
+      text: 'Vous devez être connecté pour accéder à cette page.',
+      icon: 'warning',
+      confirmButtonText: 'Se connecter',
+      cancelButtonText: 'Annuler',
+      showCancelButton: true,
+      confirmButtonColor: '#6863BF',
+      cancelButtonColor: '#aaa',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/signin']);
+      }
+    });
+  } else {
   const details = this.services[0]?.Sections[0]?.details || [];
   this.selectedDetails = details.map((d: any) => ({ title: d.title, checked: false }));
   this.showDialog = true;
+  }
+
+
 }
 
 getAllDetails(): string[] {

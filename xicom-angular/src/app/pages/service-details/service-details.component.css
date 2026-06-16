@@ -79,7 +79,7 @@ p {
     height: 200%;
     z-index: -1;
       overflow: hidden;
-    opacity: 0.2;
+    /* opacity: 0.2; */
 }
 .hero-bg img {
     width: 100%;
