@@ -233,7 +233,7 @@
   <div class="step-line" [class.completed]="currentModalStep > 2"></div>
 
   <!-- Step 3: Section 2 -->
-  <div class="step" [class.active]="currentModalStep === 3" [class.completed]="currentModalStep > 3">
+  <!-- <div class="step" [class.active]="currentModalStep === 3" [class.completed]="currentModalStep > 3">
     <div class="step-circle" (click)="goToModalStep(3)">
       <span *ngIf="currentModalStep > 3">✓</span>
       <span *ngIf="currentModalStep <= 3">3</span>
@@ -241,10 +241,10 @@
     <div class="step-label">Section 2</div>
   </div>
 
-  <div class="step-line" [class.completed]="currentModalStep > 3"></div>
+  <div class="step-line" [class.completed]="currentModalStep > 3"></div> -->
 
   <!-- Step 4: Partenaires -->
-  <div class="step" [class.active]="currentModalStep === 4" [class.completed]="currentModalStep > 4">
+  <!-- <div class="step" [class.active]="currentModalStep === 4" [class.completed]="currentModalStep > 4">
     <div class="step-circle" (click)="goToModalStep(4)">
       <span *ngIf="currentModalStep > 4">✓</span>
       <span *ngIf="currentModalStep <= 4">4</span>
@@ -252,12 +252,12 @@
     <div class="step-label">Partenaires</div>
   </div>
 
-  <div class="step-line" [class.completed]="currentModalStep > 4"></div>
+  <div class="step-line" [class.completed]="currentModalStep > 4"></div> -->
 
   <!-- Step 5: Packs & Prix -->
-  <div class="step" [class.active]="currentModalStep === 5">
-    <div class="step-circle" (click)="goToModalStep(5)">
-      <span>5</span>
+  <div class="step" [class.active]="currentModalStep === 3">
+    <div class="step-circle" (click)="goToModalStep(3)">
+      <span>3</span>
     </div>
     <div class="step-label">Packs & Prix</div>
   </div>
@@ -265,9 +265,9 @@
 
 <!-- Progress Indicator -->
 <div class="progress-indicator">
-  <div class="progress-text">Étape {{ currentModalStep }} sur 5</div>
+  <div class="progress-text">Étape {{ currentModalStep }} sur 3</div>
   <div class="progress-bar">
-    <div class="progress-fill" [style.width.%]="(currentModalStep / 5) * 100"></div>
+    <div class="progress-fill" [style.width.%]="(currentModalStep / 3) * 100"></div>
   </div>
 </div>
 
@@ -328,7 +328,7 @@
       </div>
 
       <!-- STEP 2-3: Sections 1-2 -->
-      <div *ngFor="let section of formData.sections | slice:0:2; let sectionIndex = index" 
+      <div *ngFor="let section of formData.sections | slice:0:1; let sectionIndex = index" 
           [hidden]="currentModalStep !== sectionIndex + 2">
         <div *ngIf="currentModalStep === sectionIndex + 2" class="step-content">
           <h4>📊 Section {{ sectionIndex + 1 }}</h4>
@@ -373,7 +373,7 @@
     </ng-container>
 
     <!-- ✅ Bloc icône : seulement pour section 2 (sectionIndex === 1) -->
-    <ng-container *ngIf="sectionIndex === 1">
+    <!-- <ng-container *ngIf="sectionIndex === 1">
       <div class="inline-icon-gallery">
         <h5 class="gallery-title">Choisir une icône existante :</h5>
         
@@ -428,7 +428,7 @@
         </div>
         <small class="form-text">Format accepté: JPG, PNG, SVG (Max 200MB)</small>
       </div>
-    </ng-container>
+    </ng-container> -->
 
     <div class="detail-actions">
       <button type="button" 
@@ -457,7 +457,7 @@
       </div>
 
       <!-- STEP 4: Sections 3 -->
-      <div *ngIf="currentModalStep === 4" class="step-content">
+      <!-- <div *ngIf="currentModalStep === 4" class="step-content">
         <h4>🤝 Partenaires</h4>
         
         <div class="partners-section">
@@ -467,7 +467,7 @@
             </p>
           </div>
 
-          <!-- Liste des partenaires disponibles -->
+
           <div class="partners-grid">
             <div *ngFor="let partenaire of allPartenaires" 
                 class="partner-card"
@@ -491,7 +491,6 @@
             </div>
           </div>
 
-          <!-- Résumé des partenaires sélectionnés -->
           <div *ngIf="selectedPartenaires.length > 0" class="selected-partners-summary">
             <h5>✓ Partenaires sélectionnés ({{ selectedPartenaires.length }})</h5>
             <div class="selected-chips">
@@ -510,10 +509,10 @@
         </div>
 
 
-      </div>
+      </div> -->
 
       <!-- STEP 5: Packs & Prix (PriceSections) -->
-      <div *ngIf="currentModalStep === 5" class="step-content">
+      <div *ngIf="currentModalStep === 3" class="step-content">
         <h4>💰 Packs & Prix</h4>
         
         <div class="price-section">
@@ -661,7 +660,7 @@
                 <strong>Sous-titre:</strong> {{ formData.subtitle || 'Non renseigné' }}
               </div>
               <div class="summary-item">
-                <strong>Sections complétées:</strong> {{ countCompletedSections() }} / 4
+                <strong>Sections complétées:</strong> {{ countCompletedSections() }} / 1
               </div>
               <div class="summary-item">
                 <strong>Total de détails:</strong> {{ getTotalDetailsCount() }}
@@ -687,12 +686,12 @@
       </div>
       <div class="actions-right">
         <button (click)="closeModal()" class="btn btn-gray">Annuler</button>
-        <button *ngIf="currentModalStep < 5" 
+        <button *ngIf="currentModalStep < 3" 
                 (click)="nextModalStep()" 
                 class="btn btn-blue">
           Suivant →
         </button>
-        <button *ngIf="currentModalStep === 5" 
+        <button *ngIf="currentModalStep === 3" 
                 (click)="handleSubmit()" 
                 [disabled]="isSubmitting"
                 class="btn btn-success">

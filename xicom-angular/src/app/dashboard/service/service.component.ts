@@ -65,9 +65,7 @@ allPartenaires: Partenaire[] = [];
     private authService: AuthService,
     private router: Router,
     private partenaireService: PartenaireService
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loadServices();
@@ -222,7 +220,7 @@ getIconPreview(icon: any): SafeUrl | string {
     };
     
     // S'assurer qu'il y a toujours 5 sections
-    while (this.formData.sections.length < 5) {
+    while (this.formData.sections.length < 3) {
       this.formData.sections.push(this.getEmptySection());
     }
         this.selectedPartenaires = service.Partenaires ? [...service.Partenaires] : [];
@@ -292,7 +290,7 @@ closeModal(): void {
    * Naviguer vers une étape spécifique
    */
   goToModalStep(step: number): void {
-    if (step >= 1 && step <= 5) {
+    if (step >= 1 && step <= 3) {
       this.currentModalStep = step;
     }
   }
