@@ -16,12 +16,12 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./service-details.component.css']
 })
 export class ServiceDetailsComponent implements OnInit {
-  stats = [
-    { icon: '../../../assets/icons/valise.svg', label: 'Nos projets', value: '+200', color: '#EFFBFF', valueColor: '#51B3D8'  },
-    { icon: '../../../assets/icons/coeur.svg', label: 'Satisfaction', value: '4%', color: '#FFEDED', valueColor: '#F26D6E' },
-    { icon: '../../../assets/icons/person.svg', label: 'Experts', value: '15', color: '#FFEEEA', valueColor: '#F1836A' },
-    { icon: '../../../assets/icons/puzzle.svg', label: 'Collaborateurs', value: '40', color: '#ECEBFF', valueColor: '#6863BF' }
-  ];
+  // stats = [
+  //   { icon: '../../../assets/icons/valise.svg', label: 'Nos projets', value: '+200', color: '#EFFBFF', valueColor: '#51B3D8'  },
+  //   { icon: '../../../assets/icons/coeur.svg', label: 'Satisfaction', value: '4%', color: '#FFEDED', valueColor: '#F26D6E' },
+  //   { icon: '../../../assets/icons/person.svg', label: 'Experts', value: '15', color: '#FFEEEA', valueColor: '#F1836A' },
+  //   { icon: '../../../assets/icons/puzzle.svg', label: 'Collaborateurs', value: '40', color: '#ECEBFF', valueColor: '#6863BF' }
+  // ];
 showCommandeForm = false;
   isLoading = false;
 
@@ -44,129 +44,148 @@ commandeForm: FormGroup = this.fb.group({
   devis:            ['', Validators.required],
   delaiSouhaite:    ['', Validators.required],
 });
-  private serviceThemes: { [key: number]: any } = {
-    1: {
-    gradientStart: '#DD8484',
-    gradientEnd: '#A94444',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#151158',
-    buttonColor: '#A94444',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
-  
-    },
-    2: {
-    gradientStart: '#241E89',
-    gradientEnd: '#6863BF',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#241E89',
-    buttonColor: '#241E89',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+private serviceThemes: { [key: number]: any } = {
+  1: {
+    gradientStart: '#0059da', gradientEnd: '#0059da',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#0059da',
+    buttonColor: '#0059da', // ✅ déjà correct
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    3: {
-    gradientStart: '#378D62',
-    gradientEnd: '#125835',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#125835',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  2: {
+    gradientStart: '#5139bc', gradientEnd: '#5139bc',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#5139bc',
+    buttonColor: '#5139bc', // ✅ déjà correct
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    4: {
-    gradientStart: '#EEBE8B',
-    gradientEnd: '#F58916',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#F58916',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  3: {
+    gradientStart: '#f43f79', gradientEnd: '#fd8d6d',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#f43f79',
+    buttonColor: '#f43f79', // ✅ rose
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    5: {
-    gradientStart: '#677AAB',
-    gradientEnd: '#495A86',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#303030',
-    buttonColor: '#030303',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  4: {
+    gradientStart: '#dc9d35', gradientEnd: '#d79022',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#dc9d35',
+    buttonColor: '#dc9d35', // ✅ orange
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    6: {
-    gradientStart: '#DC88C4',
-    gradientEnd: '#B53591',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#B53591',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  5: {
+    gradientStart: '#f5761c', gradientEnd: '#ed6402',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#f5761c',
+    buttonColor: '#f5761c', // ✅ bleu ardoise
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-     7: {
-    gradientStart: '#9F6219',
-    gradientEnd: '#F3A950',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#F3A950',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  6: {
+    gradientStart: '#004ce4', gradientEnd: '#004ce4',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#004ce4',
+    buttonColor: '#004ce4', // ✅ rose fuchsia
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    8: {
-    gradientStart: '#9B67CC',
-    gradientEnd: '#C391F2',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#C391F2',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  7: {
+    gradientStart: '#092d67', gradientEnd: '#092d67',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#092d67',
+    buttonColor: '#092d67', // ✅ brun doré
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    9: {
-    gradientStart: '#ACB84A',
-    gradientEnd: '#7D891E',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#7D891E',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  8: {
+    gradientStart: '#1b48f4', gradientEnd: '#1b48f4',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#1b48f4',
+    buttonColor: '#1b48f4', // ✅ violet
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    10: {
-    gradientStart: '#C07373',
-    gradientEnd: '#DD8484',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#DD8484',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  9: {
+    gradientStart: '#0a0f15', gradientEnd: '#0a0f15',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#0a0f15',
+    buttonColor: '#0a0f15', // ✅ vert olive
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    11: {
-    gradientStart: '#C03947',
-    gradientEnd: '#EE2D41',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
-    borderColor: '#EE2D41',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+  10: {
+    gradientStart: '#c90c61', gradientEnd: '#df0e70',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#c90c61',
+    buttonColor: '#c90c61', // ✅ rouge rosé
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-    12: {
-    gradientStart: '#744545',
-    gradientEnd: '#30081E',
-    gradientStartPosition: '20%',
-    gradientEndPosition: '90%',
+  11: {
+    gradientStart: '#fd5a33', gradientEnd: '#fd5a33',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#fd5a33',
+    buttonColor: '#fd5a33', // ✅ rouge vif
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+  12: {
+    gradientStart: '#279a46', gradientEnd: '#57b170',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#279a46',
+    buttonColor: '#279a46', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+    13: {
+    gradientStart: '#dd023b', gradientEnd: '#e4023c',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#dd023b',
+    buttonColor: '#dd023b', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+    14: {
+    gradientStart: '#0198a4', gradientEnd: '#01a1ac',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#0198a4',
+    buttonColor: '#0198a4', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+    15: {
+    gradientStart: '#6c0086', gradientEnd: '#6c0086',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#6c0086',
+    buttonColor: '#6c0086', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+    16: {
+    gradientStart: '#018945', gradientEnd: '#028c47',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#018945',
+    buttonColor: '#018945', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+    17: {
+    gradientStart: '#1b2128', gradientEnd: '#1b2128',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#1b2128',
+    buttonColor: '#1b2128', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+    18: {
+    gradientStart: '#744545', gradientEnd: '#30081E',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#30081E',
-    buttonColor: '#303030',
-    buttonTextColor: '#fff',
-    gradientType: 'radial' // ✅ Nouveau type
+    buttonColor: '#744545', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
   },
-  };
+    19: {
+    gradientStart: '#251184', gradientEnd: '#4716cd',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#251184',
+    buttonColor: '#251184', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+    20: {
+    gradientStart: '#fdb507', gradientEnd: '#e0a101',
+    gradientStartPosition: '20%', gradientEndPosition: '90%',
+    borderColor: '#fdb507',
+    buttonColor: '#fdb507', // ✅ bordeaux
+    buttonTextColor: '#fff', gradientType: 'radial'
+  },
+};
   constructor(
         private serviceService: ServiceService,
         private partenaireService: PartenaireService,
@@ -484,4 +503,193 @@ submitCommande(): void {
     error: (err) => console.error(err)
   });
 }
+
+
+getIconBoxStyle(isLast: boolean): any {
+  if (!this.currentTheme) return {};
+
+  if (isLast) {
+    // Dernière card : fond très clair (blanc 20%)
+    return {
+      'background': 'rgba(255, 255, 255, 0.2)',
+      'border': '1px solid rgba(255, 255, 255, 0.35)'
+    };
+  } else {
+    // Cards normales : même couleur que le bouton mais claire
+    return {
+      'background': this.hexToRgba(this.currentTheme.buttonColor, 0.12),
+      'border': `1px solid ${this.hexToRgba(this.currentTheme.buttonColor, 0.25)}`
+    };
+  }
+}
+
+getIconFilterStyle(isLast: boolean): any {
+  if (isLast) {
+    // Crown en gold
+    return {
+      'filter': 'invert(74%) sepia(60%) saturate(500%) hue-rotate(5deg) brightness(105%)',
+      'width': '28px',
+      'height': '28px'
+    };
+  } else {
+    // Icône colorée avec la couleur du bouton (sombre)
+    return {
+      'filter': this.colorToFilter(this.currentTheme.buttonColor),
+      'width': '26px',
+      'height': '26px'
+    };
+  }
+}
+
+// Utilitaire hex → rgba
+hexToRgba(hex: string, opacity: number): string {
+  if (!hex) return `rgba(0,0,0,${opacity})`;
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return `rgba(0,0,0,${opacity})`;
+  const r = parseInt(result[1], 16);
+  const g = parseInt(result[2], 16);
+  const b = parseInt(result[3], 16);
+  return `rgba(${r},${g},${b},${opacity})`;
+}
+
+// Convertit la couleur hex en filtre CSS pour colorier le SVG
+colorToFilter(hex: string): string {
+  // Utilise une teinte sombre basée sur la couleur du service
+  return `invert(20%) sepia(80%) saturate(400%) hue-rotate(${this.getHueFromHex(hex)}deg) brightness(70%)`;
+}
+
+getHueFromHex(hex: string): number {
+  if (!hex) return 0;
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return 0;
+  const r = parseInt(result[1], 16) / 255;
+  const g = parseInt(result[2], 16) / 255;
+  const b = parseInt(result[3], 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0;
+  if (max !== min) {
+    const d = max - min;
+    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+    else if (max === g) h = ((b - r) / d + 2) / 6;
+    else h = ((r - g) / d + 4) / 6;
+  }
+  return Math.round(h * 360);
+}
+
+// Bordure de la card normale avec couleur du service
+getCardBorderStyle(): any {
+  if (!this.currentTheme) return {};
+  return {
+    'border': `1.5px solid ${this.hexToRgba(this.currentTheme.gradientStart, 0.15)}`
+  };
+}
+
+getIconMaskStyle(iconPath: string, isLast: boolean): any {
+  const color = isLast ? '#F5C518' : this.currentTheme?.buttonColor || '#333';
+
+  return {
+    'width': '26px',
+    'height': '26px',
+    'background-color': color,
+    '-webkit-mask-image': `url(${iconPath})`,
+    'mask-image': `url(${iconPath})`,
+    '-webkit-mask-size': 'contain',
+    'mask-size': 'contain',
+    '-webkit-mask-repeat': 'no-repeat',
+    'mask-repeat': 'no-repeat',
+    '-webkit-mask-position': 'center',
+    'mask-position': 'center',
+    'display': 'block'
+  };
+}
+
+getCheckCircleStyle(): any {
+  const color = this.currentTheme?.buttonColor || '#333';
+  return {
+    'background': color,           // ← fond plein avec la couleur du service
+    'width': '28px',
+    'height': '28px',
+    'border-radius': '50%',
+    'display': 'flex',
+    'align-items': 'center',
+    'justify-content': 'center',
+    'flex-shrink': '0'
+  };
+}
+
+getCheckMaskStyle(): any {
+  return {
+    'width': '14px',
+    'height': '14px',
+    'background-color': '#ffffff',  // ← check blanc
+    '-webkit-mask-image': `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")`,
+    'mask-image': `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")`,
+    '-webkit-mask-size': 'contain',
+    'mask-size': 'contain',
+    '-webkit-mask-repeat': 'no-repeat',
+    'mask-repeat': 'no-repeat',
+    '-webkit-mask-position': 'center',
+    'mask-position': 'center',
+    'display': 'block'
+  };
+}
+
+getSecondaryButtonStyle(): any {
+  const color = this.currentTheme?.buttonColor || '#333';
+  return {
+    'background': 'white',
+    'color': color,
+    'border': `2px solid ${color}`,
+  };
+}
+
+
+getRdvBannerStyle(): any {
+  const color = this.currentTheme?.buttonColor || '#5b4fcf';
+  const start = this.currentTheme?.gradientStart || color;
+  const end   = this.currentTheme?.gradientEnd   || color;
+  return {
+    'background': `linear-gradient(135deg, ${start} 0%, ${end} 100%)`
+  };
+}
+
+getRdvIconWrapStyle(): any {
+  return {
+    'background': 'rgba(255,255,255,0.15)',
+    'border-radius': '50%',
+    'width': '80px',
+    'height': '80px',
+    'display': 'flex',
+    'align-items': 'center',
+    'justify-content': 'center',
+    'flex-shrink': '0'
+  };
+}
+
+getRdvIconMaskStyle(): any {
+  return {
+    'width': '38px',
+    'height': '38px',
+    'background-color': '#ffffff',
+    '-webkit-mask-image': `url(../../../assets/icons/telegram.svg)`,
+    'mask-image': `url(../../../assets/icons/telegram.svg)`,
+    '-webkit-mask-size': 'contain',
+    'mask-size': 'contain',
+    '-webkit-mask-repeat': 'no-repeat',
+    'mask-repeat': 'no-repeat',
+    '-webkit-mask-position': 'center',
+    'mask-position': 'center',
+    'display': 'block'
+  };
+}
+
+getRdvButtonStyle(): any {
+  const color = this.currentTheme?.buttonColor || '#5b4fcf';
+  return {
+    'background': '#ffffff',
+    'color': color,
+    'border': 'none'
+  };
+}
+
 }

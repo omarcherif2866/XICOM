@@ -11,6 +11,8 @@ export class AppComponent {
   title = 'Keejob Store';
   showTopBar = true;
   showFooter = true;
+isLoading = true;
+
 
 constructor(private router: Router) {
   this.router.events.subscribe(event => {
@@ -20,5 +22,11 @@ constructor(private router: Router) {
       this.showFooter = !event.url.match(hiddenRoutes);
     }
   });
+}
+
+ngOnInit() {
+  setTimeout(() => {
+    this.isLoading = false;
+  }, 1000); // ajuste la durée selon tes besoins
 }
 }

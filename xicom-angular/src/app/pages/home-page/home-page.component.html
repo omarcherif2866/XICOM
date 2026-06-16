@@ -565,7 +565,7 @@
 
     <div class="wave-timeline">
       <!-- Courbe SVG de connexion -->
-<svg class="wave-svg" viewBox="0 0 1200 240" preserveAspectRatio="none">
+<!-- <svg class="wave-svg" viewBox="0 0 1200 240" preserveAspectRatio="none">
   <defs>
     <linearGradient id="waveGradV" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%"   stop-color="#6863BF"/>
@@ -574,7 +574,6 @@
       <stop offset="100%" stop-color="#38bdf8"/>
     </linearGradient>
   </defs>
-  <!-- Pics à y=20, vallées à y=220, x alignés sur getLeft(i) * 1200 -->
   <path
     d="M96,20 C144,20 192,220 240,220
        C288,220 336,20 384,20
@@ -587,12 +586,43 @@
     stroke="url(#waveGradV)"
     stroke-width="2.5"
     stroke-linecap="round"/>
-  <!-- Dots aux vallées 1, 3, 5 -->
   <circle cx="240" cy="220" r="8" fill="#7c6ff7"/>
   <circle cx="528" cy="220" r="8" fill="#9b59f7"/>
   <circle cx="816" cy="220" r="8" fill="#51B3D8"/>
-</svg>
+</svg> -->
+<svg class="wave-svg" viewBox="0 0 1200 240" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="waveGradV" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#6863BF"/>
+      <stop offset="33%"  stop-color="#9b59f7"/>
+      <stop offset="66%"  stop-color="#51B3D8"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
 
+  <path
+    d="M96,20
+       L210,215 Q240,225 270,215
+       L354,20  Q384,10  414,20
+       L498,215 Q528,225 558,215
+       L642,20  Q672,10  702,20
+       L786,215 Q816,225 846,215
+       L930,20  Q960,10  990,20
+       L1104,215"
+    fill="none"
+    stroke="url(#waveGradV)"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+
+  <circle cx="240" cy="220" r="7" fill="#7c6ff7"/>
+  <circle cx="528" cy="220" r="7" fill="#9b59f7"/>
+  <circle cx="816" cy="220" r="7" fill="#51B3D8"/>
+
+  <circle cx="384" cy="20" r="7" fill="#9b59f7"/>
+  <circle cx="672" cy="20" r="7" fill="#51B3D8"/>
+  <circle cx="960" cy="20" r="7" fill="#38bdf8"/>
+</svg>
       <!-- Cards via *ngFor -->
       <div class="wave-item"
            *ngFor="let value of values; let i = index"
