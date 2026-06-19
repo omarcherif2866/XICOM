@@ -3685,7 +3685,7 @@
     padding-top: 110px;
   }
   .phone-row { flex-direction: row; }
-  .stats-ticker-wrapper { position: relative; margin-top: 20px; z-index: 1; }
+  /* .stats-ticker-wrapper { position: relative; margin-top: 20px; z-index: 1; } */
   .hero-image { margin-bottom: 0; padding-bottom: 0; }
   .hero-container { padding-bottom: 0; }
   .services, .values, .team, .news, .contact, .newsletter, .rdv { padding: 60px 0; }
@@ -3757,4 +3757,13 @@
   }
   .timeline-content h3 { font-size: 12px; }
   .timeline-content p  { font-size: 11px; }
+}
+
+@media (max-width: 1280px) {
+  .stats-ticker-wrapper {
+    position: relative;
+    bottom: auto;
+    margin-top: 24px;
+    z-index: 1;
+  }
 }
