@@ -3760,10 +3760,20 @@
 }
 
 @media (max-width: 1280px) {
+  .hero {
+    padding-bottom: 0 !important;
+    min-height: auto;
+  }
+
+  .hero-container {
+    align-items: end;
+  }
+
   .stats-ticker-wrapper {
     position: relative;
     bottom: auto;
     margin-top: 24px;
+    margin-bottom: 24px;
     z-index: 1;
   }
 }
