@@ -13,7 +13,7 @@
             <h1>{{service.title}}</h1>
             <p class="hero-subtitle">{{service.subtitle}}</p>
             
-            <div class="hero-features" *ngFor="let detail of service.sections[0]?.details">
+            <div class="hero-features" *ngFor="let detail of service.sections[1]?.details">
               <div class="feature-item">
                 <div class="check-circle" [ngStyle]="getCheckCircleStyle()">
                   <div class="check-icon-mask" [ngStyle]="getCheckMaskStyle()"></div>
@@ -116,7 +116,10 @@ et commencez dès aujourd’hui à optimiser votre temps</p>
               <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
             </svg>
           </div>
-          {{ price.subtitle }}
+          <div class="price">
+          <span class="amount" [ngStyle]="{'color': currentTheme?.buttonColor}">{{ price.price }}€</span>
+          <span class="period">HT / {{ price.pricePer }}</span>
+        </div>
         </div>
       </div>
       
