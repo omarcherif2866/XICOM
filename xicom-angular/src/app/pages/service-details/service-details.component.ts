@@ -273,7 +273,7 @@ fetchServiceDetails(id: number) {
       // Mettre une seule service dans le tableau
       this.services = [new Service(response)];
       // ⬇️ AJOUTE CETTE LIGNE POUR LE CARROUSEL
-      // console.log('sections[0] details:', response.sections?.[0]?.details);
+      console.log('sections[0] details:', response.sections?.[0]?.details);
 
       this.loading = false;
 
