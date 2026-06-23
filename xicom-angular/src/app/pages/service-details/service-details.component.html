@@ -1,8 +1,8 @@
 <div *ngFor="let service of services; let i = index"> 
-<section id="hero">
+<section id="hero"  [ngStyle]="getHeroStyle(false)">
     <div class="hero-container container">
         <div class="hero-bg">
-            <img [src]="sanitizeImage(service.image)" [alt]="service.title + ' icon'" >
+            <img [src]="sanitizeImage(service.image)" [alt]="service.title + ' icon'"  >
         </div> 
         
         <div class="hero-content">

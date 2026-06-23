@@ -46,9 +46,9 @@ commandeForm: FormGroup = this.fb.group({
 });
 private serviceThemes: { [key: number]: any } = {
   1: {
-    gradientStart: '#0059da', gradientEnd: '#0059da',
+    gradientStart: '#0059da', gradientEnd: '#e0ebfb',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#0059da',
+    borderColor: '#a6b2ce',
     buttonColor: '#0059da', // ✅ déjà correct
     buttonTextColor: '#fff', gradientType: 'radial'
   },
@@ -172,10 +172,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     19: {
-    gradientStart: '#251184', gradientEnd: '#4716cd',
+    gradientStart: '#5f35cf', gradientEnd: '#b8a2f0',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#251184',
-    buttonColor: '#251184', // ✅ bordeaux
+    borderColor: '#b8a2f0',
+    buttonColor: '#5f35cf', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     20: {
@@ -541,6 +541,23 @@ getIconBoxStyle(isLast: boolean): any {
     return {
       'background': this.hexToRgba(this.currentTheme.buttonColor, 0.12),
       'border': `1px solid ${this.hexToRgba(this.currentTheme.buttonColor, 0.25)}`
+    };
+  }
+}
+
+getHeroStyle(isLast: boolean): any {
+  if (!this.currentTheme) return {};
+
+  if (isLast) {
+    // Dernière card : fond très clair (blanc 20%)
+    return {
+      'background': 'rgba(255, 255, 255, 0.2)',
+      'border': '1px solid rgba(255, 255, 255, 0.35)'
+    };
+  } else {
+    // Cards normales : même couleur que le bouton mais claire
+    return {
+      'background': this.hexToRgba(this.currentTheme.borderColor, 0.12)
     };
   }
 }

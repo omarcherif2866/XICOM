@@ -110,7 +110,8 @@ allPartenaires: Partenaire[] = [];
     
     this.serviceService.getService().subscribe({
       next: (data: Service[]) => {
-        this.services = data.map(item => new Service(item));
+        this.services = data.map(item => new Service(item))
+        .sort((a, b) => a.Id - b.Id);  // ← tri par ID croissant
         this.calculatePagination();
         this.updateCurrentItems();
         this.loading = false;
