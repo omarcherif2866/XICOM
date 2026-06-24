@@ -300,9 +300,7 @@ p {
 .amount {
     font-size: 48px;
     font-weight: 700;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: #fff;
-  paint-order: stroke fill;
+    color: #ffffff;
 }
 .period {
     font-size: 14px;
@@ -791,10 +789,29 @@ body {
 .check-icon {
   font-size: 13px;
   flex-shrink: 0;
-    -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: #fff;
-  paint-order: stroke fill;
+    color: #ffffff;
+
 }
+
+.pricing-card.is-premium {
+  position: relative;
+}
+
+.recommended-badge {
+  position: absolute;
+  top: -23px;
+  right: 25px;
+  background: #ffffff;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 9px 22px;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 1);
+  z-index: 2;
+}
+
 .btn-primary-dark {
     background: #241e89;
     color: #fff;

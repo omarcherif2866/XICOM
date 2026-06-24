@@ -59,10 +59,10 @@
         </div>
         
 <div class="pricing-grid">
-  <div class="pricing-card" 
-       *ngFor="let price of service.priceSections; let isLast = last; let i = index"
-       [ngClass]="{'gradient-card': isLast}"
-       [ngStyle]="isLast ? getGradientCardStyle() : getCardBorderStyle()">
+<div class="pricing-card" 
+     *ngFor="let price of service.priceSections; let isLast = last; let i = index"
+     [ngClass]="{'gradient-card': isLast, 'is-premium': isLast}"
+     [ngStyle]="isLast ? getGradientCardStyle() : getCardBorderStyle()">
     
     <!-- Card normale (toutes sauf la dernière) -->
     <ng-container *ngIf="!isLast">
@@ -99,7 +99,9 @@
     </ng-container>
     
     <!-- Dernière card (gradient) -->
-    <ng-container *ngIf="isLast">
+
+      <ng-container *ngIf="isLast">
+        <span class="recommended-badge" [ngStyle]="{'background-color': currentTheme?.buttonColor}">RECOMMANDÉ</span>
       <div class="card-header">
         <div class="icon-box" [ngStyle]="getIconBoxStyle(true)">
           <img src="../../../assets/icons/crown.svg" 
@@ -109,7 +111,7 @@
         <h3 >{{ price.title }}</h3>
         <span class="subtitle-text">{{ price.subtitle }}</span>
         <div class="price">
-          <span class="amount" [ngStyle]="{'color': currentTheme?.buttonColor}">{{ price.price }}€</span>
+          <span class="amount" >{{ price.price }}€</span>
           <span class="period">HT / {{ price.pricePer }}</span>
         </div>
         <!-- <div class="price-custom-badge">
@@ -127,8 +129,8 @@
       
       <ul class="features-list">
         <li *ngFor="let details of price.details">
-          <span class="check-icon" [ngStyle]="{'color': currentTheme?.buttonColor}">✔</span>
-          <span [ngStyle]="{'font-size': '16px','font-weight': '700'}">{{ details.title }}</span>
+          <span class="check-icon" >✔</span>
+          <span [ngStyle]="{'font-size': '16px','font-weight': '700', color:'white'}">{{ details.title }}</span>
           <span class="detail-desc" [ngStyle]="{'color': currentTheme?.buttonColor}">
             {{ details.description }}
           </span>
@@ -139,6 +141,8 @@
         Commencer Maintenant
       </a>
     </ng-container>
+
+
   </div>
 </div>
     </div>
