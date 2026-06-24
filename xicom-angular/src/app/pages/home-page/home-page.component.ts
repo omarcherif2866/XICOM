@@ -221,6 +221,7 @@ shuffledColors: string[] = [];
 
   }
 
+
 shuffleColors(arr: string[]): string[] {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -233,10 +234,17 @@ getCardColor(groupIndex: number, cardIndex: number): string {
   return this.shuffledColors[(groupIndex * 3 + cardIndex) % this.shuffledColors.length];
 }
 
-get groupedTeam(): any[][] {
+get groupedTeam() {
+  const groupSize = 3;
   const groups = [];
-  for (let i = 0; i < this.team.length; i += this.visibleCount) {
-    groups.push(this.team.slice(i, i + this.visibleCount));
+  for (let i = 0; i < this.team.length; i += groupSize) {
+    const group = this.team.slice(i, i + groupSize);
+    // Compléter le dernier groupe avec les premiers éléments si incomplet
+    if (group.length < groupSize) {
+      const missing = groupSize - group.length;
+      group.push(...this.team.slice(0, missing));
+    }
+    groups.push(group);
   }
   return groups;
 }
@@ -265,8 +273,14 @@ goToSlide(i: number): void {
 
 get groupedNews(): any[][] {
   const groups = [];
-  for (let i = 0; i < this.actualites.length; i += this.newsVisibleCount) {
-    groups.push(this.actualites.slice(i, i + this.newsVisibleCount));
+  const size = this.newsVisibleCount;
+  for (let i = 0; i < this.actualites.length; i += size) {
+    const group = this.actualites.slice(i, i + size);
+    if (group.length < size && this.actualites.length > size) {
+      const missing = size - group.length;
+      group.push(...this.actualites.slice(0, missing));
+    }
+    groups.push(group);
   }
   return groups;
 }

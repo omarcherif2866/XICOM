@@ -37,9 +37,8 @@
   display: grid;
   grid-template-columns: 1.4fr 1fr 1.2fr;
   gap: 56px;
-  margin-bottom: 56px;
+  margin-bottom: 20px;   /* avant : 56px */
 }
-
 /* ===== COL 1 : BRAND ===== */
 .footer-brand {
   display: flex;

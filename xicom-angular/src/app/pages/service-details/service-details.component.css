@@ -29,28 +29,27 @@ body {
 }
 
 h1 {
-      font-family: 'Montserrat';
+      font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       font-size: 35px;
       
 }
 
 .service-title {
-      font-family: 'Montserrat';
-      font-weight: 700;
-      font-size: 65px;
-      
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 65px;
 }
 
 h3 {
-      font-family: 'Montserrat';
+      font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       font-size: 35px;
       
 }
 
 p {
-      font-family: 'Montserrat';
+      font-family: 'Montserrat', sans-serif;
       font-weight: 200;
       font-size: 16px;
       
@@ -140,9 +139,12 @@ p {
 }
 
 .hero-subtitle {
+  font-family: 'Montserrat', sans-serif;
     font-size: 25px;
     margin-bottom: 40px;
     line-height: 1.5;
+    font-weight: 700;
+
 }
 
 .hero-features {
@@ -444,7 +446,7 @@ body {
 .contact-overlay-bottom { position: absolute; bottom: 40px; left: 40px; right: 40px; z-index: 2; }
 
 .contact-title {
-  font-family: 'Montserrat';
+  font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: 40px;
   margin-bottom: 20px;
@@ -452,7 +454,7 @@ body {
 }
 
 .contact-description {
-  font-family: 'Montserrat';
+  font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: 14px;
   color: #ffffff;
@@ -952,11 +954,13 @@ body {
 }
 
 .rdv-desc {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.88);
   line-height: 1.7;
   margin: 0;
-  max-width: 380px;
+  white-space: nowrap;
 }
 
 /* Bouton */
@@ -1054,7 +1058,7 @@ body {
 }
 
 .stat-label {
-font-family: 'Montserrat';
+font-family: 'Montserrat', sans-serif;
 font-weight: 700;
 font-size: 20px;
   color: var(--text-dark);
@@ -1062,7 +1066,7 @@ font-size: 20px;
 }
 
 .stat-value {
-font-family: 'Montserrat';
+font-family: 'Montserrat', sans-serif;
 font-weight: 700;
 font-size: 40px;
 }

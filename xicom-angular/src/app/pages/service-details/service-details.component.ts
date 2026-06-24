@@ -46,9 +46,9 @@ commandeForm: FormGroup = this.fb.group({
 });
 private serviceThemes: { [key: number]: any } = {
   1: {
-    gradientStart: '#0059da', gradientEnd: '#e0ebfb',
+    gradientStart: '#0059da', gradientEnd: '#7298d1',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#a6b2ce',
+    borderColor: '#7298d1',
     buttonColor: '#0059da', // ✅ déjà correct
     buttonTextColor: '#fff', gradientType: 'radial'
   },

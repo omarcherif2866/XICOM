@@ -491,7 +491,7 @@
   background: #f0f2fa;
   position: relative;
   overflow: hidden;
-  padding: 80px 0;
+  padding: 40px 0 80px;   /* avant : 80px 0 */
 }
 
 .services::before {
@@ -555,7 +555,7 @@
 
 .section-header {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 32px;   /* avant : 80px */
 }
 
 .section-title {
@@ -1462,7 +1462,7 @@
 
 /* ===== FEEDBACK SECTION ===== */
 .feedback-section {
-  padding: 80px 0;
+  padding: 32px 0 0;   /* avant : 80px 0 0 */
   background: linear-gradient(135deg, #f0eeff 0%, #f5f0ff 50%, #edf4ff 100%);
   position: relative;
   overflow: hidden;
@@ -1872,7 +1872,7 @@
 .rdv-title {
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
-  font-size: 44px;
+  font-size: 30px;
   color: #1a1a2e;
   line-height: 1.25;
   margin: 0 0 20px;
@@ -1948,7 +1948,7 @@
 
 /* ===== NEWS SECTION ===== */
 .news-section {
-  padding: 80px 0;
+  padding: 32px 0 0;   /* avant : 80px 0 0 */
   background: linear-gradient(135deg, #f0eeff 0%, #f5f0ff 50%, #edf4ff 100%);
   position: relative;
   overflow: hidden;
@@ -3125,7 +3125,7 @@
 .process-section {
   position: relative;
   background: linear-gradient(160deg, #f4f3ff 0%, #f8f4ff 40%, #fdf4ff 70%, #f8f8ff 100%);
-  padding: 80px 0 0;
+  padding: 32px 0 0;   /* avant : 80px 0 0 */
   overflow: hidden;
 }
 
