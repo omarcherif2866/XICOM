@@ -144,9 +144,9 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     15: {
-    gradientStart: '#e4bb42', gradientEnd: 'fef1c8',
+    gradientStart: '#e4bb42', gradientEnd: '#c49303',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#fef1c8',
+    borderColor: '#c49303',
     buttonColor: '#e4bb42', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
@@ -165,9 +165,9 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     18: {
-    gradientStart: '#5047d8', gradientEnd: '#d8d3fb',
+    gradientStart: '#5047d8', gradientEnd: '#b9b2e9',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#d8d3fb',
+    borderColor: '#b9b2e9',
     buttonColor: '#5047d8', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
