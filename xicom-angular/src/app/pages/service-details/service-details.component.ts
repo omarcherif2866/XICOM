@@ -144,10 +144,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     15: {
-    gradientStart: '#6c0086', gradientEnd: '#6c0086',
+    gradientStart: '#e4bb42', gradientEnd: 'fef1c8',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#6c0086',
-    buttonColor: '#6c0086', // ✅ bordeaux
+    borderColor: '#fef1c8',
+    buttonColor: '#e4bb42', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     16: {
@@ -165,10 +165,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     18: {
-    gradientStart: '#744545', gradientEnd: '#30081E',
+    gradientStart: '#5047d8', gradientEnd: '#d8d3fb',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#30081E',
-    buttonColor: '#744545', // ✅ bordeaux
+    borderColor: '#d8d3fb',
+    buttonColor: '#5047d8', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     19: {
@@ -179,10 +179,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     20: {
-    gradientStart: '#fdb507', gradientEnd: '#e0a101',
+    gradientStart: '#ebac6d', gradientEnd: '#e0a101',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#fdb507',
-    buttonColor: '#fdb507', // ✅ bordeaux
+    buttonColor: '#ebac6d', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
 };
