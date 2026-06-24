@@ -55,7 +55,7 @@ loadServices(): void {
       this.services = data
         .map(item => new Service(item))
         .sort((a, b) => a.Id - b.Id);  // ← tri par ID croissant
-      
+      console.log('Services loaded:', this.services);
     },
     error: (error) => {
     }
@@ -80,19 +80,16 @@ loadServices(): void {
     return this.serviceDetails.filter(d => d.checked).length;
   }
 
-  getDetails(service: any): string[] {
-    const details: string[] = [];
-    if (service.sections) {
-      service.sections.forEach((section: any) => {
-        if (section.details) {
-          section.details.forEach((detail: any) => {
-            if (detail.title) details.push(detail.title);
-          });
-        }
-      });
-    }
-    return details;
+getDetails(service: any): string[] {
+  const details: string[] = [];
+  const section = service.sections?.[1]; // ← uniquement la section d'index 1
+  if (section?.details) {
+    section.details.forEach((detail: any) => {
+      if (detail.title) details.push(detail.title);
+    });
   }
+  return details;
+}
 
   // Remplace commanderSelected()
   openCommandeForm(serviceTitle: string): void {
@@ -105,41 +102,73 @@ loadServices(): void {
     this.showCommandeForm = false;
   }
 
-  submitCommande(): void {
-    this.commandeForm.markAllAsTouched();
-    if (this.commandeForm.invalid) return;
+  // submitCommande(): void {
+  //   this.commandeForm.markAllAsTouched();
+  //   if (this.commandeForm.invalid) return;
 
-    const userId = this.authService.getUserIdFromToken();
-    if (!userId) return;
+  //   const userId = this.authService.getUserIdFromToken();
+  //   if (!userId) return;
 
-    const selected = this.serviceDetails.filter(d => d.checked).map(d => d.title);
+  //   const selected = this.serviceDetails.filter(d => d.checked).map(d => d.title);
+  // this.isLoading = true;
+
+  //   const payload = {
+  //     serviceTitle:     this.selectedServiceTitle,
+  //     detailTitles:     selected,
+  //     objectifs:        this.commandeForm.value.objectifs,
+  //     analyseSituation: this.commandeForm.value.analyseSituation,
+  //     messageCle:       this.commandeForm.value.messageCle,
+  //     brief:            this.commandeForm.value.brief,
+  //     devis:            this.commandeForm.value.devis,
+  //     delaiSouhaite:    this.commandeForm.value.delaiSouhaite,
+  //     status:           'en cours',
+  //   };
+
+  //   this.serviceService.commander(payload, userId).subscribe({
+  //     next: () => {
+  //       this.isLoading = false;
+  //       this.closeCommandeForm();
+  //       this.serviceDetails.forEach(d => d.checked = false);
+  //       Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
+  //     },
+  //     error: (err) => {
+  //       this.isLoading = false;
+  //       console.error(err);
+  //     }
+  //   });
+  // }
+
+  submitCommande(serviceTitle: string): void {
+  const userId = this.authService.getUserIdFromToken();
+  if (!userId) return;
+
+  const selected = this.serviceDetails.filter(d => d.checked).map(d => d.title);
   this.isLoading = true;
 
-    const payload = {
-      serviceTitle:     this.selectedServiceTitle,
-      detailTitles:     selected,
-      objectifs:        this.commandeForm.value.objectifs,
-      analyseSituation: this.commandeForm.value.analyseSituation,
-      messageCle:       this.commandeForm.value.messageCle,
-      brief:            this.commandeForm.value.brief,
-      devis:            this.commandeForm.value.devis,
-      delaiSouhaite:    this.commandeForm.value.delaiSouhaite,
-      status:           'en cours',
-    };
+  const payload = {
+    serviceTitle: serviceTitle,
+    detailTitles: selected,
+    objectifs:        '',
+    analyseSituation: '',
+    messageCle:       '',
+    brief:            '',
+    devis:            '',
+    delaiSouhaite:    '',
+    status: 'en cours',
+  };
 
-    this.serviceService.commander(payload, userId).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.closeCommandeForm();
-        this.serviceDetails.forEach(d => d.checked = false);
-        Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
-      },
-      error: (err) => {
-        this.isLoading = false;
-        console.error(err);
-      }
-    });
-  }
+  this.serviceService.commander(payload, userId).subscribe({
+    next: () => {
+      this.isLoading = false;
+      this.serviceDetails.forEach(d => d.checked = false);
+      Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
+    },
+    error: (err) => {
+      this.isLoading = false;
+      console.error(err);
+    }
+  });
+}
 
   logout(): void {
     this.authService.logout();

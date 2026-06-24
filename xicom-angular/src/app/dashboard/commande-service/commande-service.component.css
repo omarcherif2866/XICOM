@@ -92,10 +92,9 @@
 }
 
 .sv-btn-commander-global:disabled {
-  background: #d1d5db;
+  opacity: 0.7;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+
 }
 
 .sv-btn-commander-global:not(:disabled):hover {

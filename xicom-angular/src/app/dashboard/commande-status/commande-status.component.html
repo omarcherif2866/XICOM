@@ -201,12 +201,12 @@
               <th>Client</th>
               <th>Service</th>
               <th>Prestations</th>
-              <th>Objectifs</th>
+              <!-- <th>Objectifs</th>
               <th>Délai souhaité</th>
               <th>Analyse Situation</th>
               <th>Message Clé</th>
               <th>Devis</th>
-              <th>Brief</th>
+              <th>Brief</th> -->
               <th>Statut</th>
               <th *ngIf="isAdmin">Action</th>
             </tr>
@@ -221,12 +221,12 @@
                   <li *ngFor="let d of commande.detailTitles">{{ d }}</li>
                 </ul>
               </td>
-              <td>{{ commande.objectifs }}</td>
+              <!-- <td>{{ commande.objectifs }}</td>
               <td>{{ commande.delaiSouhaite }}</td>
               <td>{{ commande.analyseSituation }}</td>
               <td>{{ commande.messageCle }}</td>
               <td>{{ commande.devis }}</td>
-              <td>{{ commande.brief }}</td>
+              <td>{{ commande.brief }}</td> -->
 
               <td>
                 <span class="badge" [ngClass]="{'badge-encours': commande.status === 'EN_COURS', 'badge-termine': commande.status === 'LIVREE'}">

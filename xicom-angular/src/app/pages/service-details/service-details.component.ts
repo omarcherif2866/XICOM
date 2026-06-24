@@ -399,8 +399,7 @@ getColorByIndex(index: number): string {
 
 
 openCommanderDialog(): void {
-
-  const token = localStorage.getItem('token'); // ou ton clé de stockage
+  const token = this.authService.getToken();
 
   if (!token) {
     Swal.fire({
@@ -418,30 +417,32 @@ openCommanderDialog(): void {
       }
     });
   } else {
-  const details = this.services[0]?.Sections[0]?.details || [];
-  this.selectedDetails = details.map((d: any) => ({ title: d.title, checked: false }));
-  this.showDialog = true;
+    const details = this.services[0]?.Sections[1]?.details || [];
+    this.selectedDetails = details.map((d: any) => ({ title: d.title, checked: false }));
+    this.showDialog = true;
   }
-
-
 }
 
 getAllDetails(): string[] {
   const details: string[] = [];
-  if (this.services[0]?.Sections) {
-    this.services[0].Sections.forEach((section: any) => {
-      section.details?.forEach((detail: any) => {
-        if (detail.title) details.push(detail.title);
-      });
+  const section = this.services[0]?.Sections?.[1]; // ← uniquement section index 1
+  if (section?.details) {
+    section.details.forEach((detail: any) => {
+      if (detail.title) details.push(detail.title);
     });
   }
   return details;
 }
 
+// closeDialog(): void {
+//   this.showDialog = false;
+//     this.showCommandeForm = false;
+//   this.commandeForm.reset();
+// }
+
 closeDialog(): void {
   this.showDialog = false;
-    this.showCommandeForm = false;
-  this.commandeForm.reset();
+  this.commandeForm.reset(); // ← à supprimer puisque commandeForm n'existe plus
 }
 
 // confirmerCommande(): void {
@@ -480,10 +481,53 @@ closeCommandeForm(): void {
   this.commandeForm.reset();
 }
 
-submitCommande(): void {
-  this.commandeForm.markAllAsTouched();
-  if (this.commandeForm.invalid) return;
+// submitCommande(): void {
+//   this.commandeForm.markAllAsTouched();
+//   if (this.commandeForm.invalid) return;
 
+//   const userId = this.authService.getUserIdFromToken();
+//   if (!userId) return;
+
+//   const selected = this.selectedDetails
+//     .filter(d => d.checked)
+//     .map(d => d.title);
+
+//   if (selected.length === 0) {
+//     Swal.fire({ icon: 'warning', title: 'Sélectionnez au moins une prestation', timer: 2000, showConfirmButton: false });
+//     return;
+//   }
+
+//   const serviceTitle = this.services[0]?.Title;
+//   if (!serviceTitle) {
+//     Swal.fire({ icon: 'warning', title: 'Service introuvable', timer: 2000, showConfirmButton: false });
+//     return;
+//   }
+//   this.isLoading = true;
+
+//   const payload = {
+//     serviceTitle,
+//     detailTitles:     selected,
+//     objectifs:        this.commandeForm.value.objectifs,
+//     analyseSituation: this.commandeForm.value.analyseSituation,
+//     messageCle:       this.commandeForm.value.messageCle,
+//     brief:            this.commandeForm.value.brief,
+//     devis:            this.commandeForm.value.devis,
+//     delaiSouhaite:    this.commandeForm.value.delaiSouhaite,
+//     status:           'en cours',
+//   };
+
+//   this.serviceService.commander(payload, userId).subscribe({
+//     next: () => {
+//       this.isLoading = false;
+//       this.closeDialog();
+//       this.selectedDetails.forEach(d => d.checked = false);
+//       Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
+//     },
+//     error: (err) => console.error(err)
+//   });
+// }
+
+submitCommande(): void {
   const userId = this.authService.getUserIdFromToken();
   if (!userId) return;
 
@@ -501,17 +545,18 @@ submitCommande(): void {
     Swal.fire({ icon: 'warning', title: 'Service introuvable', timer: 2000, showConfirmButton: false });
     return;
   }
+
   this.isLoading = true;
 
   const payload = {
     serviceTitle,
     detailTitles:     selected,
-    objectifs:        this.commandeForm.value.objectifs,
-    analyseSituation: this.commandeForm.value.analyseSituation,
-    messageCle:       this.commandeForm.value.messageCle,
-    brief:            this.commandeForm.value.brief,
-    devis:            this.commandeForm.value.devis,
-    delaiSouhaite:    this.commandeForm.value.delaiSouhaite,
+    objectifs:        '',
+    analyseSituation: '',
+    messageCle:       '',
+    brief:            '',
+    devis:            '',
+    delaiSouhaite:    '',
     status:           'en cours',
   };
 
@@ -522,10 +567,12 @@ submitCommande(): void {
       this.selectedDetails.forEach(d => d.checked = false);
       Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
     },
-    error: (err) => console.error(err)
+    error: (err) => {
+      this.isLoading = false;
+      console.error(err);
+    }
   });
 }
-
 
 getIconBoxStyle(isLast: boolean): any {
   if (!this.currentTheme) return {};

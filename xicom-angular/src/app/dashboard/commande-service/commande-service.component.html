@@ -126,8 +126,19 @@
             <p class="sv-detail-title">{{ detail.title }}</p>
           </div>
         </div>
-<!-- Bouton Démarrer -->
+ <!-- Bouton Démarrer -->
 <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+  <button class="sv-btn-commander-global"
+          (click)="submitCommande(service.title); $event.stopPropagation()"
+          [disabled]="getSelectedCount() === 0 || isLoading">
+    <span *ngIf="isLoading" class="pj-spinner"></span>
+    <svg *ngIf="!isLoading" width="16" height="16" fill="none" stroke="white" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+    </svg>
+    {{ isLoading ? 'Envoi...' : 'Démarrer le service (' + getSelectedCount() + ')' }}
+  </button>
+</div>
+<!-- <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
   <button class="sv-btn-commander-global"
           (click)="openCommandeForm(service.title); $event.stopPropagation()"
           [disabled]="getSelectedCount() === 0">
@@ -136,10 +147,10 @@
     </svg>
     Démarrer le service ({{ getSelectedCount() }})
   </button>
-</div>
+</div> -->
 
 <!-- Modal Formulaire -->
-<div class="sv-modal-overlay" *ngIf="showCommandeForm" (click)="closeCommandeForm()">
+<!-- <div class="sv-modal-overlay" *ngIf="showCommandeForm" (click)="closeCommandeForm()">
   <div class="sv-modal" (click)="$event.stopPropagation()" [formGroup]="commandeForm">
 
     <div class="sv-modal-header">
@@ -227,7 +238,7 @@
 </div>
 
   </div>
-</div>     
+</div>      -->
       </div>
 
     </ng-container>
