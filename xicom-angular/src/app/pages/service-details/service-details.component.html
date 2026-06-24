@@ -55,7 +55,7 @@
 <section id="pricing">
     <div class="container">
         <div class="hero-text">
-            <h1>Nos Packs</h1>
+            <h1>Nos Offres</h1>
         </div>
         
 <div class="pricing-grid">
@@ -109,10 +109,10 @@
                [ngStyle]="getIconFilterStyle(true)">
         </div>
         <h3 >{{ price.title }}</h3>
-        <span class="subtitle-text">{{ price.subtitle }}</span>
+        <span class="subtitle-text" [class.as-price]="!price.price || +price.price === 0">{{ price.subtitle }}</span>
         <div class="price">
-          <span class="amount" >{{ price.price }}€</span>
-          <span class="period">HT / {{ price.pricePer }}</span>
+          <span class="amount" *ngIf="price.price && +price.price !== 0">{{ price.price }}€</span>
+          <span class="period" *ngIf="price.pricePer" [ngStyle]="{'color': '#fffff'}">HT / {{ price.pricePer }}</span>
         </div>
         <!-- <div class="price-custom-badge">
           <div class="price-custom-icon">

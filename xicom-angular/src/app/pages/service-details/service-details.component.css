@@ -302,6 +302,12 @@ p {
     font-weight: 700;
     color: #ffffff;
 }
+
+.subtitle-text.as-price {
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+}
 .period {
     font-size: 14px;
     color: #303030;
