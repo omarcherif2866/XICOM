@@ -10,7 +10,7 @@
               <span style="color: #000000;">Accueil / Services / </span>
               <span [ngStyle]="{'color': currentTheme?.buttonColor, 'font-weight': '700'}">{{ service.title }}</span>
             </div>
-            <h1>{{service.title}}</h1>
+            <span class="service-title" [ngStyle]="{'color': currentTheme?.buttonColor}">{{service.title}}</span>
             <p class="hero-subtitle">{{service.subtitle}}</p>
             
             <div class="hero-features" *ngFor="let detail of service.sections[1]?.details">
@@ -18,7 +18,7 @@
                 <div class="check-circle" [ngStyle]="getCheckCircleStyle()">
                   <div class="check-icon-mask" [ngStyle]="getCheckMaskStyle()"></div>
                 </div>
-                <span>{{ detail.title }}</span>
+                <span [ngStyle]="{'font-size': '19px','font-weight': '700'}">{{ detail.title }}</span>
               </div>
             </div>
 
@@ -56,9 +56,6 @@
     <div class="container">
         <div class="hero-text">
             <h1>Nos Packs</h1>
-            <p>Des plans tarifaires flexibles pour chaque besoin</p>
-            <p style="margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;">choisissez le plan qui correspond le mieux à vos besoins
-et commencez dès aujourd’hui à optimiser votre temps</p>
         </div>
         
 <div class="pricing-grid">
@@ -87,7 +84,7 @@ et commencez dès aujourd’hui à optimiser votre temps</p>
       <ul class="features-list">
         <li *ngFor="let details of price.details">
           <span class="check-icon" [ngStyle]="{'color': currentTheme?.buttonColor}">✔</span>
-          <span>{{ details.title }}</span>
+          <span [ngStyle]="{'font-size': '16px','font-weight': '700'}">{{ details.title }}</span>
           <span class="detail-desc" [ngStyle]="{'color': currentTheme?.buttonColor}">
             {{ details.description }}
           </span>
@@ -109,7 +106,7 @@ et commencez dès aujourd’hui à optimiser votre temps</p>
                alt="premium"
                [ngStyle]="getIconFilterStyle(true)">
         </div>
-        <h3>{{ price.title }}</h3>
+        <h3 >{{ price.title }}</h3>
         <span class="subtitle-text">{{ price.subtitle }}</span>
         <div class="price">
           <span class="amount" [ngStyle]="{'color': currentTheme?.buttonColor}">{{ price.price }}€</span>
@@ -131,7 +128,7 @@ et commencez dès aujourd’hui à optimiser votre temps</p>
       <ul class="features-list">
         <li *ngFor="let details of price.details">
           <span class="check-icon" [ngStyle]="{'color': currentTheme?.buttonColor}">✔</span>
-          <span>{{ details.title }}</span>
+          <span [ngStyle]="{'font-size': '16px','font-weight': '700'}">{{ details.title }}</span>
           <span class="detail-desc" [ngStyle]="{'color': currentTheme?.buttonColor}">
             {{ details.description }}
           </span>

@@ -35,6 +35,13 @@ h1 {
       
 }
 
+.service-title {
+      font-family: 'Montserrat';
+      font-weight: 700;
+      font-size: 65px;
+      
+}
+
 h3 {
       font-family: 'Montserrat';
       font-weight: 700;
@@ -133,7 +140,7 @@ p {
 }
 
 .hero-subtitle {
-    font-size: 18px;
+    font-size: 25px;
     margin-bottom: 40px;
     line-height: 1.5;
 }
@@ -272,7 +279,7 @@ p {
     border: 2px solid var(--primary-color);
     border-radius: 24px;
     padding: 40px 30px;
-    width: 350px;
+    width: 440px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -293,7 +300,9 @@ p {
 .amount {
     font-size: 48px;
     font-weight: 700;
-    color: #241e89;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #fff;
+  paint-order: stroke fill;
 }
 .period {
     font-size: 14px;
@@ -755,11 +764,7 @@ body {
     align-items: baseline;
     gap: 5px;
 }
-.amount {
-    font-size: 48px;
-    font-weight: 700;
-    color: #241e89;
-}
+
 .period {
     font-size: 14px;
     color: #303030;
@@ -786,6 +791,9 @@ body {
 .check-icon {
   font-size: 13px;
   flex-shrink: 0;
+    -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #fff;
+  paint-order: stroke fill;
 }
 .btn-primary-dark {
     background: #241e89;

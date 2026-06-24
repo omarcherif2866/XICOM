@@ -264,6 +264,10 @@ getGradientCardStyle(): any {
   }
 
 
+
+  
+
+
 fetchServiceDetails(id: number) {
   this.loading = true;
 
