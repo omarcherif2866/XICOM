@@ -555,12 +555,8 @@ submitCommande(): void {
   const payload = {
     serviceTitle,
     detailTitles:     selected,
-    objectifs:        '',
-    analyseSituation: '',
-    messageCle:       '',
-    brief:            '',
-    devis:            '',
-    delaiSouhaite:    '',
+    packTitle:        '',
+    packPrice: '',
     status:           'en cours',
   };
 
@@ -780,6 +776,16 @@ getRdvButtonStyle(): any {
     'color': color,
     'border': 'none'
   };
+}
+
+openWhatsApp(): void {
+  const phoneNumber = '33777124091';
+  const serviceTitle = this.services[0]?.Title || this.services[0]?.Title;
+  const message = serviceTitle
+    ? encodeURIComponent(`Bonjour, je souhaite en savoir plus sur votre service "${serviceTitle}".`)
+    : encodeURIComponent('Bonjour, je souhaite en savoir plus sur vos services.');
+  const url = `https://wa.me/${phoneNumber}?text=${message}`;
+  window.open(url, '_blank');
 }
 
 }

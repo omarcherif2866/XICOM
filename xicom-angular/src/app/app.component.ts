@@ -17,7 +17,7 @@ isLoading = true;
 constructor(private router: Router) {
   this.router.events.subscribe(event => {
     if (event instanceof NavigationEnd) {
-      const hiddenRoutes = /\/(services|actualites|partenaire|profile|rdv|abonnee|compagne|commande_status|commande_service|fiche_client|livrables|factures)(\/|$)/;
+      const hiddenRoutes = /\/(services|actualites|partenaire|profile|rdv|abonnee|compagne|commande_status|commande_service|fiche_client|livrables|factures|test_commande_service|chat)(\/|$)/;
       this.showTopBar = !event.url.match(hiddenRoutes);
       this.showFooter = !event.url.match(hiddenRoutes);
     }

@@ -125,13 +125,9 @@ public class ServiceServiceImp implements ServiceService {
         // Créer la commande et lui associer le livrable
         Commande commande = new Commande();
         commande.setServiceTitle(request.getServiceTitle());
-        commande.setDetailTitles(request.getDetailTitles());
-        commande.setObjectifs(request.getObjectifs());
-        commande.setAnalyseSituation(request.getAnalyseSituation());
-        commande.setMessageCle(request.getMessageCle());
-        commande.setBrief(request.getBrief());
-        commande.setDevis(request.getDevis());
-        commande.setDelaiSouhaite(request.getDelaiSouhaite());
+//        commande.setDetailTitles(request.getDetailTitles());
+        commande.setPackTitle(request.getPackTitle());
+        commande.setPackPrice(request.getPackPrice());
         commande.setUser(user);
         commande.setLivrable(savedLivrable);
 

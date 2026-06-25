@@ -201,6 +201,9 @@
               <th>Client</th>
               <th>Service</th>
               <th>Prestations</th>
+              <th>Pack</th>
+              <th>Prix</th>
+
               <!-- <th>Objectifs</th>
               <th>Délai souhaité</th>
               <th>Analyse Situation</th>
@@ -216,11 +219,15 @@
               <td>{{ commande.id }}</td>
               <td>{{ commande.user?.name }} {{ commande.user?.surname }}</td>
               <td>{{ commande.serviceTitle }}</td>
+
+
               <td>
                 <ul style="margin: 0; padding-left: 16px;">
                   <li *ngFor="let d of commande.detailTitles">{{ d }}</li>
                 </ul>
               </td>
+              <td>{{ commande.packTitle }}</td>
+              <td>{{ commande.packPrice }} € </td>
               <!-- <td>{{ commande.objectifs }}</td>
               <td>{{ commande.delaiSouhaite }}</td>
               <td>{{ commande.analyseSituation }}</td>

@@ -92,14 +92,20 @@
           </div>
         </div>
 
-        <!-- Confirm Password -->
-        <!-- <div class="input-group">
+        <div class="input-group">
           <label>Confirmer le mot de passe</label>
           <div class="input-wrapper">
             <img src="../../../assets/images/images/5_1210.svg" class="input-icon" alt="icon" />
-            <input type="password" placeholder="**************************" class="form-input"/>
+            <input type="password" placeholder="**************************" class="form-input" [(ngModel)]="confirmPassword" name="confirmPassword"/>
           </div>
-        </div> -->
+          <small class="text-danger" *ngIf="confirmPassword && confirmPassword !== user.Password">
+            Les mots de passe ne correspondent pas.
+          </small>
+          <small class="text-success" *ngIf="confirmPassword && confirmPassword === user.Password">
+            Les mots de passe correspondent.
+          </small>
+        </div>
+
 
         <!-- Terms -->
         <div class="terms-group">
@@ -117,19 +123,19 @@
         <!-- Submit -->
         <button type="submit" class="btn-large btn-primary-contact form-submit" (click)="addUser()">Inscrivez-vous</button>
 
+        <div class="form-divider">
+          <span>ou</span>
+        </div>
+
         <!-- Social Login -->
         <div class="social-login">
-          <div class="btn-primary">
-            <img
-              src="../../../assets/images/images/76b50c3dc079feb886d955d2bdbcbfef84c8821d.png"
-              alt="Google"
-            />
-          </div>
-          <div class="btn-primary">
+          <div class="btn-large btn-primary google-overlay-wrapper">
             <img
               src="../../../assets/images/images/cf26201a4b240296b282f8614ed339493a43b1ac.png"
               alt="Gmail"
             />
+            <span class="google-btn-text">Connecté avec Google</span>
+            <div id="google-signin-btn" class="google-real-button"></div>
           </div>
         </div>
 

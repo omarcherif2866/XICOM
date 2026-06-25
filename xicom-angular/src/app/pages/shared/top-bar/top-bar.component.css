@@ -137,25 +137,23 @@ body {
   gap: 14px;
 }
 
-.social-link {
+.social-icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  transition: var(--transition);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  text-decoration: none;
 }
 
-.social-link svg {
-  width: 18px;
-  height: 18px;
-  fill: var(--brand-purple);
-  transition: 0.3s ease;
-}
-
-.social-link:hover svg {
-  fill: #1a1a2e;
-  transform: scale(1.15);
+.social-icon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.14);
 }
 
 /* Séparateur vertical */

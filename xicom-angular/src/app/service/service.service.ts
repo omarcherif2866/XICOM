@@ -10,8 +10,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class ServiceService {
 
-  private apiUrl = "/api/service";
-  // private apiUrl = "http://localhost:9090/service";
+  // private apiUrl = "/api/service";
+  private apiUrl = "http://localhost:9090/service";
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -60,26 +60,19 @@ export class ServiceService {
 
 commander(payload: {
   serviceTitle: string;
-  detailTitles: string[];
-  objectifs: string;
-  analyseSituation: string;
-  messageCle: string;
-  brief: string;
-  devis: string;
-  delaiSouhaite: string;
+  // detailTitles: string[];
+  packTitle: string;
+  packPrice: string;
   status: string;
 }, userId: number): Observable<any> {
 
   const body = {
     serviceTitle:     payload.serviceTitle,
-    detailTitles:     payload.detailTitles,
+    // detailTitles:     payload.detailTitles,
+    packTitle:        payload.packTitle,
+    packPrice:        payload.packPrice,
     userId:           userId,
-    objectifs:        payload.objectifs,
-    analyseSituation: payload.analyseSituation,
-    messageCle:       payload.messageCle,
-    brief:            payload.brief,
-    devis:            payload.devis,
-    delaiSouhaite:    payload.delaiSouhaite,
+
   };
 
   return this.http.post(`${this.apiUrl}/commander`, body);

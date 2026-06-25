@@ -44,4 +44,8 @@ public class Commande {
     @JsonIgnoreProperties({"commandes", "hibernateLazyInitializer"})
     private Livrable livrable;
 
+    private String packTitle;
+    private String packPrice;
+
+
 }

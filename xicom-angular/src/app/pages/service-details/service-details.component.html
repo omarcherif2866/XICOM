@@ -30,12 +30,13 @@
                   Commencer maintenant
                 </button>
                 <button class="btn-large btn-secondary-large"
-                        [ngStyle]="getSecondaryButtonStyle()">
+                        [ngStyle]="getSecondaryButtonStyle()"
+                        (click)="openWhatsApp()">
                   <div class="check-icon-mask" 
-                      style="width:18px; height:18px; flex-shrink:0;"
+                      style="width:30px; height:30px; flex-shrink:0;"
                       [ngStyle]="{'background-color': currentTheme?.buttonColor,
-                                  '-webkit-mask-image': 'url(../../../assets/icons/calendrier.svg)',
-                                  'mask-image': 'url(../../../assets/icons/calendrier.svg)',
+                                  '-webkit-mask-image': 'url(../../../assets/icons/whatsapp.svg)',
+                                  'mask-image': 'url(../../../assets/icons/whatsappColor.svg)',
                                   '-webkit-mask-size': 'contain',
                                   'mask-size': 'contain',
                                   '-webkit-mask-repeat': 'no-repeat',
@@ -43,7 +44,7 @@
                                   '-webkit-mask-position': 'center',
                                   'mask-position': 'center'}">
                   </div>
-                  En savoir plus
+                  Discuter sur WhatsApp
                 </button>
             </div>
         </div>

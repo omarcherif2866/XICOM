@@ -12,11 +12,7 @@ public class CommandeRequest {
     private String serviceTitle;
     private List<String> detailTitles;
     private Integer userId;
-    private String objectifs;
-    private String analyseSituation;
-    private String messageCle;
-    private String brief;
-    private String devis;
-    private String delaiSouhaite;
+    private String packTitle;
+    private String packPrice;
     // Getters & Setters
 }

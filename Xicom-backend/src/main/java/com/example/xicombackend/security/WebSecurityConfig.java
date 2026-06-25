@@ -37,7 +37,11 @@ public class WebSecurityConfig {
             "/projet",
             "/projet/**",
             "/actualite/**",
-            "/factures/**"
+            "/factures/**",
+            "/ws/**",    // ✅ ajouter ceci
+            "/topic/**", // ✅ ajouter ceci
+            "/app/**",
+            "/chat/**",
 
     };
 
@@ -69,6 +73,7 @@ public class WebSecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token", "content-disposition" , "*"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        configuration.setAllowCredentials(true); // ✅ ligne manquante
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

@@ -62,7 +62,7 @@ navigateToDashboardClient() {
 }
 
 goToService() {
-  const token = localStorage.getItem('token'); // ou ton clé de stockage
+  const token = this.authService.getToken();
 
   if (!token) {
     Swal.fire({

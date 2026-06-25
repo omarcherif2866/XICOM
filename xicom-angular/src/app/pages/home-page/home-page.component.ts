@@ -14,6 +14,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Abonnee } from 'src/app/models/abonnee';
 import { AbonneeServiceService } from 'src/app/service/abonnee-service.service';
+import { AuthService } from 'src/app/service/auth.service';
 @Pipe({ name: 'truncate' })
 export class TruncatePipe implements PipeTransform {
   transform(value: string, limit = 27): string {
@@ -175,6 +176,7 @@ private readonly rawServices: any[] = [
     private rdvService: RDVService,
     private actualiteService: ActualiteService, 
     private router: Router,
+	  private authService: AuthService,
     private abonneeService: AbonneeServiceService) {
     this.projectForm = this.fb.group({
       name: ['', Validators.required],
@@ -509,9 +511,28 @@ const abonne = new Abonnee(
   });
 }
 
-  openDialog(): void {
-    this.isDialogOpen = true;
+goToService() {
+  const token = this.authService.getToken();
+
+  if (!token) {
+    Swal.fire({
+      title: 'Connexion requise',
+      text: 'Vous devez être connecté pour accéder à cette page.',
+      icon: 'warning',
+      confirmButtonText: 'Se connecter',
+      cancelButtonText: 'Annuler',
+      showCancelButton: true,
+      confirmButtonColor: '#6863BF',
+      cancelButtonColor: '#aaa',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/signin']);
+      }
+    });
+  } else {
+    this.router.navigate(['/commande_service']);
   }
+}
 
   closeDialog(): void {
     this.isDialogOpen = false;

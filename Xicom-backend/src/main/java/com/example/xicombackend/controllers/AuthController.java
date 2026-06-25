@@ -1,6 +1,7 @@
 package com.example.xicombackend.controllers;
 
 import com.example.xicombackend.dto.AuthResponseDTO;
+import com.example.xicombackend.dto.GoogleTokenRequest;
 import com.example.xicombackend.dto.LoginDto;
 import com.example.xicombackend.dto.MessageResponse;
 import com.example.xicombackend.entity.Role;
@@ -9,166 +10,205 @@ import com.example.xicombackend.repository.UserRepository;
 import com.example.xicombackend.security.jwt.JwtProvider;
 import com.example.xicombackend.security.jwt.usersecurity.UserPrinciple;
 import com.example.xicombackend.service.UserService;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-    @RestController
-    @RequiredArgsConstructor
-    @RequestMapping("/auth")
-    //@CrossOrigin(origins = "http://localhost:4200")
-    public class AuthController {
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/auth")
+//@CrossOrigin(origins = "http://localhost:4200")
+public class AuthController {
 
-        private final AuthenticationManager authenticationManager;
-        private final PasswordEncoder passwordEncoder;
-        private final JwtProvider jwtProvider;
-        private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
-        private final UserService userService;
+    @Value("${google.client.id}")
+    private String googleClientId;
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+        // Récupérer l'utilisateur par son nom d'utilisateur ou email
+        var account = userRepository.findByNameOrEmail(loginDto.getEmail(), loginDto.getEmail()).orElse(null);
 
+        // Vérifier si l'utilisateur existe
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Nom d'utilisateur ou mot de passe incorrect");
+        }
 
+        // Vérifier si l'utilisateur est bloqué
+        if (account.isBlocked()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Votre compte est bloqué. Contactez l'administrateur pour plus d'informations.");
+        }
 
+        // Authentifier l'utilisateur
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDto.getEmail(),
+                            loginDto.getPassword()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Nom d'utilisateur ou mot de passe incorrect" + loginDto.getEmail());
+        }
 
-        @PostMapping("/login")
-        public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-            // Récupérer l'utilisateur par son nom d'utilisateur ou email
-            var account = userRepository.findByNameOrEmail(loginDto.getEmail(), loginDto.getEmail()).orElse(null);
+        // Générer le token JWT
+        String jwtToken = jwtProvider.generateToken(UserPrinciple.build(account));
 
-            // Vérifier si l'utilisateur existe
-            if (account == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Nom d'utilisateur ou mot de passe incorrect");
+        // Récupérer le rôle à partir du token JWT
+        String role = jwtProvider.getRoleFromJwt(jwtToken);
+        System.out.println("Rôle :" + role);
+
+        // Retourner le token JWT et le rôle dans la réponse
+        Map<String, String> response = new HashMap<>();
+        response.put("accessToken", jwtToken);
+        response.put("role", role);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody User User) {
+        try {
+            if (userRepository.existsByName(User.getName())) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: name is already taken!"));
+            }
+            if (userRepository.existsByName(User.getSurname())) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: surname is already taken!"));
+            }
+            if (userRepository.existsByEmail(User.getEmail())) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already taken!"));
             }
 
-            // Vérifier si l'utilisateur est bloqué
-            if (account.isBlocked()) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Votre compte est bloqué. Contactez l'administrateur pour plus d'informations.");
-            }
+            // Encode the password before saving it to the database
+            User.setPassword(passwordEncoder.encode(User.getPassword()));
 
-            // Authentifier l'utilisateur
-            try {
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                loginDto.getEmail(),
-                                loginDto.getPassword()
-                        )
-                );
-            } catch (AuthenticationException e) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Nom d'utilisateur ou mot de passe incorrect"+loginDto.getEmail());
-            }
+            // Set default role to USER
+            User.setRole(Role.SIMPLEU);
+            User.setBlocked(false);
 
-            // Générer le token JWT
-            String jwtToken = jwtProvider.generateToken(UserPrinciple.build(account));
+            // Save the user to the database
+            User savedUser = userRepository.save(User);
 
-            // Récupérer le rôle à partir du token JWT
-            String role = jwtProvider.getRoleFromJwt(jwtToken);
-            System.out.println("Rôle :" + role);
+            // Convert User to UserPrinciple
+            UserPrinciple userPrinciple = UserPrinciple.build(savedUser);
 
-            // Retourner le token JWT et le rôle dans la réponse
-            Map<String, String> response = new HashMap<>();
-            response.put("accessToken", jwtToken);
-            response.put("role", role);
+            // Generate JWT token for the registered user
+            String token = jwtProvider.generateToken(userPrinciple);
+            System.out.println(savedUser);
 
+            // Return the JWT token and user details to the client
+            return ResponseEntity.ok(new AuthResponseDTO(token, savedUser));
+        } catch (RuntimeException e) {
+            // If an exception occurs, it may mean that the user already exists
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to register user: " + e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{id}")
+    public User updateUserPut(@PathVariable Integer id, @RequestBody User user) {
+        return userService.updateUser(id, user);
+    }
+
+    @PostMapping("/forgot")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
+        try {
+            String email = request.get("email");
+            Map<String, String> response = userService.sendVerificationCode(email);
             return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", "Erreur interne."));
         }
+    }
 
+    @PostMapping("/verify-code")
+    public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> request) {
+        try {
+            String userId = request.get("userId");
+            String code = request.get("code");
+            userService.verifyCode(userId, code);
+            return ResponseEntity.ok(Map.of("message", "Code vérifié avec succès."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", "Erreur lors de la vérification du code."));
+        }
+    }
 
-        
+    @PostMapping("/reset")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+        try {
+            String userId = request.get("userId");
+            String newPassword = request.get("newPassword");
+            userService.resetPassword(userId, newPassword);
+            return ResponseEntity.ok(Map.of("message", "Mot de passe réinitialisé avec succès."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("message", "Erreur lors de la réinitialisation."));
+        }
+    }
 
-        @PostMapping("/register")
-        public ResponseEntity<?> register(@RequestBody User User) {
-            try {
-                if (userRepository.existsByName(User.getName())) {
-                    return ResponseEntity.badRequest().body(new MessageResponse("Error: name is already taken!"));
-                }
-                if (userRepository.existsByName(User.getSurname())) {
-                    return ResponseEntity.badRequest().body(new MessageResponse("Error: surname is already taken!"));
-                }
-                if (userRepository.existsByEmail(User.getEmail())) {
-                    return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already taken!"));
-                }
+    @PostMapping("/google")
+    public ResponseEntity<?> googleSignIn(@RequestBody GoogleTokenRequest request) {
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                    new NetHttpTransport(), new GsonFactory())
+                    .setAudience(Collections.singletonList(googleClientId))
+                    .build();
 
-                // Encode the password before saving it to the database
-                User.setPassword(passwordEncoder.encode(User.getPassword()));
+            GoogleIdToken idToken = verifier.verify(request.getCredential());
 
-                // Set default role to USER
-                User.setRole(Role.SIMPLEU);
-                User.setBlocked(false);
-
-                // Save the user to the database
-                User savedUser = userRepository.save(User);
-
-                // Convert User to UserPrinciple
-                UserPrinciple userPrinciple = UserPrinciple.build(savedUser);
-
-                // Generate JWT token for the registered user
-                String token = jwtProvider.generateToken(userPrinciple);
-                System.out.println(savedUser);
-
-                // Return the JWT token and user details to the client
-                return ResponseEntity.ok(new AuthResponseDTO(token, savedUser));
-            } catch (RuntimeException e) {
-                // If an exception occurs, it may mean that the user already exists
-                return ResponseEntity.badRequest().body(new MessageResponse("Failed to register user: " + e.getMessage()));
+            if (idToken == null) {
+                return ResponseEntity.status(401).body("Token Google invalide");
             }
-        }
 
-        @PutMapping("/{id}")
-        public User updateUserPut(@PathVariable Integer id , @RequestBody User user)
-        {
-            return userService.updateUser(id,user);
-        }
+            GoogleIdToken.Payload payload = idToken.getPayload();
+            String email = payload.getEmail();
+            String firstName = (String) payload.get("given_name");
+            String lastName = (String) payload.get("family_name");
 
+            User user = userRepository.findByEmail(email);
 
-        @PostMapping("/forgot")
-        public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
-            try {
-                String email = request.get("email");
-                Map<String, String> response = userService.sendVerificationCode(email);
-                return ResponseEntity.ok(response);
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-            } catch (Exception e) {
-                return ResponseEntity.status(500).body(Map.of("message", "Erreur interne."));
+            if (user == null) {
+                user = new User();
+                user.setEmail(email);
+                user.setName(lastName != null ? lastName : "");
+                user.setSurname(firstName != null ? firstName : "");
+                user.setPassword(passwordEncoder.encode(java.util.UUID.randomUUID().toString()));
+                user.setRole(Role.SIMPLEU);
+                user.setBlocked(false);
+                user = userRepository.save(user);
             }
-        }
 
-        @PostMapping("/verify-code")
-        public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> request) {
-            try {
-                String userId = request.get("userId");
-                String code = request.get("code");
-                userService.verifyCode(userId, code);
-                return ResponseEntity.ok(Map.of("message", "Code vérifié avec succès."));
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-            } catch (Exception e) {
-                return ResponseEntity.status(500).body(Map.of("message", "Erreur lors de la vérification du code."));
-            }
-        }
+            UserPrinciple userPrinciple = UserPrinciple.build(user);
+            String jwt = jwtProvider.generateToken(userPrinciple);
 
-        @PostMapping("/reset")
-        public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
-            try {
-                String userId = request.get("userId");
-                String newPassword = request.get("newPassword");
-                userService.resetPassword(userId, newPassword);
-                return ResponseEntity.ok(Map.of("message", "Mot de passe réinitialisé avec succès."));
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
-            } catch (Exception e) {
-                return ResponseEntity.status(500).body(Map.of("message", "Erreur lors de la réinitialisation."));
-            }
+            return ResponseEntity.ok(new AuthResponseDTO(jwt, user));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erreur lors de la vérification du token Google: " + e.getMessage());
         }
+    }
 
 }

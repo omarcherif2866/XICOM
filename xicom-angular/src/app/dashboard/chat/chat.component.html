@@ -1,0 +1,70 @@
+<div class="chat-wrap">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <span>Discussions</span>
+    </div>
+    <div
+      *ngFor="let id of discussions"
+      class="disc-item"
+      [class.active]="selectedServiceId === id"
+      (click)="selectDiscussion(id)">
+      <div class="disc-avatar">{{ getInitials(id) }}</div>
+      <div class="disc-info">
+        <div class="disc-name" [class.unread]="unreadCounts[id] > 0">{{ role === 'Admin' ? (discussionUsernames[id] || '') : 'Support' }} - Service {{ discussionTitles[id] || 'Service #' + id }}</div>
+        <div class="disc-preview">{{ getLastMessage(id) }}</div>
+      </div>
+        <div class="disc-badge" *ngIf="unreadCounts[id] > 0">
+        {{ unreadCounts[id] }}
+        </div>
+    </div>
+  </div>
+
+  <!-- Zone principale -->
+  <div class="chat-main" *ngIf="selectedServiceId; else emptyState">
+    <div class="chat-topbar">
+      <div class="disc-avatar">{{ getInitials(selectedServiceId) }}</div>
+      <div class="chat-topbar-info">
+        <div class="name">
+        {{ role === 'Admin' ? (discussionUsernames[selectedServiceId] || '') : 'Support' }} - {{ discussionTitles[selectedServiceId] || 'Service #' + selectedServiceId }}
+        </div>
+        <div class="status"><span class="online-dot"></span>En ligne</div>
+      </div>
+    </div>
+
+<div class="chat-messages" #messagesContainer>
+  <div
+    *ngFor="let msg of messages"
+    class="msg-row"
+    [class.mine]="msg.senderRole === role">
+    <div class="msg-avatar" *ngIf="msg.senderRole !== role">
+      {{ msg.senderRole.slice(0, 2).toUpperCase() }}
+    </div>
+    <div class="msg-group">
+      <div class="bubble">{{ msg.content }}</div>
+      <span class="meta">{{ msg.sentAt | date:'HH:mm' }}</span>
+    </div>
+  </div>
+</div>
+
+    <div class="chat-input-area">
+      <input
+        class="chat-input"
+        [(ngModel)]="chatInput"
+        placeholder="Votre message..."
+        (keydown.enter)="sendMessage()" />
+      <button class="send-btn" (click)="sendMessage()" aria-label="Envoyer">
+        <i class="ti ti-send"></i>
+      </button>
+    </div>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <i class="ti ti-messages"></i>
+      <p>Sélectionnez une discussion</p>
+    </div>
+  </ng-template>
+
+</div>

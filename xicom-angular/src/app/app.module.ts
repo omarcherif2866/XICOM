@@ -13,6 +13,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommandeStatusComponent } from './dashboard/commande-status/commande-status.component';
 import { FicheClientProjetComponent } from './dashboard/fiche-client-projet/fiche-client-projet.component';
+import { TestServiceComponent } from './dashboard/test-service/test-service.component';
+import { AuthGuard } from './guards/auth.guard'
 
 
 
@@ -164,6 +166,20 @@ const routes = [
         (m) => m.CommandeServiceModule
       )
   },
+      {
+    path: 'test_commande_service',
+    loadChildren: () =>
+      import('./dashboard/test-service/test-service.module').then(
+        (m) => m.TestServiceModule
+      )
+  },
+
+{
+  path: 'chat',
+  loadChildren: () =>
+    import('./dashboard/chat/chat.module').then(m => m.ChatModule),
+  canActivate: [AuthGuard]  // ✅ ou AuthGuard selon si CLIENT y accède aussi
+},
 
   {
     path: 'offers',

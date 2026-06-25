@@ -6,8 +6,8 @@ import { Facture, StatusFacture } from '../models/facture';
   providedIn: 'root'
 })
 export class FactureService {
-  private apiUrl = 'http://localhost:9090/factures';
-  // private apiUrl = "/api/factures";
+  // private apiUrl = 'http://localhost:9090/factures';
+  private apiUrl = "/api/factures";
  
   constructor(private http: HttpClient) {}
  

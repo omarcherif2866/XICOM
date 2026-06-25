@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
+
+
 import { Router } from '@angular/router';
 import { Role, User } from 'src/app/models/user';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
+declare const google: any;
 
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css']
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit,AfterViewInit {
 
-    constructor(private authService:AuthService, private router:Router ){
+    constructor(private authService:AuthService,    private router: Router, private ngZone: NgZone){
 
    
   }
@@ -19,6 +22,68 @@ export class SigninComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+ngAfterViewInit(): void {
+    this.waitForGoogle();
+  }
+
+  private waitForGoogle(retries: number = 20): void {
+    if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+      this.initGoogleSignIn();
+    } else if (retries > 0) {
+      setTimeout(() => this.waitForGoogle(retries - 1), 200);
+    } else {
+      console.error('Google Identity Services n\'a pas pu être chargé.');
+    }
+  }
+
+private initGoogleSignIn(): void {
+  google.accounts.id.initialize({
+    client_id: '508243367638-nj9sa34dqn7ue861hnv7hf9mklkfcn5q.apps.googleusercontent.com',
+    callback: (response: any) => {
+      this.ngZone.run(() => this.handleGoogleSignIn(response));
+    }
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById('google-signin-btn'),
+    { theme: 'outline', size: 'large', width: 240 }
+  );
+}
+
+  triggerGoogleSignIn(): void {
+    google.accounts.id.prompt();
+  }
+
+  handleGoogleSignIn(response: any): void {
+    const credential = response.credential;
+
+    this.authService.googleSignIn(credential).subscribe(
+      (res: any) => {
+        this.ngZone.run(() => {
+          this.authService.saveGoogleAuth(res);
+          Swal.fire({
+            icon: 'success',
+            title: 'Connexion réussie',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.router.navigate(['/commande_service']);
+        });
+      },
+      error => {
+        this.ngZone.run(() => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur lors de la connexion avec Google',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        });
+      }
+    );
+  }
+
 
 login() {
   const loginData = { email: this.user.Email, password: this.user.Password };

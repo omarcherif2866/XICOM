@@ -11,11 +11,11 @@ import { EncryptionService } from './encryption-service.service';
 })
 export class AuthService {
 
-  private apiUrl = "/api/auth";
-  // private apiUrl = "http://localhost:9090/auth";
+  // private apiUrl = "/api/auth";
+  private apiUrl = "http://localhost:9090/auth";
 
-  private apiUrlUser = "/api/users";
-  // private apiUrlUser = "http://localhost:9090/users";
+  // private apiUrlUser = "/api/users";
+  private apiUrlUser = "http://localhost:9090/users";
 
   private localStorageKey = "userAuth";
   private loggedIn = new BehaviorSubject<boolean>(false);
@@ -90,6 +90,15 @@ export class AuthService {
     return null;
   }
 
+    getUsernameFromToken(): string | null {
+    const token = this.getToken(); // ✅ utilise getToken() corrigé
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const decoded = this.jwtHelper.decodeToken(token);
+      return decoded?.sub || decoded?.username || null;
+    }
+    return null;
+  }
+
   storeUserIdFromToken(): void {
     const id = this.getUserIdFromToken();
     if (id !== null) {
@@ -141,4 +150,17 @@ export class AuthService {
         })
       );
     }
+
+googleSignIn(credential: string) {
+  return this.httpClient.post(`${this.apiUrl}/google`, { credential });
+}
+
+// -------------------- GOOGLE SIGN-IN STORAGE --------------------
+saveGoogleAuth(response: any): void {
+  localStorage.setItem(this.localStorageKey, this.encryptionService.encrypt(response));
+  localStorage.setItem('userRole', this.encryptionService.encrypt(response.user?.role));
+  localStorage.setItem('accessToken', this.encryptionService.encrypt(response.accessToken));
+  this.loggedIn.next(true);
+}
+
 }
