@@ -5,6 +5,15 @@
       <h2>Admin Panel</h2>
         <nav *ngIf="isSimpleUser">
         <!-- Dashboard -->
+
+        <a href="chat">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span>Chat</span>
+        </a>
+
         <a [routerLink]="['/fiche_client', userId]">
           <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -70,6 +79,14 @@
           </svg>
           <span>Dashboard</span>
         </a>
+
+        <a href="chat">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span>Chat</span>
+        </a>        
 
         <!-- Services -->
         <a href="services">
@@ -211,6 +228,7 @@
               <th>Devis</th>
               <th>Brief</th> -->
               <th>Statut</th>
+              <th>Paiement</th>
               <th *ngIf="isAdmin">Action</th>
             </tr>
           </thead>
@@ -249,11 +267,20 @@
                   <option *ngFor="let s of statuses" [value]="s">{{ getStatusLabel(s) }}</option>
                 </select>
               </td>
-
+<td>
+  <span *ngIf="commande.paymentStatus === 'PAYEE'" class="badge-payee">✓ Payé</span>
+  <button *ngIf="commande.paymentStatus !== 'PAYEE' && !isAdmin"
+          class="btn-payer"
+          (click)="payerCommande(commande)">
+    💳 Payer
+  </button>
+  <span *ngIf="commande.paymentStatus !== 'PAYEE' && isAdmin" class="badge-impayee">✗ Impayé</span>
+</td>
             </tr>
           </tbody>
         </table>
       </div>
+      
 
       <div *ngIf="!loading && commandes.length > 0" class="pagination">
         <button (click)="handlePageChange(currentPage - 1)" [disabled]="currentPage === 1">◀</button>
@@ -265,4 +292,19 @@
     </div>
   </main>
 </div>
+
+<div class="pay-modal-overlay" *ngIf="showPaymentModal" (click)="showPaymentModal = false">
+  <div class="pay-modal" (click)="$event.stopPropagation()">
+    <h3>Payer {{ selectedPayPack?.title }}</h3>
+    <p style="color: #7F77DD; font-size: 22px; font-weight: 700;">{{ selectedPayPack?.price }}€</p>
+    <div id="card-container"></div>
+    <button class="pay-btn" style="margin-top: 12px; width: 100%;"
+            (click)="submitPayment()" [disabled]="paymentLoading">
+      {{ paymentLoading ? 'Traitement...' : 'Payer ' + selectedPayPack?.price + '€' }}
+    </button>
+    <button class="pay-modal-close" (click)="showPaymentModal = false">Annuler</button>
+  </div>
 </div>
+
+</div>
+

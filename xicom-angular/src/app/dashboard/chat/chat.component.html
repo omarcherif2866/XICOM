@@ -1,4 +1,180 @@
-<div class="chat-wrap">
+<div class="app-container">
+  <!-- sidebarr (inchangée) -->
+  <div [class]="sidebarrOpen ? 'sidebarr open' : 'sidebarr'">
+    <div class="sidebarr-content">
+      <h2>Admin Panel</h2>
+        <nav *ngIf="isSimpleUser">
+        <!-- Dashboard -->
+
+        <a href="chat">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span>Chat</span>
+        </a>
+
+        <a [routerLink]="['/fiche_client', userId]">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Ma fiche Client</span>
+        </a>
+
+        <!-- service -->
+        <a href="commande_service">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Choisir un service</span>
+        </a>
+
+        <!-- campagne -->
+        <a href="compagne">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span>Lancer une campagne</span>
+        </a>
+
+        <!-- Livrable -->
+        <a [routerLink]="['/livrables', userId]">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Livrable</span>
+        </a>
+
+        <a href="commande_status">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Commande en cours</span>
+        </a>        
+
+        <!-- Rapport -->
+        <a [routerLink]="['/factures', userId]">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Factures et Paiement</span>
+        </a>
+
+        <!-- Se déconnecter -->
+        <a (click)="logout(); $event.preventDefault()" class="logout-link">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>Se déconnecter</span>
+        </a>
+        </nav>
+      <nav  *ngIf="isAdmin">
+        <!-- Dashboard -->
+        <a href="#">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+            <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="chat">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span>Chat</span>
+        </a>        
+
+        <!-- Services -->
+        <a href="services">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          <span>Services</span>
+        </a>
+
+        <!-- Partenaires -->
+        <a href="partenaires">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span>Partenaires</span>
+        </a>
+
+        <!-- Actualités -->
+        <a href="actualites">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+          </svg>
+          <span>Actualités</span>
+        </a>
+
+        <!-- Rendez-vous -->
+        <a href="rdv">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span>Rendez-vous</span>
+        </a>
+
+        <!-- Abonnées -->
+          <a href="abonnee">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+          </svg>
+          <span>Abonnées</span>
+          </a>    
+
+        <!-- Profil -->
+        <a href="profil">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Profil</span>
+        </a>
+
+                <!-- Livrable -->
+        <a [routerLink]="['/livrables', userId]">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Livrable</span>
+        </a>
+
+        <a href="commande_status">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Commande en cours</span>
+        </a>        
+
+        <!-- Rapport -->
+        <a [routerLink]="['/factures', userId]">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Factures et Paiement</span>
+        </a>
+
+        <!-- Se déconnecter -->
+        <a (click)="logout(); $event.preventDefault()" class="logout-link">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>Se déconnecter</span>
+        </a>
+        
+
+      </nav>
+    </div>
+  </div>
+
+
+  <div class="main-area">
+<div class="chat-wrap" (click)="initAudio()">
 
   <!-- Sidebar -->
   <div class="sidebar">
@@ -9,7 +185,7 @@
       *ngFor="let id of discussions"
       class="disc-item"
       [class.active]="selectedServiceId === id"
-      (click)="selectDiscussion(id)">
+      (click)="initAudio(); selectDiscussion(id)">
       <div class="disc-avatar">{{ getInitials(id) }}</div>
       <div class="disc-info">
         <div class="disc-name" [class.unread]="unreadCounts[id] > 0">{{ role === 'Admin' ? (discussionUsernames[id] || '') : 'Support' }} - Service {{ discussionTitles[id] || 'Service #' + id }}</div>
@@ -48,6 +224,45 @@
   </div>
 </div>
 
+<!-- ✅ Bouton payer - uniquement SIMPLEU -->
+<div class="pay-bar" *ngIf="isSimpleUser && currentServiceCommande && currentServiceCommande.status !== 'PAYEE'">
+  <button class="pay-btn" (click)="openPaymentModal()">
+    <i class="ti ti-credit-card"></i> Payer le service
+  </button>
+</div>
+
+<!-- ✅ Modal packs -->
+<div class="pay-modal-overlay" *ngIf="showPaymentModal" (click)="showPaymentModal = false">
+  <div class="pay-modal" (click)="$event.stopPropagation()">
+    <h3>Choisissez votre pack</h3>
+    <div class="pay-packs">
+      <div class="pay-pack-card"
+           *ngFor="let pack of currentServicePacks"
+           [class.pay-pack-selected]="selectedPayPack?.title === pack.title"
+           (click)="selectedPayPack = pack; $event.stopPropagation()">
+        <p class="pay-pack-title">{{ pack.title }}</p>
+        <p class="pay-pack-price">
+          <ng-container *ngIf="pack.price && +pack.price !== 0">{{ pack.price }}€</ng-container>
+          <ng-container *ngIf="!pack.price || +pack.price === 0">Sur devis</ng-container>
+        </p>
+      </div>
+    </div>
+
+    <!-- ✅ toujours présent dans le DOM -->
+    <div style="margin-top: 20px;">
+      <div id="card-container"></div>
+      <button class="pay-btn" style="margin-top: 12px; width: 100%;"
+              (click)="submitPayment()"
+              [disabled]="paymentLoading || !selectedPayPack || !selectedPayPack.price"
+              *ngIf="selectedPayPack">
+        {{ paymentLoading ? 'Traitement...' : 'Payer ' + selectedPayPack?.price + '€' }}
+      </button>
+    </div>
+
+    <button class="pay-modal-close" (click)="showPaymentModal = false">Annuler</button>
+  </div>
+</div>
+
     <div class="chat-input-area">
       <input
         class="chat-input"
@@ -66,5 +281,9 @@
       <p>Sélectionnez une discussion</p>
     </div>
   </ng-template>
+
+</div>    
+  </div>
+
 
 </div>

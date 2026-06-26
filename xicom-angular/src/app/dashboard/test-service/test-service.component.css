@@ -954,24 +954,22 @@ td.actions {
 
 .sv-packs-list {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
-  align-items: flex-start;
+  gap: 16px;
+  align-items: stretch;
 }
 
 .sv-pack-card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  flex: 1;
+  min-width: 0;
   border: 1.5px solid #e5e7eb;
   border-radius: 16px;
   padding: 24px 20px 20px;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
   background: #fff;
-  flex: 1;
-  min-width: 0;
+  box-sizing: border-box;
 }
 
 .sv-pack-card:hover {
@@ -981,6 +979,8 @@ td.actions {
 
 .sv-pack-selected {
   border-color: #4a6cf7;
+  background-color: #8b9bdf75;
+
   box-shadow: 0 4px 20px rgba(74, 108, 247, 0.12);
 }
 
@@ -1047,14 +1047,11 @@ td.actions {
 }
 
 .sv-pack-details {
-  list-style: none;
-  padding: 0;
+  flex: 1; /* ✅ prend l'espace restant pour aligner les hauteurs */
   margin: 0;
-  font-size: 14px;
-  color: #374151;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding-left: 16px;
+  list-style: none; /* ✅ supprime les points noirs */
+
 }
 
 .sv-pack-details li::before {

@@ -3,6 +3,7 @@ import { ServiceService } from 'src/app/service/service.service';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { PaymentServiceService } from 'src/app/service/payment-service.service';
 
 @Component({
   selector: 'app-commande-status',
@@ -21,6 +22,12 @@ export class CommandeStatusComponent implements OnInit {
     'LIVREE': 'Livrée'
   };
 
+showPaymentModal = false;
+currentServiceCommande: any = null;
+selectedPayPack: any = null;
+paymentLoading = false;
+private squareCard: any = null;
+
   isAdmin = false;
   isSimpleUser = false;
   currentUserId: number | null = null;
@@ -33,7 +40,9 @@ export class CommandeStatusComponent implements OnInit {
   constructor(
     private serviceService: ServiceService,
     private authService: AuthService,
-    private router:Router
+    private router:Router,
+      private paymentService: PaymentServiceService // ✅
+
   ) {
     const token = this.authService.getToken();
     const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
@@ -135,4 +144,50 @@ export class CommandeStatusComponent implements OnInit {
 
         this.router.navigate(['/']);
       }
+
+payerCommande(commande: any): void {
+  // ✅ ouvrir le modal Square avec le pack déjà connu
+  this.currentServiceCommande = commande;
+  this.selectedPayPack = { price: commande.packPrice, title: commande.packTitle };
+  this.showPaymentModal = true;
+  setTimeout(async () => {
+    if (!(window as any).Square) return;
+    const payments = (window as any).Square.payments('sandbox-sq0idb-vOwpMCtCuvesEBTe1JNCvQ', 'LPFSAGHXZK4SZ');
+    this.squareCard = await payments.card();
+    await this.squareCard.attach('#card-container');
+  }, 500);
+}
+
+
+async submitPayment(): Promise<void> {
+  if (!this.squareCard || !this.selectedPayPack || !this.currentServiceCommande) return;
+  this.paymentLoading = true;
+  try {
+    const result = await this.squareCard.tokenize();
+    if (result.status === 'OK') {
+      this.paymentService.pay(
+        result.token,
+        this.selectedPayPack.price.toString(),
+        this.currentServiceCommande.id
+      ).subscribe({
+        next: () => {
+          this.paymentLoading = false;
+          this.showPaymentModal = false;
+            this.currentServiceCommande.paymentStatus = 'PAYEE'; // ✅
+          Swal.fire({ icon: 'success', title: 'Paiement réussi !', timer: 1500, showConfirmButton: false });
+        },
+        error: (err) => {
+          this.paymentLoading = false;
+          Swal.fire({ icon: 'error', title: 'Erreur de paiement', text: err.error?.error });
+        }
+      });
+    } else {
+      this.paymentLoading = false;
+      Swal.fire({ icon: 'error', title: 'Carte invalide', text: result.errors?.[0]?.message });
+    }
+  } catch (e) {
+    this.paymentLoading = false;
+  }
+}
+
 }

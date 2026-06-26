@@ -2,6 +2,7 @@ package com.example.xicombackend.controllers;
 
 import com.example.xicombackend.entity.ChatMessage;
 import com.example.xicombackend.service.ChatMessageService;
+import com.example.xicombackend.service.UnreadCountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -22,6 +23,7 @@ public class ChatController {
 
     private final SimpMessagingTemplate messagingTemplate;
     private final ChatMessageService chatMessageService;
+    private final UnreadCountService unreadCountService;
 
     // ✅ WebSocket : reçoit, persiste, broadcast
     @MessageMapping("/chat.send/{serviceId}")
@@ -31,6 +33,14 @@ public class ChatController {
         message.setSentAt(LocalDateTime.now());
         chatMessageService.save(message);
         messagingTemplate.convertAndSend("/topic/chat/" + serviceId, message);
+
+        // ✅ incrémenter pour le destinataire (pas l'expéditeur)
+        String senderRole = message.getSenderRole();
+        if ("SIMPLEU".equals(senderRole)) {
+            // client envoie → notifier l'admin
+            unreadCountService.increment("Admin", serviceId);
+        }
+
     }
 
     // ✅ Historique paginé (50 derniers)

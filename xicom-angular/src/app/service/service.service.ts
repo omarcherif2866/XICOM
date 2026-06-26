@@ -95,5 +95,9 @@ getCommandesByStatus(status: string): Observable<any[]> {
     });
   }
 
+  payerCommande(id: number) {
+  return this.http.put(`${this.apiUrl}/${id}/payer`, {});
+}
+
 
 }

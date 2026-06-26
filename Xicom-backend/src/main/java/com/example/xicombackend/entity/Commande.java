@@ -35,6 +35,9 @@ public class Commande {
     @Enumerated(EnumType.STRING)
     private StatusCommande status = StatusCommande.EN_COURS;
 
+    @Enumerated(EnumType.STRING)
+    private PayementStatus paymentStatus = PayementStatus.IMPAYEE;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

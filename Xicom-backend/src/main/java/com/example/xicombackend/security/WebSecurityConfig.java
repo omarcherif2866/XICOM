@@ -42,6 +42,8 @@ public class WebSecurityConfig {
             "/topic/**", // ✅ ajouter ceci
             "/app/**",
             "/chat/**",
+            "/unread/**",
+            "/payments/**"
 
     };
 

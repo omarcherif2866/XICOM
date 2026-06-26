@@ -224,3 +224,87 @@ tbody tr:hover {
   outline: none;
   border-color: #7c3aed;
 }
+
+.badge-payee {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-impayee {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-payer {
+  background: linear-gradient(135deg, #7F77DD, #534AB7);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-payer:hover { opacity: 0.85; }
+
+.pay-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pay-modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 420px;
+  max-width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.pay-modal h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d2b55;
+  margin-bottom: 8px;
+}
+
+.pay-btn {
+  background: linear-gradient(135deg, #7F77DD, #534AB7);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 12px;
+  transition: opacity 0.2s;
+}
+
+.pay-btn:hover { opacity: 0.85; }
+
+.pay-modal-close {
+  margin-top: 12px;
+  background: none;
+  border: 1.5px solid #e0dff8;
+  border-radius: 24px;
+  padding: 8px 20px;
+  cursor: pointer;
+  color: #9997bb;
+  font-size: 13px;
+  width: 100%;
+}

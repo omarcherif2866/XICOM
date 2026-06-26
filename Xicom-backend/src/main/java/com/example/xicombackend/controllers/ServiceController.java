@@ -2,6 +2,7 @@ package com.example.xicombackend.controllers;
 
 import com.example.xicombackend.dto.CommandeRequest;
 import com.example.xicombackend.entity.*;
+import com.example.xicombackend.repository.CommandeRepository;
 import com.example.xicombackend.repository.PartenaireRepository;
 import com.example.xicombackend.repository.ServiceRepository;
 import com.example.xicombackend.service.CloudinaryService;
@@ -29,6 +30,7 @@ public class ServiceController {
     private final CloudinaryService cloudinaryService;
     private final ServiceRepository serviceRepository ;
     private final PartenaireRepository partenaireRepository;
+    private final CommandeRepository commandeRepository;
 
 
     @PostMapping
@@ -300,6 +302,14 @@ public class ServiceController {
             @PathVariable Long id,
             @RequestParam StatusCommande status) {
         return ResponseEntity.ok(serviceService.updateStatus(id, status));
+    }
+
+    @PutMapping("/{id}/payer")
+    public ResponseEntity<Commande> payer(@PathVariable Long id) {
+        Commande commande = commandeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Commande non trouvée"));
+        commande.setPaymentStatus(PayementStatus.PAYEE);
+        return ResponseEntity.ok(commandeRepository.save(commande));
     }
 
 }

@@ -10,6 +10,7 @@ export class ChatService {
   private client!: Client;
   public message$ = new Subject<any>();
   private baseUrl = 'http://localhost:9090';
+  private httpUnread = 'http://localhost:9090/unread';
 
   constructor(private http: HttpClient) {}
 
@@ -59,4 +60,17 @@ export class ChatService {
   });
   bgClient.activate();
 }
+
+getUnread(username: string) {
+  return this.http.get<any[]>(`${this.httpUnread}/chat/${username}`);
+}
+
+resetUnread(username: string, serviceId: number) {
+  this.http.post(`${this.httpUnread}/chat/reset/${username}/${serviceId}`, {}).subscribe();
+}
+
+incrementUnread(username: string, serviceId: number) {
+  this.http.post(`${this.httpUnread}/chat/increment/${username}/${serviceId}`, {}).subscribe();
+}
+
 }
