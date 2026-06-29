@@ -55,12 +55,7 @@ interface StatItem {
   styleUrls: ['home-page.component.css'],
 })
 export class HomePage implements OnInit,OnDestroy {
-  // stats = [
-  //   { icon: '../../../assets/icons/valise.svg', label: 'Nos projets', value: '+200', color: '#EFFBFF', valueColor: '#51B3D8'  },
-  //   { icon: '../../../assets/icons/coeur.svg', label: 'Satisfaction', value: '4%', color: '#FFEDED', valueColor: '#F26D6E' },
-  //   { icon: '../../../assets/icons/person.svg', label: 'Experts', value: '15', color: '#FFEEEA', valueColor: '#F1836A' },
-  //   { icon: '../../../assets/icons/puzzle.svg', label: 'Collaborateurs', value: '40', color: '#ECEBFF', valueColor: '#6863BF' }
-  // ];
+
 
   services: Service[] = [];
   actualites: Actualite[] = [];

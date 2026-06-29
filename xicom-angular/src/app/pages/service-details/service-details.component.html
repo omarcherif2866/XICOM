@@ -117,17 +117,7 @@
           <span class="amount" *ngIf="!price.price || +price.price === 0">Sur devis</span>
           <span class="period" *ngIf="price.pricePer" style="color: white;">HT / {{ price.pricePer }}</span>
         </div>
-        <!-- <div class="price-custom-badge">
-          <div class="price-custom-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-            </svg>
-          </div>
-          <div class="price">
-          <span class="amount" [ngStyle]="{'color': currentTheme?.buttonColor}">{{ price.price }}€</span>
-          <span class="period">HT / {{ price.pricePer }}</span>
-        </div>
-        </div> -->
+
       </div>
       
       <ul class="features-list">
@@ -151,115 +141,7 @@
     </div>
 </section>
 
-<!-- <section id="contact" class="contact">
-  <div class="container">
-    <div class="contact-wrapper">
 
-      <div class="contact-info">
-
-        <div class="contact-image-wrapper">
-          <img src="../../../assets/images/contact.jpg" alt="">
-          
-          <div class="contact-overlay-top">
-            <h2 class="contact-title">Contactez nous</h2>
-            <p class="contact-description">
-              Prenez contact pour un accompagnement personnalisé.
-            </p>
-          </div>
-          <div class="contact-overlay-bottom  ">
-          <div class="contact-details">
-            <div class="contact-item">
-              <img src="../../../assets/icons/phone.svg" alt="">
-                <div class="contact-value">+216 56 656 656</div>
-            </div>
-            <div class="contact-item">
-              <img src="../../../assets/icons/mail.svg" alt="">
-
-                <div class="contact-value">contact@xicom.fr</div>
-            </div>
-            <div class="contact-item">
-              <img src="../../../assets/icons/localisation.svg" alt="" >
-
-                <div class="contact-value">123 Avenue des Champs-Élysées, Paris</div>
-            </div>
-          </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="contact-form">
-        <form class="hero-form" id="contactForm" [formGroup]="contactForm" >
-          <div class="form-group">
-            <input type="text" placeholder="Votre nom" class="form-input" formControlName="nom" required>
-          </div>
-          <div class="form-group">
-            <input type="email" placeholder="Votre email" class="form-input" formControlName="email" required>
-          </div>
-          <div class="form-group">
-            <input type="text" placeholder="Sujet" class="form-input" formControlName="sujet" required>
-          </div>
-          <div class="form-group alternative">
-            <div class="phone-group">
-                <div class="country-select-wrapper">
-                    <img *ngIf="contactForm.get('countryCode')?.value" 
-                        [src]="getSelectedCountryFlagContactForm()" 
-                        alt="flag"
-                        class="country-flag">
-                    <select class="country-select with-flag" id="countryCode" formControlName="countryCode">
-                        <option value="" disabled>🌍 Sélectionner</option>
-                        <option *ngFor="let country of allCountriesCodes" 
-                                [value]="country.dial_code"
-                                [attr.data-flag]="country.flags.png">
-                            {{ country.name }} {{ country.dial_code }}
-                        </option>
-                    </select>
-                </div>
-                <input type="tel" 
-                      id="phone" 
-                      placeholder="Numéro*" 
-                      class="form-input phone-input" 
-                      formControlName="phone" 
-                      required>
-            </div>
-          </div>
-          <div class="form-group">
-            <textarea placeholder="Votre message" class="form-textarea" rows="5" formControlName="message"></textarea>
-          </div>
-          <button type="submit" class="btn-large btn-primary-large form-submit">Envoyer le message</button>
-        </form>
-      </div>
-
-    </div>
-  </div>
-</section> -->
-
-<!-- <section id="section-partners" class="partners-section">
-    <div class="container">
-        <h2 class="partners-title">Ils nous font confiance</h2>
-        <p class="partners-subtitle">
-            Il serait long et fastidieux de présenter la liste exhaustive de nos clients. Mais voici quelques exemples de collaborations qui illustrent une partie de notre savoir-faire. <strong>Alors pourquoi pas vous !</strong>
-        </p>
-<div class="carousel-container">
-
-  <button class="carousel-btn prev" (click)="scrollLeftPartners()">
-    ‹
-  </button>
-
-  <div class="carousel" #partnersCarousel>
-    <div *ngFor="let partenaire of visiblePartners" class="partner-logo-card shadow">
-      <img [src]="sanitizeImage(partenaire.image)" [alt]="partenaire.name + ' logo'">
-    </div>
-  </div>
-
-  <button class="carousel-btn next" (click)="scrollRightPartners()">
-    ›
-  </button>
-  
-</div>
-
-    </div>
-</section> -->
 
 <!-- rdv Section -->
 <section id="rdv" class="rdv">
