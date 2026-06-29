@@ -1,9 +1,14 @@
 <div *ngFor="let service of services; let i = index"> 
 <section id="hero"  [ngStyle]="getHeroStyle(false)">
     <div class="hero-container container">
-        <div class="hero-bg">
-            <img [src]="sanitizeImage(service.image)" [alt]="service.title + ' icon'"  >
-        </div> 
+<div class="hero-bg">
+    <img [src]="sanitizeImage(service.image)" 
+         [alt]="service.title + ' icon'"
+         width="800" 
+         height="600"
+         loading="eager"
+         style="aspect-ratio: 800/600; width: 100%; height: auto;">
+</div>
         
         <div class="hero-content">
             <div class="breadcrumbs">
