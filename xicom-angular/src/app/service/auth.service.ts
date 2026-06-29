@@ -11,11 +11,11 @@ import { EncryptionService } from './encryption-service.service';
 })
 export class AuthService {
 
-  // private apiUrl = "/api/auth";
-  private apiUrl = "http://localhost:9090/auth";
+  private apiUrl = "/api/auth";
+  // private apiUrl = "http://localhost:9090/auth";
 
-  // private apiUrlUser = "/api/users";
-  private apiUrlUser = "http://localhost:9090/users";
+  private apiUrlUser = "/api/users";
+  // private apiUrlUser = "http://localhost:9090/users";
 
   private localStorageKey = "userAuth";
   private loggedIn = new BehaviorSubject<boolean>(false);

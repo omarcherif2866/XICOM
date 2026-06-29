@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PaymentServiceService {
-  private baseUrl = 'http://localhost:9090/payments';
+  // private baseUrl = 'http://localhost:9090/payments';
+  private baseUrl = '/api/payments';
 
   constructor(private http: HttpClient) {}
 

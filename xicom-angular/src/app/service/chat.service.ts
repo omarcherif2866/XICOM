@@ -9,8 +9,11 @@ export class ChatService {
 
   private client!: Client;
   public message$ = new Subject<any>();
-  private baseUrl = 'http://localhost:9090';
-  private httpUnread = 'http://localhost:9090/unread';
+  // private baseUrl = 'http://localhost:9090';
+  // private httpUnread = 'http://localhost:9090/unread';
+
+    private baseUrl = '/api/';
+  private httpUnread = '/api/unread';
 
   constructor(private http: HttpClient) {}
 

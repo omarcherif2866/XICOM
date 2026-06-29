@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LivrableService {
-  private apiUrl = 'http://localhost:9090/livrables';
-  // private apiUrl = "/api/images";
+  // private apiUrl = 'http://localhost:9090/livrables';
+  private apiUrl = "/api/images";
 
   constructor(private http: HttpClient) {}
 
