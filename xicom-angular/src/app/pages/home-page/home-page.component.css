@@ -101,15 +101,13 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr 460px;  /* 2 colonnes : texte | formulaire */
-  gap: 60px;
+  grid-template-columns: 1fr 460px;
+  gap: 100px;  /* ← augmenté de 60px à 100px */
   align-items: center;
-  max-width: 1280px;
+  max-width: 1500px;
   margin: 0 auto;
-  padding: 0 24px;
-  
+  padding: 0 60px;
 }
-
 
 
 .hero-content {
