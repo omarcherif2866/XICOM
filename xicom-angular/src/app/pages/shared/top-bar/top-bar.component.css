@@ -1,37 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap');
 
-
-.dialog-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.dialog-container {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  width: 800px;
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-}
-
-.dialog-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
 :root {
   --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --cta-gradient: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
@@ -52,6 +20,16 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
 }
+
+/* ===== OVERLAY ===== */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9997;
+}
+.nav-overlay.open { display: block; }
 
 /* ===== NAVBAR ===== */
 .navbar {
@@ -83,7 +61,7 @@ body {
 .nav-brand a { display: flex; align-items: center; }
 .nav-brand .logoK { width: 88px; height: auto; display: block; }
 
-/* ===== MENU CENTRAL ===== */
+/* ===== MENU ===== */
 .nav-menu {
   display: flex;
   list-style: none;
@@ -112,16 +90,12 @@ body {
 .nav-menu li a::after {
   content: '';
   position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
+  bottom: -4px; left: 0;
+  width: 0; height: 2px;
   background: var(--primary-gradient);
   transition: width 0.3s ease;
 }
 .nav-menu li a:hover::after { width: 100%; }
-
-
 
 /* ===== DROITE DESKTOP ===== */
 .nav-right {
@@ -130,33 +104,20 @@ body {
   gap: 16px;
 }
 
-/* Icônes sociales */
 .social-icons {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.social-icon-btn {
+.social-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
-  overflow: hidden;
-  text-decoration: none;
+  transition: transform 0.2s ease;
 }
+.social-link:hover { transform: translateY(-2px); }
 
-.social-icon-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.14);
-}
-
-/* Séparateur vertical */
 .nav-divider {
   width: 1px;
   height: 32px;
@@ -171,7 +132,6 @@ body {
   gap: 10px;
 }
 
-/* "Se connecter" — outline */
 .btn-login {
   display: flex;
   align-items: center;
@@ -195,25 +155,6 @@ body {
   transform: translateY(-1px);
 }
 
-/* "Démarrer un projet →" — gradient orange→rose */
-.btn-cta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
-  height: 44px;
-  background: var(--cta-gradient);
-  border: none;
-  border-radius: 10px;
-  color: #ffffff;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  transition: var(--transition);
-  white-space: nowrap;
-}
-/* ===== BTN-CTA FORCE OVERRIDE ===== */
 .btn-cta,
 .nav-menu .btn-cta,
 .nav-btn-group .btn-cta {
@@ -232,10 +173,16 @@ body {
   cursor: pointer !important;
   white-space: nowrap !important;
   text-decoration: none !important;
-  -webkit-text-fill-color: #ffffff !important; /* ← clé si tu as un gradient text ailleurs */
-  -webkit-background-clip: unset !important;   /* ← annule background-clip: text */
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-background-clip: unset !important;
   background-clip: unset !important;
   width: auto !important;
+  transition: var(--transition) !important;
+}
+
+.btn-cta:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(249,115,22,0.35) !important;
 }
 
 .btn-cta svg,
@@ -246,10 +193,27 @@ body {
   stroke: #ffffff !important;
   fill: none !important;
   flex-shrink: 0 !important;
-  display: inline-block !important;
 }
 
-/* ===== ICÔNES ADMIN / LOGOUT ===== */
+.btn-logout-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  height: 44px;
+  background: transparent;
+  border: 1.5px solid #f1836a;
+  border-radius: 10px;
+  color: #f1836a;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 220px;
+}
+
+/* ===== LOGOUT ICON ===== */
 .nav-icon-link {
   position: relative;
   display: inline-flex;
@@ -300,113 +264,165 @@ body {
 .nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-/* ===== ÉLÉMENTS MOBILES masqués en desktop ===== */
+/* ===== ÉLÉMENTS MOBILES masqués desktop ===== */
 .nav-menu-logo,
 .nav-btn-mobile,
+.nav-close-btn,
 .social-mobile { display: none; }
 
-/* ============================================================
-   RESPONSIVE — TABLETTE (max 1100px)
-   ============================================================ */
+/* ===== TABLETTE ===== */
 @media (max-width: 1100px) {
   .nav-menu { gap: 18px; }
   .nav-menu li a { font-size: 13.5px; }
-  .btn-login, .btn-cta { padding: 8px 16px; font-size: 13px; }
+  .btn-login { padding: 8px 16px; font-size: 13px; }
 }
 
 @media (max-width: 960px) {
   .nav-menu { gap: 14px; }
   .social-icons { gap: 10px; }
-  .btn-login, .btn-cta { height: 40px; }
+  .btn-login { height: 40px; }
 }
 
-/* ============================================================
-   RESPONSIVE — MOBILE (max 768px)
-   ============================================================ */
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
 
   .navbar {
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     transform: none;
     width: 100%;
     border-radius: 0;
     padding: 0 16px;
+    z-index: 9998;
   }
 
-  /* Cache les éléments desktop */
   .nav-right { display: none; }
-
-  /* Affiche hamburger */
   .nav-toggle { display: flex; }
 
-  /* MENU FULLSCREEN */
+  /* ---- Sidebar ---- */
   .nav-menu {
-    display: none;
+
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw;
+    top: 0; right: 0;
+    width: 78vw;
+    max-width: 320px;
     height: 100vh;
     background: #ffffff;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;        /* ← fix espace blanc vertical */
     align-items: center;
-    gap: 28px;
-    z-index: 9998;
-    padding-top: 80px !important;
+    gap: 10px;                          /* ← réduit */
+    z-index: 9999;
+    padding: 50px 24px 24px !important; /* ← encore moins en haut */
     list-style: none !important;
     overflow-y: auto;
+    border-radius: 20px 0 0 20px;
+    box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+    display: flex !important;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .nav-menu.open { display: flex; }
+  .nav-menu.open {
+    transform: translateX(0);
+  }
 
-  .nav-menu li { list-style: none; width: 100%; text-align: center; }
+  /* ---- Bouton X — positionné à DROITE ---- */
+  .nav-close-btn {
+    display: flex !important;
+    justify-content: flex-end;          /* ← X collé à droite */
+    width: 100%;
+    position: static;
+    margin-bottom: 0;
+  }
+  .nav-close-btn button {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a2e;
+    transition: background 0.2s ease;
+  }
 
-  .nav-menu li a {
-    font-size: 22px;
-    font-weight: 600;
+  .nav-close-btn button:hover { background: #e5e7eb; }
+
+  /* ---- Items ---- */
+  .nav-menu li {
+    list-style: none;
+    width: 100%;
+    text-align: center;
     display: flex;
     justify-content: center;
-    padding: 8px 0;
   }
 
-  /* Logo mobile */
+  .nav-menu li a {
+    font-size: 20px;
+    font-weight: 600;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  /* ---- Logo mobile ---- */
   .nav-menu-logo {
     display: flex !important;
     justify-content: center;
-    margin-bottom: 8px;
+    width: 100%;
+    margin-bottom: 10px;                 /* ← réduit */
   }
-  .nav-menu-logo img { height: 60px; width: auto; }
+  .nav-menu-logo img { height: 50px; width: auto; }
 
-  /* Icônes sociales mobile */
-  .social-mobile { display: flex !important; }
-  .social-mobile .social-icons {
-    display: flex;
-    flex-direction: row;
+  /* ---- Boutons ---- */
+  .nav-btn-mobile {
+    display: flex !important;
     justify-content: center;
-    gap: 24px;
+    width: 100%;
   }
-  .social-mobile .social-link svg { width: 22px; height: 22px; }
 
-  /* Boutons mobile */
-  .nav-btn-mobile { display: flex !important; }
   .nav-btn-group {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    margin-top: 8px;
+    width: 100%;
   }
+
   .nav-btn-group .btn-login,
   .nav-btn-group .btn-cta {
-    width: 220px;
-    height: 50px;
-    font-size: 15px;
-    justify-content: center;
+    width: 100% !important;
+    max-width: 220px !important;
+    height: 46px !important;
+    font-size: 14px !important;
+    justify-content: center !important;
   }
+
+  /* ---- Socials ---- */
+  .social-mobile {
+    display: flex !important;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .social-mobile .social-icons {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 20px;
+  }
+
+  .social-mobile .social-link svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav-menu li.nav-close-btn {
+  justify-content: flex-end !important;  /* ← écrase le center du li général */
+  text-align: right !important;
+}
 }
 
 @media (max-width: 480px) {
   .nav-brand .logoK { width: 70px; }
-  .nav-menu li a { font-size: 19px; }
+  .nav-menu li a { font-size: 18px; }
 }
