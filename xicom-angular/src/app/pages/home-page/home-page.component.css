@@ -1758,12 +1758,72 @@
   .fb-blob-tl { display: none; }
 }
 @media (max-width: 768px) {
+
+  .service-card {
+    align-items: center !important;
+    text-align: center;
+  }
+
+  .service-card-top {
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .service-dots {
+    display: none;
+  }
+
+  .service-icon-circle {
+    margin: 0 auto 12px !important;
+  }
+
+  .service-title-line {
+    margin: 0 auto 12px !important;
+  }
+
+  .service-title {
+    text-align: center;
+    width: 100%;
+  }
+
+  .service-items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start !important;
+    width: fit-content !important;
+    margin: 0 auto 16px !important;
+  }
+
+  .service-item {
+    justify-content: flex-start;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .service-link-btn {
+    align-self: center !important;
+    justify-content: center;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  
   .fb-title { font-size: 30px; }
   .feedback-group { grid-template-columns: 1fr; }
   .fb-heart-deco { display: none; }
   .val-card-accent {
     margin: 0 auto 10px; /* ← centre la ligne colorée */
   }
+
+  .service-title-line {
+    margin: 0 auto 10px !important;
+    width: 130px !important;
+  }
+
+
 
   .wave-card-new {
     align-items: center; /* ← centre tous les enfants */
@@ -3045,7 +3105,7 @@
 .line-18 { background: linear-gradient(135deg, #251184, #251184); } /* taupe */
 .line-19 { background: linear-gradient(135deg, #fdb507, #fdb507); } /* gris bleuté */
 /* ===== SERVICE TITLE ===== */
-.service-title {
+/* .service-title {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: 18px;
@@ -3056,7 +3116,7 @@
   -webkit-line-clamp: unset;
   overflow: visible;
   line-height: 1.3;
-}
+} */
 
 /* ===== SERVICE ITEMS (checklist) ===== */
 .service-items {
