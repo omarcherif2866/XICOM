@@ -4,7 +4,13 @@
       <h2>Admin Panel</h2>
         <nav *ngIf="isSimpleUser">
         <!-- Dashboard -->
-
+        <a href="/">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span>Retourner à XICOM </span>
+        </a>
         <a href="chat">
             <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -69,6 +75,13 @@
         </nav>
       <nav  *ngIf="isAdminOrSuper">
         <!-- Dashboard -->
+        <a href="/">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span>Retourner à XICOM </span>
+        </a>
         <a href="#">
           <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/>
