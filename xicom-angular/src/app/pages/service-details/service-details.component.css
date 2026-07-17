@@ -96,24 +96,24 @@ p {
 }
 
 .hero-bg img {
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
+  height: auto;
 
-    -webkit-mask-image:
-        linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  /* ✅ Fond blanc de l'image disparaît et se mélange au background */
+  mix-blend-mode: multiply;
 
-    -webkit-mask-composite: source-in;
-
-    mask-image:
-        linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-}
-
-.hero-bg img {
-    width: 100%;
-    height: auto;
-    display: block;
+  /* ✅ Masque qui efface les bords progressivement */
+  -webkit-mask-image:
+    linear-gradient(to left,   black 60%, transparent 100%),
+    linear-gradient(to bottom, black 80%, transparent 100%),
+    linear-gradient(to top,    black 80%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to left,   black 60%, transparent 100%),
+    linear-gradient(to bottom, black 80%, transparent 100%),
+    linear-gradient(to top,    black 80%, transparent 100%);
+  mask-composite: intersect;
 }
 
 .hero-container {
