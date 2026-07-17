@@ -90,26 +90,28 @@ p {
     overflow: visible;
     display: inline-block;
     order: 2;
-    min-height: 525px; /* 700px * 600/800 = ratio de l'image */
-    border-radius: 12px;
+
 }
 
 .hero-bg img {
-  display: block;
-  width: 100%;
-  height: auto;
+    display: block;
+    width: 100%;
 
-  /* ✅ Fondu sur les 4 bords, plus prononcé à gauche et en bas */
-  -webkit-mask-image: radial-gradient(
-    ellipse 85% 85% at 60% 45%,
-    black 40%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 85% 85% at 60% 45%,
-    black 40%,
-    transparent 100%
-  );
+    -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+
+    -webkit-mask-composite: source-in;
+
+    mask-image:
+        linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+.hero-bg img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .hero-container {
