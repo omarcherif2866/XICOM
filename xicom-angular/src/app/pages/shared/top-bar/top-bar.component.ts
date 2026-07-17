@@ -57,7 +57,7 @@ navigateToDashboard() {
 }
 
 navigateToDashboardClient() {
-  this.router.navigate(['/test_commande_service']);
+  this.router.navigate(['/commande_service']);
   this.menuOpen = false;
 }
 

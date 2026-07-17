@@ -820,3 +820,253 @@ td.actions {
 
 .sv-btn-submit:hover { background: #4338ca; }
 .sv-btn-cancel:hover { background: #f9fafb; }
+
+
+.sv-btn-chat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1.5px solid #4a6cf7;
+  color: #4a6cf7;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 12px;
+}
+
+.sv-btn-chat:hover {
+  background: #f0f2ff;
+}
+
+.sv-chat-box {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.sv-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #4a6cf7;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.sv-chat-close {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.sv-chat-messages {
+  height: 260px;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f9fafb;
+}
+
+.sv-chat-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 75%;
+}
+
+.sv-chat-msg-mine {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.sv-chat-bubble {
+  background: #e5e7eb;
+  border-radius: 12px 12px 12px 2px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #1a1a2e;
+  word-break: break-word;
+}
+
+.sv-chat-msg-mine .sv-chat-bubble {
+  background: #4a6cf7;
+  color: #fff;
+  border-radius: 12px 12px 2px 12px;
+}
+
+.sv-chat-meta {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 3px;
+}
+
+.sv-chat-input-row {
+  display: flex;
+  border-top: 1px solid #e5e7eb;
+  padding: 10px 12px;
+  gap: 8px;
+  background: #fff;
+}
+
+.sv-chat-input {
+  flex: 1;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.sv-chat-input:focus {
+  border-color: #4a6cf7;
+}
+
+.sv-chat-send {
+  background: #4a6cf7;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.sv-chat-send:hover {
+  background: #3a5ce5;
+}
+
+.sv-packs-list {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.sv-pack-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px 20px 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.sv-pack-card:hover {
+  border-color: #c7c7e8;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.sv-pack-selected {
+  border-color: #4a6cf7;
+  background-color: #8b9bdf75;
+
+  box-shadow: 0 4px 20px rgba(74, 108, 247, 0.12);
+}
+
+/* Badge "Recommandé" */
+.sv-pack-badge {
+  position: absolute;
+  top: -13px;
+  right: 16px;
+  background: #1a3fca;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* Icône */
+.sv-pack-icon {
+  width: 44px;
+  height: 44px;
+  background: #f0f2ff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.sv-pack-title {
+  font-weight: 800;
+  font-size: 20px;
+  margin: 0 0 6px;
+  color: #1a1a2e;
+}
+
+.sv-pack-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 16px;
+  line-height: 1.4;
+}
+
+.sv-pack-price {
+  font-weight: 800;
+  font-size: 36px;
+  color: #4a6cf7;
+  margin: 0 0 4px;
+  line-height: 1;
+}
+
+.sv-pack-priceper {
+  font-size: 13px;
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+.sv-pack-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 16px 0;
+}
+
+.sv-pack-details {
+  flex: 1; /* ✅ prend l'espace restant pour aligner les hauteurs */
+  margin: 0;
+  padding-left: 16px;
+  list-style: none; /* ✅ supprime les points noirs */
+
+}
+
+.sv-pack-details li::before {
+  content: "✓ ";
+  color: #4a6cf7;
+  font-weight: 700;
+}
+
+/* Masquer le radio natif */
+.sv-pack-radio {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sv-packs-list {
+    flex-direction: column;
+  }
+}

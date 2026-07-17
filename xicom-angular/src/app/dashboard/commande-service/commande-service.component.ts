@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Service } from 'src/app/models/service';
 import { AuthService } from 'src/app/service/auth.service';
+import { ChatService } from 'src/app/service/chat.service';
 import { ServiceService } from 'src/app/service/service.service';
 import Swal from 'sweetalert2';
 
@@ -12,13 +13,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./commande-service.component.css']
 })
 export class CommandeServiceComponent implements OnInit {
-  selectedPack: any = null;
-
   sidebarOpen = true;
   services: any[] = [];
   selectedService: any = null;
   serviceDetails: { title: string; checked: boolean }[] = [];
   userId: number | null = null;
+
+  // ✅ Nouveau : pack sélectionné
+  selectedPack: any = null;
 
   // Modal
   showCommandeForm = false;
@@ -34,13 +36,20 @@ export class CommandeServiceComponent implements OnInit {
     delaiSouhaite:    ['', Validators.required],
   });
 
+  chatOpen = false;
+chatMessages: any[] = [];
+chatInput = '';
+private chatSub: any;
+
   constructor(
     private fb: FormBuilder,
     private serviceService: ServiceService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+      private chatService: ChatService,   // ← ajout
+
   ) {
-        const token = this.authService.getToken();
+    const token = this.authService.getToken();
     const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
     this.userId = decoded?.id || decoded?.userId || null;
   }
@@ -49,27 +58,27 @@ export class CommandeServiceComponent implements OnInit {
     this.loadServices();
   }
 
-loadServices(): void {
-  
-  this.serviceService.getService().subscribe({
-    next: (data: Service[]) => {
-      this.services = data
-        .map(item => new Service(item))
-        .sort((a, b) => a.Id - b.Id);  // ← tri par ID croissant
-      console.log('Services loaded:', this.services);
-    },
-    error: (error) => {
-    }
-  });
-}
+  loadServices(): void {
+    this.serviceService.getService().subscribe({
+      next: (data: Service[]) => {
+        this.services = data
+          .map(item => new Service(item))
+          .sort((a, b) => a.Id - b.Id);
+      },
+      error: (error) => {
+      }
+    });
+  }
 
   selectService(service: any): void {
     if (this.selectedService?.id === service.id) {
       this.selectedService = null;
       this.serviceDetails = [];
+      this.selectedPack = null;
     } else {
       this.selectedService = service;
       this.serviceDetails = this.getDetails(service).map(d => ({ title: d, checked: false }));
+      this.selectedPack = null; // ✅ reset du pack à chaque changement de service
     }
   }
 
@@ -81,18 +90,36 @@ loadServices(): void {
     return this.serviceDetails.filter(d => d.checked).length;
   }
 
-getDetails(service: any): string[] {
-  const details: string[] = [];
-  const section = service.sections?.[1]; // ← uniquement la section d'index 1
-  if (section?.details) {
-    section.details.forEach((detail: any) => {
-      if (detail.title) details.push(detail.title);
-    });
+  getDetails(service: any): string[] {
+    const details: string[] = [];
+    const section = service.sections?.[1];
+    if (section?.details) {
+      section.details.forEach((detail: any) => {
+        if (detail.title) details.push(detail.title);
+      });
+    }
+    return details;
   }
-  return details;
+
+  // ✅ Nouveau : sélection d'un pack (radio-like)
+  selectPack(pack: any): void {
+    this.selectedPack = pack;
+  }
+
+  isPackSelected(pack: any): boolean {
+    return this.selectedPack?.title === pack.title && this.selectedPack?.price === pack.price;
+  }
+
+  // ✅ Le bouton est actif seulement si un pack ET au moins une prestation sont choisis
+  // canSubmit(): boolean {
+  //   return !!this.selectedPack && this.getSelectedCount() > 0 && !this.isLoading;
+  // }
+
+  canSubmit(): boolean {
+  return !!this.selectedPack && !this.isLoading;
+  
 }
 
-  // Remplace commanderSelected()
   openCommandeForm(serviceTitle: string): void {
     this.selectedServiceTitle = serviceTitle;
     this.commandeForm.reset();
@@ -101,46 +128,6 @@ getDetails(service: any): string[] {
 
   closeCommandeForm(): void {
     this.showCommandeForm = false;
-  }
-
-  // submitCommande(): void {
-  //   this.commandeForm.markAllAsTouched();
-  //   if (this.commandeForm.invalid) return;
-
-  //   const userId = this.authService.getUserIdFromToken();
-  //   if (!userId) return;
-
-  //   const selected = this.serviceDetails.filter(d => d.checked).map(d => d.title);
-  // this.isLoading = true;
-
-  //   const payload = {
-  //     serviceTitle:     this.selectedServiceTitle,
-  //     detailTitles:     selected,
-  //     objectifs:        this.commandeForm.value.objectifs,
-  //     analyseSituation: this.commandeForm.value.analyseSituation,
-  //     messageCle:       this.commandeForm.value.messageCle,
-  //     brief:            this.commandeForm.value.brief,
-  //     devis:            this.commandeForm.value.devis,
-  //     delaiSouhaite:    this.commandeForm.value.delaiSouhaite,
-  //     status:           'en cours',
-  //   };
-
-  //   this.serviceService.commander(payload, userId).subscribe({
-  //     next: () => {
-  //       this.isLoading = false;
-  //       this.closeCommandeForm();
-  //       this.serviceDetails.forEach(d => d.checked = false);
-  //       Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
-  //     },
-  //     error: (err) => {
-  //       this.isLoading = false;
-  //       console.error(err);
-  //     }
-  //   });
-  // }
-
-  canSubmit(): boolean {
-    return !!this.selectedPack && this.getSelectedCount() > 0 && !this.isLoading;
   }
 
   submitCommande(serviceTitle: string): void {
@@ -153,17 +140,11 @@ getDetails(service: any): string[] {
 
     const payload = {
       serviceTitle: serviceTitle,
-      detailTitles: selected,
+      // detailTitles: selected,
       // ✅ Infos du pack ajoutées au payload
       packTitle: this.selectedPack.title,
       packPrice: this.selectedPack.price,
-      // packPricePer: this.selectedPack.pricePer || '',
-      // objectifs:        '',
-      // analyseSituation: '',
-      // messageCle:       '',
-      // brief:            '',
-      // devis:            '',
-      // delaiSouhaite:    '',
+
       status: 'en cours',
     };
 
@@ -173,6 +154,10 @@ getDetails(service: any): string[] {
         this.serviceDetails.forEach(d => d.checked = false);
         this.selectedPack = null;
         Swal.fire({ icon: 'success', title: 'Commande envoyée !', timer: 1500, showConfirmButton: false });
+        setTimeout(() => this.router.navigate(['/chat'], { 
+          queryParams: { serviceId: this.selectedService.id } // ✅
+        }), 1500);
+
       },
       error: (err) => {
         this.isLoading = false;
@@ -195,4 +180,31 @@ getDetails(service: any): string[] {
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
+
+toggleChat(serviceId: number): void {
+  this.chatOpen = !this.chatOpen;
+  if (this.chatOpen) {
+    // ✅ Charger l'historique depuis le backend
+    this.chatService.getHistory(serviceId).subscribe(msgs => {
+      this.chatMessages = msgs;
+    });
+    // ✅ Connecter WebSocket
+    this.chatService.connect(serviceId);
+    this.chatSub = this.chatService.message$.subscribe((msg: any) => {
+      this.chatMessages.push(msg);
+    });
+  } else {
+    this.chatSub?.unsubscribe();
+    this.chatService.disconnect();
+  }
+}
+
+sendChatMessage(serviceId: number): void {
+  if (!this.chatInput.trim()) return;
+  const username = this.authService.getUsernameFromToken() ?? '';
+  const role = this.authService.getRoleFromToken() ?? 'CLIENT'; // ✅ rôle dynamique
+  this.chatService.sendMessage(serviceId, this.chatInput, username, role);
+  this.chatInput = '';
+}
+
 }
