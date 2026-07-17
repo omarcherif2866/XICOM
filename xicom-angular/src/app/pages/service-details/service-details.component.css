@@ -91,7 +91,6 @@ p {
     display: inline-block;
     order: 2;
     min-height: 525px; /* 700px * 600/800 = ratio de l'image */
-    background: #f0f0f8; /* placeholder gris discret pendant le chargement */
     border-radius: 12px;
 }
 
@@ -100,20 +99,17 @@ p {
   width: 100%;
   height: auto;
 
-  /* ✅ Fond blanc de l'image disparaît et se mélange au background */
-  mix-blend-mode: multiply;
-
-  /* ✅ Masque qui efface les bords progressivement */
-  -webkit-mask-image:
-    linear-gradient(to left,   black 60%, transparent 100%),
-    linear-gradient(to bottom, black 80%, transparent 100%),
-    linear-gradient(to top,    black 80%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to left,   black 60%, transparent 100%),
-    linear-gradient(to bottom, black 80%, transparent 100%),
-    linear-gradient(to top,    black 80%, transparent 100%);
-  mask-composite: intersect;
+  /* ✅ Fondu sur les 4 bords, plus prononcé à gauche et en bas */
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 85% at 60% 45%,
+    black 40%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 85% 85% at 60% 45%,
+    black 40%,
+    transparent 100%
+  );
 }
 
 .hero-container {
