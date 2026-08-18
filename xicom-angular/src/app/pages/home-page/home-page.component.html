@@ -31,7 +31,7 @@
   </div>
   <img 
     class="hero-bg-illustration"
-    src="assets/images/Max_a_enlever_le_navbar,_l (1).png" 
+    src="assets/images/hero-illustration.webp" 
     alt=""
     aria-hidden="true"
   />
@@ -284,7 +284,7 @@
       <!-- Left: info card -->
       <div class="info-card info-card--left innovation-card">
         <div class="info-icon-wrap color-blue">
-          <img src="assets/icons/target.png" alt="" class="info-icon-img" />
+          <img src="assets/icons/target.png" alt="" class="info-icon-img" loading="lazy"/>
         </div>
         <div class="info-text">
           <h3>Écoute & Conseil</h3>
@@ -304,7 +304,7 @@
       <div class="step-card step-card--right step-card--blue">
         <div class="step-number">01</div>
         <div class="step-icon-wrap">
-          <img src="assets/icons/disscussion.svg" alt="" />
+          <img src="assets/icons/disscussion.svg" alt="" loading="lazy"/>
         </div>
         <div class="step-body">
           <h4>Analyse des besoins</h4>
@@ -319,7 +319,7 @@
       <div class="step-card step-card--left step-card--red">
         <div class="step-number">02</div>
         <div class="step-icon-wrap">
-          <img src="assets/icons/pie.svg" alt="" />
+          <img src="assets/icons/pie.svg" alt="" loading="lazy"/>
         </div>
         <div class="step-body">
           <h4>Audit et recommandations</h4>
@@ -353,7 +353,7 @@
       <!-- Left: value prop -->
       <div class="info-card info-card--left innovation-card">
         <div class="info-icon-wrap color-blue">
-          <img src="assets/icons/rocket.png" alt="" class="info-icon-img" />
+          <img src="assets/icons/rocket.png" alt="" class="info-icon-img" loading="lazy"/>
         </div>
         <div class="info-text">
           <h3>Innovation &amp; Créativité</h3>
@@ -373,7 +373,7 @@
       <div class="step-card step-card--right step-card--orange">
         <div class="step-number">03</div>
         <div class="step-icon-wrap">
-          <img src="assets/icons/bright.svg" alt="" />
+          <img src="assets/icons/bright.svg" alt="" loading="lazy"/>
         </div>
         <div class="step-body">
           <h4>Production des supports</h4>
@@ -388,7 +388,7 @@
       <div class="step-card step-card--left step-card--purple">
         <div class="step-number">04</div>
         <div class="step-icon-wrap">
-          <img src="assets/icons/loupe.svg" alt="" />
+          <img src="assets/icons/loupe.svg" alt="" loading="lazy"/>
         </div>
         <div class="step-body">
           <h4>Mise en œuvre du projet</h4>
@@ -407,7 +407,7 @@
       <!-- Right: value prop + decorative chart -->
       <div class="info-card info-card--right value-card--with-deco">
         <div class="info-icon-wrap color-blue">
-          <img src="assets/icons/security.png" alt="" class="info-icon-img" />
+          <img src="assets/icons/security.png" alt="" class="info-icon-img" loading="lazy"/>
         </div>
         <div class="info-text">
           <h3>Transparence &amp; Accompagnement</h3>
@@ -808,9 +808,10 @@
             <div class="news-card-img" [ngClass]="'news-img-bg-' + (j % 3)">
               <img 
                 *ngIf="actu.image; else placeholderImg"
-                [src]="actu.image" 
+                [src]="sanitizeImage(actu.image)" 
                 [alt]="actu.title" 
                 class="news-img-cover"
+                loading="lazy"
               />
               <ng-template #placeholderImg>
                 <img *ngIf="actu.Image" [src]="sanitizeImage(actu.Image)" alt="Icône actu" class="news-image" />
