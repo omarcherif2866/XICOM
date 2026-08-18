@@ -59,18 +59,26 @@
     </div>
 </section>
 
+<section id="pricing">
+    <div class="container">
+        <div class="hero-text">
+            <h1>Nos Offres</h1>
+        </div>
+        
+<div class="pricing-grid">
 <div class="pricing-card" 
      *ngFor="let price of service.priceSections; let isLast = last; let i = index"
-     [ngClass]="{'gradient-card': i === 1, 'is-premium': i === 1}"
-     [ngStyle]="i === 1 ? getGradientCardStyle() : getCardBorderStyle()">
+     [ngClass]="{'gradient-card': isLast, 'is-premium': isLast}"
+     [ngStyle]="isLast ? getGradientCardStyle() : getCardBorderStyle()">
     
-    <!-- Card normale (toutes sauf la deuxième) -->
-    <ng-container *ngIf="i !== 1">
+    <!-- Card normale (toutes sauf la dernière) -->
+    <ng-container *ngIf="!isLast">
       <div class="card-header">
         <div class="icon-box" [ngStyle]="getIconBoxStyle(false)">
-          <div class="icon-mask"
-               [ngStyle]="getIconMaskStyle(i === 0 ? '../../../assets/icons/star.svg' : '../../../assets/icons/diamond.svg', false)">
-          </div>
+          <!-- ⭐ 1er = star | 💎 2ème = diamond -->
+      <div class="icon-mask"
+           [ngStyle]="getIconMaskStyle(i === 0 ? '../../../assets/icons/star.svg' : '../../../assets/icons/diamond.svg', false)">
+      </div>
         </div>
         <h3>{{ price.title }}</h3>
         <span class="subtitle-text">{{ price.subtitle }}</span>
@@ -90,32 +98,37 @@
         </li>
       </ul>
       
-      <a href="#" class="btn btn-primary-dark full-width" [ngStyle]="getButtonStyle()">
+      <a href="#" 
+         class="btn btn-primary-dark full-width"
+         [ngStyle]="getButtonStyle()">
         Commencer Maintenant
       </a>
     </ng-container>
     
-    <!-- Deuxième card (gradient + RECOMMANDÉ) -->
-    <ng-container *ngIf="i === 1">
-      <span class="recommended-badge" [ngStyle]="{'background-color': currentTheme?.buttonColor}">RECOMMANDÉ</span>
+    <!-- Dernière card (gradient) -->
+
+      <ng-container *ngIf="isLast">
+        <span class="recommended-badge" [ngStyle]="{'background-color': currentTheme?.buttonColor}">RECOMMANDÉ</span>
       <div class="card-header">
         <div class="icon-box" [ngStyle]="getIconBoxStyle(true)">
-          <div class="icon-mask"
-               [ngStyle]="getIconMaskStyle('../../../assets/icons/crown.svg', true)">
-          </div>
+          <img src="../../../assets/icons/crown.svg" 
+               alt="premium"
+               [ngStyle]="getIconFilterStyle(true)">
         </div>
-        <h3>{{ price.title }}</h3>
+        <h3 >{{ price.title }}</h3>
+        <!-- <span class="subtitle-text" [class.as-price]="!price.price || +price.price === 0">{{ price.subtitle }}</span> -->
         <span class="subtitle-text">{{ price.subtitle }}</span>
         <div class="price">
           <span class="amount" *ngIf="price.price && +price.price !== 0">{{ price.price }}€</span>
           <span class="amount" *ngIf="!price.price || +price.price === 0">Sur devis</span>
           <span class="period" *ngIf="price.pricePer" style="color: white;">HT / {{ price.pricePer }}</span>
         </div>
+
       </div>
       
       <ul class="features-list">
         <li *ngFor="let details of price.details">
-          <span class="check-icon">✔</span>
+          <span class="check-icon" >✔</span>
           <span [ngStyle]="{'font-size': '18px','font-weight': '700', color:'white'}">{{ details.title }}</span>
           <span class="detail-desc" [ngStyle]="{'color': currentTheme?.buttonColor}">
             {{ details.description }}
@@ -127,7 +140,12 @@
         Commencer Maintenant
       </a>
     </ng-container>
+
+
+  </div>
 </div>
+    </div>
+</section>
 
 
 
