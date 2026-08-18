@@ -97,10 +97,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   9: {
-    gradientStart: '#0a0f15', gradientEnd: '#0a0f15',
+    gradientStart: '#88ff39', gradientEnd: '#88ff39',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#0a0f15',
-    buttonColor: '#0a0f15', // ✅ vert olive
+    borderColor: '#88ff39',
+    buttonColor: '#88ff39', // ✅ vert olive
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   10: {
@@ -153,10 +153,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     17: {
-    gradientStart: '#1b2128', gradientEnd: '#1b2128',
+    gradientStart: '#f755ce', gradientEnd: '#f755ce',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#1b2128',
-    buttonColor: '#1b2128', // ✅ bordeaux
+    borderColor: '#f755ce',
+    buttonColor: '#f755ce', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     18: {
@@ -569,22 +569,18 @@ submitCommande(): void {
   });
 }
 
-getIconBoxStyle(isLast: boolean): any {
+getIconBoxStyle(isPremium: boolean): any {
   if (!this.currentTheme) return {};
-
-  if (isLast) {
-    // Dernière card : fond très clair (blanc 20%)
+  if (isPremium) {
     return {
-      'background': 'rgba(255, 255, 255, 0.2)',
-      'border': '1px solid rgba(255, 255, 255, 0.35)'
-    };
-  } else {
-    // Cards normales : même couleur que le bouton mais claire
-    return {
-      'background': this.hexToRgba(this.currentTheme.buttonColor, 0.12),
-      'border': `1px solid ${this.hexToRgba(this.currentTheme.buttonColor, 0.25)}`
+      'background': 'rgba(255,255,255,0.2)',
+      'border': '1px solid rgba(255,255,255,0.35)'
     };
   }
+  return {
+    'background': this.hexToRgba(this.currentTheme.buttonColor, 0.12),
+    'border': `1px solid ${this.hexToRgba(this.currentTheme.buttonColor, 0.25)}`
+  };
 }
 
 getHeroStyle(isLast: boolean): any {

@@ -229,7 +229,8 @@
     <div class="services-grid">
 <div class="service-card" *ngFor="let service of services; let i = index"
      [style.animation-delay]="(i * 0.05) + 's'"
-     [attr.data-index]="i">
+     [attr.data-index]="i" 
+     [routerLink]="['/serviceDetails', service.id]">
   <div class="service-card-top">
     <div class="service-icon-circle" [ngClass]="'color-' + (i % 20)">
       <img *ngIf="service.Icon" [src]="sanitizeImage(service.Icon)" alt="Icône service" class="ev-image" />
@@ -246,7 +247,7 @@
     </div>
   </div>
   <a class="service-link-btn" [ngClass]="'btn-' + (i % 20)"
-     [routerLink]="['/serviceDetails', service.id]">
+     >
     Découvrir <span>→</span>
   </a>
 </div>
