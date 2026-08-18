@@ -72,7 +72,7 @@
      [ngStyle]="isLast ? getGradientCardStyle() : getCardBorderStyle()">
     
     <!-- Card normale (toutes sauf la dernière) -->
-    <ng-container *ngIf="!isLast">
+    <ng-container *ngIf="i !== 1">
       <div class="card-header">
         <div class="icon-box" [ngStyle]="getIconBoxStyle(false)">
           <!-- ⭐ 1er = star | 💎 2ème = diamond -->
@@ -107,7 +107,7 @@
     
     <!-- Dernière card (gradient) -->
 
-      <ng-container *ngIf="isLast">
+      <ng-container *ngIf="i == 1">
         <span class="recommended-badge" [ngStyle]="{'background-color': currentTheme?.buttonColor}">RECOMMANDÉ</span>
       <div class="card-header">
         <div class="icon-box" [ngStyle]="getIconBoxStyle(true)">
