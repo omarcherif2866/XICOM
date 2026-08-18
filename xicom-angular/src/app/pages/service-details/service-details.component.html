@@ -154,8 +154,19 @@
             {{ price.price }}{{ price.pricePer?.includes('%') ? '' : '€' }}
           </span>
           <span class="amount" *ngIf="!price.price || +price.price === 0">Sur devis</span>
-          <span class="period" *ngIf="price.pricePer" style="color: white;">
-            {{ price.pricePer?.includes('%') ? '' : 'HT / ' }}{{ price.pricePer }}
+          
+          <!-- ✅ Affiché seulement si pricePer existe ET ne contient pas % -->
+          <span class="period" 
+                *ngIf="price.pricePer && !price.pricePer.includes('%')" 
+                style="color: white;">
+            HT / {{ price.pricePer }}
+          </span>
+
+          <!-- ✅ Affiché seulement si pricePer contient % -->
+          <span class="period" 
+                *ngIf="price.pricePer?.includes('%')" 
+                style="color: white;">
+            {{ price.price }}{{ price.pricePer }}
           </span>
         </div>
       </div>
