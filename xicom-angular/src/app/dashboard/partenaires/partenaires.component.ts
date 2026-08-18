@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Partenaire } from 'src/app/models/partenaire';
 import { AuthService } from 'src/app/service/auth.service';
@@ -31,7 +32,7 @@ export class PartenaireComponent implements OnInit {
   editId: any = null;
   selectedImage: File | null = null;
 
-  constructor(private partenaireservice: PartenaireService, private authService: AuthService,private router:Router) {
+  constructor(private partenaireservice: PartenaireService, private authService: AuthService,private router:Router, private sanitizer: DomSanitizer) {
     
   }
 
@@ -289,16 +290,35 @@ onImageSelected(event: any) {
 }
 
 
-sanitizeImage(url: string): string {
-  if (!url) return '';
-
-  // Cas où l'URL est en double
-  if (url.includes("https://res.cloudinary.com") && url.split("https://res.cloudinary.com").length > 2) {
-    const parts = url.split("https://res.cloudinary.com/dnrnrxm9q/image/upload/");
-    return "https://res.cloudinary.com/dnrnrxm9q/image/upload/" + parts[parts.length - 1];
+sanitizeImage(image: string | null): SafeUrl | string {
+  if (!image) {
+    return 'assets/images/placeholder.png';
   }
 
-  return url;
+  if (image.startsWith('data:image')) {
+    return this.sanitizer.bypassSecurityTrustUrl(image);
+  }
+
+  if (image.includes('res.cloudinary.com')) {
+    // Supprimer les doublons d'URL
+    if (image.split('res.cloudinary.com').length > 2) {
+      const parts = image.split('/upload/');
+      image = `https://res.cloudinary.com/dnrnrxm9q/image/upload/${parts[parts.length - 1]}`;
+    }
+
+    // Supprimer les transformations existantes si présentes
+    image = image.replace(/\/upload\/[^/]*\//, '/upload/');
+
+    // ✅ Transformations agressives
+    image = image.replace(
+      '/upload/',
+      '/upload/f_webp,q_auto:low,w_400,c_limit/'
+    );
+
+    return image;
+  }
+
+  return image;
 }
 
 
