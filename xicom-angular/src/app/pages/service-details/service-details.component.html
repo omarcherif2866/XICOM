@@ -115,11 +115,24 @@
         </div>
         <h3>{{ price.title }}</h3>
         <span class="subtitle-text">{{ price.subtitle }}</span>
-        <div class="price">
-          <span class="amount" *ngIf="price.price && +price.price !== 0" [ngStyle]="{'color': currentTheme?.buttonColor}">{{ price.price }}€</span>
-          <span class="amount" *ngIf="!price.price || +price.price === 0" [ngStyle]="{'color': currentTheme?.buttonColor}">Sur devis</span>
-          <span class="period" *ngIf="price.pricePer">HT / {{ price.pricePer }}</span>
-        </div>
+      <div class="price">
+        <!-- Cas normal : pas de % -->
+        <ng-container *ngIf="!price.pricePer?.includes('%')">
+          <span class="amount" *ngIf="price.price && +price.price !== 0">
+            {{ price.price }}€
+          </span>
+          <span class="amount" *ngIf="!price.price || +price.price === 0">Sur devis</span>
+          <span class="period" *ngIf="price.pricePer" style="color: white;">
+            HT / {{ price.pricePer }}
+          </span>
+        </ng-container>
+
+        <!-- Cas % : afficher seulement prix + pricePer, sans € ni HT -->
+        <ng-container *ngIf="price.pricePer?.includes('%')">
+          <span class="amount">{{ price.price }}</span>
+          <span class="period" style="color: white;">{{ price.pricePer }}</span>
+        </ng-container>
+      </div>
       </div>
       
       <ul class="features-list">
@@ -150,22 +163,13 @@
         <h3>{{ price.title }}</h3>
         <span class="subtitle-text">{{ price.subtitle }}</span>
         <div class="price">
-          <!-- Cas normal : pas de % -->
-          <ng-container *ngIf="!price.pricePer?.includes('%')">
-            <span class="amount" *ngIf="price.price && +price.price !== 0">
-              {{ price.price }}€
-            </span>
-            <span class="amount" *ngIf="!price.price || +price.price === 0">Sur devis</span>
-            <span class="period" *ngIf="price.pricePer" style="color: white;">
-              HT / {{ price.pricePer }}
-            </span>
-          </ng-container>
-
-          <!-- Cas % : afficher seulement prix + pricePer, sans € ni HT -->
-          <ng-container *ngIf="price.pricePer?.includes('%')">
-            <span class="amount">{{ price.price }}</span>
-            <span class="period" style="color: white;">{{ price.pricePer }}</span>
-          </ng-container>
+          <span class="amount" *ngIf="price.price && +price.price !== 0">
+            {{ price.price }}{{ price.pricePer?.includes('%') ? '' : '€' }}
+          </span>
+          <span class="amount" *ngIf="!price.price || +price.price === 0">Sur devis</span>
+          <span class="period" *ngIf="price.pricePer" style="color: white;">
+            {{ price.pricePer?.includes('%') ? '' : 'HT / ' }}{{ price.pricePer }}
+          </span>
         </div>
       </div>
       
