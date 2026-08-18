@@ -348,17 +348,33 @@ loadServices(): void {
   });
 }
 
-  sanitizeImage(image: string | null): SafeUrl | string {
-    if (!image) {
-      return 'assets/images/placeholder.png';
+sanitizeImage(image: string | null): SafeUrl | string {
+  if (!image) {
+    return 'assets/images/placeholder.png';
+  }
+
+  if (image.startsWith('data:image')) {
+    return this.sanitizer.bypassSecurityTrustUrl(image);
+  }
+
+  // ✅ Optimisation Cloudinary automatique
+  if (image.includes('res.cloudinary.com')) {
+    // Supprimer les doublons d'URL
+    if (image.split('res.cloudinary.com').length > 2) {
+      const parts = image.split('/upload/');
+      image = `https://res.cloudinary.com/dnrnrxm9q/image/upload/${parts[parts.length - 1]}`;
     }
-    
-    if (image.startsWith('data:image')) {
-      return this.sanitizer.bypassSecurityTrustUrl(image);
+
+    // Ajouter transformations si pas déjà présentes
+    if (!image.includes('f_webp') && !image.includes('q_auto')) {
+      image = image.replace('/upload/', '/upload/f_webp,q_auto:good,w_600/');
     }
-    
+
     return image;
   }
+
+  return image;
+}
 
 
 generateRandomColor(): string {
