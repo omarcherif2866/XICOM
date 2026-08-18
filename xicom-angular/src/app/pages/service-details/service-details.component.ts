@@ -139,10 +139,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     15: {
-    gradientStart: '#e4bb42', gradientEnd: '#c49303',
+    gradientStart: '#6c0086', gradientEnd: '#470358',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#c49303',
-    buttonColor: '#e4bb42', // ✅ bordeaux
+    borderColor: '#470358',
+    buttonColor: '#6c0086', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     16: {

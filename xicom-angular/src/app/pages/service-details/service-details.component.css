@@ -802,7 +802,8 @@ body {
   font-size: 13px;
   flex-shrink: 0;
     color: #ffffff;
-
+  flex-shrink: 0;   /* ✅ le ✔ ne bouge jamais */
+  margin-top: 3px;  /* ✅ alignement visuel avec le texte */
 }
 
 .pricing-card.is-premium {
