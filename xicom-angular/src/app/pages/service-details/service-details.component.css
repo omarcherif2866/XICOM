@@ -791,19 +791,18 @@ body {
 
 .features-list li {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: flex-start;  /* ✅ plus de flex-wrap */
   gap: 6px;
   font-size: 14px;
   color: #333;
+  margin-bottom: 8px;
 }
 
 .check-icon {
   font-size: 13px;
+  color: #ffffff;
   flex-shrink: 0;
-    color: #ffffff;
-  flex-shrink: 0;   /* ✅ le ✔ ne bouge jamais */
-  margin-top: 3px;  /* ✅ alignement visuel avec le texte */
+  margin-top: 3px;
 }
 
 .pricing-card.is-premium {
