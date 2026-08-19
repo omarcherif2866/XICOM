@@ -779,4 +779,10 @@ openWhatsApp(): void {
   window.open(url, '_blank');
 }
 
+navigateToCommande(pack: any): void {
+  sessionStorage.setItem('selectedPack', JSON.stringify(pack));
+  sessionStorage.setItem('selectedService', JSON.stringify(this.services[0])); // ✅ services[0]
+  this.router.navigate(['/commande_service']);
+}
+
 }

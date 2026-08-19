@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Actualite } from 'src/app/models/actualite';
 import { RDV } from 'src/app/models/rdv';
 import { Service } from 'src/app/models/service';
@@ -164,6 +164,7 @@ private readonly rawServices: any[] = [
 ];
 
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private http: HttpClient,
     private serviceService: ServiceService,
@@ -209,6 +210,15 @@ shuffledColors: string[] = [];
     this.startAutoPlay();
     this.startNewsAutoPlay();
     this.shuffledColors = this.shuffleColors([...this.colors]);
+
+      this.route.fragment.subscribe(fragment => {
+    if (fragment) {
+      setTimeout(() => {
+        const el = document.getElementById(fragment);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  });
 
   }
   

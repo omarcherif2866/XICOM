@@ -35,6 +35,7 @@ export class CommandeServiceComponent implements OnInit {
     devis:            ['', Validators.required],
     delaiSouhaite:    ['', Validators.required],
   });
+preSelectedService: any = null; // ✅ ajouter dans les propriétés
 
   chatOpen = false;
 chatMessages: any[] = [];
@@ -52,35 +53,63 @@ private chatSub: any;
     const token = this.authService.getToken();
     const decoded = (this.authService as any)['jwtHelper'].decodeToken(token);
     this.userId = decoded?.id || decoded?.userId || null;
+    const savedPack = sessionStorage.getItem('selectedPack');
+    const savedService = sessionStorage.getItem('selectedService');
+    if (savedPack) this.selectedPack = JSON.parse(savedPack);
+    if (savedService) this.preSelectedService = JSON.parse(savedService);
   }
 
   ngOnInit(): void {
     this.loadServices();
   }
 
-  loadServices(): void {
-    this.serviceService.getService().subscribe({
-      next: (data: Service[]) => {
-        this.services = data
-          .map(item => new Service(item))
-          .sort((a, b) => a.Id - b.Id);
-      },
-      error: (error) => {
-      }
-    });
-  }
+loadServices(): void {
+  this.serviceService.getService().subscribe({
+    next: (data: Service[]) => {
+      this.services = data
+        .map(item => new Service(item))
+        .sort((a, b) => a.Id - b.Id);
 
-  selectService(service: any): void {
-    if (this.selectedService?.id === service.id) {
-      this.selectedService = null;
-      this.serviceDetails = [];
+      if (this.preSelectedService) {
+        const found = this.services.find(s => s.id === this.preSelectedService.id);
+        if (found) {
+          this.selectService(found); // ← ne reset plus le pack grâce à la correction
+
+          // ✅ Appliquer le pack après selectService
+          if (this.selectedPack) {
+            const matchingPack = found.priceSections?.find(
+              (p: any) => p.title === this.selectedPack.title &&
+                          String(p.price) === String(this.selectedPack.price)
+            );
+            if (matchingPack) {
+              this.selectedPack = matchingPack;
+            }
+          }
+
+          sessionStorage.removeItem('selectedPack');
+          sessionStorage.removeItem('selectedService');
+          this.preSelectedService = null; // ✅ reset pour que selectService fonctionne normalement après
+        }
+      }
+    },
+    error: () => {}
+  });
+}
+
+selectService(service: any): void {
+  if (this.selectedService?.id === service.id) {
+    this.selectedService = null;
+    this.serviceDetails = [];
+    this.selectedPack = null;
+  } else {
+    this.selectedService = service;
+    this.serviceDetails = this.getDetails(service).map(d => ({ title: d, checked: false }));
+    // ✅ Ne pas reset selectedPack si on vient de serviceDetails
+    if (!this.preSelectedService) {
       this.selectedPack = null;
-    } else {
-      this.selectedService = service;
-      this.serviceDetails = this.getDetails(service).map(d => ({ title: d, checked: false }));
-      this.selectedPack = null; // ✅ reset du pack à chaque changement de service
     }
   }
+}
 
   toggleDetail(detail: { title: string; checked: boolean }): void {
     detail.checked = !detail.checked;
@@ -106,9 +135,10 @@ private chatSub: any;
     this.selectedPack = pack;
   }
 
-  isPackSelected(pack: any): boolean {
-    return this.selectedPack?.title === pack.title && this.selectedPack?.price === pack.price;
-  }
+isPackSelected(pack: any): boolean {
+  return this.selectedPack?.title === pack.title && 
+         this.selectedPack?.price === pack.price;
+}
 
   // ✅ Le bouton est actif seulement si un pack ET au moins une prestation sont choisis
   // canSubmit(): boolean {
@@ -206,5 +236,7 @@ sendChatMessage(serviceId: number): void {
   this.chatService.sendMessage(serviceId, this.chatInput, username, role);
   this.chatInput = '';
 }
+
+
 
 }
