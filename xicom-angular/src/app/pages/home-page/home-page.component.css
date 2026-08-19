@@ -3060,19 +3060,19 @@
 .color-3  { background: linear-gradient(135deg, #dc9d35, #dc9d35); } /* jaune doré */
 .color-4  { background: linear-gradient(135deg, #f5761c, #f5761c); } /* violet */
 .color-5  { background: linear-gradient(135deg, #a49dff, #a49dff); } /* bleu ciel */
-.color-6  { background: linear-gradient(135deg, #bdf53b, #bdf53b); } /* orange pêche */
+.color-6  { background: linear-gradient(135deg, #9fce32, #9fce32); } /* orange pêche */
 .color-7  { background: linear-gradient(135deg, #dd80dd, #dd80dd); } /* rose fuchsia */
 .color-8  { background: linear-gradient(135deg, #018f88, #018f88); } /* indigo doux */
 .color-9  { background: linear-gradient(135deg, #c90c61, #c90c61); } /* cyan */
-.color-10 { background: linear-gradient(135deg, #fd5a33, #fd5a33); } /* jaune citron */
+.color-10 { background: linear-gradient(135deg, #e6856d, #fd5a33); } /* jaune citron */
 .color-11 { background: linear-gradient(135deg, #00dce4, #00dce4); } /* saumon */
-.color-12 { background: linear-gradient(135deg, #dd023b, #dd023b); } /* lilas */
-.color-13 { background: linear-gradient(135deg, #0198a4, #0198a4); } /* vert salade */
-.color-14 { background: linear-gradient(135deg, #fffb00, #fffb00); } /* vert émeraude */
+.color-12 { background: linear-gradient(135deg, #dd406a, #dd406a); } /* lilas */
+.color-13 { background: linear-gradient(135deg, #3abec7, #3abec7); } /* vert salade */
+.color-14 { background: linear-gradient(135deg, #d8d650, #d8d650); } /* vert émeraude */
 .color-15 { background: linear-gradient(135deg, #018945, #018945); } /* bleu pastel */
 .color-16 { background: linear-gradient(135deg, #f755ce, #f755ce); } /* orange doux */
-.color-17 { background: linear-gradient(135deg, #f8bbd0, #f48fb1); } /* rose soutenu */
-.color-18 { background: linear-gradient(135deg, #251184, #251184); } /* taupe */
+.color-17 { background: linear-gradient(135deg, #f8bbd0, #f39bba); } /* rose soutenu */
+.color-18 { background: linear-gradient(135deg, #2b89c9, #2b89c9); } /* taupe */
 .color-19 { background: linear-gradient(135deg, #fdb507, #fdb507); } /* gris bleuté */
 
 
@@ -3090,19 +3090,19 @@
 .line-3  { background: linear-gradient(135deg, #dc9d35, #dc9d35); } /* jaune doré */
 .line-4  { background: linear-gradient(135deg, #f5761c, #f5761c); } /* violet */
 .line-5  { background: linear-gradient(135deg, #a49dff, #a49dff); } /* bleu ciel */
-.line-6  { background: linear-gradient(135deg, #bdf53b, #bdf53b); } /* orange pêche */
+.line-6  { background: linear-gradient(135deg, #9fce32, #9fce32); } /* orange pêche */
 .line-7  { background: linear-gradient(135deg, #dd80dd, #dd80dd); } /* rose fuchsia */
 .line-8  { background: linear-gradient(135deg, #018f88, #018f88); } /* indigo doux */
 .line-9  { background: linear-gradient(135deg, #c90c61, #c90c61); } /* cyan */
 .line-10 { background: linear-gradient(135deg, #fd5a33, #fd5a33); } /* jaune citron */
 .line-11 { background: linear-gradient(135deg, #00dce4, #00dce4); } /* saumon */
-.line-12 { background: linear-gradient(135deg, #dd023b, #dd023b); } /* lilas */
-.line-13 { background: linear-gradient(135deg, #0198a4, #0198a4); } /* vert salade */
-.line-14 { background: linear-gradient(135deg, #fffb00, #fffb00); } /* vert émeraude */
+.line-12 { background: linear-gradient(135deg, #dd406a, #dd406a); } /* lilas */
+.line-13 { background: linear-gradient(135deg, #3abec7, #3abec7); } /* vert salade */
+.line-14 { background: linear-gradient(135deg, #d8d650, #d8d650); } /* vert émeraude */
 .line-15 { background: linear-gradient(135deg, #018945, #018945); } /* bleu pastel */
 .line-16 { background: linear-gradient(135deg, #f755ce, #f755ce); } /* orange doux */
-.line-17 { background: linear-gradient(135deg, #f8bbd0, #f48fb1); } /* rose soutenu */
-.line-18 { background: linear-gradient(135deg, #251184, #251184); } /* taupe */
+.line-17 { background: linear-gradient(135deg, #f8bbd0, #f39bba); } /* rose soutenu */
+.line-18 { background: linear-gradient(135deg, #2b89c9, #2b89c9); } /* taupe */
 .line-19 { background: linear-gradient(135deg, #fdb507, #fdb507); } /* gris bleuté */
 /* ===== SERVICE TITLE ===== */
 /* .service-title {
@@ -3160,19 +3160,19 @@
 .check-3  .check-icon { background: #dc9d35; }
 .check-4  .check-icon { background: #f5761c; }
 .check-5  .check-icon { background: #a49dff; }
-.check-6  .check-icon { background: #bdf53b; }
+.check-6  .check-icon { background: #9fce32; }
 .check-7  .check-icon { background: #dd80dd; }
 .check-8  .check-icon { background: #018f88; }
 .check-9  .check-icon { background: #c90c61; }
 .check-10 .check-icon { background: #fd5a33; }
 .check-11 .check-icon { background: #00dce4; }
-.check-12 .check-icon { background: #dd023b; }
-.check-13 .check-icon { background: #0198a4; }
-.check-14 .check-icon { background: #fffb00; }
+.check-12 .check-icon { background: #dd406a; }
+.check-13 .check-icon { background: #3abec7; }
+.check-14 .check-icon { background: #d8d650; }
 .check-15 .check-icon { background: #018945; }
 .check-16 .check-icon { background: #f755ce; }
 .check-17 .check-icon { background: #f8bbd0; }
-.check-18 .check-icon { background: #251184; }
+.check-18 .check-icon { background: #2b89c9; }
 .check-19 .check-icon { background: #fdb507; }
 
 /* ===== DÉCOUVRIR BUTTON ===== */
@@ -3196,19 +3196,19 @@
 .btn-3   { background: #dc9d35; }
 .btn-4   { background: #f5761c; }
 .btn-5   { background: #a49dff; }
-.btn-6   { background: #bdf53b; }
+.btn-6   { background: #9fce32; }
 .btn-7   { background: #dd80dd; }
 .btn-8   { background: #018f88; }
 .btn-9   { background: #c90c61; }
 .btn-10  { background: #fd5a33; }
 .btn-11  { background: #00dce4; }
-.btn-12  { background: #dd023b; }
-.btn-13  { background: #0198a4; }
-.btn-14  { background: #fffb00; }
+.btn-12  { background: #dd406a; }
+.btn-13  { background: #3abec7; }
+.btn-14  { background: #d8d650; }
 .btn-15  { background: #018945; }
 .btn-16  { background: #f755ce; }
 .btn-17  { background: #f8bbd0; }
-.btn-18  { background: #251184; }
+.btn-18  { background: #2b89c9; }
 .btn-19  { background: #fdb507; }
 .service-link-btn:hover { opacity: 0.85; transform: translateX(3px); }
 
