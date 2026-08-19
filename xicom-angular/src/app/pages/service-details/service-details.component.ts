@@ -97,10 +97,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   9: {
-    gradientStart: '#88ff39', gradientEnd: '#88ff39',
+    gradientStart: '#018f88', gradientEnd: '#018f88',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#88ff39',
-    buttonColor: '#88ff39', // ✅ vert olive
+    borderColor: '#018f88',
+    buttonColor: '#018f88', // ✅ vert olive
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   10: {
@@ -118,10 +118,10 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   12: {
-    gradientStart: '#279a46', gradientEnd: '#57b170',
+    gradientStart: '#00dce4', gradientEnd: '#0c8488',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
-    borderColor: '#279a46',
-    buttonColor: '#279a46', // ✅ bordeaux
+    borderColor: '#00dce4',
+    buttonColor: '#00dce4', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     13: {
