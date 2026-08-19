@@ -3059,16 +3059,16 @@
 .color-2  { background: linear-gradient(135deg, #f43f79, #f43f79); } /* rose */
 .color-3  { background: linear-gradient(135deg, #dc9d35, #dc9d35); } /* jaune doré */
 .color-4  { background: linear-gradient(135deg, #f5761c, #f5761c); } /* violet */
-.color-5  { background: linear-gradient(135deg, #004ce4, #004ce4); } /* bleu ciel */
-.color-6  { background: linear-gradient(135deg, #092d67, #092d67); } /* orange pêche */
-.color-7  { background: linear-gradient(135deg, #1b48f4, #1b48f4); } /* rose fuchsia */
+.color-5  { background: linear-gradient(135deg, #a49dff, #a49dff); } /* bleu ciel */
+.color-6  { background: linear-gradient(135deg, #bdf53b, #bdf53b); } /* orange pêche */
+.color-7  { background: linear-gradient(135deg, #dd80dd, #dd80dd); } /* rose fuchsia */
 .color-8  { background: linear-gradient(135deg, #018f88, #018f88); } /* indigo doux */
 .color-9  { background: linear-gradient(135deg, #c90c61, #c90c61); } /* cyan */
 .color-10 { background: linear-gradient(135deg, #fd5a33, #fd5a33); } /* jaune citron */
 .color-11 { background: linear-gradient(135deg, #00dce4, #00dce4); } /* saumon */
 .color-12 { background: linear-gradient(135deg, #dd023b, #dd023b); } /* lilas */
 .color-13 { background: linear-gradient(135deg, #0198a4, #0198a4); } /* vert salade */
-.color-14 { background: linear-gradient(135deg, #6c0086, #6c0086); } /* vert émeraude */
+.color-14 { background: linear-gradient(135deg, #fffb00, #fffb00); } /* vert émeraude */
 .color-15 { background: linear-gradient(135deg, #018945, #018945); } /* bleu pastel */
 .color-16 { background: linear-gradient(135deg, #f755ce, #f755ce); } /* orange doux */
 .color-17 { background: linear-gradient(135deg, #f8bbd0, #f48fb1); } /* rose soutenu */
@@ -3089,16 +3089,16 @@
 .line-2  { background: linear-gradient(135deg, #f43f79, #f43f79); } /* rose */
 .line-3  { background: linear-gradient(135deg, #dc9d35, #dc9d35); } /* jaune doré */
 .line-4  { background: linear-gradient(135deg, #f5761c, #f5761c); } /* violet */
-.line-5  { background: linear-gradient(135deg, #004ce4, #004ce4); } /* bleu ciel */
-.line-6  { background: linear-gradient(135deg, #092d67, #092d67); } /* orange pêche */
-.line-7  { background: linear-gradient(135deg, #1b48f4, #1b48f4); } /* rose fuchsia */
+.line-5  { background: linear-gradient(135deg, #a49dff, #a49dff); } /* bleu ciel */
+.line-6  { background: linear-gradient(135deg, #bdf53b, #bdf53b); } /* orange pêche */
+.line-7  { background: linear-gradient(135deg, #dd80dd, #dd80dd); } /* rose fuchsia */
 .line-8  { background: linear-gradient(135deg, #018f88, #018f88); } /* indigo doux */
 .line-9  { background: linear-gradient(135deg, #c90c61, #c90c61); } /* cyan */
 .line-10 { background: linear-gradient(135deg, #fd5a33, #fd5a33); } /* jaune citron */
 .line-11 { background: linear-gradient(135deg, #00dce4, #00dce4); } /* saumon */
 .line-12 { background: linear-gradient(135deg, #dd023b, #dd023b); } /* lilas */
 .line-13 { background: linear-gradient(135deg, #0198a4, #0198a4); } /* vert salade */
-.line-14 { background: linear-gradient(135deg, #6c0086, #6c0086); } /* vert émeraude */
+.line-14 { background: linear-gradient(135deg, #fffb00, #fffb00); } /* vert émeraude */
 .line-15 { background: linear-gradient(135deg, #018945, #018945); } /* bleu pastel */
 .line-16 { background: linear-gradient(135deg, #f755ce, #f755ce); } /* orange doux */
 .line-17 { background: linear-gradient(135deg, #f8bbd0, #f48fb1); } /* rose soutenu */
@@ -3159,16 +3159,16 @@
 .check-2  .check-icon { background: #f43f79; }
 .check-3  .check-icon { background: #dc9d35; }
 .check-4  .check-icon { background: #f5761c; }
-.check-5  .check-icon { background: #004ce4; }
-.check-6  .check-icon { background: #092d67; }
-.check-7  .check-icon { background: #1b48f4; }
+.check-5  .check-icon { background: #a49dff; }
+.check-6  .check-icon { background: #bdf53b; }
+.check-7  .check-icon { background: #dd80dd; }
 .check-8  .check-icon { background: #018f88; }
 .check-9  .check-icon { background: #c90c61; }
 .check-10 .check-icon { background: #fd5a33; }
 .check-11 .check-icon { background: #00dce4; }
 .check-12 .check-icon { background: #dd023b; }
 .check-13 .check-icon { background: #0198a4; }
-.check-14 .check-icon { background: #6c0086; }
+.check-14 .check-icon { background: #fffb00; }
 .check-15 .check-icon { background: #018945; }
 .check-16 .check-icon { background: #f755ce; }
 .check-17 .check-icon { background: #f8bbd0; }
@@ -3195,16 +3195,16 @@
 .btn-2   { background: #f43f79; }
 .btn-3   { background: #dc9d35; }
 .btn-4   { background: #f5761c; }
-.btn-5   { background: #004ce4; }
-.btn-6   { background: #092d67; }
-.btn-7   { background: #1b48f4; }
+.btn-5   { background: #a49dff; }
+.btn-6   { background: #bdf53b; }
+.btn-7   { background: #dd80dd; }
 .btn-8   { background: #018f88; }
 .btn-9   { background: #c90c61; }
 .btn-10  { background: #fd5a33; }
 .btn-11  { background: #00dce4; }
 .btn-12  { background: #dd023b; }
 .btn-13  { background: #0198a4; }
-.btn-14  { background: #6c0086; }
+.btn-14  { background: #fffb00; }
 .btn-15  { background: #018945; }
 .btn-16  { background: #f755ce; }
 .btn-17  { background: #f8bbd0; }
