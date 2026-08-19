@@ -280,6 +280,8 @@ p {
   flex-shrink: 0;
 }
 
+
+
 .pricing-card {
     background: #eff0f4;
     border: 2px solid var(--primary-color);

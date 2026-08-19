@@ -3054,7 +3054,7 @@
 
 
 /* 8 color variants */
-.color-0  { background: linear-gradient(135deg, #0059da, #0059da); } /* bleu lavande */
+.color-0  { background: linear-gradient(135deg, #7298d1, #7298d1); } /* bleu lavande */
 .color-1  { background: linear-gradient(135deg, #5139bc, #5139bc); } /* vert menthe */
 .color-2  { background: linear-gradient(135deg, #f43f79, #f43f79); } /* rose */
 .color-3  { background: linear-gradient(135deg, #dc9d35, #dc9d35); } /* jaune doré */
@@ -3084,7 +3084,7 @@
   margin-bottom: 12px;
 }
 
-.line-0  { background: linear-gradient(135deg, #0059da, #0059da); } /* bleu lavande */
+.line-0  { background: linear-gradient(135deg, #7298d1, #7298d1); } /* bleu lavande */
 .line-1  { background: linear-gradient(135deg, #5139bc, #5139bc); } /* vert menthe */
 .line-2  { background: linear-gradient(135deg, #f43f79, #f43f79); } /* rose */
 .line-3  { background: linear-gradient(135deg, #dc9d35, #dc9d35); } /* jaune doré */
@@ -3154,7 +3154,7 @@
 }
 
 /* Check icons */
-.check-0  .check-icon { background: #0059da; }
+.check-0  .check-icon { background: #7298d1; }
 .check-1  .check-icon { background: #5139bc; }
 .check-2  .check-icon { background: #f43f79; }
 .check-3  .check-icon { background: #dc9d35; }
@@ -3190,7 +3190,7 @@
   color: white;
 }
 
-.btn-0   { background: #0059da; }
+.btn-0   { background: #7298d1; }
 .btn-1   { background: #5139bc; }
 .btn-2   { background: #f43f79; }
 .btn-3   { background: #dc9d35; }

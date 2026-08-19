@@ -41,35 +41,35 @@ commandeForm: FormGroup = this.fb.group({
 });
 private serviceThemes: { [key: number]: any } = {
   1: {
-    gradientStart: '#0059da', gradientEnd: '#7298d1',
+    gradientStart: '#7298d1', gradientEnd: '#7298d1',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#7298d1',
-    buttonColor: '#0059da', // ✅ déjà correct
+    buttonColor: '#7298d1', // ✅ déjà correct
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   2: {
-    gradientStart: '#5139bc', gradientEnd: '#5139bc',
+    gradientStart: '#5139bc94', gradientEnd: '#5139bc94',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#5139bc',
     buttonColor: '#5139bc', // ✅ déjà correct
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   3: {
-    gradientStart: '#f43f79', gradientEnd: '#fd8d6d',
+    gradientStart: '#f76b97', gradientEnd: '#f76b97',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#f43f79',
     buttonColor: '#f43f79', // ✅ rose
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   4: {
-    gradientStart: '#dc9d35', gradientEnd: '#d79022',
+    gradientStart: '#ecba68', gradientEnd: '#d6b077',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#dc9d35',
     buttonColor: '#dc9d35', // ✅ orange
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   5: {
-    gradientStart: '#f5761c', gradientEnd: '#ed6402',
+    gradientStart: '#f7a56b', gradientEnd: '#f7a56b',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#f5761c',
     buttonColor: '#f5761c', // ✅ bleu ardoise
@@ -83,28 +83,28 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   7: {
-    gradientStart: '#9fce32', gradientEnd: '#9fce32',
+    gradientStart: '#b6d867', gradientEnd: '#b6d867',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#9fce32',
     buttonColor: '#9fce32', // ✅ brun doré
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   8: {
-    gradientStart: '#dd80dd', gradientEnd: '#dd80dd',
+    gradientStart: '#e9aae9', gradientEnd: '#e9aae9',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#dd80dd',
     buttonColor: '#dd80dd', // ✅ violet
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   9: {
-    gradientStart: '#018f88', gradientEnd: '#018f88',
+    gradientStart: '#6cc7c2', gradientEnd: '#6cc7c2',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#018f88',
     buttonColor: '#018f88', // ✅ vert olive
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   10: {
-    gradientStart: '#c90c61', gradientEnd: '#df0e70',
+    gradientStart: '#f86aac', gradientEnd: '#f86aac',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#c90c61',
     buttonColor: '#c90c61', // ✅ rouge rosé
@@ -118,42 +118,42 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
   12: {
-    gradientStart: '#00dce4', gradientEnd: '#0c8488',
+    gradientStart: '#00c8cf', gradientEnd: '#00c8cf',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#00dce4',
     buttonColor: '#00dce4', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     13: {
-    gradientStart: '#dd406a', gradientEnd: '#e4023c',
+    gradientStart: '#eb7a98', gradientEnd: '#eb7a98',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#dd406a',
     buttonColor: '#dd406a', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     14: {
-    gradientStart: '#3abec7', gradientEnd: '#01a1ac',
+    gradientStart: '#7dc5ca', gradientEnd: '#7dc5ca',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#3abec7',
     buttonColor: '#3abec7', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     15: {
-    gradientStart: '#d8d650', gradientEnd: '#c2bf00',
+    gradientStart: '#d3d284', gradientEnd: '#d3d284',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#c2bf00',
     buttonColor: '#d8d650', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     16: {
-    gradientStart: '#018945', gradientEnd: '#028c47',
+    gradientStart: '#73aa8f', gradientEnd: '#73aa8f',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#018945',
     buttonColor: '#018945', // ✅ bordeaux
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     17: {
-    gradientStart: '#f755ce', gradientEnd: '#f755ce',
+    gradientStart: '#f78edd', gradientEnd: '#f78edd',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#f755ce',
     buttonColor: '#f755ce', // ✅ bordeaux
@@ -174,7 +174,7 @@ private serviceThemes: { [key: number]: any } = {
     buttonTextColor: '#fff', gradientType: 'radial'
   },
     20: {
-    gradientStart: '#fdb507', gradientEnd: '#e0a101',
+    gradientStart: '#fad170', gradientEnd: '#fad170',
     gradientStartPosition: '20%', gradientEndPosition: '90%',
     borderColor: '#fdb507',
     buttonColor: '#fdb507', // ✅ bordeaux

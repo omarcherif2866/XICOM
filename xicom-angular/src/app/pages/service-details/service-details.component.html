@@ -96,17 +96,30 @@
     </div>
   </div>
 
-  <ul class="features-list">
-    <li *ngFor="let details of price.details">
+<ul class="features-list">
+  <li *ngFor="let details of price.details">
+    
+    <!-- ✅ Cas normal : title + description -->
+    <ng-container *ngIf="details.title">
       <span class="check-icon" [ngStyle]="{'color': currentTheme?.buttonColor}">✔</span>
       <div style="display: flex; flex-direction: column;">
         <span [ngStyle]="{'font-size': '18px','font-weight': '700'}">{{ details.title }}</span>
-        <span class="detail-desc" [ngStyle]="{'color': currentTheme?.buttonColor}">
+        <span class="detail-desc" *ngIf="details.description" [ngStyle]="{'color': currentTheme?.buttonColor}">
           {{ details.description }}
         </span>
       </div>
-    </li>
-  </ul>
+    </ng-container>
+
+    <!-- ✅ Cas description seule : étoile + style title -->
+    <ng-container *ngIf="!details.title && details.description">
+      <span class="check-icon" [ngStyle]="{'color': currentTheme?.buttonColor}" style="flex-shrink: 0; align-self: flex-start; margin-top: 3px; font-size: 20px;">★</span>
+      <span [ngStyle]="{'font-size': '18px', 'font-weight': '700'}">
+        {{ details.description }}
+      </span>
+    </ng-container>
+
+  </li>
+</ul>
 
   <button class="btn btn-primary-dark full-width"
           [ngStyle]="getButtonStyle()"
@@ -120,7 +133,7 @@
   <span class="recommended-badge" [ngStyle]="{'background-color': currentTheme?.buttonColor}">RECOMMANDÉ</span>
   <div class="card-header">
     <div class="icon-box" [ngStyle]="getIconBoxStyle(true)">
-      <img src="../../../assets/icons/crown.svg" alt="premium" [ngStyle]="getIconFilterStyle(true)">
+      <img src="../../../assets/icons/diamond.svg" alt="premium" style="filter: brightness(0) invert(1);">
     </div>
     <h3>{{ price.title }}</h3>
     <span class="subtitle-text">{{ price.subtitle }}</span>
@@ -172,7 +185,9 @@
 <ng-container *ngIf="isLast">
   <div class="card-header">
     <div class="icon-box" [ngStyle]="getIconBoxStyle(false)">
-      <img src="../../../assets/icons/crown.svg" alt="premium" [ngStyle]="getIconFilterStyle(false)">
+      <div class="icon-mask"
+           [ngStyle]="getIconMaskStyle('../../../assets/icons/crown.svg', false)">
+      </div>
     </div>
     <h3>{{ price.title }}</h3>
     <span class="subtitle-text">{{ price.subtitle }}</span>
@@ -191,15 +206,30 @@
     </div>
   </div>
 
-  <ul class="features-list">
-    <li *ngFor="let details of price.details">
+<ul class="features-list">
+  <li *ngFor="let details of price.details">
+    
+    <!-- ✅ Cas normal : title + description -->
+    <ng-container *ngIf="details.title">
       <span class="check-icon" [ngStyle]="{'color': currentTheme?.buttonColor}">✔</span>
       <div style="display: flex; flex-direction: column;">
-        <span [ngStyle]="{'font-size': '18px', 'font-weight': '700'}">{{ details.title }}</span>
-        <span class="detail-desc" [ngStyle]="{'color': currentTheme?.buttonColor}">{{ details.description }}</span>
+        <span [ngStyle]="{'font-size': '18px','font-weight': '700'}">{{ details.title }}</span>
+        <span class="detail-desc" *ngIf="details.description" [ngStyle]="{'color': currentTheme?.buttonColor}">
+          {{ details.description }}
+        </span>
       </div>
-    </li>
-  </ul>
+    </ng-container>
+
+    <!-- ✅ Cas description seule : étoile + style title -->
+    <ng-container *ngIf="!details.title && details.description">
+      <span class="check-icon" [ngStyle]="{'color': currentTheme?.buttonColor}" style="flex-shrink: 0; align-self: flex-start; margin-top: 3px; font-size: 20px;">★</span>
+      <span [ngStyle]="{'font-size': '18px', 'font-weight': '700'}">
+        {{ details.description }}
+      </span>
+    </ng-container>
+
+  </li>
+</ul>
 
     <button class="btn btn-primary-dark full-width"
           [ngStyle]="getButtonStyle()"
