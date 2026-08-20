@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -43,6 +44,7 @@ public class RDVServiceImp implements RDVService {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
+            helper.setFrom("hello@xicom.fr", "Xicom");
             helper.setTo(rdv.getEmail());
             helper.setSubject("✅ Confirmation de votre rendez-vous");
 
@@ -88,7 +90,7 @@ public class RDVServiceImp implements RDVService {
             mailSender.send(mimeMessage);
 
             System.out.println("✅ Email de confirmation envoyé au client : " + rdv.getEmail());
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             System.err.println("❌ Erreur lors de l'envoi de l'email au client : " + e.getMessage());
         }
     }
@@ -99,8 +101,9 @@ public class RDVServiceImp implements RDVService {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
+            helper.setFrom("hello@xicom.fr", "Xicom");
             helper.setTo(adminEmail);
-            helper.setSubject("🔔 Nouvelle demande de rendez-vous - " + rdv.getName() + " " + rdv.getSurname());
+            helper.setSubject("🔔 Nouvelle demande de rendez-vous...");
 
             String htmlContent = String.format("""
                 <html>
@@ -150,8 +153,8 @@ public class RDVServiceImp implements RDVService {
             mailSender.send(mimeMessage);
 
             System.out.println("✅ Email de notification envoyé à l'admin : " + adminEmail);
-        } catch (MessagingException e) {
-            System.err.println("❌ Erreur lors de l'envoi de l'email à l'admin : " + e.getMessage());
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            System.err.println("❌ Erreur lors de l'envoi de l'email au client : " + e.getMessage());
         }
     }
 
@@ -178,6 +181,7 @@ public class RDVServiceImp implements RDVService {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
+            helper.setFrom("hello@xicom.fr", "Xicom");
             helper.setTo(rdv.getEmail());
             helper.setSubject("📅 Votre rendez-vous est confirmé");
 
@@ -224,8 +228,8 @@ public class RDVServiceImp implements RDVService {
             mailSender.send(mimeMessage);
 
             System.out.println("✅ Email de mise à jour envoyé au client : " + rdv.getEmail());
-        } catch (MessagingException e) {
-            System.err.println("❌ Erreur lors de l'envoi de l'email de mise à jour : " + e.getMessage());
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            System.err.println("❌ Erreur lors de l'envoi de l'email au client : " + e.getMessage());
         }
     }
 
@@ -247,6 +251,7 @@ public class RDVServiceImp implements RDVService {
             MimeMessageHelper helperClient = new MimeMessageHelper(mimeClient, true, "UTF-8");
             helperClient.setTo(rdv.getEmail());
             helperClient.setSubject("⏰ Rappel : votre rendez-vous dans " + delai);
+            helperClient.setFrom(adminEmail);
 
             String htmlClient = String.format("""
             <html>

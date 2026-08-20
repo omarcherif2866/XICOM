@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { Abonnee } from 'src/app/models/abonnee';
 import { AbonneeServiceService } from 'src/app/service/abonnee-service.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { ContactService } from 'src/app/service/contact.service';
 @Pipe({ name: 'truncate' })
 export class TruncatePipe implements PipeTransform {
   transform(value: string, limit = 27): string {
@@ -166,6 +167,7 @@ private readonly rawServices: any[] = [
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    private contactService: ContactService,
     private http: HttpClient,
     private serviceService: ServiceService,
     private sanitizer: DomSanitizer,
@@ -183,8 +185,8 @@ private readonly rawServices: any[] = [
     });
 
       this.contactForm = this.fb.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
+      nom: ['', Validators.required],
+      // surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       countryCode: ['+33', Validators.required], // Changé de +33 à +216 pour la Tunisie par défaut
       sujet: ['', Validators.required],
@@ -557,6 +559,30 @@ goToService() {
 
   closeDialog(): void {
     this.isDialogOpen = false;
+  }
+
+
+  onSubmitContact(): void {
+    console.log('form valid:', this.contactForm.valid);
+    console.log('form value:', this.contactForm.value);
+    
+    if (this.contactForm.invalid) {
+      console.log('form errors:', this.contactForm.errors);
+      this.contactForm.markAllAsTouched();
+      return;
+    }
+    
+    this.contactService.sendContact(this.contactForm.value).subscribe({
+      next: (res) => {
+        console.log('succès:', res);
+        Swal.fire({ icon: 'success', title: 'Message envoyé !', timer: 2000 });
+        this.contactForm.reset();
+      },
+      error: (err) => {
+        console.log('erreur:', err);
+        Swal.fire({ icon: 'error', title: 'Erreur', text: err.message });
+      }
+    });
   }
 
 }

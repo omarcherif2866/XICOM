@@ -43,7 +43,8 @@ public class WebSecurityConfig {
             "/app/**",
             "/chat/**",
             "/unread/**",
-            "/payments/**"
+            "/payments/**",
+            "/contact/**"
 
     };
 
