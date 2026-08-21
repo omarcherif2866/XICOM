@@ -9,12 +9,18 @@
   <link rel="icon" type="image/x-icon" href="../../../assets/logo/logo.webp">
 
   <!-- ✅ Préchargement image LCP -->
-  <link rel="preload" as="image" href="assets/images/hero-illustration.webp">
+  <link rel="preload" 
+        as="image" 
+        href="assets/images/hero-illustration.webp"
+        type="image/webp">
 
   <!-- ✅ Fonts en différé -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="preconnect" href="https://res.cloudinary.com">
+  <link rel="dns-prefetch" href="https://res.cloudinary.com">
+
   <noscript>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
   </noscript>
@@ -35,7 +41,7 @@
 
   <!-- ✅ Scripts en différé -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://sandbox.web.squarecdn.com/v1/square.js" async defer></script>
+  <script src="https://sandbox.web.squarecdn.com/v1/square.js" defer></script>
 </head>
 <body>
   <app-root></app-root>
