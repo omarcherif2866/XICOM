@@ -44,6 +44,63 @@
   <script src="https://sandbox.web.squarecdn.com/v1/square.js" defer></script> -->
 </head>
 <body>
-  <app-root></app-root>
+    <app-root>
+    <div id="xi-loader" style="
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      z-index: 9999;
+    ">
+      <img src="assets/logo/Asset 34@4x.png" 
+           alt="XI COM"
+           style="width: 100px; margin-bottom: 24px;">
+      
+      <div style="
+        width: 40px; height: 40px;
+        border: 3px solid #f0ebff;
+        border-top-color: #6341c4;
+        border-radius: 50%;
+        animation: xi-spin 0.7s linear infinite;
+        margin-bottom: 16px;
+      "></div>
+
+      <!-- ✅ Timer -->
+      <div id="xi-timer" style="
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 13px;
+        color: #9090b0;
+        letter-spacing: 0.05em;
+      ">0.00s</div>
+    </div>
+
+    <style>
+      @keyframes xi-spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </app-root>
+
+  <!-- ✅ Script timer -->
+  <script>
+    const startTime = performance.now();
+    const timerEl = document.getElementById('xi-timer');
+
+    const interval = setInterval(() => {
+      if (!timerEl) { clearInterval(interval); return; }
+      const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
+      timerEl.textContent = elapsed + 's';
+    }, 50);
+
+    // ✅ Arrêter quand Angular prend le contrôle
+    window.addEventListener('load', () => {
+      clearInterval(interval);
+      const total = ((performance.now() - startTime) / 1000).toFixed(2);
+      if (timerEl) timerEl.textContent = '✅ Chargé en ' + total + 's';
+    });
+  </script>
 </body>
 </html>
