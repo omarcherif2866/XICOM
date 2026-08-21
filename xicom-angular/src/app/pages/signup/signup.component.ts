@@ -23,7 +23,22 @@ export class SignupComponent implements OnInit, AfterViewInit  {
 
 ngAfterViewInit(): void {
     this.waitForGoogle();
+  this.loadGoogleScript();
+}
+
+private loadGoogleScript(): void {
+  if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    this.initGoogleSignIn();
+    return;
   }
+
+  const script = document.createElement('script');
+  script.src = 'https://accounts.google.com/gsi/client';
+  script.async = true;
+  script.defer = true;
+  script.onload = () => this.waitForGoogle();
+  document.head.appendChild(script);
+}
 
   private waitForGoogle(retries: number = 20): void {
     if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {

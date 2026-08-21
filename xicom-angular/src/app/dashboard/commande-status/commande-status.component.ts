@@ -36,7 +36,8 @@ private squareCard: any = null;
   currentPage = 1;
   itemsPerPage = 8;
   userId: number | null = null;
-
+private squareScriptLoaded = false;
+private squareScriptLoading: Promise<void> | null = null;
   constructor(
     private serviceService: ServiceService,
     private authService: AuthService,
@@ -145,17 +146,43 @@ private squareCard: any = null;
         this.router.navigate(['/']);
       }
 
+private loadSquareScript(): Promise<void> {
+  if (this.squareScriptLoaded) {
+    return Promise.resolve();
+  }
+  if (this.squareScriptLoading) {
+    return this.squareScriptLoading;
+  }
+
+  this.squareScriptLoading = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://sandbox.web.squarecdn.com/v1/square.js';
+    script.async = true;
+    script.onload = () => {
+      this.squareScriptLoaded = true;
+      resolve();
+    };
+    script.onerror = () => reject(new Error('Impossible de charger Square SDK'));
+    document.head.appendChild(script);
+  });
+
+  return this.squareScriptLoading;
+}
+
 payerCommande(commande: any): void {
-  // ✅ ouvrir le modal Square avec le pack déjà connu
   this.currentServiceCommande = commande;
   this.selectedPayPack = { price: commande.packPrice, title: commande.packTitle };
   this.showPaymentModal = true;
-  setTimeout(async () => {
+
+  this.loadSquareScript().then(async () => {
     if (!(window as any).Square) return;
     const payments = (window as any).Square.payments('sandbox-sq0idb-vOwpMCtCuvesEBTe1JNCvQ', 'LPFSAGHXZK4SZ');
     this.squareCard = await payments.card();
     await this.squareCard.attach('#card-container');
-  }, 500);
+  }).catch(err => {
+    console.error(err);
+    Swal.fire({ icon: 'error', title: 'Erreur de chargement du module de paiement' });
+  });
 }
 
 

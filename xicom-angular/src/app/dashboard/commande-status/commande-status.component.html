@@ -308,7 +308,7 @@
 
 <div class="pay-modal-overlay" *ngIf="showPaymentModal" (click)="showPaymentModal = false">
   <div class="pay-modal" (click)="$event.stopPropagation()">
-    <h3>Payer {{ selectedPayPack?.title }}</h3>
+    <h3>Payer le pack : {{ selectedPayPack?.title }}</h3>
     <p style="color: #7F77DD; font-size: 22px; font-weight: 700;">{{ selectedPayPack?.price }}€</p>
     <div id="card-container"></div>
     <button class="pay-btn" style="margin-top: 12px; width: 100%;"

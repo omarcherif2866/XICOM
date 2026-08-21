@@ -14,7 +14,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/teleport-project-template-angular",
+            "outputPath": "dist/teleport-project-template-angular/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -127,6 +127,65 @@
               "devServerTarget": "teleport-project-template-angular:serve:production"
             }
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/teleport-project-template-angular/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "stylePreprocessorOptions": {
+              "includePaths": []
+            }
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "teleport-project-template-angular:build:development",
+              "serverTarget": "teleport-project-template-angular:server:development"
+            },
+            "production": {
+              "browserTarget": "teleport-project-template-angular:build:production",
+              "serverTarget": "teleport-project-template-angular:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "teleport-project-template-angular:build:production",
+              "serverTarget": "teleport-project-template-angular:server:production"
+            },
+            "development": {
+              "browserTarget": "teleport-project-template-angular:build:development",
+              "serverTarget": "teleport-project-template-angular:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }},
