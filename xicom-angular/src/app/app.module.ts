@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
-import { RouterModule } from '@angular/router'
+import { RouterModule, PreloadAllModules } from '@angular/router'
 
 import { ComponentsModule } from './components/components.module'
 import { AppComponent } from './app.component'
@@ -16,6 +16,8 @@ import { FicheClientProjetComponent } from './dashboard/fiche-client-projet/fich
 import { TestServiceComponent } from './dashboard/test-service/test-service.component';
 import { AuthGuard } from './guards/auth.guard'
 
+// ✅ Import EAGER de HomePageModule (plus de lazy loading pour la home)
+import { HomePageModule } from './pages/home-page/home-page.module';
 
 
 export function tokenGetter() {  // ✅ Ajouter
@@ -23,14 +25,9 @@ export function tokenGetter() {  // ✅ Ajouter
 }
 
 const routes = [
+  // ❌ SUPPRIMÉ : l'entrée lazy pour path '' — HomePageModule.forChild()
+  // enregistre déjà cette route automatiquement puisqu'on l'importe en eager ci-dessous.
   {
-    path: '',
-    loadChildren: () =>
-      import('./pages/home-page/home-page.module').then(
-        (m) => m.HomePageModule
-      ),
-  },
-    {
     path: 'forgot-password',
     loadChildren: () =>
       import('./pages/forget-password/forget-password.module').then(
@@ -78,7 +75,7 @@ const routes = [
       import('./dashboard/service/service.module').then(
         (m) => m.ServiceModule
       ),
-    canActivate: [AdminGuard]  // ✅ Ajouter
+    canActivate: [AdminGuard]
   },
   {
     path: 'commande_status',
@@ -87,38 +84,33 @@ const routes = [
         (m) => m.CommandeStatusModule
       )
   },
-    {
+  {
     path: 'livrables/:id',
     loadChildren: () =>
       import('./dashboard/livrable/livrable.module').then(
         (m) => m.LivrableModule
       )
   },
-
   {
-  path: 'livrables',           // ← admin accède sans ID
-  loadChildren: () =>
-    import('./dashboard/livrable/livrable.module').then(m => m.LivrableModule) ,
-      canActivate: [AdminGuard]  // ✅ Ajouter
-
-},
-
-    {
+    path: 'livrables',
+    loadChildren: () =>
+      import('./dashboard/livrable/livrable.module').then(m => m.LivrableModule),
+    canActivate: [AdminGuard]
+  },
+  {
     path: 'factures/:id',
     loadChildren: () =>
       import('./dashboard/facture/facture.module').then(
         (m) => m.FactureModule
       )
   },
-
   {
-  path: 'factures',           // ← admin accède sans ID
-  loadChildren: () =>
-    import('./dashboard/facture/facture.module').then(m => m.FactureModule) ,
-      canActivate: [AdminGuard]  // ✅ Ajouter
-
-},
-    {
+    path: 'factures',
+    loadChildren: () =>
+      import('./dashboard/facture/facture.module').then(m => m.FactureModule),
+    canActivate: [AdminGuard]
+  },
+  {
     path: 'fiche_client/:id',
     loadChildren: () =>
       import('./dashboard/fiche-client-projet/fiche-client-projet.module').then(
@@ -126,61 +118,57 @@ const routes = [
       )
   },
   {
-  path: 'actualites',
-  loadChildren: () =>
-    import('./dashboard/actualite/actualite.module').then(
-      (m) => m.ActualiteModule
-    ),
-    canActivate: [AdminGuard]  // ✅ Ajouter
-},
-
+    path: 'actualites',
+    loadChildren: () =>
+      import('./dashboard/actualite/actualite.module').then(
+        (m) => m.ActualiteModule
+      ),
+    canActivate: [AdminGuard]
+  },
   {
-  path: 'rdv',
-  loadChildren: () =>
-    import('./dashboard/rdv/rdv.module').then(
-      (m) => m.RdvModule
-    ),
-    canActivate: [AdminGuard]  // ✅ Ajouter
-},
+    path: 'rdv',
+    loadChildren: () =>
+      import('./dashboard/rdv/rdv.module').then(
+        (m) => m.RdvModule
+      ),
+    canActivate: [AdminGuard]
+  },
   {
-  path: 'abonnee',
-  loadChildren: () =>
-    import('./dashboard/abonnee/abonnee.module').then(
-      (m) => m.AbonneeModule
-    ),
-    canActivate: [AdminGuard]  // ✅ Ajouter
-},
-    {
+    path: 'abonnee',
+    loadChildren: () =>
+      import('./dashboard/abonnee/abonnee.module').then(
+        (m) => m.AbonneeModule
+      ),
+    canActivate: [AdminGuard]
+  },
+  {
     path: 'partenaires',
     loadChildren: () =>
       import('./dashboard/partenaires/partenaires.module').then(
         (m) => m.PartenairesModule
       ),
-      canActivate: [AdminGuard] 
+    canActivate: [AdminGuard]
   },
-
-    {
+  {
     path: 'commande_service',
     loadChildren: () =>
       import('./dashboard/commande-service/commande-service.module').then(
         (m) => m.CommandeServiceModule
       )
   },
-      {
+  {
     path: 'test_commande_service',
     loadChildren: () =>
       import('./dashboard/test-service/test-service.module').then(
         (m) => m.TestServiceModule
       )
   },
-
-{
-  path: 'chat',
-  loadChildren: () =>
-    import('./dashboard/chat/chat.module').then(m => m.ChatModule),
-  canActivate: [AuthGuard]  // ✅ ou AuthGuard selon si CLIENT y accède aussi
-},
-
+  {
+    path: 'chat',
+    loadChildren: () =>
+      import('./dashboard/chat/chat.module').then(m => m.ChatModule),
+    canActivate: [AuthGuard]
+  },
   {
     path: 'offers',
     loadChildren: () =>
@@ -188,13 +176,13 @@ const routes = [
         (m) => m.OffersModule
       ),
   },
-   {
+  {
     path: 'allActualites',
     loadChildren: () =>
       import('./pages/all-actualite/all-actualite.module').then(
         (m) => m.AllActualiteModule
       ),
-  }, 
+  },
   {
     path: 'compagne',
     loadChildren: () =>
@@ -209,34 +197,37 @@ const routes = [
         (m) => m.ServiceDetailsModule
       ),
   },
-
-    {
+  {
     path: 'actualiteDetails/:id',
     loadChildren: () =>
       import('./pages/actualite-details/actualite-details.module').then(
         (m) => m.ActualiteDetailsModule
       ),
   },
-
 ]
 
 @NgModule({
-  declarations: [AppComponent], // ✅ Seulement AppComponent
+  declarations: [AppComponent],
   imports: [
-    BrowserModule, 
-    RouterModule.forRoot(routes), 
-    ComponentsModule, 
+    BrowserModule,
+    // ✅ preloadingStrategy: télécharge les autres modules lazy en arrière-plan
+    //    une fois la home affichée, sans bloquer le premier rendu
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    ComponentsModule,
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    JwtModule.forRoot({          // ✅ Ajouter
+    // ✅ HomePageModule importé en eager : son RouterModule.forChild()
+    //    enregistre la route path:'' -> HomePage automatiquement
+    HomePageModule,
+    JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
       }
-    })    
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],
