@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
@@ -38,8 +38,9 @@ get isLoggedIn(): boolean {
     return !!this.authService.getToken();
 }
 
-  logout(): void {
+  async logout(): Promise<void> {
     this.authService.logout();
+        const Swal = (await import('sweetalert2')).default;
     Swal.fire({
       icon: 'info',
       title: 'Déconnexion',
@@ -61,10 +62,11 @@ navigateToDashboardClient() {
   this.menuOpen = false;
 }
 
-goToService() {
+  async goToService() {
   const token = this.authService.getToken();
 
   if (!token) {
+        const Swal = (await import('sweetalert2')).default;
     Swal.fire({
       title: 'Connexion requise',
       text: 'Vous devez être connecté pour accéder à cette page.',
@@ -92,9 +94,10 @@ goToService() {
     this.isDialogOpen = false;
   }
 
-checkAuthAndOpenDialog() {
+  async checkAuthAndOpenDialog() {
   const token = localStorage.getItem('token');
   if (!token) {
+    const Swal = (await import('sweetalert2')).default;
     Swal.fire({
       title: 'Connexion requise',
       text: 'Vous devez être connecté pour démarrer un projet.',
