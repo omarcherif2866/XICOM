@@ -11,7 +11,7 @@ import { RDVService } from 'src/app/service/rdv.service';
 import { ServiceService } from 'src/app/service/service.service';
 import { Pipe, PipeTransform } from '@angular/core';
 
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import { Abonnee } from 'src/app/models/abonnee';
 import { AbonneeServiceService } from 'src/app/service/abonnee-service.service';
 import { AuthService } from 'src/app/service/auth.service';
@@ -413,9 +413,10 @@ generateRandomColor(): string {
 }
 
 
-onSubmit(): void {
+  async onSubmit(): Promise<void> {
   if (this.projectForm.invalid) {
     this.markFormGroupTouched(this.projectForm);
+    const Swal = (await import('sweetalert2')).default;
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -439,7 +440,8 @@ onSubmit(): void {
 
   // Utiliser le service
   this.rdvService.addRDV(rdvData).subscribe({
-    next: (response) => {
+    next: async (response) => {
+      const Swal = (await import('sweetalert2')).default;
         Swal.fire({
           icon: 'success',
           title: 'Votre demande de rendez-vous a été envoyée avec succès ! Vous recevrez un email de confirmation.',
@@ -449,7 +451,8 @@ onSubmit(): void {
       this.projectForm.reset();
       this.isSubmitting = false;
     },
-    error: (error) => {
+    error: async (error) => {
+      const Swal = (await import('sweetalert2')).default;
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -518,7 +521,8 @@ const abonne = new Abonnee(
 );
 
   this.abonneeService.addAbonne(abonne).subscribe({
-    next: () => {
+    next: async () => {
+          const Swal = (await import('sweetalert2')).default;
           Swal.fire({
             title: 'Success!',
             text: 'Vous êtes maintenant abonné à notre newsletter.',
@@ -534,10 +538,11 @@ const abonne = new Abonnee(
   });
 }
 
-goToService() {
+  async goToService() {
   const token = this.authService.getToken();
 
   if (!token) {
+    const Swal = (await import('sweetalert2')).default;
     Swal.fire({
       title: 'Connexion requise',
       text: 'Vous devez être connecté pour accéder à cette page.',
@@ -573,12 +578,14 @@ goToService() {
     }
     
     this.contactService.sendContact(this.contactForm.value).subscribe({
-      next: (res) => {
+      next: async (res) => {
+        const Swal = (await import('sweetalert2')).default;
         console.log('succès:', res);
         Swal.fire({ icon: 'success', title: 'Message envoyé !', timer: 2000 });
         this.contactForm.reset();
       },
-      error: (err) => {
+      error: async (err) => {
+        const Swal = (await import('sweetalert2')).default;
         console.log('erreur:', err);
         Swal.fire({ icon: 'error', title: 'Erreur', text: err.message });
       }
