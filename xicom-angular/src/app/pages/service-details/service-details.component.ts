@@ -780,9 +780,28 @@ openWhatsApp(): void {
 }
 
 navigateToCommande(pack: any): void {
+    const token = this.authService.getToken();
+
+  if (!token) {
+    Swal.fire({
+      title: 'Connexion requise',
+      text: 'Vous devez être connecté pour accéder à cette page.',
+      icon: 'warning',
+      confirmButtonText: 'Se connecter',
+      cancelButtonText: 'Annuler',
+      showCancelButton: true,
+      confirmButtonColor: '#6863BF',
+      cancelButtonColor: '#aaa',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/signin']);
+      }
+    });
+  } else {
   sessionStorage.setItem('selectedPack', JSON.stringify(pack));
   sessionStorage.setItem('selectedService', JSON.stringify(this.services[0])); // ✅ services[0]
   this.router.navigate(['/commande_service']);
+}
 }
 
 }

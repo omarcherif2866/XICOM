@@ -118,7 +118,7 @@ login() {
         const role = this.authService.getRoleFromToken();
 
         if (role === 'Admin') {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/services']);
         } else if (role === 'SIMPLEU') {
           this.router.navigate(['/']);
         }

@@ -221,41 +221,46 @@
 
 <!-- Services Section -->
 <section id="services" class="services">
-
+  <!-- Éléments décoratifs -->
+  <div class="services-dots-tl"></div>
+  <div class="services-dots-br"></div>
+  <div class="services-blob-tl"></div>
+  <div class="services-blob-tr"></div>
+  <div class="services-blob-br"></div>
+  <div class="services-grid-deco-left"></div>
+  <div class="services-grid-deco-right"></div>
 
   <div class="container">
     <div class="section-header">
-
       <h2 class="section-title">Nos <span class="services-gradient-text">Services</span></h2>
       <p class="section-subtitle">Nous donnons de la visibilité à votre marque</p>
       <div class="section-underline"></div>
     </div>
 
     <div class="services-grid">
-<div class="service-card" *ngFor="let service of services; let i = index"
-     [style.animation-delay]="(i * 0.05) + 's'"
-     [attr.data-index]="i" 
-     [routerLink]="['/serviceDetails', service.id]">
-  <div class="service-card-top">
-    <div class="service-icon-circle" [ngClass]="'color-' + (i % 20)">
-      <img *ngIf="service.Icon" [src]="sanitizeImage(service.Icon)" alt="Icône service" class="ev-image" />
-    </div>
-    <div class="service-dots">· · ·</div>
-  </div>
-  <div class="service-title-line" [ngClass]="'line-' + (i % 20)"></div>
-  <h3 class="service-title">{{ service.title }}</h3>
-  <div class="service-items">
-    <div class="service-item" *ngFor="let desc of service.sections[0].details | slice:0:3"
-         [ngClass]="'check-' + (i % 20)">
-      <span class="check-icon">✔</span>
-      <span>{{ desc.title | truncate:27 }}</span>
-    </div>
-  </div>
-  <a class="service-link-btn" [ngClass]="'btn-' + (i % 20)"
-     >
-    Découvrir <span>→</span>
-  </a>
-</div>
+      <div class="service-card" *ngFor="let service of services; let i = index"
+           [style.animation-delay]="(i * 0.05) + 's'"
+           [attr.data-index]="i" 
+           [routerLink]="['/serviceDetails', service.id]">
+        <div class="service-card-top">
+          <div class="service-icon-circle" [ngClass]="'color-' + (i % 20)">
+            <img *ngIf="service.Icon" [src]="sanitizeImage(service.Icon)" alt="Icône service" class="ev-image" loading="lazy"/>
+          </div>
+          <div class="service-dots">· · ·</div>
+        </div>
+        <div class="service-title-line" [ngClass]="'line-' + (i % 20)"></div>
+        <h3 class="service-title">{{ service.title }}</h3>
+        <div class="service-items">
+          <div class="service-item" *ngFor="let desc of service.sections[0].details | slice:0:3"
+               [ngClass]="'check-' + (i % 20)">
+            <span class="check-icon">✔</span>
+            <span>{{ desc.title | truncate:27 }}</span>
+          </div>
+        </div>
+        <a class="service-link-btn" [ngClass]="'btn-' + (i % 20)">
+          Découvrir <span>→</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
